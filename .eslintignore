@@ -1,0 +1,9 @@
+/build/**
+/docs/**
+/node_modules/**
+/.vscode/**
+/android/**
+/ios/**
+/src/assets/**
+.eslintrc.js
+*.config.js
