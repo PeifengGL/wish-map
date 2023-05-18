@@ -20,13 +20,11 @@ export default function TestPage({ route, navigation }: PageRouterProps) {
   useEffect(() => {
     const subscription: Subscription = DataShareService.getText$().subscribe(
       (newText: string) => {
-        console.log('newText', newText);
         setText(newText);
       },
     );
     const numberSubscription: Subscription =
       DataShareService.getCountNumber$().subscribe((newText: number) => {
-        console.log('newText', newText);
         setCountNumber(newText);
       });
     return () => {
@@ -39,6 +37,10 @@ export default function TestPage({ route, navigation }: PageRouterProps) {
     DataShareService.setCountNumber(countNumber + 1);
   };
 
+  function handlePress() {
+    DataShareService.setLoginStatus(false);
+  }
+
   return (
     <View style={Styles.container}>
       <Button title="Go back" onPress={() => navigation.goBack()} />
@@ -47,6 +49,7 @@ export default function TestPage({ route, navigation }: PageRouterProps) {
       <TouchableOpacity onPress={handleCounterClick}>
         <Text>Click</Text>
       </TouchableOpacity>
+      <Button title="show intro slider" onPress={handlePress} />
     </View>
   );
 }
