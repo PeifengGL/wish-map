@@ -1,19 +1,45 @@
 // router.tsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from 'pages/Home';
+
+import Home from 'pages/Home';
+import Welcome from 'pages/Welcome';
 import TestPage from 'pages/TestPage';
+
 import { NavigationContainer } from '@react-navigation/native';
 import { RootStackParamList } from 'types/router';
+
+import DataShareService from 'service';
+import { Subscription } from 'rxjs';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function Routes() {
+  const [isLogin, setIsLogin] = useState(false);
+
+  useEffect(() => {
+    const isLoginSubscription: Subscription =
+      DataShareService.getLoginStatus$().subscribe((newIsLogin: boolean) => {
+        setIsLogin(newIsLogin);
+      });
+    return () => {
+      isLoginSubscription.unsubscribe();
+    };
+  }, []);
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="TestPage" component={TestPage} />
+        {isLogin ? (
+          <>
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="TestPage" component={TestPage} />
+          </>
+        ) : (
+          <>
+            <Stack.Screen name="Welcome" component={Welcome} />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
