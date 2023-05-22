@@ -6,7 +6,7 @@
 
 ### 相關資料
 
-- [Figma](https://www.figma.com/file/kxfv2wguzbh9h5Ah40mgGj/%E5%96%9C%E9%A1%98-Wish-Map-APP-Design?type=design&node-id=871-101819&t=MkbTiCeMDT19XQU2-0)
+- [Figma](https://www.figma.com/file/kxfv2wguzbh9h5Ah40mgGj/%E5%96%9C%E9%A1%98-Wish-Map-APP-Design?type=design&node-id=871-101819&t=4GJcyxWWfV7g0Q7i-0)
 - [Trello]()
 
 ---
