@@ -15,6 +15,17 @@
 
 `[<type>](trello #<number>): <Your Message>`
 
+Example:
+`[feature][#2]: Welcome Page/歡迎頁面`
+
+
+### Git Branch
+
+`<type>/<trello number>-<Your feature name>`
+
+Example:
+`feature/2-WelcomePage`
+
 #### Type List
 
 統一`小寫`
@@ -26,7 +37,7 @@
 
 #### Number
 
-- Trello 上的號碼
+- Trello 上的卡片號碼
 
 ---
 
