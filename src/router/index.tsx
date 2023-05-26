@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import Registration from 'pages/Registration';
 import Home from 'pages/Home';
 import Welcome from 'pages/Welcome';
 import TestPage from 'pages/TestPage';
@@ -32,6 +33,7 @@ export default function Routes() {
       <Stack.Navigator>
         {isLogin ? (
           <>
+            <Stack.Screen name="Registration" component={Registration} />
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="TestPage" component={TestPage} />
           </>
