@@ -9,8 +9,15 @@ import Volunteer from 'assets/images/tabsIcon/Volunteer.png';
 import Article from 'assets/images/tabsIcon/Article.png';
 import Profile from 'assets/images/tabsIcon/Profile.png';
 
+// WishMap Page Image
+import Dream_Donate_Icon from 'assets/images/wishmap/Heart.png';
+import Dream_Apply_Icon from 'assets/images/wishmap/DreamApply.png';
+import Map_Mark_Icon from 'assets/images/wishmap/StarMark.png';
+import Map_Mark_Selected_Icon from 'assets/images/wishmap/StarMark_selected.png';
+import User_Current_Location_Icon from 'assets/images/wishmap/UserCurrentLocation.png'
+
 const ImageProvider = {
-  Welcome:{
+  Welcome: {
     welcome_bg1: welcome_bg1,
     welcome_bg2: welcome_bg2,
     welcome_bg3: welcome_bg3,
@@ -20,6 +27,13 @@ const ImageProvider = {
     Volunteer: Volunteer,
     Article: Article,
     Profile: Profile,
+  },
+  WishMap: {
+    DreamDonateButton: Dream_Donate_Icon,
+    DreamApplyButton: Dream_Apply_Icon,
+    MapMarkIcon: Map_Mark_Icon,
+    MapMarkSelectedIcon: Map_Mark_Selected_Icon,
+    UserCurrentLocationIcon: User_Current_Location_Icon,
   },
 };
 
