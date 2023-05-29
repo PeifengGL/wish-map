@@ -10,7 +10,8 @@ import {
 import { RootStackParamList } from 'types/router';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
-import MapView, { Marker } from 'react-native-maps';
+import Map, { Marker } from 'react-native-maps';
+import MapView from 'react-native-map-clustering';
 import ImageProvider from 'assets';
 import Geolocation from '@react-native-community/geolocation';
 import Styles from './index.style';
@@ -22,15 +23,15 @@ type PageRouterProps = {
 
 export default function WishMapPage({ navigation }: PageRouterProps) {
   const [region, setRegion] = useState({
-    latitude: 24.1514,
-    longitude: 120.664,
-    latitudeDelta: 0.003,
-    longitudeDelta: 0.003,
+    latitude: 24.9761,
+    longitude: 121.5356,
+    latitudeDelta: 0.05,
+    longitudeDelta: 0.05,
   });
 
   const [isShowLayOutForMap, setIsShowLayOutForMap] = useState(false);
 
-  const mapRef = useRef<MapView>(null);
+  const mapRef = useRef<Map>(null);
 
   const handleBtnClick = () => {
     console.log('click');
@@ -57,8 +58,8 @@ export default function WishMapPage({ navigation }: PageRouterProps) {
             mapRef.current?.animateToRegion({
               latitude,
               longitude,
-              latitudeDelta: 0.003,
-              longitudeDelta: 0.003,
+              latitudeDelta: 0.01,
+              longitudeDelta: 0.01,
             });
           },
           error => {
@@ -77,27 +78,51 @@ export default function WishMapPage({ navigation }: PageRouterProps) {
     }
   };
 
+  const handleMarkerPress = (marker: any) => {
+    console.log('點擊的標記 ID:', marker.id);
+    mapRef.current?.animateToRegion({
+      latitude: marker.latitude + 0.0035,
+      longitude: marker.longitude,
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01,
+    });
+  };
+
+  const markers = [
+    { id: 1, latitude: 24.979929, longitude: 121.533897 },
+    { id: 2, latitude: 24.976929, longitude: 121.536897 },
+    { id: 3, latitude: 24.972929, longitude: 121.542897 },
+    { id: 4, latitude: 24.969929, longitude: 121.545897 },
+    { id: 5, latitude: 24.966929, longitude: 121.548897 },
+  ];
+
+  const renderMarkers = () => {
+    return markers.map(marker => (
+      <Marker
+        key={marker.id}
+        coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
+        onPress={() => handleMarkerPress(marker)}
+      >
+        <Image
+          source={ImageProvider.WishMap.MapMarkIcon}
+          style={{ tintColor: '#FF0000' }}
+        />
+      </Marker>
+    ));
+  };
+
   return (
     <View style={Styles.mapContainer}>
       <MapView
         ref={mapRef}
         style={Styles.map}
-        region={region}
+        initialRegion={region}
         loadingEnabled
         showsUserLocation={true}
-        showsMyLocationButton={true}
+        showsMyLocationButton={false}
+        toolbarEnabled={false}
       >
-        <Marker
-          coordinate={{
-            latitude: 24.1513049,
-            longitude: 120.6640025,
-          }}
-        >
-          <Image
-            source={ImageProvider.WishMap.MapMarkIcon}
-            style={{ tintColor: '#FF0000' }}
-          />
-        </Marker>
+        {renderMarkers()}
       </MapView>
       <View style={[Styles.mapButtonBlock, { display: undefined }]}>
         <View style={Styles.donateButtonContainer}>
