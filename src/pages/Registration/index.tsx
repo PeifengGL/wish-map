@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Button,
   View,
   Text,
   TouchableOpacity,
@@ -13,8 +12,6 @@ import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
 import { RootStackParamList } from '../../types/router';
 import Styles from './index.style';
-import DataShareService from 'service';
-import { Subscription } from 'rxjs';
 
 import background from '../../assets/images/register/background.png';
 import arrow from '../../assets/images/register/arrow.png';
