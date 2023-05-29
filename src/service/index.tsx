@@ -2,7 +2,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 class DataService {
   private text$ = new BehaviorSubject<string>('');
-  private loginStatus$ = new BehaviorSubject<boolean>(false);
+  private loginStatus$ = new BehaviorSubject<boolean>(true);
   private countNumber$ = new BehaviorSubject<number>(0);
 
   getText$(): Observable<string> {
