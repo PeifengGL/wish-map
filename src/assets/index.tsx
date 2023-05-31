@@ -14,7 +14,12 @@ import Dream_Donate_Icon from 'assets/images/wishmap/Heart.png';
 import Dream_Apply_Icon from 'assets/images/wishmap/DreamApply.png';
 import Map_Mark_Icon from 'assets/images/wishmap/StarMark.png';
 import Map_Mark_Selected_Icon from 'assets/images/wishmap/StarMark_selected.png';
-import User_Current_Location_Icon from 'assets/images/wishmap/UserCurrentLocation.png'
+import User_Current_Location_Icon from 'assets/images/wishmap/UserCurrentLocation.png';
+import Project_Cover_Image1 from 'assets/images/wishmap/project_bg_01.png';
+import Popup_Location_Icon from 'assets/images/wishmap/Location.png';
+import Filter_Icon from 'assets/images/wishmap/Filter.png';
+import Close_Filter_Icon from 'assets/images/wishmap/close_filter.png';
+import Filter_Input_Icon from 'assets/images/wishmap/Filter_Input.png';
 
 const ImageProvider = {
   Welcome: {
@@ -34,6 +39,11 @@ const ImageProvider = {
     MapMarkIcon: Map_Mark_Icon,
     MapMarkSelectedIcon: Map_Mark_Selected_Icon,
     UserCurrentLocationIcon: User_Current_Location_Icon,
+    ProjectCoverImage1: Project_Cover_Image1,
+    PopupLocationIcon: Popup_Location_Icon,
+    FilterIcon: Filter_Icon,
+    CloseFilterIcon: Close_Filter_Icon,
+    FilterInputIcon: Filter_Input_Icon,
   },
 };
 
