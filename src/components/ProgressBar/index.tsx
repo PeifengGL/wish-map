@@ -10,7 +10,7 @@ const ProgressBar = (props: ProgressBarPropsType) => {
       <View
         style={[
           Styles.popupModalProgressBar,
-          { width: `${progress * 100}%`, backgroundColor: progressColor },
+          { width: `${progress}%`, backgroundColor: progressColor },
         ]}
       />
     </View>

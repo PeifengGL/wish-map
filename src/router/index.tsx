@@ -3,12 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { Image } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Host } from 'react-native-portalize';
 
 import WelcomePage from 'pages/Welcome';
 import WishMapPage from 'pages/WishMap';
 import VolunteerPage from 'pages/Volunteer';
 import ArticleListPage from 'pages/ArticleList';
 import ProfilePage from 'pages/Profile';
+import FilterResultPage from 'pages/WishMap/FilterResult';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { RootStackParamList } from 'types/router';
@@ -38,6 +40,7 @@ export default function Routes() {
       <Tab.Navigator
         screenOptions={({ route }) => ({
           headerShown: false,
+          keyboardHidesTabBar: true,
           tabBarIcon: ({ color, size }) => {
             let iconSource;
 
@@ -60,7 +63,11 @@ export default function Routes() {
           },
         })}
       >
-        <Tab.Screen name="WishMap" component={WishMapPage} />
+        <Tab.Screen
+          name="WishMap"
+          component={WishMapPage}
+          initialParams={{ childPage: 'WishMap' }}
+        />
         <Tab.Screen name="Volunteer" component={VolunteerPage} />
         <Tab.Screen name="ArticleList" component={ArticleListPage} />
         <Tab.Screen name="Profile" component={ProfilePage} />
@@ -70,17 +77,20 @@ export default function Routes() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {isLogin ? (
-          <>
-            <Stack.Screen name="HomeTabs" component={HomeTabs} />
-          </>
-        ) : (
-          <>
-            <Stack.Screen name="Welcome" component={WelcomePage} />
-          </>
-        )}
-      </Stack.Navigator>
+      <Host>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          {isLogin ? (
+            <>
+              <Stack.Screen name="HomeTabs" component={HomeTabs} />
+              <Stack.Screen name="FilterResult" component={FilterResultPage} />
+            </>
+          ) : (
+            <>
+              <Stack.Screen name="Welcome" component={WelcomePage} />
+            </>
+          )}
+        </Stack.Navigator>
+      </Host>
     </NavigationContainer>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -19,29 +19,37 @@ import { Modalize } from 'react-native-modalize';
 import { ProjectsData, ProjectsDataType } from 'shared/project.data';
 import ProgressBar from 'components/ProgressBar';
 import FilterToolComponent from './FilterTool';
+import FilterProjectTool from 'util/FilterTool';
 import Styles from './index.style';
+import { FilterMethodType } from 'types/wishMap';
+import { Subscription } from 'rxjs';
+import DataShareService from 'service';
+import { Portal } from 'react-native-portalize';
+import FocusAwareStatusBar from 'util/StatusBarAdapter';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'WishMap'>;
   navigation: NativeStackNavigationProp<RootStackParamList, 'WishMap'>;
 };
 
-export default function WishMapPage({ navigation }: PageRouterProps) {
+export default function WishMapPage({ route, navigation }: PageRouterProps) {
+  const { childPage } = route.params;
+  console.log(childPage);
+
+  const dimensionsHeight = Dimensions.get('window').height;
+
   const [region, setRegion] = useState({
     latitude: 24.9761,
     longitude: 121.5356,
     latitudeDelta: 0.05,
     longitudeDelta: 0.05,
   });
-
-  const dimensionsHeight = Dimensions.get('window').height;
-
   const [popupModalData, setPopupModalData] = useState<ProjectsDataType>();
-
   const [isMapLoadingComplete, setIsMapLoadingComplete] = useState(false);
   const [selectedMarkerId, setSelectedMarkerId] = useState(-1);
-  const mapRef = useRef<Map>(null);
+  const [isEnableFilterButton, setIsEnableFilterButton] = useState(false);
 
+  const mapRef = useRef<Map>(null);
   const modalizeRef = useRef<Modalize>(null);
 
   const handleBtnClick = () => {
@@ -146,19 +154,97 @@ export default function WishMapPage({ navigation }: PageRouterProps) {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const progress = 0.8;
+  // const progress = 0.8;
 
-  const handleProgressCalc = (received: number, total: number) => {
-    console.log((received / total) * 100);
+  const handleProgressCalc = (
+    received: number | undefined,
+    total: number | undefined,
+  ) => {
+    if (!received || !total) {
+      return 0;
+    }
+    console.log((received ?? 0 / total ?? 0) * 100);
     return (received / total) * 100;
   };
 
   const handleFilterToolClick = () => {
+    // setTabBarVisible(!tabBarVisible);
     modalizeRef.current?.open();
   };
 
+  const handleFilterToolClose = () => {
+    // setTabBarVisible(!tabBarVisible);
+    modalizeRef.current?.close();
+  };
+
+  const getFilterMethodIsEmpty = (methodEmpty: boolean) => {
+    console.log(methodEmpty);
+    setIsEnableFilterButton(methodEmpty);
+  };
+
+  const [filterMethod, setFilterMethod] = useState<FilterMethodType>({
+    filterKeywordMethod: '',
+    filterAgeMethod: [],
+    filterCityMethod: [],
+  });
+
+  useEffect(() => {
+    const filterMethodSub: Subscription =
+      DataShareService.getFilterMethod$().subscribe(
+        (filterMethodData: FilterMethodType) => {
+          setFilterMethod(filterMethodData);
+        },
+      );
+    return () => {
+      filterMethodSub.unsubscribe();
+    };
+  }, []);
+
+  const handleFilterButtonPress = () => {
+    const filteredDataResult: ProjectsDataType[] = FilterProjectTool(
+      ProjectsData,
+      filterMethod,
+    );
+    console.log('顯示結果');
+    console.log(filteredDataResult);
+    modalizeRef.current?.close();
+    navigation.navigate('FilterResult', {});
+  };
+
+  const renderModalizeFooter = () => {
+    return (
+      <View style={Styles.modalizeFooterContainer}>
+        <TouchableOpacity
+          style={[
+            Styles.modalizeFooterButton,
+            {
+              backgroundColor: isEnableFilterButton ? '#0057B8' : '#BDBDBD',
+            },
+          ]}
+          activeOpacity={0.9}
+          disabled={!isEnableFilterButton}
+          onPress={handleFilterButtonPress}
+        >
+          <Text style={Styles.modalizeFooterButtonText}>顯示結果</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  useEffect(() => {
+    if (childPage === 'FilterResultPage') {
+      modalizeRef.current?.open();
+    }
+  }, [route.params]);
+
   return (
     <View style={{ flex: 1 }}>
+      <FocusAwareStatusBar
+        backgroundColor=" rgba(0, 0, 0, 0)"
+        barStyle="dark-content"
+        hidden={false}
+        translucent={true}
+      />
       <View style={Styles.mapContainer}>
         <MapView
           ref={mapRef}
@@ -170,6 +256,7 @@ export default function WishMapPage({ navigation }: PageRouterProps) {
           toolbarEnabled={false}
           onRegionChangeComplete={handleRegionChangeComplete}
           onMapLoaded={handleMapLoadingComplete}
+          moveOnMarkerPress={false}
         >
           {renderMarkers()}
         </MapView>
@@ -276,7 +363,13 @@ export default function WishMapPage({ navigation }: PageRouterProps) {
                 activeOpacity={1}
               >
                 <View style={Styles.popupModalProgressBarMainContainer}>
-                  <ProgressBar progress={progress} progressColor="#0057B8" />
+                  <ProgressBar
+                    progress={handleProgressCalc(
+                      popupModalData?.donation_received,
+                      popupModalData?.total_donation,
+                    )}
+                    progressColor="#0057B8"
+                  />
                 </View>
               </TouchableOpacity>
 
@@ -285,17 +378,9 @@ export default function WishMapPage({ navigation }: PageRouterProps) {
                 style={Styles.popupModalClickBlock}
                 activeOpacity={1}
               >
-                <View
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    paddingHorizontal: 8,
-                    marginTop: 12,
-                  }}
-                >
+                <View style={Styles.popupModalLocationContainer}>
                   <Text>{popupModalData?.title}</Text>
-                  <View style={{ display: 'flex', flexDirection: 'row' }}>
+                  <View style={Styles.popupModalLocationTextContainer}>
                     <Image source={ImageProvider.WishMap.PopupLocationIcon} />
                     <Text>{`${popupModalData?.city_country} ${popupModalData?.district}`}</Text>
                   </View>
@@ -317,14 +402,21 @@ export default function WishMapPage({ navigation }: PageRouterProps) {
           </TouchableOpacity>
         </View>
       ) : null}
-      <Modalize
-        ref={modalizeRef}
-        disableScrollIfPossible={false}
-        modalHeight={dimensionsHeight * 0.9}
-        avoidKeyboardLikeIOS={true}
-      >
-        <FilterToolComponent projects_data={ProjectsData} />
-      </Modalize>
+      <Portal>
+        <Modalize
+          ref={modalizeRef}
+          disableScrollIfPossible={false}
+          modalHeight={dimensionsHeight}
+          FooterComponent={renderModalizeFooter()}
+          onOverlayPress={handleFilterToolClose}
+        >
+          <FilterToolComponent
+            projects_data={ProjectsData}
+            getMethodEmpty={getFilterMethodIsEmpty}
+            closeFilterTool={handleFilterToolClose}
+          />
+        </Modalize>
+      </Portal>
     </View>
   );
 }

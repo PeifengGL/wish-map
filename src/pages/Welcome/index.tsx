@@ -1,5 +1,5 @@
 // index.tsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   TouchableOpacity,
   View,

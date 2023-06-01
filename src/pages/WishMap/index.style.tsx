@@ -14,7 +14,7 @@ const Styles = StyleSheet.create({
     top: 0,
     right: 0,
     marginRight: 16,
-    marginTop: 40,
+    marginTop: 50,
     backgroundColor: '#FFFFFF',
     borderRadius: 30,
     borderColor: '#0057B8',
@@ -125,7 +125,7 @@ const Styles = StyleSheet.create({
   popupModalContainer: {
     backgroundColor: '#FFFFFF',
     marginHorizontal: 16,
-    marginTop: 110,
+    marginTop: '35%',
     justifyContent: 'flex-start',
     alignContent: 'flex-start',
     borderRadius: 12,
@@ -157,6 +157,14 @@ const Styles = StyleSheet.create({
     marginTop: 8,
     paddingHorizontal: 8,
   },
+  popupModalLocationContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 8,
+    marginTop: 12,
+  },
+  popupModalLocationTextContainer: { display: 'flex', flexDirection: 'row' },
   popupModalDescription: {
     fontSize: 16,
     lineHeight: 20,
@@ -175,6 +183,23 @@ const Styles = StyleSheet.create({
   },
   popupModalDonateButtonText: {
     color: '#FFFFFF',
+  },
+  modalizeFooterContainer: {
+    width: '100%',
+    marginVertical: 8,
+  },
+  modalizeFooterButton: {
+    backgroundColor: '#0057B8',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 16,
+    borderRadius: 40,
+  },
+  modalizeFooterButtonText: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: '500',
+    marginVertical: 14,
   },
 });
 
