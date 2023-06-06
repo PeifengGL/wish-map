@@ -1,3 +1,5 @@
+import { ProjectsDataType, WishDataType } from 'shared/project.data';
+
 export type RootStackParamList = {
   Home: { id?: string };
   TestPage: { text?: string };
@@ -8,4 +10,9 @@ export type RootStackParamList = {
   ArticleList: {};
   Profile: {};
   FilterResult: {};
+  ProjectDetail: {
+    projectData?: ProjectsDataType;
+    wishData?: WishDataType;
+    enterOrigin: string;
+  };
 };

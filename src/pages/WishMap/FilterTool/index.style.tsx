@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 const Styles = StyleSheet.create({
+  toolContainer: { flex: 1 },
   filterToolContainer: {
     paddingHorizontal: 16,
     flex: 1,
@@ -34,6 +35,7 @@ const Styles = StyleSheet.create({
     borderRadius: 12,
     marginTop: 12,
   },
+  filterInput: { flex: 1 },
   filterInputIcon: {
     margin: 16,
   },
@@ -57,6 +59,11 @@ const Styles = StyleSheet.create({
     fontSize: 14,
     color: '#909090',
   },
+  cityCapsulesContainer: { marginBottom: 12 },
+  cityCapsulesText: { marginBottom: 12 },
+  cityCapsuleContainer: { display: 'flex', flexDirection: 'row' },
+  ageCityCapsule: { marginRight: 8 },
+  ageCapsuleContainer: { display: 'flex', flexDirection: 'row' },
 });
 
 export default Styles;

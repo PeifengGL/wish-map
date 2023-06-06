@@ -12,8 +12,7 @@ type PageRouterProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'TestPage'>;
 };
 
-export default function TestPage({ route, navigation }: PageRouterProps) {
-  // const { text } = route.params;
+export default function TestPage({ navigation }: PageRouterProps) {
   const [text, setText] = useState<string>('');
   const [countNumber, setCountNumber] = useState<number>(0);
 

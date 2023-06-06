@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Text, View, TouchableOpacity, Image, TextInput } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { ProjectsDataType } from 'shared/project.data';
@@ -7,6 +7,7 @@ import CapsuleButton from 'components/CapsuleButton';
 import { FilterMethodType } from 'types/wishMap';
 import Styles from './index.style';
 import { Subscription } from 'rxjs';
+import FilterProjectTool from 'util/FilterTool';
 import DataShareService from 'service';
 
 type FilterToolComponentType = {
@@ -18,20 +19,18 @@ type FilterToolComponentType = {
 export default function FilterToolComponent(props: FilterToolComponentType) {
   const { projects_data, closeFilterTool, getMethodEmpty } = props;
   const [filterInput, setFilterInput] = useState<string>('');
-
   const [filterMethod, setFilterMethod] = useState<FilterMethodType>({
     filterKeywordMethod: '',
     filterAgeMethod: [],
     filterCityMethod: [],
   });
 
-  const [filteredData, setFilteredData] = useState<ProjectsDataType[]>([]);
-
   useEffect(() => {
     const filterMethodSub: Subscription =
       DataShareService.getFilterMethod$().subscribe(
         (filterMethodData: FilterMethodType) => {
           setFilterMethod(filterMethodData);
+          setFilterInput(filterMethodData.filterKeywordMethod);
         },
       );
     return () => {
@@ -56,7 +55,7 @@ export default function FilterToolComponent(props: FilterToolComponentType) {
   }, {});
 
   useEffect(() => {
-    const filterMedthodEmpty: boolean = Object.values(filterMethod).every(
+    const filterMethodEmpty: boolean = Object.values(filterMethod).every(
       method => {
         if (Array.isArray(method)) {
           return method.length === 0;
@@ -66,17 +65,26 @@ export default function FilterToolComponent(props: FilterToolComponentType) {
       },
     );
 
-    getMethodEmpty(!filterMedthodEmpty); // 在param變動時調用onParamChange函式
+    getMethodEmpty(!filterMethodEmpty);
   }, [filterMethod, getMethodEmpty]);
 
-  // console.log(ageList);
-  // console.log(cityList);
-  console.log(filterMethod);
+  const handleCleanAllSetting = () => {
+    const cleanFilterMethod: FilterMethodType = {
+      filterKeywordMethod: '',
+      filterAgeMethod: [],
+      filterCityMethod: [],
+    };
+    DataShareService.setFilterMethod(cleanFilterMethod);
+    setFilterInput('');
+    DataShareService.setFilteredResult(
+      FilterProjectTool(projects_data, cleanFilterMethod),
+    );
+  };
 
   const Header = () => {
     return (
       <View style={Styles.headerContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleCleanAllSetting}>
           <Text style={Styles.clearSettingText}>清除設定</Text>
         </TouchableOpacity>
         <Text style={Styles.headerTitleText}>篩選</Text>
@@ -92,21 +100,11 @@ export default function FilterToolComponent(props: FilterToolComponentType) {
 
   const handleAgeCapsulePress = (text: string | number) => {
     if (!filterMethod.filterAgeMethod.includes(text as number)) {
-      // setFilterMethod({
-      //   ...filterMethod,
-      //   filterAgeMethod: [...filterMethod.filterAgeMethod, text as number],
-      // });
       DataShareService.setFilterMethod({
         ...filterMethod,
         filterAgeMethod: [...filterMethod.filterAgeMethod, text as number],
       });
     } else {
-      // setFilterMethod({
-      //   ...filterMethod,
-      //   filterAgeMethod: filterMethod.filterAgeMethod.filter(
-      //     age => age !== text,
-      //   ),
-      // });
       DataShareService.setFilterMethod({
         ...filterMethod,
         filterAgeMethod: filterMethod.filterAgeMethod.filter(
@@ -119,12 +117,13 @@ export default function FilterToolComponent(props: FilterToolComponentType) {
   const renderAgeCapsule = () => {
     return ageList.map(age => {
       return (
-        <View key={age} style={{ marginRight: 8 }}>
+        <View key={age} style={Styles.ageCityCapsule}>
           <CapsuleButton
             showText={age}
             isSelected={filterMethod.filterAgeMethod.includes(age)}
             returnText={age}
             handleCapsuleButtonPress={handleAgeCapsulePress}
+            capsuleWidth={75}
           />
         </View>
       );
@@ -133,21 +132,11 @@ export default function FilterToolComponent(props: FilterToolComponentType) {
 
   const handleCityCapsulePress = (text: string | number) => {
     if (!filterMethod.filterCityMethod.includes(text as string)) {
-      // setFilterMethod({
-      //   ...filterMethod,
-      //   filterCityMethod: [...filterMethod.filterCityMethod, text as string],
-      // });
       DataShareService.setFilterMethod({
         ...filterMethod,
         filterCityMethod: [...filterMethod.filterCityMethod, text as string],
       });
     } else {
-      // setFilterMethod({
-      //   ...filterMethod,
-      //   filterCityMethod: filterMethod.filterCityMethod.filter(
-      //     city => city !== text,
-      //   ),
-      // });
       DataShareService.setFilterMethod({
         ...filterMethod,
         filterCityMethod: filterMethod.filterCityMethod.filter(
@@ -161,19 +150,19 @@ export default function FilterToolComponent(props: FilterToolComponentType) {
     const allCityList = Object.keys(cityList);
     return allCityList.map(city => {
       return (
-        <View key={city} style={{ marginBottom: 12 }}>
-          <Text style={{ marginBottom: 12 }}>{city}</Text>
-          <View style={{ display: 'flex', flexDirection: 'row' }}>
+        <View key={city} style={Styles.cityCapsulesContainer}>
+          <Text style={Styles.cityCapsulesText}>{city}</Text>
+          <View style={Styles.cityCapsuleContainer}>
             {cityList[city].map((district: string) => {
               return (
-                <View key={district} style={{ marginRight: 8 }}>
+                <View key={district} style={Styles.ageCityCapsule}>
                   <CapsuleButton
                     showText={district}
                     returnText={`${city},${district}`}
                     isSelected={filterMethod.filterCityMethod.includes(
                       `${city},${district}`,
                     )}
-                    capsuleWidth={'100%'}
+                    capsuleWidth={100}
                     handleCapsuleButtonPress={handleCityCapsulePress}
                   />
                 </View>
@@ -187,18 +176,22 @@ export default function FilterToolComponent(props: FilterToolComponentType) {
 
   const handleFilterInput = (text: string) => {
     setFilterInput(text);
-    // setFilterMethod({
-    //   ...filterMethod,
-    //   filterKeywordMethod: text,
-    // });
     DataShareService.setFilterMethod({
       ...filterMethod,
       filterKeywordMethod: text,
     });
   };
 
+  const handleCleanWordButtonPress = () => {
+    setFilterInput('');
+    DataShareService.setFilterMethod({
+      ...filterMethod,
+      filterKeywordMethod: '',
+    });
+  };
+
   return (
-    <View style={{ flex: 1 }}>
+    <View style={Styles.toolContainer}>
       <KeyboardAwareScrollView style={Styles.filterToolContainer}>
         <Header />
         <View style={Styles.filterInputContainer}>
@@ -207,10 +200,16 @@ export default function FilterToolComponent(props: FilterToolComponentType) {
             style={Styles.filterInputIcon}
           />
           <TextInput
-            style={{ borderWidth: 1, width: '80%' }}
+            style={Styles.filterInput}
             onChangeText={handleFilterInput}
             value={filterInput}
           ></TextInput>
+          <TouchableOpacity
+            onPress={handleCleanWordButtonPress}
+            style={{ display: filterInput !== '' ? 'flex' : 'none' }}
+          >
+            <Image source={ImageProvider.WishMap.CleanKeywordIcon} style={{}} />
+          </TouchableOpacity>
         </View>
         <View style={Styles.separator} />
         <View style={Styles.filterAgeContainer}>
@@ -218,9 +217,7 @@ export default function FilterToolComponent(props: FilterToolComponentType) {
             <Text style={Styles.filterAgeTitleText}>個案年齡</Text>
             <Text style={Styles.filterAgeSubtitleText}>(可複選)</Text>
           </View>
-          <View style={{ display: 'flex', flexDirection: 'row' }}>
-            {renderAgeCapsule()}
-          </View>
+          <View style={Styles.ageCapsuleContainer}>{renderAgeCapsule()}</View>
         </View>
         <View style={Styles.separator} />
         <View>{renderCityCapsule()}</View>

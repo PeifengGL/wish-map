@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 const Styles = StyleSheet.create({
+  mapPage: { flex: 1 },
   mapContainer: {
     flex: 1,
   },
@@ -14,26 +15,12 @@ const Styles = StyleSheet.create({
     top: 0,
     right: 0,
     marginRight: 16,
-    marginTop: 50,
+    marginTop: 16,
     backgroundColor: '#FFFFFF',
     borderRadius: 30,
     borderColor: '#0057B8',
     borderStyle: 'solid',
     borderWidth: 1,
-  },
-  filterProjectButton: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: 14,
-    marginHorizontal: 18,
-  },
-  filterProjectIcon: {
-    marginRight: 5,
-  },
-  filterProjectText: {
-    color: '#0057B8',
   },
   mapButtonBlock: {
     display: 'none',
@@ -187,6 +174,8 @@ const Styles = StyleSheet.create({
   modalizeFooterContainer: {
     width: '100%',
     marginVertical: 8,
+    position: 'absolute',
+    bottom: 34,
   },
   modalizeFooterButton: {
     backgroundColor: '#0057B8',

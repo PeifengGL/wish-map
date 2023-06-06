@@ -1,5 +1,6 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FilterMethodType } from 'types/wishMap';
+import { ProjectsDataType } from 'shared/project.data';
 class DataService {
   private text$ = new BehaviorSubject<string>('');
   private loginStatus$ = new BehaviorSubject<boolean>(true);
@@ -9,6 +10,7 @@ class DataService {
     filterAgeMethod: [],
     filterCityMethod: [],
   });
+  private filteredResult$ = new BehaviorSubject<ProjectsDataType[]>([]);
 
   setText(text: string) {
     this.text$.next(text);
@@ -40,6 +42,14 @@ class DataService {
 
   getFilterMethod$(): Observable<FilterMethodType> {
     return this.filterMethod.asObservable();
+  }
+
+  setFilteredResult(filteredResult: ProjectsDataType[]) {
+    this.filteredResult$.next(filteredResult);
+  }
+
+  getFilteredResult$(): Observable<ProjectsDataType[]> {
+    return this.filteredResult$.asObservable();
   }
 }
 

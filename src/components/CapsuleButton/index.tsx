@@ -1,14 +1,8 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Pressable, Image } from 'react-native';
+import ImageProvider from 'assets';
 import Styles from './index.style';
-
-type CapsuleButtonPropsType = {
-  showText: string | number;
-  isSelected?: boolean;
-  capsuleWidth?: number | string;
-  returnText: string | number;
-  handleCapsuleButtonPress: (text: string | number) => void;
-};
+import { CapsuleButtonPropsType } from 'types/components';
 
 const CapsuleButton = (props: CapsuleButtonPropsType) => {
   const {
@@ -16,32 +10,57 @@ const CapsuleButton = (props: CapsuleButtonPropsType) => {
     isSelected,
     capsuleWidth,
     returnText,
+    showCancelIcon,
+    capsuleStyle,
+    capsuleEnabled,
+    handleCancelIconPress,
     handleCapsuleButtonPress,
   } = props;
 
   const onPress = () => {
-    handleCapsuleButtonPress(returnText);
+    if (handleCapsuleButtonPress) {
+      handleCapsuleButtonPress(returnText);
+    }
   };
 
   return (
     <TouchableOpacity
-      onPress={onPress}
+      onPress={handleCapsuleButtonPress ? onPress : () => {}}
+      disabled={capsuleEnabled === false ? true : false}
       style={[
         Styles.capsuleButtonContainer,
         {
-          width: capsuleWidth ? capsuleWidth : 67,
+          width: capsuleWidth ? capsuleWidth : 'auto',
           backgroundColor: isSelected ? '#00BAB3' : '#FFFFFF',
         },
       ]}
     >
-      <Text
-        style={[
-          Styles.capsuleButtonText,
-          { color: isSelected ? '#FFFFFF' : '#2D2D2D' },
-        ]}
+      <View
+        style={{
+          marginHorizontal: 16,
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
       >
-        {showText}
-      </Text>
+        <Text
+          style={[
+            Styles.capsuleButtonText,
+            { color: isSelected ? '#FFFFFF' : '#2D2D2D' },
+          ]}
+        >
+          {showText}
+        </Text>
+        {showCancelIcon ? (
+          <Pressable
+            style={Styles.capsuleButtonCancelIcon}
+            onPress={handleCancelIconPress}
+          >
+            <Image source={ImageProvider.WishMap.CapsuleCancelIcon} />
+          </Pressable>
+        ) : null}
+      </View>
     </TouchableOpacity>
   );
 };

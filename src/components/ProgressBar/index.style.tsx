@@ -5,7 +5,7 @@ const Styles = StyleSheet.create({
     width: '100%',
     height: 5,
     backgroundColor: '#ECECEC',
-    borderRadius: 5,
+    borderRadius: 100,
     overflow: 'hidden',
   },
   popupModalProgressBar: {

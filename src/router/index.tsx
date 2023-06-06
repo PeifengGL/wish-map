@@ -1,6 +1,5 @@
-// router.tsx
 import React, { useEffect, useState } from 'react';
-import { Image } from 'react-native';
+import { Image, Text, View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Host } from 'react-native-portalize';
@@ -11,6 +10,7 @@ import VolunteerPage from 'pages/Volunteer';
 import ArticleListPage from 'pages/ArticleList';
 import ProfilePage from 'pages/Profile';
 import FilterResultPage from 'pages/WishMap/FilterResult';
+import ProjectDetailPage from 'pages/WishMap/ProjectDetail';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { RootStackParamList } from 'types/router';
@@ -18,6 +18,8 @@ import ImageProvider from 'assets';
 
 import DataShareService from 'service';
 import { Subscription } from 'rxjs';
+
+import Styles from './index.style';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<RootStackParamList>();
@@ -41,7 +43,8 @@ export default function Routes() {
         screenOptions={({ route }) => ({
           headerShown: false,
           keyboardHidesTabBar: true,
-          tabBarIcon: ({ color, size }) => {
+          tabBarStyle: Styles.tabBarStyle,
+          tabBarIcon: ({ color, size, focused }) => {
             let iconSource;
 
             if (route.name === 'WishMap') {
@@ -55,11 +58,39 @@ export default function Routes() {
             }
 
             return (
-              <Image
-                source={iconSource}
-                style={{ tintColor: color, width: size, height: size }}
-              />
+              <View
+                style={[
+                  Styles.tabBarIconContainer,
+                  focused ? Styles.tabBarSelected : {},
+                ]}
+              >
+                <Image
+                  source={iconSource}
+                  style={[
+                    {
+                      tintColor: color,
+                      width: size,
+                      height: size,
+                    },
+                    Styles.tabBarIcon,
+                  ]}
+                />
+              </View>
             );
+          },
+          tabBarLabel: ({ color }) => {
+            let label;
+            if (route.name === 'WishMap') {
+              label = '喜願地圖';
+            } else if (route.name === 'Volunteer') {
+              label = '志工專區';
+            } else if (route.name === 'ArticleList') {
+              label = '喜願文章';
+            } else if (route.name === 'Profile') {
+              label = '個人';
+            }
+
+            return <Text style={[{ color }, Styles.tabBarLabel]}>{label}</Text>;
           },
         })}
       >
@@ -83,6 +114,10 @@ export default function Routes() {
             <>
               <Stack.Screen name="HomeTabs" component={HomeTabs} />
               <Stack.Screen name="FilterResult" component={FilterResultPage} />
+              <Stack.Screen
+                name="ProjectDetail"
+                component={ProjectDetailPage}
+              />
             </>
           ) : (
             <>
