@@ -5,6 +5,7 @@ export type RootStackParamList = {
   TestPage: { text?: string };
   HomeTabs: {};
   Welcome: {};
+  Registration: {};
   WishMap: { childPage?: string };
   Volunteer: {};
   ArticleList: {};

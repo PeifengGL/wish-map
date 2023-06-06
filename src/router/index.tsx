@@ -11,6 +11,7 @@ import ArticleListPage from 'pages/ArticleList';
 import ProfilePage from 'pages/Profile';
 import FilterResultPage from 'pages/WishMap/FilterResult';
 import ProjectDetailPage from 'pages/WishMap/ProjectDetail';
+import RegistrationPage from 'pages/Registration';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { RootStackParamList } from 'types/router';
@@ -122,6 +123,7 @@ export default function Routes() {
           ) : (
             <>
               <Stack.Screen name="Welcome" component={WelcomePage} />
+              <Stack.Screen name="Registration" component={RegistrationPage} />
             </>
           )}
         </Stack.Navigator>

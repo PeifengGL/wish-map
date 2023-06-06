@@ -12,7 +12,6 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/ty
 import { welcome_data, WelcomeDataType } from 'shared/welcome.data';
 import Styles from './index.style';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import DataShareService from 'service';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'Welcome'>;
@@ -53,7 +52,7 @@ export default function WelcomePage({ navigation }: PageRouterProps) {
   };
 
   const handleButtonClick = () => {
-    DataShareService.setLoginStatus(true);
+    navigation.navigate('Registration', {});
   };
 
   return (
