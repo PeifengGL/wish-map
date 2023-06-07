@@ -1,12 +1,11 @@
-// index.tsx
 import React, { useEffect, useState } from 'react';
-import { TouchableOpacity, View, Text, Button } from 'react-native';
-import { RootStackParamList } from '../../types/router';
+import { TouchableOpacity, View, Text } from 'react-native';
+import { RootStackParamList } from 'types/router';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
 import Styles from './index.style';
 import DataShareService from 'service';
-import { Subscription, count } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'Home'>;

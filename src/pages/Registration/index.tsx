@@ -26,7 +26,7 @@ type PageRouterProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Registration'>;
 };
 
-export default function Registration({ navigation }: PageRouterProps) {
+export default function RegistrationPage({ navigation }: PageRouterProps) {
   useEffect(() => {
     navigation.setOptions({ headerShown: false });
   }, [navigation]);

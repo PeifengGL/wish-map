@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, View, Text, TouchableOpacity } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
-import { RootStackParamList } from '../../types/router';
+import { RootStackParamList } from 'types/router';
 import Styles from './index.style';
 import DataShareService from 'service';
 import { Subscription } from 'rxjs';
@@ -12,8 +12,7 @@ type PageRouterProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'TestPage'>;
 };
 
-export default function TestPage({ route, navigation }: PageRouterProps) {
-  // const { text } = route.params;
+export default function TestPage({ navigation }: PageRouterProps) {
   const [text, setText] = useState<string>('');
   const [countNumber, setCountNumber] = useState<number>(0);
 

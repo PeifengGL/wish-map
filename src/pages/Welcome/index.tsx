@@ -1,5 +1,4 @@
-// index.tsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   TouchableOpacity,
   View,
@@ -7,20 +6,19 @@ import {
   ImageBackground,
   SafeAreaView,
 } from 'react-native';
-import { RootStackParamList } from '../../types/router';
+import { RootStackParamList } from 'types/router';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
 import { welcome_data, WelcomeDataType } from 'shared/welcome.data';
 import Styles from './index.style';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import DataShareService from 'service';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'Welcome'>;
   navigation: NativeStackNavigationProp<RootStackParamList, 'Welcome'>;
 };
 
-export default function Welcome({ navigation }: PageRouterProps) {
+export default function WelcomePage({ navigation }: PageRouterProps) {
   useEffect(() => {
     navigation.setOptions({ headerShown: false });
   }, [navigation]);
@@ -54,7 +52,7 @@ export default function Welcome({ navigation }: PageRouterProps) {
   };
 
   const handleButtonClick = () => {
-    DataShareService.setLoginStatus(true);
+    navigation.navigate('Registration', {});
   };
 
   return (
