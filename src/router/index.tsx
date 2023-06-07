@@ -6,6 +6,7 @@ import Registration from 'pages/Registration';
 import Home from 'pages/Home';
 import Welcome from 'pages/Welcome';
 import TestPage from 'pages/TestPage';
+import Login from 'pages/Login';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { RootStackParamList } from 'types/router';
@@ -33,6 +34,7 @@ export default function Routes() {
       <Stack.Navigator>
         {isLogin ? (
           <>
+            <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Registration" component={Registration} />
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="TestPage" component={TestPage} />
