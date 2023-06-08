@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Host } from 'react-native-portalize';
 
+
+import LoginPage from 'pages/Login';
 import WelcomePage from 'pages/Welcome';
 import WishMapPage from 'pages/WishMap';
 import VolunteerPage from 'pages/Volunteer';
@@ -122,6 +124,7 @@ export default function Routes() {
             </>
           ) : (
             <>
+              <Stack.Screen name="Login" component={LoginPage} />
               <Stack.Screen name="Welcome" component={WelcomePage} />
               <Stack.Screen name="Registration" component={RegistrationPage} />
             </>
