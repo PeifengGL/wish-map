@@ -6,7 +6,7 @@ export type RootStackParamList = {
   HomeTabs: {};
   Welcome: {};
   Registration: {};
-  Login: {},
+  Login: {};
   WishMap: { childPage?: string };
   Volunteer: {};
   ArticleList: {};
@@ -18,3 +18,5 @@ export type RootStackParamList = {
     enterOrigin: string;
   };
 };
+
+export type IdentityType = 'guest' | 'member' | '';

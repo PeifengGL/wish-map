@@ -21,6 +21,13 @@ const Styles = StyleSheet.create({
   capsuleButtonCancelIcon: {
     marginLeft: 8,
   },
+  capsuleView: {
+    marginHorizontal: 16,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export default Styles;

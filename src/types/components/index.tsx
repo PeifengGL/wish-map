@@ -35,7 +35,6 @@ export type CapsuleButtonPropsType = {
   capsuleWidth?: number | string;
   returnText: string | number;
   showCancelIcon?: boolean;
-  capsuleStyle?: object;
   capsuleEnabled?: boolean;
   handleCancelIconPress?: () => void;
   handleCapsuleButtonPress?: (text: string | number) => void;

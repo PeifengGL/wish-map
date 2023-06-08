@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, TouchableOpacity, Image, Text, TextInput } from 'react-native';
 import Styles from './index.style';
-import back from '../../assets/images/login/back.png';
-import cancel from '../../assets/images/login/delete.png';
-import error from '../../assets/images/login/error.png';
+import ImageProvider from 'assets';
 
 interface ForgotPassword {
   handleBackToLogin: () => void;
@@ -62,7 +60,7 @@ const ForgotPassword: React.FC<ForgotPassword> = ({
     <View>
       {/* 返回按鈕 */}
       <TouchableOpacity style={Styles.backButton} onPress={handleBackToLogin}>
-        <Image source={back} />
+        <Image source={ImageProvider.Login.Back} />
       </TouchableOpacity>
 
       {/* Title 標題 */}
@@ -91,13 +89,13 @@ const ForgotPassword: React.FC<ForgotPassword> = ({
 
         {!isEmailEmpty && !isEmailInvalid && (
           <TouchableOpacity style={Styles.inputButton} onPress={deleteEmail}>
-            <Image source={cancel} />
+            <Image source={ImageProvider.Login.Cancel} />
           </TouchableOpacity>
         )}
 
         {isEmailInvalid && (
           <TouchableOpacity style={Styles.inputButton}>
-            <Image source={error}></Image>
+            <Image source={ImageProvider.Login.Error}></Image>
           </TouchableOpacity>
         )}
 

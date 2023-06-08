@@ -11,7 +11,6 @@ const CapsuleButton = (props: CapsuleButtonPropsType) => {
     capsuleWidth,
     returnText,
     showCancelIcon,
-    capsuleStyle,
     capsuleEnabled,
     handleCancelIconPress,
     handleCapsuleButtonPress,
@@ -35,15 +34,7 @@ const CapsuleButton = (props: CapsuleButtonPropsType) => {
         },
       ]}
     >
-      <View
-        style={{
-          marginHorizontal: 16,
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
+      <View style={Styles.capsuleView}>
         <Text
           style={[
             Styles.capsuleButtonText,

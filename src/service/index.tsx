@@ -1,9 +1,12 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FilterMethodType } from 'types/wishMap';
 import { ProjectsDataType } from 'shared/project.data';
+import { IdentityType } from 'types/router';
+
 class DataService {
   private text$ = new BehaviorSubject<string>('');
   private loginStatus$ = new BehaviorSubject<boolean>(false);
+  private identityType$ = new BehaviorSubject<IdentityType>('');
   private countNumber$ = new BehaviorSubject<number>(0);
   private filterMethod = new BehaviorSubject<FilterMethodType>({
     filterKeywordMethod: '',
@@ -50,6 +53,14 @@ class DataService {
 
   getFilteredResult$(): Observable<ProjectsDataType[]> {
     return this.filteredResult$.asObservable();
+  }
+
+  setIdentityType(identityType: IdentityType) {
+    this.identityType$.next(identityType);
+  }
+
+  getIdentityType$(): Observable<IdentityType> {
+    return this.identityType$.asObservable();
   }
 }
 
