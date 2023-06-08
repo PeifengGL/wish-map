@@ -10,19 +10,11 @@ import {
 } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
-import { RootStackParamList } from '../../types/router';
+import { RootStackParamList } from 'types/router';
 import Styles from './index.style';
+import ImageProvider from 'assets';
 import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
-
-import background from '../../assets/images/login/background.png';
-import cancel from '../../assets/images/login/delete.png';
-import hide from '../../assets/images/login/hide.png';
-import show from '../../assets/images/login/show.png';
-import error from '../../assets/images/login/error.png';
-import welcome from '../../assets/images/login/welcome.png';
-import back from '../../assets/images/login/back.png';
-import success from '../../assets/images/login/resetSuccess.png';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'Login'>;
@@ -169,10 +161,14 @@ export default function Login({ navigation }: PageRouterProps) {
     setIsResetPassword(false);
   };
 
+  const handleBackClick = () => {
+    navigation.goBack();
+  };
+
   return (
     <View style={Styles.container}>
       <ImageBackground
-        source={background}
+        source={ImageProvider.Login.Background}
         style={Styles.background}
         resizeMode="cover"
       >
@@ -180,8 +176,11 @@ export default function Login({ navigation }: PageRouterProps) {
         {isDefault ? (
           <View>
             {/* 返回按鈕 */}
-            <TouchableOpacity style={Styles.backButton}>
-              <Image source={back} />
+            <TouchableOpacity
+              style={Styles.backButton}
+              onPress={handleBackClick}
+            >
+              <Image source={ImageProvider.Login.Back} />
             </TouchableOpacity>
 
             {/* Title 標題 */}
@@ -216,13 +215,13 @@ export default function Login({ navigation }: PageRouterProps) {
                   style={Styles.inputButton}
                   onPress={deleteEmail}
                 >
-                  <Image source={cancel} />
+                  <Image source={ImageProvider.Login.Cancel} />
                 </TouchableOpacity>
               )}
 
               {isEmailInvalid && (
                 <TouchableOpacity style={Styles.inputButton}>
-                  <Image source={error}></Image>
+                  <Image source={ImageProvider.Login.Error}></Image>
                 </TouchableOpacity>
               )}
 
@@ -264,13 +263,19 @@ export default function Login({ navigation }: PageRouterProps) {
                   style={Styles.inputButton}
                   onPress={() => setIsPasswordHide(!isPasswordHide)}
                 >
-                  <Image source={isPasswordHide ? hide : show} />
+                  <Image
+                    source={
+                      isPasswordHide
+                        ? ImageProvider.Login.Hide
+                        : ImageProvider.Login.Show
+                    }
+                  />
                 </TouchableOpacity>
               )}
 
               {isPasswordInvalid && (
                 <TouchableOpacity style={Styles.inputButton}>
-                  <Image source={error}></Image>
+                  <Image source={ImageProvider.Login.Error}></Image>
                 </TouchableOpacity>
               )}
 
@@ -306,7 +311,10 @@ export default function Login({ navigation }: PageRouterProps) {
         ) : isLogin ? (
           <View>
             <Text style={Styles.welcomeText}>歡迎回來喜願 ！</Text>
-            <Image source={welcome} style={Styles.welcomeImage} />
+            <Image
+              source={ImageProvider.Login.Welcome}
+              style={Styles.welcomeImage}
+            />
             <Text style={Styles.loadingText}>請稍等，正在幫您跳轉至首頁</Text>
             <ActivityIndicator size="large" color="#0057B8" />
           </View>
@@ -322,7 +330,10 @@ export default function Login({ navigation }: PageRouterProps) {
           />
         ) : isResetPasswordDone ? (
           <View>
-            <Image source={success} style={Styles.successImage} />
+            <Image
+              source={ImageProvider.Login.Success}
+              style={Styles.successImage}
+            />
             <Text style={Styles.successText}>重置密碼成功 ！</Text>
             <Text style={Styles.loadingText}>請稍等，正在幫您跳轉至首頁</Text>
             <ActivityIndicator size="large" color="#0057B8" />

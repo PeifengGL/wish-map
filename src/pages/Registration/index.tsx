@@ -10,16 +10,10 @@ import {
 } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
-import { RootStackParamList } from '../../types/router';
+import { RootStackParamList } from 'types/router';
+import ImageProvider from 'assets';
 import Styles from './index.style';
-
-import background from '../../assets/images/register/background.png';
-import arrow from '../../assets/images/register/arrow.png';
-import cancel from '../../assets/images/register/delete.png';
-import hide from '../../assets/images/register/hide.png';
-import show from '../../assets/images/register/show.png';
-import error from '../../assets/images/register/error.png';
-import welcome from '../../assets/images/register/welcome.png';
+import DataShareService from 'service';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'Registration'>;
@@ -184,14 +178,20 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
 
   const handleTerms = () => {};
 
-  const handleLogin = () => {};
+  const handleLogin = () => {
+    navigation.navigate('Login', {});
+  };
+
+  const handleGuestClick = () => {
+    DataShareService.setIdentityType('guest');
+  };
 
   const [isRegistered, setIsRegistered] = useState(false);
 
   return (
     <View style={Styles.container}>
       <ImageBackground
-        source={background}
+        source={ImageProvider.Register.Background}
         style={Styles.background}
         resizeMode="cover"
       >
@@ -199,16 +199,25 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
         {isRegistered ? (
           <View>
             <Text style={Styles.welcomeText}>歡迎加入喜願 !</Text>
-            <Image source={welcome} style={Styles.welcomeImage} />
+            <Image
+              source={ImageProvider.Register.Welcome}
+              style={Styles.welcomeImage}
+            />
             <Text style={Styles.loadingText}>請稍等，正在幫您跳轉至首頁</Text>
             <ActivityIndicator size="large" color="#0057B8" />
           </View>
         ) : (
           <View>
             {/* Guest 訪客 */}
-            <TouchableOpacity style={Styles.guestButton}>
+            <TouchableOpacity
+              onPress={handleGuestClick}
+              style={Styles.guestButton}
+            >
               <Text style={Styles.guestButtonText}>訪客</Text>
-              <Image source={arrow} style={Styles.guestButtonArrow} />
+              <Image
+                source={ImageProvider.Register.Arrow}
+                style={Styles.guestButtonArrow}
+              />
             </TouchableOpacity>
 
             {/* Title 標題 */}
@@ -243,13 +252,13 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
                   style={Styles.inputButton}
                   onPress={deleteUsername}
                 >
-                  <Image source={cancel} />
+                  <Image source={ImageProvider.Register.Cancel} />
                 </TouchableOpacity>
               )}
 
               {isUsernameInvalid && (
                 <TouchableOpacity style={Styles.inputButton}>
-                  <Image source={error}></Image>
+                  <Image source={ImageProvider.Register.Error}></Image>
                 </TouchableOpacity>
               )}
 
@@ -290,13 +299,13 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
                   style={Styles.inputButton}
                   onPress={deleteEmail}
                 >
-                  <Image source={cancel} />
+                  <Image source={ImageProvider.Register.Cancel} />
                 </TouchableOpacity>
               )}
 
               {isEmailInvalid && (
                 <TouchableOpacity style={Styles.inputButton}>
-                  <Image source={error}></Image>
+                  <Image source={ImageProvider.Register.Error}></Image>
                 </TouchableOpacity>
               )}
 
@@ -336,13 +345,19 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
                   style={Styles.inputButton}
                   onPress={() => setIsPasswordHide(!isPasswordHide)}
                 >
-                  <Image source={isPasswordHide ? hide : show} />
+                  <Image
+                    source={
+                      isPasswordHide
+                        ? ImageProvider.Register.Hide
+                        : ImageProvider.Register.Show
+                    }
+                  />
                 </TouchableOpacity>
               )}
 
               {isPasswordInvalid && (
                 <TouchableOpacity style={Styles.inputButton}>
-                  <Image source={error}></Image>
+                  <Image source={ImageProvider.Register.Error}></Image>
                 </TouchableOpacity>
               )}
 

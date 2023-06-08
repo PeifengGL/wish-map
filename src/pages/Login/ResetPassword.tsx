@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { View, TouchableOpacity, Image, Text, TextInput } from 'react-native';
+import ImageProvider from 'assets';
 import Styles from './index.style';
-import back from '../../assets/images/login/back.png';
-import error from '../../assets/images/login/error.png';
-import hide from '../../assets/images/login/hide.png';
-import show from '../../assets/images/login/show.png';
 
 interface ResetPasswordProps {
   handleBackToLogin: () => void;
@@ -120,7 +117,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
     <View>
       {/* 返回按鈕 */}
       <TouchableOpacity style={Styles.backButton} onPress={handleBackToLogin}>
-        <Image source={back} />
+        <Image source={ImageProvider.Login.Back} />
       </TouchableOpacity>
 
       {/* Title 標題 */}
@@ -156,13 +153,19 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
             style={Styles.inputButton}
             onPress={() => setIsNewPasswordHide(!isNewPasswordHide)}
           >
-            <Image source={isNewPasswordHide ? hide : show} />
+            <Image
+              source={
+                isNewPasswordHide
+                  ? ImageProvider.Login.Hide
+                  : ImageProvider.Login.Show
+              }
+            />
           </TouchableOpacity>
         )}
 
         {isNewPasswordInvalid && (
           <TouchableOpacity style={Styles.inputButton}>
-            <Image source={error}></Image>
+            <Image source={ImageProvider.Login.Error}></Image>
           </TouchableOpacity>
         )}
 
@@ -202,13 +205,19 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
             style={Styles.inputButton}
             onPress={() => setIsConfirmPasswordHide(!isConfirmPasswordHide)}
           >
-            <Image source={isConfirmPasswordHide ? hide : show} />
+            <Image
+              source={
+                isConfirmPasswordHide
+                  ? ImageProvider.Login.Hide
+                  : ImageProvider.Login.Show
+              }
+            />
           </TouchableOpacity>
         )}
 
         {isConfirmPasswordInvalid && (
           <TouchableOpacity style={Styles.inputButton}>
-            <Image source={error}></Image>
+            <Image source={ImageProvider.Login.Error}></Image>
           </TouchableOpacity>
         )}
 

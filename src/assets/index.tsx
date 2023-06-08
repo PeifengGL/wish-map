@@ -9,6 +9,25 @@ import Volunteer from 'assets/images/tabsIcon/Volunteer.png';
 import Article from 'assets/images/tabsIcon/Article.png';
 import Profile from 'assets/images/tabsIcon/Profile.png';
 
+// Login Page Image
+import Background_Login from 'assets/images/login/background.png';
+import Cancel_Login from 'assets/images/login/delete.png';
+import Hide_Login from 'assets/images/login/hide.png';
+import Show_Login from 'assets/images/login/show.png';
+import Error_Login from 'assets/images/login/error.png';
+import Welcome_Login from 'assets/images/login/welcome.png';
+import Back_Login from 'assets/images/login/back.png';
+import Success_Login from 'assets/images/login/resetSuccess.png';
+
+// Register Page Image
+import Background_Register from 'assets/images/register/background.png';
+import Arrow_Register from 'assets/images/register/arrow.png';
+import Cancel_Register from 'assets/images/register/delete.png';
+import Hide_Register from 'assets/images/register/hide.png';
+import Show_Register from 'assets/images/register/show.png';
+import Error_Register from 'assets/images/register/error.png';
+import Welcome_Register from 'assets/images/register/welcome.png';
+
 // WishMap Page Image
 import Dream_Donate_Icon from 'assets/images/wishmap/Heart.png';
 import Dream_Apply_Icon from 'assets/images/wishmap/DreamApply.png';
@@ -47,6 +66,25 @@ const ImageProvider = {
     Volunteer: Volunteer,
     Article: Article,
     Profile: Profile,
+  },
+  Register: {
+    Background: Background_Register,
+    Arrow: Arrow_Register,
+    Cancel: Cancel_Register,
+    Hide: Hide_Register,
+    Show: Show_Register,
+    Error: Error_Register,
+    Welcome: Welcome_Register,
+  },
+  Login: {
+    Background: Background_Login,
+    Cancel: Cancel_Login,
+    Hide: Hide_Login,
+    Show: Show_Login,
+    Error: Error_Login,
+    Welcome: Welcome_Login,
+    Back: Back_Login,
+    Success: Success_Login,
   },
   WishMap: {
     DreamDonateButton: Dream_Donate_Icon,

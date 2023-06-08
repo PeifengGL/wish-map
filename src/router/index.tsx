@@ -4,7 +4,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Host } from 'react-native-portalize';
 
-
 import LoginPage from 'pages/Login';
 import WelcomePage from 'pages/Welcome';
 import WishMapPage from 'pages/WishMap';
@@ -21,6 +20,7 @@ import ImageProvider from 'assets';
 
 import DataShareService from 'service';
 import { Subscription } from 'rxjs';
+import { IdentityType } from 'types/router';
 
 import Styles from './index.style';
 
@@ -29,14 +29,22 @@ const Tab = createBottomTabNavigator<RootStackParamList>();
 
 export default function Routes() {
   const [isLogin, setIsLogin] = useState(false);
+  const [identityType, setIdentityType] = useState<IdentityType>('');
 
   useEffect(() => {
     const isLoginSubscription: Subscription =
       DataShareService.getLoginStatus$().subscribe((newIsLogin: boolean) => {
         setIsLogin(newIsLogin);
       });
+    const identityTypeSubscription: Subscription =
+      DataShareService.getIdentityType$().subscribe(
+        (newIdentityType: IdentityType) => {
+          setIdentityType(newIdentityType);
+        },
+      );
     return () => {
       isLoginSubscription.unsubscribe();
+      identityTypeSubscription.unsubscribe();
     };
   }, []);
 
@@ -113,7 +121,7 @@ export default function Routes() {
     <NavigationContainer>
       <Host>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          {isLogin ? (
+          {identityType !== '' ? (
             <>
               <Stack.Screen name="HomeTabs" component={HomeTabs} />
               <Stack.Screen name="FilterResult" component={FilterResultPage} />
@@ -124,9 +132,9 @@ export default function Routes() {
             </>
           ) : (
             <>
-              <Stack.Screen name="Login" component={LoginPage} />
               <Stack.Screen name="Welcome" component={WelcomePage} />
               <Stack.Screen name="Registration" component={RegistrationPage} />
+              <Stack.Screen name="Login" component={LoginPage} />
             </>
           )}
         </Stack.Navigator>
