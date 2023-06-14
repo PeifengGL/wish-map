@@ -128,7 +128,7 @@ export default function ProjectDetailPage({
             <TouchableOpacity onPress={handleGoBack}>
               <Image source={ImageProvider.FilterResult.GoBackIcon} />
             </TouchableOpacity>
-            <ShareButton share_url={projectData.donate_url} />
+            <ShareButton share_url={projectData.donate_url} type="project" />
           </View>
           <Image
             style={[
@@ -234,7 +234,7 @@ export default function ProjectDetailPage({
             <TouchableOpacity onPress={handleGoBack}>
               <Image source={ImageProvider.FilterResult.GoBackIcon} />
             </TouchableOpacity>
-            <ShareButton share_url={wishData.donate_url} />
+            <ShareButton share_url={wishData.donate_url} type="project" />
           </View>
           <Image
             style={[

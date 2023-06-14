@@ -51,7 +51,7 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
   const [popupModalData, setPopupModalData] = useState<ProjectsDataType>();
   const [isMapLoadingComplete, setIsMapLoadingComplete] = useState(false);
   const [selectedMarkerId, setSelectedMarkerId] = useState(-1);
-  const [isEnableFilterButton, setIsEnableFilterButton] = useState(false);
+  const [isEnableFilterResultButton, setIsEnableFilterResultButton] = useState(false);
   const [isFilterButtonSelected, setIsFilterButtonSelected] = useState(false);
 
   const mapRef = useRef<Map>(null);
@@ -74,13 +74,13 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {
-          title: 'Cool Photo App Camera Permission',
+          title: '喜願Wish Map App',
           message:
-            'Cool Photo App needs access to your camera ' +
-            'so you can take awesome pictures.',
-          buttonNeutral: 'Ask Me Later',
-          buttonNegative: 'Cancel',
-          buttonPositive: 'OK',
+            '喜願Wish Map App 需要取得您的定位權限' +
+            '您可以在地圖上顯示您的位置',
+          buttonNeutral: '稍後再試',
+          buttonNegative: '取消',
+          buttonPositive: '允許',
         },
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
@@ -171,7 +171,7 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
   };
 
   const getFilterMethodIsEmpty = (methodEmpty: boolean) => {
-    setIsEnableFilterButton(methodEmpty);
+    setIsEnableFilterResultButton(methodEmpty);
   };
 
   const [filterMethod, setFilterMethod] = useState<FilterMethodType>({
@@ -209,11 +209,11 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
           style={[
             Styles.modalizeFooterButton,
             {
-              backgroundColor: isEnableFilterButton ? '#0057B8' : '#BDBDBD',
+              backgroundColor: isEnableFilterResultButton ? '#0057B8' : '#BDBDBD',
             },
           ]}
           activeOpacity={0.9}
-          disabled={!isEnableFilterButton}
+          disabled={!isEnableFilterResultButton}
           onPress={handleFilterButtonPress}
         >
           <Text style={Styles.modalizeFooterButtonText}>顯示結果</Text>
