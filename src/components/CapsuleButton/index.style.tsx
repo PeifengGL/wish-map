@@ -14,6 +14,7 @@ const Styles = StyleSheet.create({
     alignSelf: 'center',
   },
   capsuleButtonText: {
+    justifyContent: 'center',
     fontSize: 14,
     fontWeight: '500',
     marginVertical: 6,

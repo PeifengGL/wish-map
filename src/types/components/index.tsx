@@ -1,5 +1,11 @@
 import { ProjectsDataType } from 'shared/project.data';
-import { ImageSourcePropType, StyleProp, TextStyle } from 'react-native';
+import { ArticlesDataType } from 'shared/articles.data';
+import {
+  ImageSourcePropType,
+  StyleProp,
+  TextStyle,
+  ViewStyle,
+} from 'react-native';
 
 export type ProgressBarPropsType = {
   progress: number;
@@ -17,6 +23,10 @@ export type ProjectCardPropsType = {
   descriptionLineLimit: number;
 };
 
+export type ArticleCardPropsType = {
+  articleData: ArticlesDataType;
+};
+
 export type DonateButtonPropsType = {
   donate_url: string;
   buttonText: string;
@@ -27,15 +37,19 @@ export type DonateButtonPropsType = {
 
 export type ShareButtonPropsType = {
   share_url: string;
+  type: 'project' | 'article';
+  shareIcon?: ImageSourcePropType;
 };
 
 export type CapsuleButtonPropsType = {
   showText: string | number;
+  returnText: string | number;
   isSelected?: boolean;
   capsuleWidth?: number | string;
-  returnText: string | number;
   showCancelIcon?: boolean;
   capsuleEnabled?: boolean;
+  capsuleContainerStyle?: StyleProp<ViewStyle>;
+  capsuleTextStyle?: StyleProp<TextStyle>;
   handleCancelIconPress?: () => void;
   handleCapsuleButtonPress?: (text: string | number) => void;
 };

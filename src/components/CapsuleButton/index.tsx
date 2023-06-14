@@ -12,6 +12,8 @@ const CapsuleButton = (props: CapsuleButtonPropsType) => {
     returnText,
     showCancelIcon,
     capsuleEnabled,
+    capsuleContainerStyle,
+    capsuleTextStyle,
     handleCancelIconPress,
     handleCapsuleButtonPress,
   } = props;
@@ -32,6 +34,7 @@ const CapsuleButton = (props: CapsuleButtonPropsType) => {
           width: capsuleWidth ? capsuleWidth : 'auto',
           backgroundColor: isSelected ? '#00BAB3' : '#FFFFFF',
         },
+        capsuleContainerStyle,
       ]}
     >
       <View style={Styles.capsuleView}>
@@ -39,6 +42,7 @@ const CapsuleButton = (props: CapsuleButtonPropsType) => {
           style={[
             Styles.capsuleButtonText,
             { color: isSelected ? '#FFFFFF' : '#2D2D2D' },
+            capsuleTextStyle,
           ]}
         >
           {showText}

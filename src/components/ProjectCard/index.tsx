@@ -3,12 +3,13 @@ import { Text, View, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
 import { ProjectCardPropsType } from 'types/components';
-import Styles from './index.style';
+import { RootStackParamList } from 'types/router';
+
 import ImageProvider from 'assets';
 import ProgressBar from 'components/ProgressBar';
-import { RootStackParamList } from 'types/router';
 import DonateButton from 'components/DonateButton';
 import ShareButton from 'components/ShareButton';
+import Styles from './index.style';
 
 const ProjectCard = (props: ProjectCardPropsType) => {
   const { projectData, descriptionLineLimit } = props;
@@ -35,7 +36,7 @@ const ProjectCard = (props: ProjectCardPropsType) => {
         <View style={Styles.coverImageContainer}>
           <Image source={projectData.cover_image} style={Styles.coverImage} />
           <View style={Styles.shareButtonContainer}>
-            <ShareButton share_url={projectData.donate_url} />
+            <ShareButton share_url={projectData.donate_url} type="project" />
           </View>
         </View>
 

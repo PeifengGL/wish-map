@@ -13,6 +13,7 @@ import ProfilePage from 'pages/Profile';
 import FilterResultPage from 'pages/WishMap/FilterResult';
 import ProjectDetailPage from 'pages/WishMap/ProjectDetail';
 import RegistrationPage from 'pages/Registration';
+import ArticleDetailPage from 'pages/ArticleList/ArticleDetail';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { RootStackParamList } from 'types/router';
@@ -29,7 +30,7 @@ const Tab = createBottomTabNavigator<RootStackParamList>();
 
 export default function Routes() {
   const [isLogin, setIsLogin] = useState(false);
-  const [identityType, setIdentityType] = useState<IdentityType>('');
+  const [identityType, setIdentityType] = useState<IdentityType>('guest');
 
   useEffect(() => {
     const isLoginSubscription: Subscription =
@@ -108,7 +109,7 @@ export default function Routes() {
         <Tab.Screen
           name="WishMap"
           component={WishMapPage}
-          initialParams={{ childPage: 'WishMap' }}
+          // initialParams={{ childPage: 'WishMap' }}
         />
         <Tab.Screen name="Volunteer" component={VolunteerPage} />
         <Tab.Screen name="ArticleList" component={ArticleListPage} />
@@ -128,6 +129,10 @@ export default function Routes() {
               <Stack.Screen
                 name="ProjectDetail"
                 component={ProjectDetailPage}
+              />
+              <Stack.Screen
+                name="ArticleDetail"
+                component={ArticleDetailPage}
               />
             </>
           ) : (

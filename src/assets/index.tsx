@@ -55,6 +55,12 @@ import Donate_Icon from 'assets/images/wishmap/Donate_Icon.png';
 // Filter Result Page Image
 import GoBack_Icon from 'assets/images/filterResult/goBack.png';
 
+// Article Page Image
+import Article_Cover_Image1 from 'assets/images/article/BG1.png';
+import Article_Cover_Image2 from 'assets/images/article/BG2.png';
+import Article_GoBack_Icon from 'assets/images/article/goBack.png';
+import Article_Share_Icon from 'assets/images/article/article_share.png';
+
 const ImageProvider = {
   Welcome: {
     welcome_bg1: welcome_bg1,
@@ -112,6 +118,12 @@ const ImageProvider = {
   },
   FilterResult: {
     GoBackIcon: GoBack_Icon,
+  },
+  Article: {
+    ArticleCoverImage1: Article_Cover_Image1,
+    ArticleCoverImage2: Article_Cover_Image2,
+    ArticleGoBackIcon: Article_GoBack_Icon,
+    ArticleShareIcon: Article_Share_Icon,
   },
 };
 
