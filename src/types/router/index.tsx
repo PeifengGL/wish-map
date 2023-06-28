@@ -1,5 +1,6 @@
 import { ProjectsDataType, WishDataType } from 'shared/project.data';
 import { ArticlesDataType } from 'shared/articles.data';
+import { WishApplyStepOneDataType } from 'types/wishMap';
 
 export type RootStackParamList = {
   Home: { id?: string };
@@ -8,8 +9,8 @@ export type RootStackParamList = {
   Welcome: {};
   Registration: {};
   Login: {};
-  WishMap: { childPage?: string };
-  Volunteer: {};
+  WishMap: { childPage?: string; enterOrigin?: string };
+  Volunteer: { enterOrigin: string; data?: any };
   ArticleList: {};
   Profile: {};
   FilterResult: {};
@@ -21,6 +22,9 @@ export type RootStackParamList = {
   ArticleDetail: {
     articleData?: ArticlesDataType;
   };
+  VolunteerApply: {};
+  WishApply: {};
+  WishApplyNextStep: { stepOneData: WishApplyStepOneDataType };
 };
 
 export type IdentityType = 'guest' | 'member' | '';

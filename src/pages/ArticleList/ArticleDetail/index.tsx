@@ -2,12 +2,10 @@ import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
   Image,
-  StatusBar,
   Text,
   TouchableOpacity,
   View,
   SafeAreaView,
-  Dimensions,
   ScrollView,
 } from 'react-native';
 import { RootStackParamList } from 'types/router';
@@ -23,7 +21,7 @@ type PageRouterProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'ArticleDetail'>;
 };
 
-export default function ProjectDetailPage({
+export default function ArticleDetailPage({
   route,
   navigation,
 }: PageRouterProps) {

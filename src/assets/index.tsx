@@ -51,6 +51,9 @@ import Wish_Detail_Icon1 from 'assets/images/wishmap/wish_detail_icon1.png';
 import Wish_Detail_Icon2 from 'assets/images/wishmap/wish_detail_icon2.png';
 import Wish_Detail_Icon3 from 'assets/images/wishmap/wish_detail_icon3.png';
 import Donate_Icon from 'assets/images/wishmap/Donate_Icon.png';
+import WishApplyBackground from 'assets/images/wishmap/wish_apply/WishApply_Image.png';
+import ClosePrivacy_Icon from 'assets/images/wishmap/wish_apply/close_privacy_content.png';
+import WishApplyDone_Image from 'assets/images/wishmap/wish_apply/WishApplyDone.png';
 
 // Filter Result Page Image
 import GoBack_Icon from 'assets/images/filterResult/goBack.png';
@@ -60,6 +63,18 @@ import Article_Cover_Image1 from 'assets/images/article/BG1.png';
 import Article_Cover_Image2 from 'assets/images/article/BG2.png';
 import Article_GoBack_Icon from 'assets/images/article/goBack.png';
 import Article_Share_Icon from 'assets/images/article/article_share.png';
+
+// Volunteer Page Image
+import Volunteer_Cover_Image1 from 'assets/images/volunteer/BG.png';
+import Time_Icon from 'assets/images/volunteer/Time_Icon.png';
+import Location_Icon from 'assets/images/volunteer/Location_Icon.png';
+import Volunteer_Icon from 'assets/images/volunteer/Volunteer_Icon.png';
+import Volunteer_GoBack_Icon from 'assets/images/volunteer/volunteer_goback.png';
+import Volunteer_Arrow_Down_Icon from 'assets/images/volunteer/Arrow_Down.png';
+import Volunteer_Close from 'assets/images/volunteer/volunteer_close.png';
+import Volunteer_Confirm from 'assets/images/volunteer/volunteer_confirm.png';
+import Volunteer_Apply_Icon from 'assets/images/volunteer/apply/Apply.png';
+import VolunteerApply_BG from 'assets/images/volunteer/apply/VolunteerApply.png';
 
 const ImageProvider = {
   Welcome: {
@@ -115,6 +130,9 @@ const ImageProvider = {
     WishDetailIcon2: Wish_Detail_Icon2,
     WishDetailIcon3: Wish_Detail_Icon3,
     DonateIcon: Donate_Icon,
+    WishApplyBackground: WishApplyBackground,
+    ClosePrivacyIcon: ClosePrivacy_Icon,
+    WishApplyDoneImage: WishApplyDone_Image,
   },
   FilterResult: {
     GoBackIcon: GoBack_Icon,
@@ -124,6 +142,18 @@ const ImageProvider = {
     ArticleCoverImage2: Article_Cover_Image2,
     ArticleGoBackIcon: Article_GoBack_Icon,
     ArticleShareIcon: Article_Share_Icon,
+  },
+  Volunteer: {
+    VolunteerCoverImage1: Volunteer_Cover_Image1,
+    TimeIcon: Time_Icon,
+    LocationIcon: Location_Icon,
+    VolunteerIcon: Volunteer_Icon,
+    VolunteerGoBackIcon: Volunteer_GoBack_Icon,
+    VolunteerArrowDownIcon: Volunteer_Arrow_Down_Icon,
+    VolunteerClose: Volunteer_Close,
+    VolunteerConfirm: Volunteer_Confirm,
+    VolunteerApplyIcon: Volunteer_Apply_Icon,
+    VolunteerApplyBG: VolunteerApply_BG,
   },
 };
 

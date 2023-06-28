@@ -6,6 +6,7 @@ import {
   TextStyle,
   ViewStyle,
 } from 'react-native';
+import { VolunteerInfoDataType } from 'shared/volunteer.data';
 
 export type ProgressBarPropsType = {
   progress: number;
@@ -25,6 +26,10 @@ export type ProjectCardPropsType = {
 
 export type ArticleCardPropsType = {
   articleData: ArticlesDataType;
+};
+
+export type VolunteerCardPropsType = {
+  volunteerInfoData: VolunteerInfoDataType;
 };
 
 export type DonateButtonPropsType = {
@@ -52,4 +57,10 @@ export type CapsuleButtonPropsType = {
   capsuleTextStyle?: StyleProp<TextStyle>;
   handleCancelIconPress?: () => void;
   handleCapsuleButtonPress?: (text: string | number) => void;
+};
+
+export type WishRadioButtonPropsType = {
+  isSelected: boolean;
+  radioClickFunction: (text: string) => void;
+  itemText?: string;
 };
