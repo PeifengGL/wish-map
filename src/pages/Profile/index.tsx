@@ -13,6 +13,10 @@ import settings from 'assets/images/profile/settings.png';
 type ProfileStackParamList = {
   Default: {};
   Edit: {};
+  EditUsername: {};
+  EditEmail: {};
+  EditPhone: {};
+  EditAddress: {};
 };
 const ProfileStack = createNativeStackNavigator<ProfileStackParamList>();
 
@@ -32,6 +36,13 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
       <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
         <ProfileStack.Screen name="Default" component={DefaultScreen} />
         <ProfileStack.Screen name="Edit" component={EditScreen} />
+        <ProfileStack.Screen
+          name="EditUsername"
+          component={EditUsernameScreen}
+        />
+        <ProfileStack.Screen name="EditEmail" component={EditEmailScreen} />
+        <ProfileStack.Screen name="EditPhone" component={EditPhoneScreen} />
+        <ProfileStack.Screen name="EditAddress" component={EditAddressScreen} />
       </ProfileStack.Navigator>
     </>
   );
@@ -56,6 +67,7 @@ const DefaultScreen = ({ navigation }: ProfileScreenProps) => {
       </View>
 
       {/* 
+      要做的
       <Background>
         <ProfileCard>
           {isGuest ? (
@@ -97,6 +109,95 @@ const EditScreen = ({ navigation }: ProfileScreenProps) => {
       </Background> */}
 
       <Text>這是編輯資料頁面</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Default', {})}>
+        <Text>Back to Default</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const EditUsernameScreen = ({ navigation }: ProfileScreenProps) => {
+  return (
+    <View>
+      {/* 
+      <Header>
+        <BackButton />
+        <SaveButton />
+      </Header>
+      <Background>
+        <Title />
+        <Description />
+        <br />
+        <InputText />
+      </Background> */}
+
+      <Text>這是編輯使用者名稱頁面</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Default', {})}>
+        <Text>Back to Default</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+const EditEmailScreen = ({ navigation }: ProfileScreenProps) => {
+  return (
+    <View>
+      {/* 
+      <Header>
+        <BackButton />
+        <SaveButton />
+      </Header>
+      <Background>
+        <Title />
+        <Description />
+        <br />
+        <InputText />
+      </Background> */}
+
+      <Text>這是編輯電子信箱頁面</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Default', {})}>
+        <Text>Back to Default</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+const EditPhoneScreen = ({ navigation }: ProfileScreenProps) => {
+  return (
+    <View>
+      {/* 
+      <Header>
+        <BackButton />
+        <SaveButton />
+      </Header>
+      <Background>
+        <Title />
+        <Description />
+        <br />
+        <InputText />
+      </Background> */}
+
+      <Text>這是編輯手機號碼頁面</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Default', {})}>
+        <Text>Back to Default</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+const EditAddressScreen = ({ navigation }: ProfileScreenProps) => {
+  return (
+    <View>
+      {/* 
+      <Header>
+        <BackButton />
+        <SaveButton />
+      </Header>
+      <Background>
+        <Title />
+        <Description />
+        <br />
+        <InputText />
+      </Background> */}
+
+      <Text>這是編輯聯絡地址頁面</Text>
       <TouchableOpacity onPress={() => navigation.navigate('Default', {})}>
         <Text>Back to Default</Text>
       </TouchableOpacity>
