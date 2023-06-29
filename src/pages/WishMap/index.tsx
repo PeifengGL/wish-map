@@ -43,23 +43,25 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
   const dimensionsHeight = Dimensions.get('window').height;
 
   const region = {
-    latitude: 24.9761,
-    longitude: 121.5356,
-    latitudeDelta: 0.05,
-    longitudeDelta: 0.05,
+    latitude: 25.036043,
+    longitude: 121.544322,
+    latitudeDelta: 0.09,
+    longitudeDelta: 0.09,
   };
   const [popupModalData, setPopupModalData] = useState<ProjectsDataType>();
   const [isMapLoadingComplete, setIsMapLoadingComplete] = useState(false);
   const [selectedMarkerId, setSelectedMarkerId] = useState(-1);
-  const [isEnableFilterResultButton, setIsEnableFilterResultButton] = useState(false);
+  const [isEnableFilterResultButton, setIsEnableFilterResultButton] =
+    useState(false);
   const [isFilterButtonSelected, setIsFilterButtonSelected] = useState(false);
 
   const mapRef = useRef<Map>(null);
   const modalizeRef = useRef<Modalize>(null);
   const statusBar = StatusBar.currentHeight;
+  const sendWishApplyModalRef = useRef<Modalize>(null);
 
-  const handleBtnClick = () => {
-    console.log('click');
+  const handleWishApplyClick = () => {
+    navigation.navigate('WishApply', {});
   };
 
   const handleDonateWishClick = () => {
@@ -209,7 +211,9 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
           style={[
             Styles.modalizeFooterButton,
             {
-              backgroundColor: isEnableFilterResultButton ? '#0057B8' : '#BDBDBD',
+              backgroundColor: isEnableFilterResultButton
+                ? '#0057B8'
+                : '#BDBDBD',
             },
           ]}
           activeOpacity={0.9}
@@ -226,6 +230,12 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
     if (route.params?.childPage === 'FilterResultPage') {
       modalizeRef.current?.open();
       navigation.setParams({ childPage: 'WishMap' });
+    }
+  }, [route.params]);
+
+  useEffect(() => {
+    if (route.params?.enterOrigin === 'WishApply') {
+      sendWishApplyModalRef.current?.open();
     }
   }, [route.params]);
 
@@ -255,7 +265,13 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
 
     scrollOffset.current = currentOffset;
   };
-
+  // fetch('https://sheetdb.io/api/v1/aepso07gors7a?sheet', {
+  //   method: 'GET',
+  //   headers: {
+  //     Accept: 'application/json',
+  //     'Content-Type': 'application/json',
+  //   },
+  // });
   useEffect(() => {
     Animated.timing(animation, {
       toValue: shouldShow ? 1 : 0,
@@ -283,6 +299,7 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
           toolbarEnabled={false}
           onMapLoaded={handleMapLoadingComplete}
           moveOnMarkerPress={false}
+          rotateEnabled={false}
         >
           {renderMarkers()}
         </MapView>
@@ -310,7 +327,7 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
               <View style={Styles.applyButtonContainer}>
                 <TouchableOpacity
                   style={Styles.applyButton}
-                  onPress={handleBtnClick}
+                  onPress={handleWishApplyClick}
                 >
                   <Image
                     source={ImageProvider.WishMap.DreamApplyButton}
@@ -372,6 +389,83 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
             getMethodEmpty={getFilterMethodIsEmpty}
             closeFilterTool={handleFilterToolClose}
           />
+        </Modalize>
+        <Modalize ref={sendWishApplyModalRef} adjustToContentHeight>
+          <View
+            style={{
+              height: '100%',
+              backgroundColor: '#ebf1f9',
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+              borderTopLeftRadius: 28,
+              borderTopRightRadius: 28,
+            }}
+          >
+            <Text
+              style={{
+                color: '#FF585D',
+                fontSize: 24,
+                fontWeight: '700',
+                marginTop: 50,
+                marginBottom: 8,
+              }}
+            >
+              申請成功
+            </Text>
+            <Text
+              style={{
+                color: '#FF585D',
+                fontSize: 16,
+                fontWeight: '500',
+                textAlign: 'center',
+              }}
+            >
+              {`每一位重症孩子都值得擁有希望幸福的每一天\n喜願與您一起讓願望一一實現！`}
+            </Text>
+            <Image
+              source={ImageProvider.WishMap.WishApplyDoneImage}
+              style={{
+                width: 200,
+                height: 150,
+                resizeMode: 'contain',
+                aspectRatio: 1,
+              }}
+            />
+            <Text
+              style={{
+                color: '#75787B',
+                fontSize: 14,
+                fontWeight: '500',
+                marginBottom: 24,
+                marginTop: 16,
+              }}
+            >
+              預計審核時間一週內完成，本會將會盡快與您聯絡
+            </Text>
+            <View style={{ width: '100%', marginBottom: 32 }}>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: '#0057B8',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: 50,
+                  marginHorizontal: 28,
+                }}
+                onPress={() => sendWishApplyModalRef.current?.close()}
+              >
+                <Text
+                  style={{
+                    fontSize: 14,
+                    fontWeight: '500',
+                    marginVertical: 12,
+                    color: '#FFFFFF',
+                  }}
+                >
+                  知道了
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </Modalize>
       </Portal>
     </View>
