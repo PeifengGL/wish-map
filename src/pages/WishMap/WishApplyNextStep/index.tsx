@@ -9,6 +9,11 @@ import {
   SafeAreaView,
   Dimensions,
   TextInput,
+  Alert,
+  ToastAndroid,
+  Pressable,
+  BackHandler,
+  StatusBar,
 } from 'react-native';
 import { RootStackParamList } from 'types/router';
 import FocusAwareStatusBar from 'util/StatusBarAdapter';
@@ -23,6 +28,21 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import DataShareService from 'service';
 import PrivacyContent, { PrivacyHeader } from 'components/PrivacyContent';
 import LoadingModal from 'components/LoadingModal';
+import {
+  launchImageLibrary,
+  launchCamera,
+  ImagePickerResponse,
+  ImageLibraryOptions,
+  Asset,
+} from 'react-native-image-picker';
+
+import DocumentPicker, {
+  DirectoryPickerResponse,
+  DocumentPickerResponse,
+  isCancel,
+  isInProgress,
+  types,
+} from 'react-native-document-picker';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'WishApplyNextStep'>;
@@ -31,12 +51,13 @@ type PageRouterProps = {
     'WishApplyNextStep'
   >;
 };
-
+const MAX_IMAGES = 15;
 export default function WishApplyNextStepPage({
   route,
   navigation,
 }: PageRouterProps) {
   const { stepOneData } = route.params;
+  const statusBarHeight = StatusBar.currentHeight;
   const dimensionsHeight = Dimensions.get('window').height;
 
   const [childName, setChildName] = useState('');
@@ -51,15 +72,43 @@ export default function WishApplyNextStepPage({
   const [hospital, setHospital] = useState('');
   const [medicalDepartment, setMedicalDepartment] = useState('');
   const [doctorName, setDoctorName] = useState('');
-  const [supplementFile, setSupplementFile] = useState('');
+  const [supplementFile, setSupplementFile] = useState<string[]>([]);
   const [howToKnowMakeWish, setHowToKnowMakeWish] = useState<string[]>([]);
   const [isAgreePrivacy, setIsAgreePrivacy] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [isButtonEnable, setIsButtonEnable] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isShowImageOpenModal, setIsShowImageOpenModal] = useState(false);
+  const [selectedPreviewImageInfo, setSelectedPreviewImageInfo] = useState<{
+    uri: string;
+    ratio: number;
+  }>({ uri: '', ratio: 1 });
+  const [previewImageLoadEnd, setPreviewImageLoadEnd] = useState(false);
+
+  useEffect(() => {
+    const backAction = () => {
+      if (isShowImageOpenModal) {
+        closeShowPreviewImageModal();
+        return true;
+      } else if (modalIsOpen) {
+        setModalIsOpen(false);
+        return true;
+      }
+      navigation.goBack();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   const modalizeRef = useRef<Modalize>(null);
   const privacyModalizeRef = useRef<Modalize>(null);
+  const picturePickModalizeRef = useRef<Modalize>(null);
 
   const genderRadioButtonClick = (itemText: string) => {
     setChildGender(itemText);
@@ -140,6 +189,116 @@ export default function WishApplyNextStepPage({
     navigation.navigate('WishMap', {
       enterOrigin: 'WishApply',
     });
+  };
+
+  const filterSelectedFileUri = (
+    data: Array<Asset> | Array<DocumentPickerResponse>,
+  ) => {
+    const filterSelectedFileUriData = data.map(item => item.uri!);
+    const concatUri = supplementFile.concat(filterSelectedFileUriData);
+    if (concatUri.length > 15) {
+      ToastAndroid.show(
+        `您已選擇${MAX_IMAGES}檔案，最多只能選15個檔案)`,
+        ToastAndroid.SHORT,
+      );
+      setSupplementFile(concatUri.slice(0, MAX_IMAGES));
+      return;
+    }
+    setSupplementFile(concatUri);
+  };
+
+  const handleChooseImageFromFile = () => {
+    DocumentPicker.pick({
+      type: types.images,
+      allowMultiSelection: true,
+    }).then(res => {
+      filterSelectedFileUri(res);
+
+      picturePickModalizeRef.current?.close();
+    });
+  };
+
+  const handleChooseImageFromGallery = () => {
+    const options: ImageLibraryOptions = {
+      mediaType: 'photo',
+      selectionLimit: MAX_IMAGES - supplement.length,
+    };
+
+    launchImageLibrary(options, (response: ImagePickerResponse) => {
+      if (response.didCancel) {
+        return;
+      } else if (response.errorMessage) {
+        return;
+      }
+
+      const newSelectedImages: Asset[] = response.assets!;
+
+      filterSelectedFileUri(newSelectedImages);
+      picturePickModalizeRef.current?.close();
+    });
+  };
+
+  const setPreviewImage = (uri: string) => {
+    Image.getSize(uri, (width, height) => {
+      setSelectedPreviewImageInfo({ uri: uri, ratio: width / height });
+    });
+  };
+
+  const renderSelectedImage = () => {
+    return supplementFile.map((item, index) => {
+      return (
+        <View
+          key={index}
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingHorizontal: 16,
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              setPreviewImage(item);
+              setIsShowImageOpenModal(true);
+            }}
+          >
+            <Image
+              source={{ uri: item }}
+              style={{
+                width: 60,
+                height: 80,
+                marginVertical: 8,
+                borderRadius: 8,
+              }}
+            />
+          </TouchableOpacity>
+
+          <View
+            style={{
+              marginLeft: 16,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flex: 1,
+            }}
+          >
+            <Text>{`病歷摘要 - ${index + 1}.jpg`}</Text>
+            <TouchableOpacity
+              onPress={() =>
+                setSupplementFile(supplementFile.filter(data => data !== item))
+              }
+            >
+              <Image source={ImageProvider.WishMap.WishApplyDeleteImageIcon} />
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
+    });
+  };
+
+  const closeShowPreviewImageModal = () => {
+    setIsShowImageOpenModal(false);
+    setSelectedPreviewImageInfo({ uri: '', ratio: 1 });
+    setPreviewImageLoadEnd(false);
   };
 
   return (
@@ -366,12 +525,14 @@ export default function WishApplyNextStepPage({
                 <Text style={Styles.fieldHeaderRequiredText}>(必填)</Text>
               </View>
               <TouchableOpacity
+                onPress={() => picturePickModalizeRef.current?.open()}
                 style={{
                   borderWidth: 1,
                   borderColor: '#0057B8',
                   alignItems: 'center',
                   justifyContent: 'center',
                   borderRadius: 50,
+                  marginBottom: 20,
                 }}
               >
                 <Text
@@ -385,6 +546,7 @@ export default function WishApplyNextStepPage({
                   {`請上傳所需附件（例如：病歷摘要)`}
                 </Text>
               </TouchableOpacity>
+              {renderSelectedImage()}
             </View>
             <View style={Styles.separator} />
             <Text
@@ -584,9 +746,9 @@ export default function WishApplyNextStepPage({
           adjustToContentHeight
           onOverlayPress={() => {
             setBirthLabel(
-              `${date.getFullYear()} 年 ${
-                date.getMonth() + 1
-              } 月 ${date.getUTCDate()} 日`,
+              `${date.getFullYear()} 年 ${date.getMonth() + 1} 月 ${
+                date.getUTCDate() + 1
+              } 日`,
             );
             modalizeRef.current?.close();
           }}
@@ -609,9 +771,9 @@ export default function WishApplyNextStepPage({
               <TouchableOpacity
                 onPress={() => {
                   setBirthLabel(
-                    `${date.getFullYear()} 年 ${
-                      date.getMonth() + 1
-                    } 月 ${date.getUTCDate()} 日`,
+                    `${date.getFullYear()} 年 ${date.getMonth() + 1} 月 ${
+                      date.getUTCDate() + 1
+                    } 日`,
                   );
                   modalizeRef.current?.close();
                 }}
@@ -639,8 +801,94 @@ export default function WishApplyNextStepPage({
         >
           <PrivacyContent />
         </Modalize>
+        <Modalize ref={picturePickModalizeRef} adjustToContentHeight>
+          <View>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <Text style={{ marginVertical: 36 }}>請選擇上傳途徑</Text>
+              <TouchableOpacity
+                onPress={() => picturePickModalizeRef.current?.close}
+              >
+                <Image
+                  source={ImageProvider.WishMap.ClosePrivacyIcon}
+                  style={{ position: 'absolute', right: 16 }}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={{ marginBottom: 28, marginHorizontal: 16 }}>
+              <TouchableOpacity
+                onPress={handleChooseImageFromFile}
+                style={{
+                  backgroundColor: '#0057B8',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: 24,
+                  borderRadius: 50,
+                }}
+              >
+                <Text style={{ color: 'white', marginVertical: 12 }}>檔案</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={handleChooseImageFromGallery}
+                style={{
+                  backgroundColor: '#0057B8',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: 50,
+                }}
+              >
+                <Text style={{ color: 'white', marginVertical: 12 }}>相簿</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modalize>
       </Portal>
       {isLoading ? <LoadingModal /> : null}
+      {isShowImageOpenModal ? (
+        <Pressable
+          onPress={closeShowPreviewImageModal}
+          style={{
+            position: 'absolute',
+            zIndex: 10000,
+            backgroundColor: '#00000066',
+            flex: 1,
+            width: '100%',
+            height: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <View>
+            {selectedPreviewImageInfo.uri ? (
+              <Image
+                source={{ uri: selectedPreviewImageInfo.uri }}
+                onLoadEnd={() => setPreviewImageLoadEnd(true)}
+                style={
+                  selectedPreviewImageInfo.ratio > 1
+                    ? {
+                        width: Dimensions.get('window').width,
+                        aspectRatio: selectedPreviewImageInfo.ratio,
+                      }
+                    : {
+                        height:
+                          Dimensions.get('window').height - statusBarHeight!,
+                        aspectRatio: selectedPreviewImageInfo.ratio,
+                      }
+                }
+              />
+            ) : null}
+            {previewImageLoadEnd ? (
+              <TouchableOpacity
+                onPress={closeShowPreviewImageModal}
+                style={{ position: 'absolute', right: 8, top: 8 }}
+              >
+                <Image
+                  source={ImageProvider.WishMap.WishApplyCancelImageIcon}
+                />
+              </TouchableOpacity>
+            ) : null}
+          </View>
+        </Pressable>
+      ) : null}
     </SafeAreaView>
   );
 }

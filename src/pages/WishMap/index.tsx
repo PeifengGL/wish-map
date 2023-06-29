@@ -299,6 +299,7 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
           toolbarEnabled={false}
           onMapLoaded={handleMapLoadingComplete}
           moveOnMarkerPress={false}
+          rotateEnabled={false}
         >
           {renderMarkers()}
         </MapView>

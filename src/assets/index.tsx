@@ -54,6 +54,8 @@ import Donate_Icon from 'assets/images/wishmap/Donate_Icon.png';
 import WishApplyBackground from 'assets/images/wishmap/wish_apply/WishApply_Image.png';
 import ClosePrivacy_Icon from 'assets/images/wishmap/wish_apply/close_privacy_content.png';
 import WishApplyDone_Image from 'assets/images/wishmap/wish_apply/WishApplyDone.png';
+import WishApplyDeleteImage_Icon from 'assets/images/wishmap/wish_apply/delete_image.png';
+import WishApplyCancelImage_Icon from 'assets/images/wishmap/wish_apply/cancel_image_icon.png';
 
 // Filter Result Page Image
 import GoBack_Icon from 'assets/images/filterResult/goBack.png';
@@ -133,6 +135,8 @@ const ImageProvider = {
     WishApplyBackground: WishApplyBackground,
     ClosePrivacyIcon: ClosePrivacy_Icon,
     WishApplyDoneImage: WishApplyDone_Image,
+    WishApplyDeleteImageIcon: WishApplyDeleteImage_Icon,
+    WishApplyCancelImageIcon: WishApplyCancelImage_Icon,
   },
   FilterResult: {
     GoBackIcon: GoBack_Icon,
