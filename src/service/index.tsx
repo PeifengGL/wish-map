@@ -14,6 +14,7 @@ class DataService {
     filterCityMethod: [],
   });
   private filteredResult$ = new BehaviorSubject<ProjectsDataType[]>([]);
+  private loading$ = new BehaviorSubject<boolean>(false);
 
   setText(text: string) {
     this.text$.next(text);
@@ -61,6 +62,56 @@ class DataService {
 
   getIdentityType$(): Observable<IdentityType> {
     return this.identityType$.asObservable();
+  }
+
+  setLoading(loading: boolean) {
+    this.loading$.next(loading);
+  }
+
+  getLoading$(): Observable<boolean> {
+    return this.loading$.asObservable();
+  }
+
+  async sendVolunteerApply(volunteerApplyData: any): Promise<any> {
+    try {
+      const response = await fetch('https://sheetdb.io/api/v1/wjeesyxp3qfjs', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: [volunteerApplyData],
+        }),
+      });
+
+      await response.json();
+    } catch (error) {
+      return false;
+    } finally {
+      return true;
+    }
+  }
+
+  async sendWishApply(wishApplyData: any): Promise<any> {
+    try {
+      const response = await fetch('https://sheetdb.io/api/v1/aepso07gors7a', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: [wishApplyData],
+        }),
+      });
+
+      await response.json();
+    } catch (error) {
+      return false;
+    } finally {
+      return true;
+    }
   }
 }
 

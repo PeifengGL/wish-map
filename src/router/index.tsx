@@ -14,6 +14,9 @@ import FilterResultPage from 'pages/WishMap/FilterResult';
 import ProjectDetailPage from 'pages/WishMap/ProjectDetail';
 import RegistrationPage from 'pages/Registration';
 import ArticleDetailPage from 'pages/ArticleList/ArticleDetail';
+import VolunteerApplyPage from 'pages/Volunteer/VolunteerApply';
+import WishApplyPage from 'pages/WishMap/WishApply';
+import WishApplyNextStepPage from 'pages/WishMap/WishApplyNextStep';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { RootStackParamList } from 'types/router';
@@ -133,6 +136,15 @@ export default function Routes() {
               <Stack.Screen
                 name="ArticleDetail"
                 component={ArticleDetailPage}
+              />
+              <Stack.Screen
+                name="VolunteerApply"
+                component={VolunteerApplyPage}
+              />
+              <Stack.Screen name="WishApply" component={WishApplyPage} />
+              <Stack.Screen
+                name="WishApplyNextStep"
+                component={WishApplyNextStepPage}
               />
             </>
           ) : (

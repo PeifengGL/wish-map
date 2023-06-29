@@ -61,9 +61,17 @@ const Styles = StyleSheet.create({
   },
   cityCapsulesContainer: { marginBottom: 12 },
   cityCapsulesText: { marginBottom: 12 },
-  cityCapsuleContainer: { display: 'flex', flexDirection: 'row' },
-  ageCityCapsule: { marginRight: 8 },
-  ageCapsuleContainer: { display: 'flex', flexDirection: 'row' },
+  cityCapsuleContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  ageCityCapsule: { marginRight: 8, marginBottom: 12 },
+  ageCapsuleContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
 });
 
 export default Styles;
