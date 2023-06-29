@@ -43,10 +43,10 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
   const dimensionsHeight = Dimensions.get('window').height;
 
   const region = {
-    latitude: 24.9761,
-    longitude: 121.5356,
-    latitudeDelta: 0.05,
-    longitudeDelta: 0.05,
+    latitude: 25.036043,
+    longitude: 121.544322,
+    latitudeDelta: 0.09,
+    longitudeDelta: 0.09,
   };
   const [popupModalData, setPopupModalData] = useState<ProjectsDataType>();
   const [isMapLoadingComplete, setIsMapLoadingComplete] = useState(false);
