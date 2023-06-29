@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   Image,
   ImageBackground,
   ActivityIndicator,
+  Dimensions,
 } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
@@ -14,6 +15,9 @@ import { RootStackParamList } from 'types/router';
 import ImageProvider from 'assets';
 import Styles from './index.style';
 import DataShareService from 'service';
+import { Portal } from 'react-native-portalize';
+import { Modalize } from 'react-native-modalize';
+import PrivacyContent, { PrivacyHeader } from 'components/PrivacyContent';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'Registration'>;
@@ -21,6 +25,7 @@ type PageRouterProps = {
 };
 
 export default function RegistrationPage({ navigation }: PageRouterProps) {
+  const dimensionsHeight = Dimensions.get('window').height;
   useEffect(() => {
     navigation.setOptions({ headerShown: false });
   }, [navigation]);
@@ -30,6 +35,8 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
   const [isUsernameEmpty, setIsUsernameEmpty] = useState(true);
   const [isUsernameFocused, setIsUsernameFocused] = useState(false);
   const [isUsernameInvalid, setIsUsernameInvalid] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const privacyModalizeRef = useRef<Modalize>(null);
   const handleUsernameOnChange = (text: string) => {
     setUsername(text);
 
@@ -117,6 +124,7 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [isPasswordInvalid, setIsPasswordInvalid] = useState(false);
   const [isPasswordHide, setIsPasswordHide] = useState(true);
+  const [isRegistered, setIsRegistered] = useState(false);
 
   const handlePasswordOnChange = (text: string) => {
     setPassword(text);
@@ -162,6 +170,14 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
     setIsFormValid(condition);
   };
 
+  useEffect(() => {
+    setInterval(() => {
+      if (isRegistered) {
+        DataShareService.setIdentityType('member');
+      }
+    }, 2000);
+  }, [isRegistered]);
+
   const handleRegister = () => {
     // 在此處理註冊邏輯
     // 可以使用 username、email 和 password 狀態
@@ -170,11 +186,10 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
     }
 
     setIsRegistered(true);
-    console.log(username, email, password);
-
-    // call api
   };
-  const handlePrivacyPolicy = () => {};
+  const handlePrivacyPolicy = () => {
+    privacyModalizeRef.current?.open();
+  };
 
   const handleTerms = () => {};
 
@@ -186,7 +201,10 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
     DataShareService.setIdentityType('guest');
   };
 
-  const [isRegistered, setIsRegistered] = useState(false);
+  const handlePrivacyClose = () => {
+    privacyModalizeRef.current?.close();
+    setModalIsOpen(false);
+  };
 
   return (
     <View style={Styles.container}>
@@ -371,11 +389,7 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
             <View style={Styles.confirmContainer}>
               <Text style={Styles.confirm}>註冊即表示您同意我們的</Text>
               <TouchableOpacity onPress={handlePrivacyPolicy}>
-                <Text style={Styles.link}>隱私政策</Text>
-              </TouchableOpacity>
-              <Text style={Styles.confirm}>和</Text>
-              <TouchableOpacity onPress={handleTerms}>
-                <Text style={Styles.link}>使用條款</Text>
+                <Text style={Styles.link}>隱私政策和使用條款</Text>
               </TouchableOpacity>
             </View>
 
@@ -404,6 +418,16 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
           </View>
         )}
       </ImageBackground>
+      <Portal>
+        <Modalize
+          ref={privacyModalizeRef}
+          modalHeight={dimensionsHeight}
+          onClosed={() => setModalIsOpen(false)}
+          HeaderComponent={PrivacyHeader(handlePrivacyClose)}
+        >
+          <PrivacyContent />
+        </Modalize>
+      </Portal>
     </View>
   );
 }

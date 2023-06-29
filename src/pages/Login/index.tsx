@@ -15,6 +15,7 @@ import Styles from './index.style';
 import ImageProvider from 'assets';
 import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
+import DataShareService from 'service';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'Login'>;
@@ -125,13 +126,21 @@ export default function Login({ navigation }: PageRouterProps) {
   const [isResetPassword, setIsResetPassword] = useState(false);
   const [isResetPasswordDone, setIsResetPasswordDone] = useState(false);
 
+  useEffect(() => {
+    setInterval(() => {
+      if (isLogin) {
+        DataShareService.setIdentityType('member');
+      }
+    }, 2000);
+  }, [isLogin]);
+
   const handleLogin = () => {
     if (!isFormValid) {
       return;
     }
     setAllStateFalse();
     setIsLogin(true);
-    console.log(email, password, isLogin);
+    // console.log(email, password, isLogin);
   };
 
   const handleForgotPassword = () => {

@@ -6,7 +6,7 @@ import { IdentityType } from 'types/router';
 class DataService {
   private text$ = new BehaviorSubject<string>('');
   private loginStatus$ = new BehaviorSubject<boolean>(false);
-  private identityType$ = new BehaviorSubject<IdentityType>('guest');
+  private identityType$ = new BehaviorSubject<IdentityType>('');
   private countNumber$ = new BehaviorSubject<number>(0);
   private filterMethod = new BehaviorSubject<FilterMethodType>({
     filterKeywordMethod: '',
