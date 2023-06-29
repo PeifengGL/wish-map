@@ -746,9 +746,9 @@ export default function WishApplyNextStepPage({
           adjustToContentHeight
           onOverlayPress={() => {
             setBirthLabel(
-              `${date.getFullYear()} 年 ${date.getMonth() + 1} 月 ${
-                date.getUTCDate() + 1
-              } 日`,
+              `${date.getFullYear()} 年 ${
+                date.getMonth() + 1
+              } 月 ${date.getUTCDate()} 日`,
             );
             modalizeRef.current?.close();
           }}
@@ -771,9 +771,9 @@ export default function WishApplyNextStepPage({
               <TouchableOpacity
                 onPress={() => {
                   setBirthLabel(
-                    `${date.getFullYear()} 年 ${date.getMonth() + 1} 月 ${
-                      date.getUTCDate() + 1
-                    } 日`,
+                    `${date.getFullYear()} 年 ${
+                      date.getMonth() + 1
+                    } 月 ${date.getUTCDate()} 日`,
                   );
                   modalizeRef.current?.close();
                 }}
