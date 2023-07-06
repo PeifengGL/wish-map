@@ -5,4 +5,5 @@ export type UserProfileType = {
   userAddress: string;
   userUID: string;
   userType: '' | 'member' | 'guest';
+  userPassword: string;
 };

@@ -53,7 +53,6 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
     (Dimensions.get('window').height + statusBarHeight!) * 0.35 * 0.3;
 
   const scrollOffset = useRef(0);
-  // const animation = useRef(new Animated.Value(1)).current;
 
   const [donateData, setDonateData] = useState<any[]>([
     {
@@ -128,6 +127,7 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
         userAddress: '',
         userUID: '',
         userType: '',
+        userPassword: '',
       });
       return;
     }
@@ -282,14 +282,15 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
           ) : (
             <Text style={Styles.userNameText}>訪客</Text>
           )}
-
-          <TouchableOpacity
-            onPress={handleEditProfileClick}
-            style={Styles.editButtonContainer}
-          >
-            <Image source={ImageProvider.Profile.EditProfileIcon} />
-            <Text style={Styles.editButtonText}>編輯</Text>
-          </TouchableOpacity>
+          {userProfile?.userType === 'member' && (
+            <TouchableOpacity
+              onPress={handleEditProfileClick}
+              style={Styles.editButtonContainer}
+            >
+              <Image source={ImageProvider.Profile.EditProfileIcon} />
+              <Text style={Styles.editButtonText}>編輯</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
 

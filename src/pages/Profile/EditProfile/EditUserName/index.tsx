@@ -77,6 +77,7 @@ export default function EditUsernamePage({ navigation }: PageRouterProps) {
         userPhone: userProfile?.userPhone!,
         userAddress: userProfile?.userAddress!,
         userType: userProfile?.userType!,
+        userPassword: userProfile?.userPassword!,
       };
 
       LocalStorage.setData<UserProfileType>(

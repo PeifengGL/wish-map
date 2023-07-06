@@ -189,14 +189,14 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
       userAddress: '',
       userUID: generateUUID(),
       userType: 'member',
+      userPassword: password,
     };
-
-    LocalStorage.setData(LocalStorageKeys.UserProfileKey, userProfile).then(
+    console.log('userProfile', userProfile);
+    LocalStorage.setData(LocalStorageKeys.UserProfileKey, userProfile).finally(
       () => {
         console.log('set user profile to local storage success');
-        setInterval(() => {
-          DataShareService.setUserProfile(userProfile);
-        }, 2000);
+        DataShareService.setUserProfile(userProfile);
+        setTimeout(() => {}, 2000);
       },
     );
   };
@@ -219,11 +219,11 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
       userAddress: '',
       userUID: '',
       userType: 'guest',
+      userPassword: '',
     };
+    console.log('userProfile', userProfile);
     LocalStorage.setData(LocalStorageKeys.UserProfileKey, userProfile).then(
-      () => {
-        DataShareService.setUserProfile(userProfile);
-      },
+      () => DataShareService.setUserProfile(userProfile),
     );
   };
 

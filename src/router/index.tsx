@@ -26,6 +26,7 @@ import EditAddressPage from 'pages/Profile/EditProfile/EditAddress';
 
 import SettingPage from 'pages/Setting';
 import ChangePasswordPage from 'pages/Setting/ChangePassword';
+import ResetPasswordPage from 'pages/Setting/ResetPassword';
 
 import { NavigationContainer } from '@react-navigation/native';
 import {
@@ -52,10 +53,7 @@ export default function Routes() {
     const userProfileSubscription: Subscription =
       DataShareService.getUserProfile$().subscribe(
         (newUserProfile: UserProfileType) => {
-          console.log('22');
-          console.log(userProfile);
-          if (newUserProfile !== null) {
-            console.log('2');
+          if (newUserProfile !== null && userProfile !== newUserProfile) {
             setUserProfile(newUserProfile);
           }
         },
@@ -189,6 +187,10 @@ export default function Routes() {
                   <SettingStack.Screen
                     name="ChangePassword"
                     component={ChangePasswordPage}
+                  />
+                  <SettingStack.Screen
+                    name="ResetPassword"
+                    component={ResetPasswordPage}
                   />
                   {/* <SettingStack.Screen
                   name="EditEmail"

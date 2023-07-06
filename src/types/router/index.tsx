@@ -38,7 +38,7 @@ export type ProfileStackParamList = {
 
 export type SettingStackParamList = {
   Setting: {};
-  ChangePassword: {};
+  ChangePassword: { resetPasswordStatus?: boolean };
   ResetPassword: {};
   DeleteAccount: {};
 };

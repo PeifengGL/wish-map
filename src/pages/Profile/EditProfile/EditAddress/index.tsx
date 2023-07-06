@@ -56,6 +56,7 @@ export default function EditAddressPage({ navigation }: PageRouterProps) {
       userEmail: userProfile?.userEmail!,
       userAddress: userAddress,
       userType: userProfile?.userType!,
+      userPassword: userProfile?.userPassword!,
     };
 
     LocalStorage.setData<UserProfileType>(

@@ -70,6 +70,7 @@ export default function EditEmailPage({ navigation }: PageRouterProps) {
         userPhone: userProfile?.userPhone!,
         userAddress: userProfile?.userAddress!,
         userType: userProfile?.userType!,
+        userPassword: userProfile?.userPassword!,
       };
 
       LocalStorage.setData<UserProfileType>(
