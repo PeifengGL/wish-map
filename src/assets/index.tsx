@@ -78,6 +78,35 @@ import Volunteer_Confirm from 'assets/images/volunteer/volunteer_confirm.png';
 import Volunteer_Apply_Icon from 'assets/images/volunteer/apply/Apply.png';
 import VolunteerApply_BG from 'assets/images/volunteer/apply/VolunteerApply.png';
 
+// Profile Page Image
+import Profile_BG from 'assets/images/profile/profile_bg.png';
+import User_Avatar from 'assets/images/profile/user_avatar.png';
+import EditProfile_Icon from 'assets/images/profile/Edit.png';
+import OpenSetting_Icon from 'assets/images/profile/settings.png';
+import Default_Avatar from 'assets/images/profile/default_avatar.png';
+import GuestHint_Image from 'assets/images/profile/guest_hint_icon.png';
+import Collapsing_Icon from 'assets/images/profile/collapsing.png';
+import Expand_Icon from 'assets/images/profile/expand.png';
+import ProfileGoBack_Icon from 'assets/images/profile/profile_goback.png';
+import ChangeAvatar_Icon from 'assets/images/profile/change_avator_icon.png';
+import RemoveAvatar_Icon from 'assets/images/profile/remove_avatar.png';
+import EditRightArrow_Icon from 'assets/images/profile/edit_right_arrow.png';
+import EditProfileTextInput_Clean_Icon from 'assets/images/profile/textinput_clean.png';
+import EditProfileTextInput_Error_Icon from 'assets/images/profile/input_error.png';
+import ProfileBackground_Image from 'assets/images/profile/Profile_Background.png';
+
+// Setting Page Image
+import SettingGoBack_Icon from 'assets/images/setting/setting_goback.png';
+import ChangePassword_Icon from 'assets/images/setting/change_password.png';
+import DeleteAccount_Icon from 'assets/images/setting/delete_account.png';
+import RateApp_Icon from 'assets/images/setting/rate.png';
+import ReportIssue_Icon from 'assets/images/setting/report.png';
+import SettingRightArrow_Icon from 'assets/images/setting/setting_right_arrow.png';
+import SettingBackground_Image from 'assets/images/setting/Setting_Background.png';
+import SettingInputError_Icon from 'assets/images/setting/input_error.png';
+import SettingShowPassword_Icon from 'assets/images/setting/show_pw.png';
+import SettingHidePassword_Icon from 'assets/images/setting/hide_pw.png';
+
 const ImageProvider = {
   Welcome: {
     welcome_bg1: welcome_bg1,
@@ -158,6 +187,35 @@ const ImageProvider = {
     VolunteerConfirm: Volunteer_Confirm,
     VolunteerApplyIcon: Volunteer_Apply_Icon,
     VolunteerApplyBG: VolunteerApply_BG,
+  },
+  Profile: {
+    ProfileBG: Profile_BG,
+    UserAvatar: User_Avatar,
+    EditProfileIcon: EditProfile_Icon,
+    OpenSettingIcon: OpenSetting_Icon,
+    DefaultAvatar: Default_Avatar,
+    GuestHintImage: GuestHint_Image,
+    CollapsingIcon: Collapsing_Icon,
+    ExpandIcon: Expand_Icon,
+    ProfileGoBackIcon: ProfileGoBack_Icon,
+    ChangeAvatarIcon: ChangeAvatar_Icon,
+    RemoveAvatarIcon: RemoveAvatar_Icon,
+    EditRightArrowIcon: EditRightArrow_Icon,
+    EditProfileTextInputCleanIcon: EditProfileTextInput_Clean_Icon,
+    EditProfileTextInputErrorIcon: EditProfileTextInput_Error_Icon,
+    ProfileBackgroundImage: ProfileBackground_Image,
+  },
+  Setting: {
+    SettingGoBackIcon: SettingGoBack_Icon,
+    ChangePassword: ChangePassword_Icon,
+    DeleteAccount: DeleteAccount_Icon,
+    RateApp: RateApp_Icon,
+    ReportIssue: ReportIssue_Icon,
+    SettingRightArrowIcon: SettingRightArrow_Icon,
+    SettingBackgroundImage: SettingBackground_Image,
+    SettingInputErrorIcon: SettingInputError_Icon,
+    SettingShowPasswordIcon: SettingShowPassword_Icon,
+    SettingHidePasswordIcon: SettingHidePassword_Icon,
   },
 };
 

@@ -175,7 +175,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
 
   return (
     <SafeAreaView style={Styles.safeArea}>
-      <FocusAwareStatusBar backgroundColor="#EBF1F9" barStyle="dark-content" />
+      <FocusAwareStatusBar backgroundColor="#EBF1F9" barStyle="dark-content" translucent={false} />
 
       <View style={Styles.headerContainer}>
         <View style={Styles.headerGoBack}>{renderVolunteerApplyGoBack()}</View>

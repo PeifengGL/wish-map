@@ -2,8 +2,8 @@ import { StyleSheet } from 'react-native';
 
 const Styles = StyleSheet.create({
   container: {
-    position: 'absolute',
     flex: 1,
+    backgroundColor: '#ffffff',
   },
   background: {
     width: '100%',
@@ -42,25 +42,26 @@ const Styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  name: {
+  userNameText: {
     fontFamily: 'Lato',
     fontWeight: '700',
     fontSize: 22,
-    lineHeight: 28,
     color: '#1A1A1A',
+    marginLeft: 6,
   },
-  editButton: {
+  editButtonContainer: {
     flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   editButtonText: {
     fontFamily: 'Lato',
-    fontWeight: '700',
+    fontWeight: '500',
     fontSize: 11,
-    lineHeight: 16,
     color: '#0057B8',
+    marginLeft: 4,
   },
   infoArea: {
-    marginHorizontal: 5,
     borderWidth: 1,
     borderColor: '#0057B880',
     padding: 15,
@@ -72,6 +73,41 @@ const Styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 18,
     marginVertical: 5,
+  },
+  separator: {
+    height: 1,
+    backgroundColor: 'gray',
+    marginVertical: 24,
+  },
+  donateDetailImageContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    paddingHorizontal: 16,
+    position: 'absolute',
+    width: '100%',
+    zIndex: 100,
+  },
+  donateDetailImage: {
+    resizeMode: 'contain',
+  },
+  donateDetailInfoBlock: {
+    backgroundColor: '#ffff',
+    position: 'absolute',
+    padding: 16,
+    zIndex: 10,
+  },
+  donateDetailInfoBlockUnScrolling: { elevation: 5, borderRadius: 16 },
+  donateDetailInfoBlockIsScrolling: {
+    elevation: 0,
+    borderTopRightRadius: 12,
+    borderTopLeftRadius: 12,
+  },
+  donateDetailInfoBlockTitle: {
+    color: '#2D2D2D',
+    fontSize: 12,
+    fontFamily: 'Lato',
+    fontWeight: '400',
   },
 });
 

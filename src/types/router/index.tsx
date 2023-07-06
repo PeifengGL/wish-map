@@ -3,6 +3,7 @@ import { ArticlesDataType } from 'shared/articles.data';
 import { WishApplyStepOneDataType } from 'types/wishMap';
 
 export type RootStackParamList = {
+  Loading: {};
   Home: { id?: string };
   TestPage: { text?: string };
   HomeTabs: {};
@@ -25,6 +26,21 @@ export type RootStackParamList = {
   VolunteerApply: {};
   WishApply: {};
   WishApplyNextStep: { stepOneData: WishApplyStepOneDataType };
+};
+
+export type ProfileStackParamList = {
+  EditProfile: {};
+  EditUsername: {};
+  EditEmail: {};
+  EditPhone: {};
+  EditAddress: {};
+};
+
+export type SettingStackParamList = {
+  Setting: {};
+  ChangePassword: {};
+  ResetPassword: {};
+  DeleteAccount: {};
 };
 
 export type IdentityType = 'guest' | 'member' | '';

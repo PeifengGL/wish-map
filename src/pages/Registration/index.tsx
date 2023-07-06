@@ -8,6 +8,7 @@ import {
   ImageBackground,
   ActivityIndicator,
   Dimensions,
+  StatusBar,
 } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
@@ -18,6 +19,9 @@ import DataShareService from 'service';
 import { Portal } from 'react-native-portalize';
 import { Modalize } from 'react-native-modalize';
 import PrivacyContent, { PrivacyHeader } from 'components/PrivacyContent';
+import generateUUID from 'util/UUIDGenerator';
+import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
+import { UserProfileType } from 'types/profile';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'Registration'>;
@@ -170,14 +174,6 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
     setIsFormValid(condition);
   };
 
-  useEffect(() => {
-    setInterval(() => {
-      if (isRegistered) {
-        DataShareService.setIdentityType('member');
-      }
-    }, 2000);
-  }, [isRegistered]);
-
   const handleRegister = () => {
     // 在此處理註冊邏輯
     // 可以使用 username、email 和 password 狀態
@@ -186,7 +182,25 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
     }
 
     setIsRegistered(true);
+    const userProfile: UserProfileType = {
+      userName: username,
+      userEmail: email,
+      userPhone: '',
+      userAddress: '',
+      userUID: generateUUID(),
+      userType: 'member',
+    };
+
+    LocalStorage.setData(LocalStorageKeys.UserProfileKey, userProfile).then(
+      () => {
+        console.log('set user profile to local storage success');
+        setInterval(() => {
+          DataShareService.setUserProfile(userProfile);
+        }, 2000);
+      },
+    );
   };
+
   const handlePrivacyPolicy = () => {
     privacyModalizeRef.current?.open();
   };
@@ -198,7 +212,19 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
   };
 
   const handleGuestClick = () => {
-    DataShareService.setIdentityType('guest');
+    const userProfile: UserProfileType = {
+      userName: '',
+      userEmail: '',
+      userPhone: '',
+      userAddress: '',
+      userUID: '',
+      userType: 'guest',
+    };
+    LocalStorage.setData(LocalStorageKeys.UserProfileKey, userProfile).then(
+      () => {
+        DataShareService.setUserProfile(userProfile);
+      },
+    );
   };
 
   const handlePrivacyClose = () => {
@@ -208,6 +234,11 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
 
   return (
     <View style={Styles.container}>
+      <StatusBar
+        backgroundColor="#ffffff"
+        barStyle="dark-content"
+        translucent={false}
+      />
       <ImageBackground
         source={ImageProvider.Register.Background}
         style={Styles.background}

@@ -5,6 +5,7 @@ import {
   Text,
   ImageBackground,
   SafeAreaView,
+  StatusBar,
 } from 'react-native';
 import { RootStackParamList } from 'types/router';
 import { RouteProp } from '@react-navigation/native';
@@ -57,6 +58,12 @@ export default function WelcomePage({ navigation }: PageRouterProps) {
 
   return (
     <>
+      <StatusBar
+        backgroundColor="rgba(0, 0, 0, 0)"
+        barStyle="dark-content"
+        hidden={false}
+        translucent={true}
+      />
       <AppIntroSlider
         renderItem={renderItem}
         data={welcome_data}

@@ -2,11 +2,12 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { FilterMethodType } from 'types/wishMap';
 import { ProjectsDataType } from 'shared/project.data';
 import { IdentityType } from 'types/router';
+import { UserProfileType } from 'types/profile';
 
 class DataService {
   private text$ = new BehaviorSubject<string>('');
   private loginStatus$ = new BehaviorSubject<boolean>(false);
-  private identityType$ = new BehaviorSubject<IdentityType>('');
+  // private identityType$ = new BehaviorSubject<IdentityType>('member');
   private countNumber$ = new BehaviorSubject<number>(0);
   private filterMethod = new BehaviorSubject<FilterMethodType>({
     filterKeywordMethod: '',
@@ -15,6 +16,14 @@ class DataService {
   });
   private filteredResult$ = new BehaviorSubject<ProjectsDataType[]>([]);
   private loading$ = new BehaviorSubject<boolean>(false);
+  private userProfile$ = new BehaviorSubject<UserProfileType>({
+    userName: '',
+    userEmail: '',
+    userPhone: '',
+    userAddress: '',
+    userUID: '',
+    userType: '',
+  });
 
   setText(text: string) {
     this.text$.next(text);
@@ -56,13 +65,13 @@ class DataService {
     return this.filteredResult$.asObservable();
   }
 
-  setIdentityType(identityType: IdentityType) {
-    this.identityType$.next(identityType);
-  }
+  // setIdentityType(identityType: IdentityType) {
+  //   this.identityType$.next(identityType);
+  // }
 
-  getIdentityType$(): Observable<IdentityType> {
-    return this.identityType$.asObservable();
-  }
+  // getIdentityType$(): Observable<IdentityType> {
+  //   return this.identityType$.asObservable();
+  // }
 
   setLoading(loading: boolean) {
     this.loading$.next(loading);
@@ -70,6 +79,14 @@ class DataService {
 
   getLoading$(): Observable<boolean> {
     return this.loading$.asObservable();
+  }
+
+  setUserProfile(userProfile: UserProfileType) {
+    this.userProfile$.next(userProfile);
+  }
+
+  getUserProfile$(): Observable<UserProfileType> {
+    return this.userProfile$.asObservable();
   }
 
   async sendVolunteerApply(volunteerApplyData: any): Promise<any> {

@@ -9,7 +9,6 @@ import WelcomePage from 'pages/Welcome';
 import WishMapPage from 'pages/WishMap';
 import VolunteerPage from 'pages/Volunteer';
 import ArticleListPage from 'pages/ArticleList';
-import ProfilePage from 'pages/Profile';
 import FilterResultPage from 'pages/WishMap/FilterResult';
 import ProjectDetailPage from 'pages/WishMap/ProjectDetail';
 import RegistrationPage from 'pages/Registration';
@@ -18,39 +17,54 @@ import VolunteerApplyPage from 'pages/Volunteer/VolunteerApply';
 import WishApplyPage from 'pages/WishMap/WishApply';
 import WishApplyNextStepPage from 'pages/WishMap/WishApplyNextStep';
 
+import ProfilePage from 'pages/Profile';
+import EditProfilePage from 'pages/Profile/EditProfile';
+import EditUsernamePage from 'pages/Profile/EditProfile/EditUserName';
+import EditEmailPage from 'pages/Profile/EditProfile/EditEmail';
+import EditPhonePage from 'pages/Profile/EditProfile/EditPhone';
+import EditAddressPage from 'pages/Profile/EditProfile/EditAddress';
+
+import SettingPage from 'pages/Setting';
+import ChangePasswordPage from 'pages/Setting/ChangePassword';
+
 import { NavigationContainer } from '@react-navigation/native';
-import { RootStackParamList } from 'types/router';
+import {
+  RootStackParamList,
+  ProfileStackParamList,
+  SettingStackParamList,
+} from 'types/router';
 import ImageProvider from 'assets';
 
 import DataShareService from 'service';
 import { Subscription } from 'rxjs';
-import { IdentityType } from 'types/router';
+import { UserProfileType } from 'types/profile';
 
 import Styles from './index.style';
+import LoadingPage from 'pages/Loading';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
 export default function Routes() {
-  const [isLogin, setIsLogin] = useState(false);
-  const [identityType, setIdentityType] = useState<IdentityType>('guest');
+  const [userProfile, setUserProfile] = useState<UserProfileType | null>(null);
 
   useEffect(() => {
-    const isLoginSubscription: Subscription =
-      DataShareService.getLoginStatus$().subscribe((newIsLogin: boolean) => {
-        setIsLogin(newIsLogin);
-      });
-    const identityTypeSubscription: Subscription =
-      DataShareService.getIdentityType$().subscribe(
-        (newIdentityType: IdentityType) => {
-          setIdentityType(newIdentityType);
+    const userProfileSubscription: Subscription =
+      DataShareService.getUserProfile$().subscribe(
+        (newUserProfile: UserProfileType) => {
+          console.log('22');
+          console.log(userProfile);
+          if (newUserProfile !== null) {
+            console.log('2');
+            setUserProfile(newUserProfile);
+          }
         },
       );
+
     return () => {
-      isLoginSubscription.unsubscribe();
-      identityTypeSubscription.unsubscribe();
+      userProfileSubscription.unsubscribe();
     };
-  }, []);
+  }, [userProfile]);
 
   const HomeTabs = () => {
     return (
@@ -112,7 +126,7 @@ export default function Routes() {
         <Tab.Screen
           name="WishMap"
           component={WishMapPage}
-          // initialParams={{ childPage: 'WishMap' }}
+          initialParams={{ childPage: 'WishMap' }}
         />
         <Tab.Screen name="Volunteer" component={VolunteerPage} />
         <Tab.Screen name="ArticleList" component={ArticleListPage} />
@@ -121,11 +135,14 @@ export default function Routes() {
     );
   };
 
+  const ProfileStack = createNativeStackNavigator<ProfileStackParamList>();
+  const SettingStack = createNativeStackNavigator<SettingStackParamList>();
+
   return (
     <NavigationContainer>
       <Host>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          {identityType !== '' ? (
+          {userProfile?.userType !== '' && userProfile !== null ? (
             <>
               <Stack.Screen name="HomeTabs" component={HomeTabs} />
               <Stack.Screen name="FilterResult" component={FilterResultPage} />
@@ -146,9 +163,43 @@ export default function Routes() {
                 name="WishApplyNextStep"
                 component={WishApplyNextStepPage}
               />
+              <ProfileStack.Group>
+                <ProfileStack.Screen
+                  name="EditProfile"
+                  component={EditProfilePage}
+                />
+                <ProfileStack.Screen
+                  name="EditUsername"
+                  component={EditUsernamePage}
+                />
+                <ProfileStack.Screen
+                  name="EditEmail"
+                  component={EditEmailPage}
+                />
+                <ProfileStack.Screen
+                  name="EditPhone"
+                  component={EditPhonePage}
+                />
+                <ProfileStack.Screen
+                  name="EditAddress"
+                  component={EditAddressPage}
+                />
+                <SettingStack.Group>
+                  <SettingStack.Screen name="Setting" component={SettingPage} />
+                  <SettingStack.Screen
+                    name="ChangePassword"
+                    component={ChangePasswordPage}
+                  />
+                  {/* <SettingStack.Screen
+                  name="EditEmail"
+                  component={EditEmailPage}
+                /> */}
+                </SettingStack.Group>
+              </ProfileStack.Group>
             </>
           ) : (
             <>
+              <Stack.Screen name="Loading" component={LoadingPage} />
               <Stack.Screen name="Welcome" component={WelcomePage} />
               <Stack.Screen name="Registration" component={RegistrationPage} />
               <Stack.Screen name="Login" component={LoginPage} />

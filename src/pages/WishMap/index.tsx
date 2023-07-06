@@ -300,6 +300,7 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
           onMapLoaded={handleMapLoadingComplete}
           moveOnMarkerPress={false}
           rotateEnabled={false}
+          loadingIndicatorColor="#0057B8"
         >
           {renderMarkers()}
         </MapView>
