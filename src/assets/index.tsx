@@ -94,6 +94,7 @@ import EditRightArrow_Icon from 'assets/images/profile/edit_right_arrow.png';
 import EditProfileTextInput_Clean_Icon from 'assets/images/profile/textinput_clean.png';
 import EditProfileTextInput_Error_Icon from 'assets/images/profile/input_error.png';
 import ProfileBackground_Image from 'assets/images/profile/Profile_Background.png';
+import ProfileLogin_Icon from 'assets/images/profile/login.png';
 
 // Setting Page Image
 import SettingGoBack_Icon from 'assets/images/setting/setting_goback.png';
@@ -106,6 +107,7 @@ import SettingBackground_Image from 'assets/images/setting/Setting_Background.pn
 import SettingInputError_Icon from 'assets/images/setting/input_error.png';
 import SettingShowPassword_Icon from 'assets/images/setting/show_pw.png';
 import SettingHidePassword_Icon from 'assets/images/setting/hide_pw.png';
+import SettingCancelDeleteAccount_Image from 'assets/images/setting/cancel_delete_img.png';
 
 const ImageProvider = {
   Welcome: {
@@ -204,6 +206,7 @@ const ImageProvider = {
     EditProfileTextInputCleanIcon: EditProfileTextInput_Clean_Icon,
     EditProfileTextInputErrorIcon: EditProfileTextInput_Error_Icon,
     ProfileBackgroundImage: ProfileBackground_Image,
+    ProfileLoginIcon: ProfileLogin_Icon,
   },
   Setting: {
     SettingGoBackIcon: SettingGoBack_Icon,
@@ -216,6 +219,7 @@ const ImageProvider = {
     SettingInputErrorIcon: SettingInputError_Icon,
     SettingShowPasswordIcon: SettingShowPassword_Icon,
     SettingHidePasswordIcon: SettingHidePassword_Icon,
+    SettingCancelDeleteAccountImage: SettingCancelDeleteAccount_Image,
   },
 };
 

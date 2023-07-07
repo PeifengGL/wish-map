@@ -9,7 +9,7 @@ const Styles = StyleSheet.create({
     backgroundColor: '#EBF1F9',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: 16,
   },
   headerTitle: {

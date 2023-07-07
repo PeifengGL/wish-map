@@ -208,6 +208,22 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
     settingNavigation.navigate('Setting', {});
   };
 
+  const handleLoginClick = () => {
+    if (userProfile?.userType === 'guest') {
+      DataShareService.setUserProfile({
+        userName: '',
+        userEmail: '',
+        userPhone: '',
+        userAddress: '',
+        userUID: '',
+        userType: '',
+        userPassword: '',
+      });
+      return;
+    }
+    rootNavigation.navigate('WishMap', {});
+  };
+
   return (
     <View style={Styles.container}>
       <FocusAwareStatusBar
@@ -268,6 +284,40 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
             />
           )}
         </View>
+        <TouchableOpacity
+          onPress={handleLoginClick}
+          style={{
+            backgroundColor: '#0057B8',
+            position: 'absolute',
+            top: -20,
+            right: 16,
+            padding: 8,
+            borderRadius: 30,
+            alignItems: 'center',
+          }}
+        >
+          <View
+            style={{
+              marginHorizontal: 12,
+              marginVertical: 4,
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexDirection: 'row',
+            }}
+          >
+            <Image source={ImageProvider.Profile.ProfileLoginIcon} />
+            <Text
+              style={{
+                color: '#ffffff',
+                fontFamily: 'Lato',
+                fontSize: 11,
+                marginLeft: 4,
+              }}
+            >
+              登入/註冊
+            </Text>
+          </View>
+        </TouchableOpacity>
         <View
           style={{
             marginTop: 40,
@@ -412,6 +462,7 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
 const DonateView = ({ expanded, data }: { expanded: boolean; data: any }) => {
   const [height] = useState(new Animated.Value(0));
   const [separatorHeight] = useState(new Animated.Value(0));
+  const [textHeight] = useState(new Animated.Value(0));
 
   useEffect(() => {
     Animated.timing(height, {
@@ -424,7 +475,12 @@ const DonateView = ({ expanded, data }: { expanded: boolean; data: any }) => {
       duration: 250,
       useNativeDriver: false,
     }).start();
-  }, [expanded, height, separatorHeight]);
+    Animated.timing(textHeight, {
+      toValue: expanded ? 104 : 0,
+      duration: 150,
+      useNativeDriver: false,
+    }).start();
+  }, [expanded, height, separatorHeight, textHeight]);
 
   return (
     <Animated.View style={{ height }}>
@@ -435,7 +491,7 @@ const DonateView = ({ expanded, data }: { expanded: boolean; data: any }) => {
           marginVertical: 12,
         }}
       />
-      <View>
+      <Animated.View style={{ height: textHeight }}>
         <Text
           style={Styles.donateDetailInfoBlockTitle}
         >{`捐款人姓名：${data.donorName}`}</Text>
@@ -451,7 +507,7 @@ const DonateView = ({ expanded, data }: { expanded: boolean; data: any }) => {
         <Text
           style={Styles.donateDetailInfoBlockTitle}
         >{`收據接收地址：${data.receiptAddress}`}</Text>
-      </View>
+      </Animated.View>
     </Animated.View>
   );
 };

@@ -19,6 +19,16 @@ export default function App() {
     },
   );
 
+  LocalStorage.getData<boolean>(LocalStorageKeys.FirstOpenAppKey).then(
+    (localIsFirstOpenApp: boolean | null) => {
+      console.log('localIsFirstOpenApp', localIsFirstOpenApp);
+      if (localIsFirstOpenApp !== null) {
+        DataShareService.setIsFirstOpenApp(localIsFirstOpenApp);
+        setTimeout(() => {}, 2000);
+      }
+    },
+  );
+
   return (
     <GestureHandlerRootView style={Styles.gestureHandlerStyle}>
       <SafeAreaView style={Styles.safeAreaStyle}>

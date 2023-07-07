@@ -23,7 +23,10 @@ class DataService {
     userAddress: '',
     userUID: '',
     userType: '',
+    userPassword: '',
   });
+
+  private isFirstOpenApp$ = new BehaviorSubject<boolean>(true);
 
   setText(text: string) {
     this.text$.next(text);
@@ -87,6 +90,14 @@ class DataService {
 
   getUserProfile$(): Observable<UserProfileType> {
     return this.userProfile$.asObservable();
+  }
+
+  setIsFirstOpenApp(isFirstOpenApp: boolean) {
+    this.isFirstOpenApp$.next(isFirstOpenApp);
+  }
+
+  getIsFirstOpenApp$(): Observable<boolean> {
+    return this.isFirstOpenApp$.asObservable();
   }
 
   async sendVolunteerApply(volunteerApplyData: any): Promise<any> {

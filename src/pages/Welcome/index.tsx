@@ -13,6 +13,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/ty
 import { welcome_data, WelcomeDataType } from 'shared/welcome.data';
 import Styles from './index.style';
 import AppIntroSlider from 'react-native-app-intro-slider';
+import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
+import DataShareService from 'service';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'Welcome'>;
@@ -53,7 +55,13 @@ export default function WelcomePage({ navigation }: PageRouterProps) {
   };
 
   const handleButtonClick = () => {
-    navigation.navigate('Registration', {});
+    console.log('handleButtonClick');
+    LocalStorage.setData(LocalStorageKeys.FirstOpenAppKey, false).finally(
+      () => {
+        console.log('123');
+        DataShareService.setIsFirstOpenApp(false);
+      },
+    );
   };
 
   return (

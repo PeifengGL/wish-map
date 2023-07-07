@@ -133,15 +133,27 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
         }}
       >
         <View style={Styles.headerContainer}>
-          <View>{renderEditProfileGoBack()}</View>
+          <View
+            style={{
+              position: 'absolute',
+              width: '100%',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <View style={{ marginVertical: 16 }}>
+              {renderEditProfileGoBack()}
+            </View>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Text
+                style={{ fontSize: 14, fontFamily: 'Lato', color: '#0057B8' }}
+              >
+                完成
+              </Text>
+            </TouchableOpacity>
+          </View>
           <Text style={Styles.headerTitle}>編輯個人資料</Text>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text
-              style={{ fontSize: 14, fontFamily: 'Lato', color: '#0057B8' }}
-            >
-              完成
-            </Text>
-          </TouchableOpacity>
         </View>
         <View
           style={{

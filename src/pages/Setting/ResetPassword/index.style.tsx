@@ -10,6 +10,7 @@ const Styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
+    marginTop: 12,
   },
   headerTitle: {
     color: '#75787B',

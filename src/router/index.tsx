@@ -27,6 +27,14 @@ import EditAddressPage from 'pages/Profile/EditProfile/EditAddress';
 import SettingPage from 'pages/Setting';
 import ChangePasswordPage from 'pages/Setting/ChangePassword';
 import ResetPasswordPage from 'pages/Setting/ResetPassword';
+import DeleteAccountPage from 'pages/Setting/DeleteAccount/DeleteAccount';
+import DeleteAccountReasonPage from 'pages/Setting/DeleteAccount/DeleteAccountReason';
+import DeleteAccountSafeCheckPage from 'pages/Setting/DeleteAccount/DeleteAccountSafeCheck';
+import ReportIssuePage from 'pages/Setting/ReportIssue';
+import FqaPage from 'pages/Setting/Fqa';
+import AboutWishPage from 'pages/Setting/AboutWish';
+import PrivacyPolicyPage from 'pages/Setting/PrivacyPolicy';
+import TermOfUsePage from 'pages/Setting/TermOfUse';
 
 import { NavigationContainer } from '@react-navigation/native';
 import {
@@ -48,6 +56,21 @@ const Tab = createBottomTabNavigator<RootStackParamList>();
 
 export default function Routes() {
   const [userProfile, setUserProfile] = useState<UserProfileType | null>(null);
+  const [isFirstOpenApp, setIsFirstOpenApp] = useState<boolean>(true);
+
+  useEffect(() => {
+    const isFirstOpenAppSubscription: Subscription =
+      DataShareService.getIsFirstOpenApp$().subscribe(
+        (newIsFirstOpenApp: boolean) => {
+          console.log('newIsFirstOpenApp', newIsFirstOpenApp);
+          setIsFirstOpenApp(newIsFirstOpenApp);
+        },
+      );
+
+    return () => {
+      isFirstOpenAppSubscription.unsubscribe();
+    };
+  }, [isFirstOpenApp]);
 
   useEffect(() => {
     const userProfileSubscription: Subscription =
@@ -140,71 +163,110 @@ export default function Routes() {
     <NavigationContainer>
       <Host>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          {userProfile?.userType !== '' && userProfile !== null ? (
-            <>
-              <Stack.Screen name="HomeTabs" component={HomeTabs} />
-              <Stack.Screen name="FilterResult" component={FilterResultPage} />
-              <Stack.Screen
-                name="ProjectDetail"
-                component={ProjectDetailPage}
-              />
-              <Stack.Screen
-                name="ArticleDetail"
-                component={ArticleDetailPage}
-              />
-              <Stack.Screen
-                name="VolunteerApply"
-                component={VolunteerApplyPage}
-              />
-              <Stack.Screen name="WishApply" component={WishApplyPage} />
-              <Stack.Screen
-                name="WishApplyNextStep"
-                component={WishApplyNextStepPage}
-              />
-              <ProfileStack.Group>
-                <ProfileStack.Screen
-                  name="EditProfile"
-                  component={EditProfilePage}
+          {!isFirstOpenApp ? (
+            userProfile?.userType !== '' && userProfile !== null ? (
+              <>
+                <Stack.Screen name="HomeTabs" component={HomeTabs} />
+                <Stack.Screen
+                  name="FilterResult"
+                  component={FilterResultPage}
                 />
-                <ProfileStack.Screen
-                  name="EditUsername"
-                  component={EditUsernamePage}
+                <Stack.Screen
+                  name="ProjectDetail"
+                  component={ProjectDetailPage}
                 />
-                <ProfileStack.Screen
-                  name="EditEmail"
-                  component={EditEmailPage}
+                <Stack.Screen
+                  name="ArticleDetail"
+                  component={ArticleDetailPage}
                 />
-                <ProfileStack.Screen
-                  name="EditPhone"
-                  component={EditPhonePage}
+                <Stack.Screen
+                  name="VolunteerApply"
+                  component={VolunteerApplyPage}
                 />
-                <ProfileStack.Screen
-                  name="EditAddress"
-                  component={EditAddressPage}
+                <Stack.Screen name="WishApply" component={WishApplyPage} />
+                <Stack.Screen
+                  name="WishApplyNextStep"
+                  component={WishApplyNextStepPage}
                 />
-                <SettingStack.Group>
-                  <SettingStack.Screen name="Setting" component={SettingPage} />
-                  <SettingStack.Screen
-                    name="ChangePassword"
-                    component={ChangePasswordPage}
+                <ProfileStack.Group>
+                  <ProfileStack.Screen
+                    name="EditProfile"
+                    component={EditProfilePage}
                   />
-                  <SettingStack.Screen
-                    name="ResetPassword"
-                    component={ResetPasswordPage}
+                  <ProfileStack.Screen
+                    name="EditUsername"
+                    component={EditUsernamePage}
                   />
-                  {/* <SettingStack.Screen
-                  name="EditEmail"
-                  component={EditEmailPage}
-                /> */}
-                </SettingStack.Group>
-              </ProfileStack.Group>
-            </>
+                  <ProfileStack.Screen
+                    name="EditEmail"
+                    component={EditEmailPage}
+                  />
+                  <ProfileStack.Screen
+                    name="EditPhone"
+                    component={EditPhonePage}
+                  />
+                  <ProfileStack.Screen
+                    name="EditAddress"
+                    component={EditAddressPage}
+                  />
+                  <SettingStack.Group>
+                    <SettingStack.Screen
+                      name="Setting"
+                      component={SettingPage}
+                    />
+                    <SettingStack.Screen
+                      name="ChangePassword"
+                      component={ChangePasswordPage}
+                    />
+                    <SettingStack.Screen
+                      name="ResetPassword"
+                      component={ResetPasswordPage}
+                    />
+                    <SettingStack.Screen
+                      name="DeleteAccount"
+                      component={DeleteAccountPage}
+                    />
+                    <SettingStack.Screen
+                      name="DeleteAccountReason"
+                      component={DeleteAccountReasonPage}
+                    />
+                    <SettingStack.Screen
+                      name="DeleteAccountSafeCheck"
+                      component={DeleteAccountSafeCheckPage}
+                    />
+                    <SettingStack.Screen
+                      name="ReportIssue"
+                      component={ReportIssuePage}
+                    />
+                    <SettingStack.Screen name="Fqa" component={FqaPage} />
+                    <SettingStack.Screen
+                      name="AboutWish"
+                      component={AboutWishPage}
+                    />
+                    <SettingStack.Screen
+                      name="PrivacyPolicy"
+                      component={PrivacyPolicyPage}
+                    />
+                    <SettingStack.Screen
+                      name="TermOfUse"
+                      component={TermOfUsePage}
+                    />
+                  </SettingStack.Group>
+                </ProfileStack.Group>
+              </>
+            ) : (
+              <>
+                <Stack.Screen
+                  name="Registration"
+                  component={RegistrationPage}
+                />
+                <Stack.Screen name="Login" component={LoginPage} />
+              </>
+            )
           ) : (
             <>
               <Stack.Screen name="Loading" component={LoadingPage} />
               <Stack.Screen name="Welcome" component={WelcomePage} />
-              <Stack.Screen name="Registration" component={RegistrationPage} />
-              <Stack.Screen name="Login" component={LoginPage} />
             </>
           )}
         </Stack.Navigator>

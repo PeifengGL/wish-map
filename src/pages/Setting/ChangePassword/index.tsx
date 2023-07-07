@@ -16,7 +16,6 @@ import ImageProvider from 'assets';
 import { Subscription } from 'rxjs';
 import DataShareService from 'service';
 import { UserProfileType } from 'types/profile';
-import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
 import Styles from './index.style';
 
 type PageRouterProps = {
@@ -44,7 +43,6 @@ export default function ChangePasswordPage({
   };
 
   const [userProfile, setUserProfile] = useState<UserProfileType | null>(null);
-  const passwordRegex = /^[a-zA-Z0-9]{8,12}$/;
 
   useEffect(() => {
     const userProfileSubscription: Subscription =
@@ -81,7 +79,11 @@ export default function ChangePasswordPage({
   useEffect(() => {
     if (route.params?.resetPasswordStatus === true) {
       setOldPassword('');
-      ToastAndroid.show('密碼修改成功！', ToastAndroid.SHORT);
+      ToastAndroid.showWithGravity(
+        '密碼修改成功！',
+        ToastAndroid.LONG,
+        ToastAndroid.BOTTOM,
+      );
     }
   }, [route.params]);
 
@@ -110,7 +112,7 @@ export default function ChangePasswordPage({
       <View
         style={{
           marginHorizontal: 16,
-          justifyContent: 'center',
+          justifyContent: 'flex-start',
           alignItems: 'center',
         }}
       >
@@ -127,7 +129,7 @@ export default function ChangePasswordPage({
           修改密碼
         </Text>
 
-        <View style={{ width: '100%' }}>
+        <View style={{ width: '100%', marginTop: 16 }}>
           <View
             style={[
               {

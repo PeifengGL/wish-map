@@ -37,10 +37,20 @@ export default function ResetPasswordPage({ navigation }: PageRouterProps) {
   const [newPasswordError, setNewPasswordError] = useState<string>('');
   const [confirmNewPasswordError, setConfirmNewPasswordError] =
     useState<string>('');
+
   const renderEditUserAddressGoBack = () => {
     return (
       <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Image source={ImageProvider.Profile.ProfileGoBackIcon} />
+        <Text
+          style={{
+            color: '#FF585D',
+            fontFamily: 'Lato',
+            fontSize: 14,
+            fontWeight: '500',
+          }}
+        >
+          取消
+        </Text>
       </TouchableOpacity>
     );
   };
@@ -84,14 +94,6 @@ export default function ResetPasswordPage({ navigation }: PageRouterProps) {
     setOnFocusNewPasswordInput(true);
   };
 
-  // const handleCheckNewPassword = () => {
-  //   if (!passwordRegex.test(newPassword)) {
-  //     setNewPasswordError('請輸入8-12位密碼');
-  //   } else {
-  //     setNewPasswordError('');
-  //   }
-  // };
-
   const handleConfirmNewPasswordOnBlur = () => {
     setOnFocusConfirmNewPasswordInput(false);
     if (confirmNewPassword !== newPassword) {
@@ -104,15 +106,6 @@ export default function ResetPasswordPage({ navigation }: PageRouterProps) {
   const handleConfirmNewPasswordOnFocus = () => {
     setOnFocusConfirmNewPasswordInput(true);
   };
-
-  // const handleNextStep = () => {
-  //   if (oldPassword !== userProfile?.userPassword) {
-  //     setInputError('請輸入正確的密碼');
-  //   } else {
-  //     setInputError('');
-  //     // navigation.navigate('ChangeNewPassword');
-  //   }
-  // };
 
   const handleSubmit = () => {
     if (!passwordRegex.test(newPassword)) {
@@ -188,7 +181,7 @@ export default function ResetPasswordPage({ navigation }: PageRouterProps) {
         >
           重置密碼
         </Text>
-        <View style={{ width: '100%' }}>
+        <View style={{ width: '100%', marginTop: 16 }}>
           <View
             style={[
               {

@@ -14,16 +14,6 @@ import { ProfileStackParamList } from 'types/router';
 import Styles from './index.style';
 import FocusAwareStatusBar from 'util/StatusBarAdapter';
 import ImageProvider from 'assets';
-import { Modalize } from 'react-native-modalize';
-import { Portal } from 'react-native-portalize';
-import { Avatar } from 'react-native-paper';
-import {
-  Asset,
-  ImageLibraryOptions,
-  ImagePickerResponse,
-  launchCamera,
-  launchImageLibrary,
-} from 'react-native-image-picker';
 import { Subscription } from 'rxjs';
 import DataShareService from 'service';
 import { UserProfileType } from 'types/profile';
@@ -112,13 +102,15 @@ export default function EditUsernamePage({ navigation }: PageRouterProps) {
         <View
           style={{
             flexDirection: 'row',
-            marginBottom: 12,
             justifyContent: 'space-between',
             alignItems: 'center',
             width: '100%',
           }}
         >
-          {renderEditUsernameGoBack()}
+          <View style={{ marginVertical: 16 }}>
+            {renderEditUsernameGoBack()}
+          </View>
+
           <TouchableOpacity
             onPress={saveEditUsername}
             disabled={inputError || userName === ''}

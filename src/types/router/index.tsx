@@ -8,7 +8,7 @@ export type RootStackParamList = {
   TestPage: { text?: string };
   HomeTabs: {};
   Welcome: {};
-  Registration: {};
+  Registration: { isDeleteAccount?: boolean };
   Login: {};
   WishMap: { childPage?: string; enterOrigin?: string };
   Volunteer: { enterOrigin: string; data?: any };
@@ -37,10 +37,17 @@ export type ProfileStackParamList = {
 };
 
 export type SettingStackParamList = {
-  Setting: {};
+  Setting: { cancelDeleteAccountStatus?: boolean };
   ChangePassword: { resetPasswordStatus?: boolean };
   ResetPassword: {};
   DeleteAccount: {};
+  DeleteAccountReason: {};
+  DeleteAccountSafeCheck: {};
+  ReportIssue: {};
+  Fqa: {};
+  AboutWish: {};
+  PrivacyPolicy: {};
+  TermOfUse: {};
 };
 
 export type IdentityType = 'guest' | 'member' | '';

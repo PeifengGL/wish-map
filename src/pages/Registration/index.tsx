@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   Dimensions,
   StatusBar,
+  ToastAndroid,
 } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
@@ -28,7 +29,10 @@ type PageRouterProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Registration'>;
 };
 
-export default function RegistrationPage({ navigation }: PageRouterProps) {
+export default function RegistrationPage({
+  route,
+  navigation,
+}: PageRouterProps) {
   const dimensionsHeight = Dimensions.get('window').height;
   useEffect(() => {
     navigation.setOptions({ headerShown: false });
@@ -231,6 +235,17 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
     privacyModalizeRef.current?.close();
     setModalIsOpen(false);
   };
+
+  useEffect(() => {
+    if (route.params?.isDeleteAccount === true) {
+      ToastAndroid.showWithGravity(
+        '已永久刪除帳號',
+        ToastAndroid.LONG,
+        ToastAndroid.BOTTOM,
+      );
+      navigation.setParams({ isDeleteAccount: false });
+    }
+  }, [route.params]);
 
   return (
     <View style={Styles.container}>
