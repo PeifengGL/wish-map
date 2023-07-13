@@ -30,7 +30,7 @@ export default function VolunteerPage({ route, navigation }: PageRouterProps) {
   const modalRef = React.useRef<Modalize>(null);
 
   useEffect(() => {
-    if (route.params?.enterOrigin === 'VolunteerApply') {
+    if (route.params?.originEntry === 'VolunteerApply') {
       modalRef.current?.open();
     }
   }, [route.params]);

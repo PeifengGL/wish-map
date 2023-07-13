@@ -27,6 +27,7 @@ import Hide_Register from 'assets/images/register/hide.png';
 import Show_Register from 'assets/images/register/show.png';
 import Error_Register from 'assets/images/register/error.png';
 import Welcome_Register from 'assets/images/register/welcome.png';
+import CloseToastIcon from 'assets/images/register/close_toast.png';
 
 // WishMap Page Image
 import Dream_Donate_Icon from 'assets/images/wishmap/Heart.png';
@@ -65,6 +66,7 @@ import Article_Cover_Image1 from 'assets/images/article/BG1.png';
 import Article_Cover_Image2 from 'assets/images/article/BG2.png';
 import Article_GoBack_Icon from 'assets/images/article/goBack.png';
 import Article_Share_Icon from 'assets/images/article/article_share.png';
+import Article_Detail_GoBack_Icon from 'assets/images/article/articel_goback.png';
 
 // Volunteer Page Image
 import Volunteer_Cover_Image1 from 'assets/images/volunteer/BG.png';
@@ -108,6 +110,8 @@ import SettingInputError_Icon from 'assets/images/setting/input_error.png';
 import SettingShowPassword_Icon from 'assets/images/setting/show_pw.png';
 import SettingHidePassword_Icon from 'assets/images/setting/hide_pw.png';
 import SettingCancelDeleteAccount_Image from 'assets/images/setting/cancel_delete_img.png';
+import FqaTopArrowIcon from 'assets/images/setting/fqa_top_arrow.png';
+import FqaBottomArrowIcon from 'assets/images/setting/fqa_bottom_arrow.png';
 
 const ImageProvider = {
   Welcome: {
@@ -129,6 +133,7 @@ const ImageProvider = {
     Show: Show_Register,
     Error: Error_Register,
     Welcome: Welcome_Register,
+    CloseToast: CloseToastIcon,
   },
   Login: {
     Background: Background_Login,
@@ -177,6 +182,7 @@ const ImageProvider = {
     ArticleCoverImage2: Article_Cover_Image2,
     ArticleGoBackIcon: Article_GoBack_Icon,
     ArticleShareIcon: Article_Share_Icon,
+    ArticleDetailGoBackIcon: Article_Detail_GoBack_Icon,
   },
   Volunteer: {
     VolunteerCoverImage1: Volunteer_Cover_Image1,
@@ -220,6 +226,8 @@ const ImageProvider = {
     SettingShowPasswordIcon: SettingShowPassword_Icon,
     SettingHidePasswordIcon: SettingHidePassword_Icon,
     SettingCancelDeleteAccountImage: SettingCancelDeleteAccount_Image,
+    FqaTopArrowIcon: FqaTopArrowIcon,
+    FqaBottomArrowIcon: FqaBottomArrowIcon,
   },
 };
 

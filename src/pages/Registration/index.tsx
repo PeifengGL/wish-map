@@ -23,6 +23,7 @@ import PrivacyContent, { PrivacyHeader } from 'components/PrivacyContent';
 import generateUUID from 'util/UUIDGenerator';
 import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
 import { UserProfileType } from 'types/profile';
+import Toast, { BaseToast, BaseToastProps } from 'react-native-toast-message';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'Registration'>;
@@ -44,6 +45,7 @@ export default function RegistrationPage({
   const [isUsernameFocused, setIsUsernameFocused] = useState(false);
   const [isUsernameInvalid, setIsUsernameInvalid] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
   const privacyModalizeRef = useRef<Modalize>(null);
   const handleUsernameOnChange = (text: string) => {
     setUsername(text);
@@ -199,8 +201,8 @@ export default function RegistrationPage({
     LocalStorage.setData(LocalStorageKeys.UserProfileKey, userProfile).finally(
       () => {
         console.log('set user profile to local storage success');
-        DataShareService.setUserProfile(userProfile);
         setTimeout(() => {}, 2000);
+        DataShareService.setUserProfile(userProfile);
       },
     );
   };
@@ -236,14 +238,55 @@ export default function RegistrationPage({
     setModalIsOpen(false);
   };
 
+  const toastConfig = {
+    customToast: ({ text1 }: any) => (
+      <View
+        style={{
+          backgroundColor: 'rgba(50, 47, 53, 0.9)',
+          width: '90%',
+          alignSelf: 'center',
+          borderRadius: 4,
+          paddingHorizontal: 16,
+          borderLeftColor: 'rgba(50, 47, 53, 0.9)',
+          justifyContent: 'space-between',
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}
+      >
+        <Text style={{ fontSize: 15, color: '#fff', marginVertical: 12 }}>
+          {text1}
+        </Text>
+        <TouchableOpacity onPress={() => Toast.hide()}>
+          <Image source={ImageProvider.Register.CloseToast} />
+        </TouchableOpacity>
+      </View>
+    ),
+  };
+
   useEffect(() => {
+    console.log('route.params', route.params);
     if (route.params?.isDeleteAccount === true) {
-      ToastAndroid.showWithGravity(
-        '已永久刪除帳號',
-        ToastAndroid.LONG,
-        ToastAndroid.BOTTOM,
-      );
-      navigation.setParams({ isDeleteAccount: false });
+      Toast.show({
+        type: 'customToast',
+        text1: '已永久刪除帳號',
+        position: 'bottom',
+        bottomOffset: 28,
+        autoHide: true,
+        visibilityTime: 3000,
+      });
+      navigation.setParams({ isDeleteAccount: false, isLogout: false });
+    }
+
+    if (route.params?.isLogout === true) {
+      Toast.show({
+        type: 'customToast',
+        text1: '已登出帳號',
+        position: 'bottom',
+        bottomOffset: 28,
+        autoHide: true,
+        visibilityTime: 3000,
+      });
+      navigation.setParams({ isDeleteAccount: false, isLogout: false });
     }
   }, [route.params]);
 
@@ -474,6 +517,7 @@ export default function RegistrationPage({
           <PrivacyContent />
         </Modalize>
       </Portal>
+      <Toast config={toastConfig} />
     </View>
   );
 }

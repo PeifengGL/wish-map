@@ -53,7 +53,7 @@ export default function ArticleDetailPage({
         />
         <View style={Styles.headerButtonContainer}>
           <TouchableOpacity onPress={handleArticleDetailGoBack}>
-            <Image source={ImageProvider.FilterResult.GoBackIcon} />
+            <Image source={ImageProvider.Article.ArticleDetailGoBackIcon} />
           </TouchableOpacity>
           <ShareButton
             share_url={articleData?.article_url!}

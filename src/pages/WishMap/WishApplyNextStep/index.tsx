@@ -43,6 +43,8 @@ import DocumentPicker, {
   isInProgress,
   types,
 } from 'react-native-document-picker';
+import { Subscription } from 'rxjs';
+import { UserProfileType } from 'types/profile';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'WishApplyNextStep'>;
@@ -84,6 +86,19 @@ export default function WishApplyNextStepPage({
     ratio: number;
   }>({ uri: '', ratio: 1 });
   const [previewImageLoadEnd, setPreviewImageLoadEnd] = useState(false);
+  const [userProfile, setUserProfile] = useState<UserProfileType>();
+
+  useEffect(() => {
+    const userProfileSubscription: Subscription =
+      DataShareService.getUserProfile$().subscribe(
+        (newUserProfile: UserProfileType) => {
+          setUserProfile(newUserProfile);
+        },
+      );
+    return () => {
+      userProfileSubscription.unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     const backAction = () => {
@@ -162,6 +177,7 @@ export default function WishApplyNextStepPage({
 
   const sendWishApply = async () => {
     const wishApplyData = {
+      userId: userProfile?.userUID,
       申請人身分: stepOneData.wishApplierType,
       申請人姓名: stepOneData.wishApplierName,
       申請人手機號碼: stepOneData.wishApplierPhone,
@@ -187,7 +203,7 @@ export default function WishApplyNextStepPage({
     );
 
     navigation.navigate('WishMap', {
-      enterOrigin: 'WishApply',
+      originEntry: 'WishApply',
     });
   };
 

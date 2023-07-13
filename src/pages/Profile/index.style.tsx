@@ -76,7 +76,7 @@ const Styles = StyleSheet.create({
   },
   separator: {
     height: 1,
-    backgroundColor: 'gray',
+    backgroundColor: '#CCCCCC',
     marginVertical: 24,
   },
   donateDetailImageContainer: {

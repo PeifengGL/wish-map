@@ -20,6 +20,8 @@ import DatePicker from 'react-native-date-picker';
 import LoadingModal from 'components/LoadingModal';
 import DataShareService from 'service';
 import Styles from './index.style';
+import { Subscription } from 'rxjs';
+import { UserProfileType } from 'types/profile';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'VolunteerApply'>;
@@ -61,6 +63,20 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
   const [isAgreePrivacy, setIsAgreePrivacy] = useState<boolean>(false);
   const [isButtonEnable, setIsButtonEnable] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const [userProfile, setUserProfile] = useState<UserProfileType>();
+
+  useEffect(() => {
+    const userProfileSubscription: Subscription =
+      DataShareService.getUserProfile$().subscribe(
+        (newUserProfile: UserProfileType) => {
+          setUserProfile(newUserProfile);
+        },
+      );
+    return () => {
+      userProfileSubscription.unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     checkButtonEnable();
@@ -134,7 +150,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
 
   const sendVolunteerApply = async () => {
     const volunteerApplyData = {
-      userId: 'user01',
+      userId: userProfile?.userUID,
       志工姓名: volunteerName,
       性別: gender,
       生日: birthLabel,
@@ -161,6 +177,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
       週日上午: volunteerServiceTime['7A'] === 1 ? 'v' : '',
       週日下午: volunteerServiceTime['7P'] === 1 ? 'v' : '',
     };
+    console.log('volunteerApplyData', volunteerApplyData);
 
     setIsLoading(true);
     await DataShareService.sendVolunteerApply(volunteerApplyData).finally(() =>
@@ -168,14 +185,18 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
     );
 
     navigation.navigate('Volunteer', {
-      enterOrigin: 'VolunteerApply',
+      originEntry: 'VolunteerApply',
       data: volunteerApplyData,
     });
   };
 
   return (
     <SafeAreaView style={Styles.safeArea}>
-      <FocusAwareStatusBar backgroundColor="#EBF1F9" barStyle="dark-content" translucent={false} />
+      <FocusAwareStatusBar
+        backgroundColor="#EBF1F9"
+        barStyle="dark-content"
+        translucent={false}
+      />
 
       <View style={Styles.headerContainer}>
         <View style={Styles.headerGoBack}>{renderVolunteerApplyGoBack()}</View>

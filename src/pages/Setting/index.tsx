@@ -9,6 +9,8 @@ import {
   ImageBackground,
   Dimensions,
   Pressable,
+  Linking,
+  Platform,
 } from 'react-native';
 import { RouteProp, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
@@ -50,9 +52,13 @@ export default function SettingPage({ route, navigation }: PageRouterProps) {
   const handleRateAppClick = () => {
     console.log('handleRateAppClick');
   };
-
+  console.log(Platform.OS);
   const handleReportIssueClick = () => {
-    navigation.navigate('ReportIssue', {});
+    const androidVersion = Platform.constants['Release'];
+    const body = `OS Platform: ${Platform.OS}\nOS Version: ${androidVersion}`;
+    Linking.openURL(
+      `mailto:mawtpe@ms24.hinet.net?subject=Report Issue&body=${body}`,
+    );
   };
 
   const handleFqaClick = () => {
@@ -107,8 +113,10 @@ export default function SettingPage({ route, navigation }: PageRouterProps) {
     LocalStorage.setData(LocalStorageKeys.UserProfileKey, userProfile).finally(
       () => {
         DataShareService.setUserProfile(userProfile);
-
-        rootNavigation.navigate('Login', {});
+        rootNavigation.navigate('Registration', {
+          isDeleteAccount: false,
+          isLogout: true,
+        });
       },
     );
   };
@@ -572,8 +580,10 @@ export default function SettingPage({ route, navigation }: PageRouterProps) {
             style={{
               justifyContent: 'center',
               alignItems: 'center',
-              marginTop: 36,
+              paddingTop: 36,
               paddingHorizontal: 16,
+              backgroundColor: '#EBF1F9',
+              borderRadius: 16,
             }}
           >
             <Text

@@ -284,40 +284,43 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
             />
           )}
         </View>
-        <TouchableOpacity
-          onPress={handleLoginClick}
-          style={{
-            backgroundColor: '#0057B8',
-            position: 'absolute',
-            top: -20,
-            right: 16,
-            padding: 8,
-            borderRadius: 30,
-            alignItems: 'center',
-          }}
-        >
-          <View
+        {userProfile?.userType === 'guest' ? (
+          <TouchableOpacity
+            onPress={handleLoginClick}
             style={{
-              marginHorizontal: 12,
-              marginVertical: 4,
+              backgroundColor: '#0057B8',
+              position: 'absolute',
+              top: -20,
+              right: 16,
+              padding: 8,
+              borderRadius: 30,
               alignItems: 'center',
-              justifyContent: 'center',
-              flexDirection: 'row',
             }}
           >
-            <Image source={ImageProvider.Profile.ProfileLoginIcon} />
-            <Text
+            <View
               style={{
-                color: '#ffffff',
-                fontFamily: 'Lato',
-                fontSize: 11,
-                marginLeft: 4,
+                marginHorizontal: 12,
+                marginVertical: 4,
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'row',
               }}
             >
-              登入/註冊
-            </Text>
-          </View>
-        </TouchableOpacity>
+              <Image source={ImageProvider.Profile.ProfileLoginIcon} />
+              <Text
+                style={{
+                  color: '#ffffff',
+                  fontFamily: 'Lato',
+                  fontSize: 11,
+                  marginLeft: 4,
+                }}
+              >
+                登入/註冊
+              </Text>
+            </View>
+          </TouchableOpacity>
+        ) : null}
+
         <View
           style={{
             marginTop: 40,
@@ -368,6 +371,16 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
             </View>
             <View style={Styles.separator} />
           </View>
+          <Text
+            style={{
+              fontFamily: 'Lato',
+              fontSize: 16,
+              color: '#1A1A1A',
+              marginBottom: 16,
+            }}
+          >
+            捐款紀錄
+          </Text>
           {donateData.map((data, index) => {
             return (
               <View

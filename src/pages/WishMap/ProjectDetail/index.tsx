@@ -35,7 +35,7 @@ export default function ProjectDetailPage({
   const [scrollingPosition, setScrollingPosition] = useState(0);
   const [projectInfoHeight, setProjectInfoHeight] = useState(0);
   const [shouldShowDonateButton, setShouldShowDonateButton] = useState(true);
-  const { projectData, wishData, enterOrigin } = route.params;
+  const { projectData, wishData, originEntry } = route.params;
   const dimensionsWidth = 360 * (Dimensions.get('window').width / 360);
   const limitHeight = (Dimensions.get('window').height / 800) * 110;
   const [imageHeight, setImageHeight] = useState(
@@ -294,7 +294,7 @@ export default function ProjectDetailPage({
         hidden={false}
         translucent={true}
       />
-      {projectData && enterOrigin !== 'wishMap'
+      {projectData && originEntry !== 'wishMap'
         ? renderProjectDetail()
         : renderWishDetail()}
     </SafeAreaView>

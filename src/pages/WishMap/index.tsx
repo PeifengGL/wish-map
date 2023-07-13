@@ -67,7 +67,7 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
   const handleDonateWishClick = () => {
     navigation.navigate('ProjectDetail', {
       wishData: WishData,
-      enterOrigin: 'wishMap',
+      originEntry: 'wishMap',
     });
   };
 
@@ -234,7 +234,7 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
   }, [route.params]);
 
   useEffect(() => {
-    if (route.params?.enterOrigin === 'WishApply') {
+    if (route.params?.originEntry === 'WishApply') {
       sendWishApplyModalRef.current?.open();
     }
   }, [route.params]);

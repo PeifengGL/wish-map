@@ -77,7 +77,10 @@ export default function DeleteAccountPage({
       () => {
         DataShareService.setUserProfile(userProfile);
 
-        rootNavigation.navigate('Registration', { isDeleteAccount: true });
+        rootNavigation.navigate('Registration', {
+          isDeleteAccount: true,
+          isLogout: false,
+        });
       },
     );
   };

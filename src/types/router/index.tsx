@@ -8,17 +8,17 @@ export type RootStackParamList = {
   TestPage: { text?: string };
   HomeTabs: {};
   Welcome: {};
-  Registration: { isDeleteAccount?: boolean };
+  Registration: { isDeleteAccount?: boolean; isLogout?: boolean };
   Login: {};
-  WishMap: { childPage?: string; enterOrigin?: string };
-  Volunteer: { enterOrigin: string; data?: any };
+  WishMap: { childPage?: string; originEntry?: string };
+  Volunteer: { originEntry: string; data?: any };
   ArticleList: {};
   Profile: {};
   FilterResult: {};
   ProjectDetail: {
     projectData?: ProjectsDataType;
     wishData?: WishDataType;
-    enterOrigin: string;
+    originEntry: string;
   };
   ArticleDetail: {
     articleData?: ArticlesDataType;
