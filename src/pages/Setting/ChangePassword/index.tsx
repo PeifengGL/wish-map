@@ -17,6 +17,7 @@ import { Subscription } from 'rxjs';
 import DataShareService from 'service';
 import { UserProfileType } from 'types/profile';
 import Styles from './index.style';
+import Toast from 'react-native-toast-message';
 
 type PageRouterProps = {
   route: RouteProp<SettingStackParamList, 'ChangePassword'>;
@@ -76,14 +77,44 @@ export default function ChangePasswordPage({
     }
   };
 
+  const toastConfig = {
+    customToast: ({ text1 }: any) => (
+      <View
+        style={{
+          backgroundColor: 'rgba(50, 47, 53, 0.9)',
+          width: '90%',
+          alignSelf: 'center',
+          borderRadius: 4,
+          paddingHorizontal: 16,
+          borderLeftColor: 'rgba(50, 47, 53, 0.9)',
+          justifyContent: 'space-between',
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}
+      >
+        <Text style={{ fontSize: 15, color: '#fff', marginVertical: 12 }}>
+          {text1}
+        </Text>
+        <TouchableOpacity onPress={() => Toast.hide()}>
+          <Image source={ImageProvider.Register.CloseToast} />
+        </TouchableOpacity>
+      </View>
+    ),
+  };
+
   useEffect(() => {
     if (route.params?.resetPasswordStatus === true) {
+      console.log(route.params?.resetPasswordStatus)
       setOldPassword('');
-      ToastAndroid.showWithGravity(
-        '密碼修改成功！',
-        ToastAndroid.LONG,
-        ToastAndroid.BOTTOM,
-      );
+      Toast.show({
+        type: 'customToast',
+        text1: '密碼修改成功！',
+        position: 'bottom',
+        bottomOffset: 28,
+        autoHide: true,
+        visibilityTime: 3000,
+      });
+      navigation.setParams({ resetPasswordStatus: false });
     }
   }, [route.params]);
 
@@ -248,6 +279,7 @@ export default function ChangePasswordPage({
           </Text>
         </TouchableOpacity>
       </View>
+      <Toast config={toastConfig} />
     </SafeAreaView>
   );
 }

@@ -114,23 +114,9 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
 
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     scrollOffset.current = currentOffset;
-
-    scrollOffset.current = currentOffset;
   };
 
   const startClick = () => {
-    if (userProfile?.userType === 'guest') {
-      DataShareService.setUserProfile({
-        userName: '',
-        userEmail: '',
-        userPhone: '',
-        userAddress: '',
-        userUID: '',
-        userType: '',
-        userPassword: '',
-      });
-      return;
-    }
     rootNavigation.navigate('WishMap', {});
   };
 

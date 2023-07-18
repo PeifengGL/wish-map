@@ -23,6 +23,7 @@ import ImageProvider from 'assets';
 import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
 import DataShareService from 'service';
 import { UserProfileType } from 'types/profile';
+import { Subscription } from 'rxjs';
 
 type PageRouterProps = {
   route: RouteProp<SettingStackParamList, 'Setting'>;
@@ -40,6 +41,23 @@ export default function SettingPage({ route, navigation }: PageRouterProps) {
       </TouchableOpacity>
     );
   };
+
+  const [userProfile, setUserProfile] = useState<UserProfileType | null>(null);
+
+  useEffect(() => {
+    const userProfileSubscription: Subscription =
+      DataShareService.getUserProfile$().subscribe(
+        (newUserProfile: UserProfileType) => {
+          if (newUserProfile !== null && userProfile !== newUserProfile) {
+            setUserProfile(newUserProfile);
+          }
+        },
+      );
+
+    return () => {
+      userProfileSubscription.unsubscribe();
+    };
+  }, [userProfile]);
 
   const handleChangePasswordClick = () => {
     navigation.navigate('ChangePassword', {});
@@ -169,104 +187,109 @@ export default function SettingPage({ route, navigation }: PageRouterProps) {
           style={{ marginHorizontal: 16 }}
           showsVerticalScrollIndicator={false}
         >
+          {userProfile?.userType !== 'guest' && (
+            <>
+              <Text
+                style={{
+                  fontSize: 22,
+                  fontWeight: '500',
+                  fontFamily: 'Lato',
+                  color: '#1A1A1A',
+                  marginTop: 24,
+                  marginBottom: 16,
+                }}
+              >
+                帳號
+              </Text>
+              <TouchableOpacity
+                onPress={handleChangePasswordClick}
+                style={{
+                  flexDirection: 'row',
+                  width: '100%',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  paddingHorizontal: 20,
+                  borderColor: '#0057B8',
+                  borderWidth: 1,
+                  borderRadius: 50,
+                  marginBottom: 12,
+                }}
+              >
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginVertical: 12,
+                  }}
+                >
+                  <Image source={ImageProvider.Setting.ChangePassword} />
+                  <Text
+                    style={{
+                      color: '#0057B8',
+                      fontSize: 14,
+                      fontWeight: '500',
+                      fontFamily: 'Lato',
+                      marginLeft: 6,
+                    }}
+                  >
+                    修改密碼
+                  </Text>
+                </View>
+                <Image source={ImageProvider.Setting.SettingRightArrowIcon} />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={handleDeleteAccountClick}
+                style={{
+                  flexDirection: 'row',
+                  width: '100%',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  paddingHorizontal: 20,
+                  borderColor: '#0057B8',
+                  borderWidth: 1,
+                  borderRadius: 50,
+                }}
+              >
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginVertical: 12,
+                  }}
+                >
+                  <Image source={ImageProvider.Setting.DeleteAccount} />
+                  <Text
+                    style={{
+                      color: '#0057B8',
+                      fontSize: 14,
+                      fontWeight: '500',
+                      fontFamily: 'Lato',
+                      marginLeft: 6,
+                    }}
+                  >
+                    刪除帳號
+                  </Text>
+                </View>
+                <Image source={ImageProvider.Setting.SettingRightArrowIcon} />
+              </TouchableOpacity>
+
+              <View
+                style={{
+                  height: 2,
+                  backgroundColor: '#CCCCCC',
+                  width: '100%',
+                  marginTop: 24,
+                }}
+              />
+            </>
+          )}
+
           <Text
             style={{
-              fontSize: 22,
-              fontWeight: '500',
-              fontFamily: 'Lato',
-              color: '#1A1A1A',
               marginTop: 24,
-              marginBottom: 16,
-            }}
-          >
-            帳號
-          </Text>
-          <TouchableOpacity
-            onPress={handleChangePasswordClick}
-            style={{
-              flexDirection: 'row',
-              width: '100%',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              paddingHorizontal: 20,
-              borderColor: '#0057B8',
-              borderWidth: 1,
-              borderRadius: 50,
-              marginBottom: 12,
-            }}
-          >
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginVertical: 12,
-              }}
-            >
-              <Image source={ImageProvider.Setting.ChangePassword} />
-              <Text
-                style={{
-                  color: '#0057B8',
-                  fontSize: 14,
-                  fontWeight: '500',
-                  fontFamily: 'Lato',
-                  marginLeft: 6,
-                }}
-              >
-                修改密碼
-              </Text>
-            </View>
-            <Image source={ImageProvider.Setting.SettingRightArrowIcon} />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={handleDeleteAccountClick}
-            style={{
-              flexDirection: 'row',
-              width: '100%',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              paddingHorizontal: 20,
-              borderColor: '#0057B8',
-              borderWidth: 1,
-              borderRadius: 50,
-            }}
-          >
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginVertical: 12,
-              }}
-            >
-              <Image source={ImageProvider.Setting.DeleteAccount} />
-              <Text
-                style={{
-                  color: '#0057B8',
-                  fontSize: 14,
-                  fontWeight: '500',
-                  fontFamily: 'Lato',
-                  marginLeft: 6,
-                }}
-              >
-                刪除帳號
-              </Text>
-            </View>
-            <Image source={ImageProvider.Setting.SettingRightArrowIcon} />
-          </TouchableOpacity>
-
-          <View
-            style={{
-              height: 2,
-              backgroundColor: '#CCCCCC',
-              width: '100%',
-              marginVertical: 24,
-            }}
-          />
-
-          <Text
-            style={{
               fontSize: 22,
               fontWeight: '500',
               fontFamily: 'Lato',
@@ -452,31 +475,34 @@ export default function SettingPage({ route, navigation }: PageRouterProps) {
               使用條款
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={handleOpenPopupModal}
-            style={{
-              flexDirection: 'row',
-              width: '100%',
-              justifyContent: 'center',
-              alignItems: 'center',
-              paddingHorizontal: 20,
-              borderRadius: 50,
-              marginBottom: 28,
-              backgroundColor: '#FF585D',
-            }}
-          >
-            <Text
+
+          {userProfile?.userType !== 'guest' && (
+            <TouchableOpacity
+              onPress={handleOpenPopupModal}
               style={{
-                color: '#FFFFFF',
-                fontSize: 14,
-                fontWeight: '500',
-                fontFamily: 'Lato',
-                marginVertical: 14,
+                flexDirection: 'row',
+                width: '100%',
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingHorizontal: 20,
+                borderRadius: 50,
+                marginBottom: 28,
+                backgroundColor: '#FF585D',
               }}
             >
-              登出
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={{
+                  color: '#FFFFFF',
+                  fontSize: 14,
+                  fontWeight: '500',
+                  fontFamily: 'Lato',
+                  marginVertical: 14,
+                }}
+              >
+                登出
+              </Text>
+            </TouchableOpacity>
+          )}
         </ScrollView>
       </ImageBackground>
       {isOpenModal ? (
