@@ -10,6 +10,7 @@ import {
   Animated,
   LayoutAnimation,
   StatusBar,
+  Platform,
 } from 'react-native';
 import { Portal } from 'react-native-portalize';
 import { RouteProp } from '@react-navigation/native';
@@ -19,6 +20,12 @@ import MapView from 'react-native-map-clustering';
 import Geolocation from '@react-native-community/geolocation';
 import { Modalize } from 'react-native-modalize';
 import { Subscription } from 'rxjs';
+import {
+  request,
+  PERMISSIONS,
+  RESULTS,
+  Permission,
+} from 'react-native-permissions';
 
 import { FilterMethodType } from 'types/wishMap';
 import { RootStackParamList } from 'types/router';
@@ -38,6 +45,27 @@ type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'WishMap'>;
   navigation: NativeStackNavigationProp<RootStackParamList, 'WishMap'>;
 };
+
+export async function getLocationPermissions() {
+  let permission: Permission | undefined;
+
+  if (Platform.OS === 'android') {
+    permission = PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION;
+  } else if (Platform.OS === 'ios') {
+    permission = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
+  }
+
+  if (!permission) {
+    return false; // Handle the case where the platform is neither Android nor iOS
+  }
+
+  const granted = await request(permission, {
+    title: 'DemoApp',
+    message: 'DemoApp would like access to your location ',
+  });
+
+  return granted === RESULTS.GRANTED;
+}
 
 export default function WishMapPage({ route, navigation }: PageRouterProps) {
   const dimensionsHeight = Dimensions.get('window').height;
@@ -69,49 +97,69 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
       wishData: WishData,
       originEntry: 'wishMap',
     });
-  };
-
-  const requestUserLocationPermission = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: '喜願Wish Map App',
-          message:
-            '喜願Wish Map App 需要取得您的定位權限' +
-            '您可以在地圖上顯示您的位置',
-          buttonNeutral: '稍後再試',
-          buttonNegative: '取消',
-          buttonPositive: '允許',
-        },
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        setIsModalVisible(false);
-        setSelectedMarkerId(-1);
-        Geolocation.getCurrentPosition(
-          position => {
-            const { latitude, longitude } = position.coords;
-            mapRef.current?.animateToRegion({
-              latitude,
-              longitude,
-              latitudeDelta: 0.03,
-              longitudeDelta: 0.03,
-            });
-          },
-          error => {
-            console.log(error);
-          },
-          {
-            enableHighAccuracy: true,
-          },
-        );
-      } else {
-        console.log('Location permission denied');
+    };
+  
+    const requestUserLocationPermission = async () =>{
+      let permission: Permission | undefined;
+    
+      if (Platform.OS === 'android') {
+        permission = PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION;
+      } else if (Platform.OS === 'ios') {
+        permission = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
       }
-    } catch (err) {
-      console.warn(err);
+    
+      if (!permission) {
+        return false; // Handle the case where the platform is neither Android nor iOS
+      }
+    
+      const granted = await request(permission, {
+        title: 'DemoApp',
+        message: 'DemoApp would like access to your location ',
+      });
+    
+      return granted === RESULTS.GRANTED;
     }
-  };
+  // const requestUserLocationPermission = async () => {
+  //   try {
+  //     const granted = await PermissionsAndroid.request(
+  //       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+  //       {
+  //         title: '喜願Wish Map App',
+  //         message:
+  //           '喜願Wish Map App 需要取得您的定位權限' +
+  //           '您可以在地圖上顯示您的位置',
+  //         buttonNeutral: '稍後再試',
+  //         buttonNegative: '取消',
+  //         buttonPositive: '允許',
+  //       },
+  //     );
+  //     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+  //       setIsModalVisible(false);
+  //       setSelectedMarkerId(-1);
+  //       Geolocation.getCurrentPosition(
+  //         position => {
+  //           const { latitude, longitude } = position.coords;
+  //           mapRef.current?.animateToRegion({
+  //             latitude,
+  //             longitude,
+  //             latitudeDelta: 0.03,
+  //             longitudeDelta: 0.03,
+  //           });
+  //         },
+  //         error => {
+  //           console.log(error);
+  //         },
+  //         {
+  //           enableHighAccuracy: true,
+  //         },
+  //       );
+  //     } else {
+  //       console.log('Location permission denied');
+  //     }
+  //   } catch (err) {
+  //     console.warn(err);
+  //   }
+  // };
 
   const handleMarkerPress = (project: any) => {
     setSelectedMarkerId(project.id);
