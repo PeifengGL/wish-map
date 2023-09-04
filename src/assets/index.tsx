@@ -67,6 +67,7 @@ import Article_Cover_Image2 from 'assets/images/article/BG2.png';
 import Article_GoBack_Icon from 'assets/images/article/goBack.png';
 import Article_Share_Icon from 'assets/images/article/article_share.png';
 import Article_Detail_GoBack_Icon from 'assets/images/article/articel_goback.png';
+import Article_Detail_Share_Icon from 'assets/images/article/header_share.png';
 
 // Volunteer Page Image
 import Volunteer_Cover_Image1 from 'assets/images/volunteer/BG.png';
@@ -183,6 +184,7 @@ const ImageProvider = {
     ArticleGoBackIcon: Article_GoBack_Icon,
     ArticleShareIcon: Article_Share_Icon,
     ArticleDetailGoBackIcon: Article_Detail_GoBack_Icon,
+    ArticleDetailShareIcon: Article_Detail_Share_Icon,
   },
   Volunteer: {
     VolunteerCoverImage1: Volunteer_Cover_Image1,

@@ -51,7 +51,9 @@ const Styles = StyleSheet.create({
     borderColor: '#0057B899',
     borderWidth: 1,
     borderRadius: 12,
-    paddingHorizontal: 16,
+    padding: 16,
+    marginBottom: 4,
+    fontSize: 16,
   },
   separator: {
     height: 1,

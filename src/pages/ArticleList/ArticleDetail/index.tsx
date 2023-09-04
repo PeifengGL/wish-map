@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   ScrollView,
   StatusBar,
+  Platform,
 } from 'react-native';
 import { RootStackParamList } from 'types/router';
 import ShareButton from 'components/ShareButton';
@@ -57,15 +58,16 @@ export default function ArticleDetailPage({
     }
     scrollOffset.current = currentOffset;
   };
+  // StatusBar.setBarStyle('light-content', true);
 
   return (
-    <SafeAreaView style={Styles.safeArea}>
-      <FocusAwareStatusBar
+    <View style={Styles.safeArea}>
+      {/* <FocusAwareStatusBar
         backgroundColor="rgba(0, 0, 0, 0)"
         barStyle={showHeader ? 'dark-content' : 'light-content'}
         hidden={false}
         translucent={true}
-      />
+      /> */}
       <View
         onLayout={event => {
           const { height } = event.nativeEvent.layout;
@@ -74,12 +76,17 @@ export default function ArticleDetailPage({
         style={{
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: '#EBF1F9',
+          backgroundColor: '#ffffff',
           position: 'absolute',
           top: 0,
           width: '100%',
           opacity: showHeader ? 1 : 0,
           zIndex: showHeader ? 100 : -1,
+          elevation: 5, // This adds shadow on Android
+          shadowColor: '#000', // This adds shadow on iOS
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.2,
+          shadowRadius: 4,
         }}
       >
         <Text style={{ marginBottom: 24, marginTop: statusBarHeight! + 24 }}>
@@ -103,12 +110,12 @@ export default function ArticleDetailPage({
           <ShareButton
             share_url={articleData?.article_url!}
             type="article"
-            shareIcon={ImageProvider.Article.ArticleShareIcon}
+            shareIcon={ImageProvider.Article.ArticleDetailShareIcon}
           />
         </View>
       </View>
 
-      <ScrollView onScroll={handleScroll}>
+      <ScrollView onScroll={handleScroll} scrollEventThrottle={100}>
         <Image
           onLayout={event => {
             const { height } = event.nativeEvent.layout;
@@ -172,6 +179,6 @@ export default function ArticleDetailPage({
           <Text style={{ color: '#fff', textAlign: 'center' }}>Header</Text>
         </Animated.View>
       )} */}
-    </SafeAreaView>
+    </View>
   );
 }

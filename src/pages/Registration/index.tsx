@@ -335,8 +335,6 @@ export default function RegistrationPage({
               <TextInput
                 style={[
                   Styles.input,
-                  isUsernameFocused && Styles.inputFocused,
-                  isUsernameInvalid && Styles.inputError,
                 ]}
                 placeholder="請輸入使用者名稱"
                 value={username}

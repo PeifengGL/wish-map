@@ -216,7 +216,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               <Text style={Styles.fieldHeaderRequiredText}>(必填)</Text>
             </View>
             <TextInput
-              placeholder="請輸入捐款人姓名"
+              placeholder="請輸入志工姓名"
               style={Styles.fieldTextInputStyle}
               onChangeText={handleVolunteerNameChange}
             />
@@ -234,13 +234,12 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   flex: 0.5,
                 }}
               >
-                <RadioButton
+                <RadioButton.Android
                   value="M"
                   status={gender === 'M' ? 'checked' : 'unchecked'}
                   onPress={() => setGender('M')}
                   color="#00BAB3"
                   uncheckedColor="#00BAB3"
-                  theme={{ dark: false }}
                 />
                 <Text>男</Text>
               </View>
@@ -251,15 +250,12 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   flex: 0.5,
                 }}
               >
-                <RadioButton
+                <RadioButton.Android
                   value="F"
                   status={gender === 'F' ? 'checked' : 'unchecked'}
                   onPress={() => setGender('F')}
                   color="#00BAB3"
                   uncheckedColor="#00BAB3"
-                  theme={{
-                    dark: false,
-                  }}
                 />
                 <Text>女</Text>
               </View>
@@ -385,7 +381,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   alignItems: 'center',
                 }}
               >
-                <RadioButton
+                <RadioButton.Android
                   value="北"
                   status={volunteerArea === '北' ? 'checked' : 'unchecked'}
                   onPress={() => {
@@ -393,7 +389,6 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   }}
                   color="#00BAB3"
                   uncheckedColor="#00BAB3"
-                  theme={{ dark: false }}
                 />
                 <Text>北區（台北、新北、基隆、桃園、新竹、宜蘭）</Text>
               </View>
@@ -403,7 +398,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   alignItems: 'center',
                 }}
               >
-                <RadioButton
+                <RadioButton.Android
                   value="中"
                   status={volunteerArea === '中' ? 'checked' : 'unchecked'}
                   onPress={() => {
@@ -411,7 +406,6 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   }}
                   color="#00BAB3"
                   uncheckedColor="#00BAB3"
-                  theme={{ dark: false }}
                 />
                 <Text>中區（苗栗、台中、彰化、南投、雲林）</Text>
               </View>
@@ -421,7 +415,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   alignItems: 'center',
                 }}
               >
-                <RadioButton
+                <RadioButton.Android
                   value="南"
                   status={volunteerArea === '南' ? 'checked' : 'unchecked'}
                   onPress={() => {
@@ -429,7 +423,6 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   }}
                   color="#00BAB3"
                   uncheckedColor="#00BAB3"
-                  theme={{ dark: false }}
                 />
                 <Text>南區（嘉義、台南、高雄、屏東）</Text>
               </View>
@@ -439,7 +432,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   alignItems: 'center',
                 }}
               >
-                <RadioButton
+                <RadioButton.Android
                   value="東"
                   status={volunteerArea === '東' ? 'checked' : 'unchecked'}
                   onPress={() => {
@@ -447,7 +440,6 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   }}
                   color="#00BAB3"
                   uncheckedColor="#00BAB3"
-                  theme={{ dark: false }}
                 />
                 <Text>東區（花蓮、台東）</Text>
               </View>
@@ -469,17 +461,21 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   alignItems: 'center',
                 }}
               >
-                <CheckBox
-                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                  value={volunteerTypes.includes('個案志工')}
-                  onValueChange={() => {
-                    volunteerTypes.includes('個案志工')
-                      ? setVolunteerTypes(
-                          volunteerTypes.filter(item => item !== '個案志工'),
-                        )
-                      : setVolunteerTypes([...volunteerTypes, '個案志工']);
-                  }}
-                />
+                <View style={{ marginRight: 6 }}>
+                  <CheckBox
+                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                    value={volunteerTypes.includes('個案志工')}
+                    onValueChange={() => {
+                      volunteerTypes.includes('個案志工')
+                        ? setVolunteerTypes(
+                            volunteerTypes.filter(item => item !== '個案志工'),
+                          )
+                        : setVolunteerTypes([...volunteerTypes, '個案志工']);
+                    }}
+                    style={{ width: 20, height: 20 }}
+                  />
+                </View>
+
                 <Text style={{ fontSize: 14, color: '#2D2D2D' }}>個案志工</Text>
               </View>
               <Text style={{ fontSize: 12, marginLeft: 30, color: '#4B4B4B' }}>
@@ -494,17 +490,20 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   alignItems: 'center',
                 }}
               >
-                <CheckBox
-                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                  value={volunteerTypes.includes('活動志工')}
-                  onValueChange={() => {
-                    volunteerTypes.includes('活動志工')
-                      ? setVolunteerTypes(
-                          volunteerTypes.filter(item => item !== '活動志工'),
-                        )
-                      : setVolunteerTypes([...volunteerTypes, '活動志工']);
-                  }}
-                />
+                <View style={{ marginRight: 6 }}>
+                  <CheckBox
+                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                    value={volunteerTypes.includes('活動志工')}
+                    onValueChange={() => {
+                      volunteerTypes.includes('活動志工')
+                        ? setVolunteerTypes(
+                            volunteerTypes.filter(item => item !== '活動志工'),
+                          )
+                        : setVolunteerTypes([...volunteerTypes, '活動志工']);
+                    }}
+                    style={{ width: 20, height: 20 }}
+                  />
+                </View>
                 <Text style={{ fontSize: 14, color: '#2D2D2D' }}>活動志工</Text>
               </View>
               <Text style={{ fontSize: 12, marginLeft: 30, color: '#4B4B4B' }}>
@@ -519,17 +518,21 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   alignItems: 'center',
                 }}
               >
-                <CheckBox
-                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                  value={volunteerTypes.includes('會務志工')}
-                  onValueChange={() => {
-                    volunteerTypes.includes('會務志工')
-                      ? setVolunteerTypes(
-                          volunteerTypes.filter(item => item !== '會務志工'),
-                        )
-                      : setVolunteerTypes([...volunteerTypes, '會務志工']);
-                  }}
-                />
+                <View style={{ marginRight: 6 }}>
+                  <CheckBox
+                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                    value={volunteerTypes.includes('會務志工')}
+                    onValueChange={() => {
+                      volunteerTypes.includes('會務志工')
+                        ? setVolunteerTypes(
+                            volunteerTypes.filter(item => item !== '會務志工'),
+                          )
+                        : setVolunteerTypes([...volunteerTypes, '會務志工']);
+                    }}
+                    style={{ width: 20, height: 20 }}
+                  />
+                </View>
+
                 <Text style={{ fontSize: 14, color: '#2D2D2D' }}>會務志工</Text>
               </View>
               <Text style={{ fontSize: 12, marginLeft: 30, color: '#4B4B4B' }}>
@@ -621,21 +624,24 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   height: 40,
                 }}
               >
-                <CheckBox
-                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                  value={volunteerServiceTime['1A'] === 1}
-                  onValueChange={() => {
-                    volunteerServiceTime['1A'] === 1
-                      ? setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '1A': 0,
-                        })
-                      : setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '1A': 1,
-                        });
-                  }}
-                />
+                <View>
+                  <CheckBox
+                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                    value={volunteerServiceTime['1A'] === 1}
+                    onValueChange={() => {
+                      volunteerServiceTime['1A'] === 1
+                        ? setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '1A': 0,
+                          })
+                        : setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '1A': 1,
+                          });
+                    }}
+                    style={{ width: 20, height: 20 }}
+                  />
+                </View>
               </View>
 
               <View
@@ -645,21 +651,24 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   justifyContent: 'center',
                 }}
               >
-                <CheckBox
-                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                  value={volunteerServiceTime['1P'] === 1}
-                  onValueChange={() => {
-                    volunteerServiceTime['1P'] === 1
-                      ? setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '1P': 0,
-                        })
-                      : setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '1P': 1,
-                        });
-                  }}
-                />
+                <View>
+                  <CheckBox
+                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                    value={volunteerServiceTime['1P'] === 1}
+                    onValueChange={() => {
+                      volunteerServiceTime['1P'] === 1
+                        ? setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '1P': 0,
+                          })
+                        : setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '1P': 1,
+                          });
+                    }}
+                    style={{ width: 20, height: 20 }}
+                  />
+                </View>
               </View>
             </View>
 
@@ -683,21 +692,24 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   height: 40,
                 }}
               >
-                <CheckBox
-                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                  value={volunteerServiceTime['2A'] === 1}
-                  onValueChange={() => {
-                    volunteerServiceTime['2A'] === 1
-                      ? setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '2A': 0,
-                        })
-                      : setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '2A': 1,
-                        });
-                  }}
-                />
+                <View>
+                  <CheckBox
+                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                    value={volunteerServiceTime['2A'] === 1}
+                    onValueChange={() => {
+                      volunteerServiceTime['2A'] === 1
+                        ? setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '2A': 0,
+                          })
+                        : setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '2A': 1,
+                          });
+                    }}
+                    style={{ width: 20, height: 20 }}
+                  />
+                </View>
               </View>
               <View
                 style={{
@@ -706,21 +718,24 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   justifyContent: 'center',
                 }}
               >
-                <CheckBox
-                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                  value={volunteerServiceTime['2P'] === 1}
-                  onValueChange={() => {
-                    volunteerServiceTime['2P'] === 1
-                      ? setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '2P': 0,
-                        })
-                      : setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '2P': 1,
-                        });
-                  }}
-                />
+                <View>
+                  <CheckBox
+                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                    value={volunteerServiceTime['2P'] === 1}
+                    onValueChange={() => {
+                      volunteerServiceTime['2P'] === 1
+                        ? setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '2P': 0,
+                          })
+                        : setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '2P': 1,
+                          });
+                    }}
+                    style={{ width: 20, height: 20 }}
+                  />
+                </View>
               </View>
             </View>
 
@@ -744,21 +759,24 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   height: 40,
                 }}
               >
-                <CheckBox
-                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                  value={volunteerServiceTime['3A'] === 1}
-                  onValueChange={() => {
-                    volunteerServiceTime['3A'] === 1
-                      ? setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '3A': 0,
-                        })
-                      : setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '3A': 1,
-                        });
-                  }}
-                />
+                <View>
+                  <CheckBox
+                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                    value={volunteerServiceTime['3A'] === 1}
+                    onValueChange={() => {
+                      volunteerServiceTime['3A'] === 1
+                        ? setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '3A': 0,
+                          })
+                        : setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '3A': 1,
+                          });
+                    }}
+                    style={{ width: 20, height: 20 }}
+                  />
+                </View>
               </View>
               <View
                 style={{
@@ -767,21 +785,24 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   justifyContent: 'center',
                 }}
               >
-                <CheckBox
-                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                  value={volunteerServiceTime['3P'] === 1}
-                  onValueChange={() => {
-                    volunteerServiceTime['3P'] === 1
-                      ? setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '3P': 0,
-                        })
-                      : setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '3P': 1,
-                        });
-                  }}
-                />
+                <View>
+                  <CheckBox
+                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                    value={volunteerServiceTime['3P'] === 1}
+                    onValueChange={() => {
+                      volunteerServiceTime['3P'] === 1
+                        ? setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '3P': 0,
+                          })
+                        : setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '3P': 1,
+                          });
+                    }}
+                    style={{ width: 20, height: 20 }}
+                  />
+                </View>
               </View>
             </View>
 
@@ -805,21 +826,24 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   height: 40,
                 }}
               >
-                <CheckBox
-                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                  value={volunteerServiceTime['4A'] === 1}
-                  onValueChange={() => {
-                    volunteerServiceTime['4A'] === 1
-                      ? setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '4A': 0,
-                        })
-                      : setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '4A': 1,
-                        });
-                  }}
-                />
+                <View>
+                  <CheckBox
+                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                    value={volunteerServiceTime['4A'] === 1}
+                    onValueChange={() => {
+                      volunteerServiceTime['4A'] === 1
+                        ? setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '4A': 0,
+                          })
+                        : setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '4A': 1,
+                          });
+                    }}
+                    style={{ width: 20, height: 20 }}
+                  />
+                </View>
               </View>
               <View
                 style={{
@@ -828,21 +852,24 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   justifyContent: 'center',
                 }}
               >
-                <CheckBox
-                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                  value={volunteerServiceTime['4P'] === 1}
-                  onValueChange={() => {
-                    volunteerServiceTime['4P'] === 1
-                      ? setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '4P': 0,
-                        })
-                      : setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '4P': 1,
-                        });
-                  }}
-                />
+                <View>
+                  <CheckBox
+                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                    value={volunteerServiceTime['4P'] === 1}
+                    onValueChange={() => {
+                      volunteerServiceTime['4P'] === 1
+                        ? setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '4P': 0,
+                          })
+                        : setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '4P': 1,
+                          });
+                    }}
+                    style={{ width: 20, height: 20 }}
+                  />
+                </View>
               </View>
             </View>
 
@@ -866,21 +893,24 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   height: 40,
                 }}
               >
-                <CheckBox
-                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                  value={volunteerServiceTime['5A'] === 1}
-                  onValueChange={() => {
-                    volunteerServiceTime['5A'] === 1
-                      ? setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '5A': 0,
-                        })
-                      : setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '5A': 1,
-                        });
-                  }}
-                />
+                <View>
+                  <CheckBox
+                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                    value={volunteerServiceTime['5A'] === 1}
+                    onValueChange={() => {
+                      volunteerServiceTime['5A'] === 1
+                        ? setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '5A': 0,
+                          })
+                        : setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '5A': 1,
+                          });
+                    }}
+                    style={{ width: 20, height: 20 }}
+                  />
+                </View>
               </View>
               <View
                 style={{
@@ -889,21 +919,24 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   justifyContent: 'center',
                 }}
               >
-                <CheckBox
-                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                  value={volunteerServiceTime['5P'] === 1}
-                  onValueChange={() => {
-                    volunteerServiceTime['5P'] === 1
-                      ? setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '5P': 0,
-                        })
-                      : setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '5P': 1,
-                        });
-                  }}
-                />
+                <View>
+                  <CheckBox
+                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                    value={volunteerServiceTime['5P'] === 1}
+                    onValueChange={() => {
+                      volunteerServiceTime['5P'] === 1
+                        ? setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '5P': 0,
+                          })
+                        : setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '5P': 1,
+                          });
+                    }}
+                    style={{ width: 20, height: 20 }}
+                  />
+                </View>
               </View>
             </View>
 
@@ -927,21 +960,24 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   height: 40,
                 }}
               >
-                <CheckBox
-                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                  value={volunteerServiceTime['6A'] === 1}
-                  onValueChange={() => {
-                    volunteerServiceTime['6A'] === 1
-                      ? setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '6A': 0,
-                        })
-                      : setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '6A': 1,
-                        });
-                  }}
-                />
+                <View>
+                  <CheckBox
+                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                    value={volunteerServiceTime['6A'] === 1}
+                    onValueChange={() => {
+                      volunteerServiceTime['6A'] === 1
+                        ? setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '6A': 0,
+                          })
+                        : setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '6A': 1,
+                          });
+                    }}
+                    style={{ width: 20, height: 20 }}
+                  />
+                </View>
               </View>
               <View
                 style={{
@@ -950,21 +986,24 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   justifyContent: 'center',
                 }}
               >
-                <CheckBox
-                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                  value={volunteerServiceTime['6P'] === 1}
-                  onValueChange={() => {
-                    volunteerServiceTime['6P'] === 1
-                      ? setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '6P': 0,
-                        })
-                      : setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '6P': 1,
-                        });
-                  }}
-                />
+                <View>
+                  <CheckBox
+                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                    value={volunteerServiceTime['6P'] === 1}
+                    onValueChange={() => {
+                      volunteerServiceTime['6P'] === 1
+                        ? setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '6P': 0,
+                          })
+                        : setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '6P': 1,
+                          });
+                    }}
+                    style={{ width: 20, height: 20 }}
+                  />
+                </View>
               </View>
             </View>
 
@@ -988,21 +1027,24 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   height: 40,
                 }}
               >
-                <CheckBox
-                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                  value={volunteerServiceTime['7A'] === 1}
-                  onValueChange={() => {
-                    volunteerServiceTime['7A'] === 1
-                      ? setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '7A': 0,
-                        })
-                      : setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '7A': 1,
-                        });
-                  }}
-                />
+                <View>
+                  <CheckBox
+                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                    value={volunteerServiceTime['7A'] === 1}
+                    onValueChange={() => {
+                      volunteerServiceTime['7A'] === 1
+                        ? setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '7A': 0,
+                          })
+                        : setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '7A': 1,
+                          });
+                    }}
+                    style={{ width: 20, height: 20 }}
+                  />
+                </View>
               </View>
 
               <View
@@ -1012,21 +1054,24 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   justifyContent: 'center',
                 }}
               >
-                <CheckBox
-                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                  value={volunteerServiceTime['7P'] === 1}
-                  onValueChange={() => {
-                    volunteerServiceTime['7P'] === 1
-                      ? setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '7P': 0,
-                        })
-                      : setVolunteerServiceTime({
-                          ...volunteerServiceTime,
-                          '7P': 1,
-                        });
-                  }}
-                />
+                <View>
+                  <CheckBox
+                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                    value={volunteerServiceTime['7P'] === 1}
+                    onValueChange={() => {
+                      volunteerServiceTime['7P'] === 1
+                        ? setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '7P': 0,
+                          })
+                        : setVolunteerServiceTime({
+                            ...volunteerServiceTime,
+                            '7P': 1,
+                          });
+                    }}
+                    style={{ width: 20, height: 20 }}
+                  />
+                </View>
               </View>
             </View>
           </View>
@@ -1046,14 +1091,18 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                 alignItems: 'center',
               }}
             >
-              <CheckBox
-                tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                value={isAgreePrivacy}
-                onValueChange={() => {
-                  setIsAgreePrivacy(!isAgreePrivacy);
-                }}
-              />
-              <Text style={{ fontSize: 14, color: '#2D2D2D' }}>
+              <View>
+                <CheckBox
+                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                  value={isAgreePrivacy}
+                  onValueChange={() => {
+                    setIsAgreePrivacy(!isAgreePrivacy);
+                  }}
+                  style={{ width: 20, height: 20 }}
+                />
+              </View>
+
+              <Text style={{ fontSize: 14, color: '#2D2D2D', marginLeft: 6 }}>
                 我已閱讀個資聲明並同意該條款
               </Text>
             </View>

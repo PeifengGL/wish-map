@@ -60,8 +60,8 @@ export async function getLocationPermissions() {
   }
 
   const granted = await request(permission, {
-    title: 'DemoApp',
-    message: 'DemoApp would like access to your location ',
+    title: 'WishMap',
+    message: 'WishMap would like access to your location ',
   });
 
   return granted === RESULTS.GRANTED;
@@ -97,28 +97,49 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
       wishData: WishData,
       originEntry: 'wishMap',
     });
-    };
-  
-    const requestUserLocationPermission = async () =>{
-      let permission: Permission | undefined;
-    
-      if (Platform.OS === 'android') {
-        permission = PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION;
-      } else if (Platform.OS === 'ios') {
-        permission = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
-      }
-    
-      if (!permission) {
-        return false; // Handle the case where the platform is neither Android nor iOS
-      }
-    
-      const granted = await request(permission, {
-        title: 'DemoApp',
-        message: 'DemoApp would like access to your location ',
-      });
-    
-      return granted === RESULTS.GRANTED;
+  };
+
+  const requestUserLocationPermission = async () => {
+    console.log('requestUserLocationPermission');
+    let permission: Permission | undefined;
+
+    if (Platform.OS === 'android') {
+      permission = PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
+    } else if (Platform.OS === 'ios') {
+      permission = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
     }
+
+    if (!permission) {
+      return false; // Handle the case where the platform is neither Android nor iOS
+    }
+
+    const granted = await request(permission, {
+      title: 'WishMap',
+      message: 'WishMap would like access to your location ',
+    });
+
+    setIsModalVisible(false);
+    setSelectedMarkerId(-1);
+    Geolocation.getCurrentPosition(
+      position => {
+        const { latitude, longitude } = position.coords;
+        mapRef.current?.animateToRegion({
+          latitude,
+          longitude,
+          latitudeDelta: 0.03,
+          longitudeDelta: 0.03,
+        });
+      },
+      error => {
+        console.log(error);
+      },
+      {
+        enableHighAccuracy: true,
+      },
+    );
+
+    return granted === RESULTS.GRANTED;
+  };
   // const requestUserLocationPermission = async () => {
   //   try {
   //     const granted = await PermissionsAndroid.request(
@@ -134,25 +155,25 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
   //       },
   //     );
   //     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-  //       setIsModalVisible(false);
-  //       setSelectedMarkerId(-1);
-  //       Geolocation.getCurrentPosition(
-  //         position => {
-  //           const { latitude, longitude } = position.coords;
-  //           mapRef.current?.animateToRegion({
-  //             latitude,
-  //             longitude,
-  //             latitudeDelta: 0.03,
-  //             longitudeDelta: 0.03,
-  //           });
-  //         },
-  //         error => {
-  //           console.log(error);
-  //         },
-  //         {
-  //           enableHighAccuracy: true,
-  //         },
-  //       );
+  // setIsModalVisible(false);
+  // setSelectedMarkerId(-1);
+  // Geolocation.getCurrentPosition(
+  //   position => {
+  //     const { latitude, longitude } = position.coords;
+  //     mapRef.current?.animateToRegion({
+  //       latitude,
+  //       longitude,
+  //       latitudeDelta: 0.03,
+  //       longitudeDelta: 0.03,
+  //     });
+  //   },
+  //   error => {
+  //     console.log(error);
+  //   },
+  //   {
+  //     enableHighAccuracy: true,
+  //   },
+  // );
   //     } else {
   //       console.log('Location permission denied');
   //     }
@@ -200,6 +221,7 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
   };
 
   const handleMapLoadingComplete = () => {
+    console.log('Map Loading Complete');
     setIsMapLoadingComplete(true);
   };
 
@@ -349,6 +371,8 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
           moveOnMarkerPress={false}
           rotateEnabled={false}
           loadingIndicatorColor="#0057B8"
+          onMapReady={handleMapLoadingComplete}
+          // followsUserLocation={true}
         >
           {renderMarkers()}
         </MapView>
