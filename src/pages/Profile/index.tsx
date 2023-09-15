@@ -122,59 +122,15 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
 
   const noDonateRecord = () => {
     return (
-      <View
-        style={{
-          backgroundColor: '#EBF1F9',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: 16,
-          borderRadius: 12,
-        }}
-      >
-        <Text
-          style={{
-            fontFamily: 'Lato',
-            fontSize: 16,
-            color: '#75787B',
-            marginBottom: 12,
-          }}
-        >
-          尚未有任何捐款紀錄
-        </Text>
-        <Text
-          style={{
-            fontFamily: 'Lato',
-            fontSize: 24,
-            color: '#FF585D',
-            marginBottom: 12,
-            fontWeight: '700',
-          }}
-        >
-          一起幫助喜願兒願望成真!
-        </Text>
+      <View style={Styles.noDonateRecordContainer}>
+        <Text style={Styles.noDonateRecordText}>尚未有任何捐款紀錄</Text>
+        <Text style={Styles.helpWishText}>一起幫助喜願兒願望成真!</Text>
         <Image
           source={ImageProvider.Profile.GuestHintImage}
-          style={{ marginBottom: 12 }}
+          style={Styles.helpWishImage}
         />
-        <TouchableOpacity
-          onPress={startClick}
-          style={{
-            backgroundColor: '#0057B8',
-            width: '100%',
-            borderRadius: 30,
-            alignItems: 'center',
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 14,
-              marginVertical: 12,
-              fontFamily: 'Lato',
-              color: '#FFFFFF',
-            }}
-          >
-            開始吧!
-          </Text>
+        <TouchableOpacity onPress={startClick} style={Styles.helpWishButton}>
+          <Text style={Styles.helpWishButtonText}>開始吧!</Text>
         </TouchableOpacity>
       </View>
     );
@@ -248,19 +204,7 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
             : Styles.donateDetailInfoBlockIsScrolling,
         ]}
       >
-        <View
-          style={{
-            width: 80,
-            height: 80,
-            backgroundColor: '#ffffff',
-            borderRadius: 100,
-            justifyContent: 'center',
-            alignItems: 'center',
-            position: 'absolute',
-            top: -40,
-            left: 16,
-          }}
-        >
+        <View style={Styles.avatarContainer}>
           {userProfile?.userType === 'member' ? (
             <Avatar.Image size={70} source={ImageProvider.Profile.UserAvatar} />
           ) : (
@@ -273,49 +217,16 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
         {userProfile?.userType === 'guest' ? (
           <TouchableOpacity
             onPress={handleLoginClick}
-            style={{
-              backgroundColor: '#0057B8',
-              position: 'absolute',
-              top: -20,
-              right: 16,
-              padding: 8,
-              borderRadius: 30,
-              alignItems: 'center',
-            }}
+            style={Styles.guestLoginButton}
           >
-            <View
-              style={{
-                marginHorizontal: 12,
-                marginVertical: 4,
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexDirection: 'row',
-              }}
-            >
+            <View style={Styles.guestLoginButtonContainer}>
               <Image source={ImageProvider.Profile.ProfileLoginIcon} />
-              <Text
-                style={{
-                  color: '#ffffff',
-                  fontFamily: 'Lato',
-                  fontSize: 11,
-                  marginLeft: 4,
-                }}
-              >
-                登入/註冊
-              </Text>
+              <Text style={Styles.guestLoginButtonText}>登入/註冊</Text>
             </View>
           </TouchableOpacity>
         ) : null}
 
-        <View
-          style={{
-            marginTop: 40,
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexDirection: 'row',
-            marginBottom: 8,
-          }}
-        >
+        <View style={Styles.profileNameBlock}>
           {userProfile?.userType === 'member' ? (
             <Text style={Styles.userNameText}>{userProfile.userName}</Text>
           ) : (
@@ -336,14 +247,13 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
       {userProfile?.userType === 'member' ? (
         <ScrollView
           onScroll={handleScroll}
-          style={{
-            marginTop: projectInfoHeight - 20,
-            paddingHorizontal: 16,
-            backgroundColor: '#ffffff',
-          }}
+          style={[
+            Styles.profileInfoBlock,
+            { marginTop: projectInfoHeight - 20 },
+          ]}
           decelerationRate={0.2}
         >
-          <View style={{ flex: 1, paddingTop: 16 }}>
+          <View style={Styles.infoBlock}>
             <View style={Styles.infoArea}>
               <Text
                 style={Styles.infoText}
@@ -357,62 +267,21 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
             </View>
             <View style={Styles.separator} />
           </View>
-          <Text
-            style={{
-              fontFamily: 'Lato',
-              fontSize: 16,
-              color: '#1A1A1A',
-              marginBottom: 16,
-            }}
-          >
-            捐款紀錄
-          </Text>
+          <Text style={Styles.donateRecordTitle}>捐款紀錄</Text>
           {donateData.map((data, index) => {
             return (
-              <View
-                key={index}
-                style={{
-                  width: '100%',
-                  borderWidth: 1,
-                  borderColor: '#0057B880',
-                  padding: 16,
-                  borderRadius: 12,
-                  marginBottom: 8,
-                }}
-              >
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
+              <View key={index} style={Styles.donateRecordBlock}>
+                <View style={Styles.donateRecordContainer}>
                   <View>
-                    <Text style={{ marginBottom: 6 }}>{data.dateTime}</Text>
-                    <Text
-                      style={{
-                        color: '#0057B8',
-                        fontSize: 16,
-                        fontFamily: 'Lato',
-                      }}
-                    >
+                    <Text style={Styles.donateRecordTimeText}>
+                      {data.dateTime}
+                    </Text>
+                    <Text style={Styles.donateRecordTitleText}>
                       {data.title}
                     </Text>
                   </View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: '#FF585D',
-                        fontSize: 12,
-                        marginRight: 24,
-                      }}
-                    >
+                  <View style={Styles.donateRecordTotalBlock}>
+                    <Text style={Styles.donateRecordAmountText}>
                       {`NT$ ${data.donateAmount}`}
                     </Text>
 
@@ -433,25 +302,15 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
       ) : (
         <ScrollView
           onScroll={handleScroll}
-          style={{
-            marginTop: projectInfoHeight - 20,
-            paddingHorizontal: 16,
-            backgroundColor: '#ffffff',
-          }}
+          style={[
+            Styles.noDonateRecordBlock,
+            { marginTop: projectInfoHeight - 20 },
+          ]}
           decelerationRate={0.2}
         >
           <View style={[Styles.separator, { marginTop: 0 }]} />
-          <Text
-            style={{
-              fontFamily: 'Lato',
-              fontSize: 16,
-              color: '#1A1A1A',
-              marginBottom: 16,
-            }}
-          >
-            捐款紀錄
-          </Text>
-          <View style={{ marginBottom: 24 }}>{noDonateRecord()}</View>
+          <Text style={Styles.donateRecordTitle}>捐款紀錄</Text>
+          <View style={Styles.noDonateRecordComponent}>{noDonateRecord()}</View>
         </ScrollView>
       )}
     </View>
@@ -484,11 +343,10 @@ const DonateView = ({ expanded, data }: { expanded: boolean; data: any }) => {
   return (
     <Animated.View style={{ height }}>
       <Animated.View
-        style={{
-          height: separatorHeight,
-          backgroundColor: '#CCCCCC',
-          marginVertical: 12,
-        }}
+        style={[
+          Styles.donateRecordExpandSeparator,
+          { height: separatorHeight },
+        ]}
       />
       <Animated.View style={{ height: textHeight }}>
         <Text

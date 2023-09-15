@@ -240,22 +240,8 @@ export default function RegistrationPage({
 
   const toastConfig = {
     customToast: ({ text1 }: any) => (
-      <View
-        style={{
-          backgroundColor: 'rgba(50, 47, 53, 0.9)',
-          width: '90%',
-          alignSelf: 'center',
-          borderRadius: 4,
-          paddingHorizontal: 16,
-          borderLeftColor: 'rgba(50, 47, 53, 0.9)',
-          justifyContent: 'space-between',
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}
-      >
-        <Text style={{ fontSize: 15, color: '#fff', marginVertical: 12 }}>
-          {text1}
-        </Text>
+      <View style={Styles.toast}>
+        <Text style={Styles.toastText}>{text1}</Text>
         <TouchableOpacity onPress={() => Toast.hide()}>
           <Image source={ImageProvider.Register.CloseToast} />
         </TouchableOpacity>
@@ -333,9 +319,7 @@ export default function RegistrationPage({
             {/* Username 使用者名稱 */}
             <View style={Styles.inputGroup}>
               <TextInput
-                style={[
-                  Styles.input,
-                ]}
+                style={[Styles.input]}
                 placeholder="請輸入使用者名稱"
                 value={username}
                 onChangeText={text => handleUsernameOnChange(text)}

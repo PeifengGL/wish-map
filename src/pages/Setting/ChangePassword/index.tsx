@@ -79,22 +79,8 @@ export default function ChangePasswordPage({
 
   const toastConfig = {
     customToast: ({ text1 }: any) => (
-      <View
-        style={{
-          backgroundColor: 'rgba(50, 47, 53, 0.9)',
-          width: '90%',
-          alignSelf: 'center',
-          borderRadius: 4,
-          paddingHorizontal: 16,
-          borderLeftColor: 'rgba(50, 47, 53, 0.9)',
-          justifyContent: 'space-between',
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}
-      >
-        <Text style={{ fontSize: 15, color: '#fff', marginVertical: 12 }}>
-          {text1}
-        </Text>
+      <View style={Styles.toastContainer}>
+        <Text style={Styles.toastText}>{text1}</Text>
         <TouchableOpacity onPress={() => Toast.hide()}>
           <Image source={ImageProvider.Register.CloseToast} />
         </TouchableOpacity>
@@ -104,7 +90,7 @@ export default function ChangePasswordPage({
 
   useEffect(() => {
     if (route.params?.resetPasswordStatus === true) {
-      console.log(route.params?.resetPasswordStatus)
+      console.log(route.params?.resetPasswordStatus);
       setOldPassword('');
       Toast.show({
         type: 'customToast',
@@ -127,49 +113,16 @@ export default function ChangePasswordPage({
       />
 
       <View style={Styles.headerContainer}>
-        <View
-          style={{
-            flexDirection: 'row',
-            marginBottom: 12,
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            width: '100%',
-          }}
-        >
-          {renderEditUserAddressGoBack()}
-        </View>
+        <View style={Styles.goBackButton}>{renderEditUserAddressGoBack()}</View>
       </View>
 
-      <View
-        style={{
-          marginHorizontal: 16,
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-        }}
-      >
-        <Text
-          style={{
-            marginTop: 24,
-            fontSize: 24,
-            fontWeight: '700',
-            fontFamily: 'Lato',
-            color: '#0057B8',
-            marginBottom: 8,
-          }}
-        >
-          修改密碼
-        </Text>
+      <View style={Styles.changePasswordContainer}>
+        <Text style={Styles.changePasswordTitle}>修改密碼</Text>
 
-        <View style={{ width: '100%', marginTop: 16 }}>
+        <View style={Styles.changePasswordInputContainer}>
           <View
             style={[
-              {
-                borderRadius: 12,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-                paddingHorizontal: 16,
-              },
+              Styles.changePasswordInput,
               inputError !== ''
                 ? { borderWidth: 2, borderColor: '#FF0000' }
                 : onFocusInput
@@ -187,27 +140,13 @@ export default function ChangePasswordPage({
               onFocus={handleOnFocus}
               onBlur={handleOnBlur}
               secureTextEntry={hideInputContent}
-              style={{
-                flex: 1,
-              }}
+              style={Styles.input}
             />
 
-            <View
-              style={{
-                position: 'absolute',
-                backgroundColor: '#ffffff',
-                left: 16,
-                top: -8,
-              }}
-            >
+            <View style={Styles.inputFieldLabel}>
               <Text
                 style={[
-                  {
-                    fontSize: 12,
-                    fontWeight: '700',
-                    fontFamily: 'Lato',
-                    marginHorizontal: 6,
-                  },
+                  Styles.inputFieldLabelText,
                   inputError !== ''
                     ? { color: '#FF0000' }
                     : { color: '#0057B8' },
@@ -235,16 +174,7 @@ export default function ChangePasswordPage({
               </TouchableOpacity>
             )}
           </View>
-          <Text
-            style={{
-              fontSize: 12,
-              fontWeight: '700',
-              fontFamily: 'Lato',
-              marginHorizontal: 6,
-              color: '#FF0000',
-              marginTop: 6,
-            }}
-          >
+          <Text style={Styles.inputFieldError}>
             {inputError !== '' ? inputError : ''}
           </Text>
         </View>
@@ -252,13 +182,7 @@ export default function ChangePasswordPage({
         <TouchableOpacity
           onPress={handleNextStep}
           style={[
-            {
-              borderRadius: 50,
-              width: '100%',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginTop: 20,
-            },
+            Styles.nextStepButton,
             oldPassword === ''
               ? { backgroundColor: '#ECECEC' }
               : { backgroundColor: '#0057B8' },
@@ -267,11 +191,7 @@ export default function ChangePasswordPage({
         >
           <Text
             style={[
-              {
-                fontSize: 14,
-                fontFamily: 'Lato',
-                marginVertical: 14,
-              },
+              Styles.nextStepButtonText,
               oldPassword === '' ? { color: '#909090' } : { color: '#ffffff' },
             ]}
           >

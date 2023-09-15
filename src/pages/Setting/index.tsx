@@ -70,6 +70,7 @@ export default function SettingPage({ route, navigation }: PageRouterProps) {
   const handleRateAppClick = () => {
     console.log('handleRateAppClick');
   };
+
   console.log(Platform.OS);
   const handleReportIssueClick = () => {
     const androidVersion = Platform.constants['Release'];
@@ -154,353 +155,105 @@ export default function SettingPage({ route, navigation }: PageRouterProps) {
         }}
       >
         <View style={Styles.headerContainer}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%',
-              marginVertical: 16,
-            }}
-          >
-            <View style={{ position: 'absolute', left: 0, top: 0 }}>
-              {renderSettingGoBack()}
-            </View>
+          <View style={Styles.headerFlex}>
+            <View style={Styles.goBackButton}>{renderSettingGoBack()}</View>
 
-            <Text
-              style={{
-                marginBottom: 14,
-                marginTop: 10,
-                color: '#75787B',
-                fontSize: 16,
-                fontWeight: '500',
-                fontFamily: 'Lato',
-              }}
-            >
-              設定
-            </Text>
+            <Text style={Styles.settingTitle}>設定</Text>
             <View />
           </View>
         </View>
 
         <ScrollView
-          style={{ marginHorizontal: 16 }}
+          style={Styles.scrollContainer}
           showsVerticalScrollIndicator={false}
         >
           {userProfile?.userType !== 'guest' && (
             <>
-              <Text
-                style={{
-                  fontSize: 22,
-                  fontWeight: '500',
-                  fontFamily: 'Lato',
-                  color: '#1A1A1A',
-                  marginTop: 24,
-                  marginBottom: 16,
-                }}
-              >
-                帳號
-              </Text>
+              <Text style={Styles.blockTitle}>帳號</Text>
               <TouchableOpacity
                 onPress={handleChangePasswordClick}
-                style={{
-                  flexDirection: 'row',
-                  width: '100%',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  paddingHorizontal: 20,
-                  borderColor: '#0057B8',
-                  borderWidth: 1,
-                  borderRadius: 50,
-                  marginBottom: 12,
-                }}
+                style={Styles.blockButton}
               >
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginVertical: 12,
-                  }}
-                >
+                <View style={Styles.buttonFlex}>
                   <Image source={ImageProvider.Setting.ChangePassword} />
-                  <Text
-                    style={{
-                      color: '#0057B8',
-                      fontSize: 14,
-                      fontWeight: '500',
-                      fontFamily: 'Lato',
-                      marginLeft: 6,
-                    }}
-                  >
-                    修改密碼
-                  </Text>
+                  <Text style={Styles.buttonText}>修改密碼</Text>
                 </View>
                 <Image source={ImageProvider.Setting.SettingRightArrowIcon} />
               </TouchableOpacity>
 
               <TouchableOpacity
                 onPress={handleDeleteAccountClick}
-                style={{
-                  flexDirection: 'row',
-                  width: '100%',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  paddingHorizontal: 20,
-                  borderColor: '#0057B8',
-                  borderWidth: 1,
-                  borderRadius: 50,
-                }}
+                style={Styles.blockButton}
               >
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginVertical: 12,
-                  }}
-                >
+                <View style={Styles.buttonFlex}>
                   <Image source={ImageProvider.Setting.DeleteAccount} />
-                  <Text
-                    style={{
-                      color: '#0057B8',
-                      fontSize: 14,
-                      fontWeight: '500',
-                      fontFamily: 'Lato',
-                      marginLeft: 6,
-                    }}
-                  >
-                    刪除帳號
-                  </Text>
+                  <Text style={Styles.buttonText}>刪除帳號</Text>
                 </View>
                 <Image source={ImageProvider.Setting.SettingRightArrowIcon} />
               </TouchableOpacity>
 
-              <View
-                style={{
-                  height: 2,
-                  backgroundColor: '#CCCCCC',
-                  width: '100%',
-                  marginTop: 24,
-                }}
-              />
+              <View style={Styles.separator} />
             </>
           )}
 
-          <Text
-            style={{
-              marginTop: 24,
-              fontSize: 22,
-              fontWeight: '500',
-              fontFamily: 'Lato',
-              color: '#1A1A1A',
-              marginBottom: 16,
-            }}
-          >
-            反饋
-          </Text>
+          <Text style={Styles.blockTitle}>反饋</Text>
           <TouchableOpacity
             onPress={handleRateAppClick}
-            style={{
-              flexDirection: 'row',
-              width: '100%',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              paddingHorizontal: 20,
-              borderColor: '#0057B8',
-              borderWidth: 1,
-              borderRadius: 50,
-              marginBottom: 12,
-            }}
+            style={Styles.blockButton}
           >
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginVertical: 12,
-              }}
-            >
+            <View style={Styles.buttonFlex}>
               <Image source={ImageProvider.Setting.RateApp} />
-              <Text
-                style={{
-                  color: '#0057B8',
-                  fontSize: 14,
-                  fontWeight: '500',
-                  fontFamily: 'Lato',
-                  marginLeft: 6,
-                }}
-              >
-                為我們評分
-              </Text>
+              <Text style={Styles.buttonText}>為我們評分</Text>
             </View>
             <Image source={ImageProvider.Setting.SettingRightArrowIcon} />
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={handleReportIssueClick}
-            style={{
-              flexDirection: 'row',
-              width: '100%',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              paddingHorizontal: 20,
-              borderColor: '#0057B8',
-              borderWidth: 1,
-              borderRadius: 50,
-            }}
+            style={Styles.blockButton}
           >
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginVertical: 12,
-              }}
-            >
+            <View style={Styles.buttonFlex}>
               <Image source={ImageProvider.Setting.ReportIssue} />
-              <Text
-                style={{
-                  color: '#0057B8',
-                  fontSize: 14,
-                  fontWeight: '500',
-                  fontFamily: 'Lato',
-                  marginLeft: 6,
-                }}
-              >
-                回報問題
-              </Text>
+              <Text style={Styles.buttonText}>回報問題</Text>
             </View>
             <Image source={ImageProvider.Setting.SettingRightArrowIcon} />
           </TouchableOpacity>
 
-          <View
-            style={{
-              height: 2,
-              backgroundColor: '#CCCCCC',
-              width: '100%',
-              marginVertical: 24,
-            }}
-          />
+          <View style={Styles.separator} />
 
-          <Text
-            style={{
-              fontSize: 22,
-              fontWeight: '500',
-              fontFamily: 'Lato',
-              color: '#1A1A1A',
-              marginBottom: 16,
-            }}
-          >
-            關於
-          </Text>
+          <Text style={Styles.blockTitle}>關於</Text>
           <TouchableOpacity
             onPress={handleFqaClick}
-            style={{
-              flexDirection: 'row',
-              width: '100%',
-              marginBottom: 12,
-            }}
+            style={Styles.aboutBlockButton}
           >
-            <Text
-              style={{
-                color: '#0057B8',
-                fontSize: 14,
-                fontWeight: '500',
-                fontFamily: 'Lato',
-                marginVertical: 12,
-              }}
-            >
-              常見問題
-            </Text>
+            <Text style={Styles.aboutBlockText}>常見問題</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={handleAboutWishClick}
-            style={{
-              flexDirection: 'row',
-              width: '100%',
-              marginBottom: 12,
-            }}
+            style={Styles.aboutBlockButton}
           >
-            <Text
-              style={{
-                color: '#0057B8',
-                fontSize: 14,
-                fontWeight: '500',
-                fontFamily: 'Lato',
-                marginVertical: 12,
-              }}
-            >
-              關於喜願
-            </Text>
+            <Text style={Styles.aboutBlockText}>關於喜願</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={handlePrivacyPolicyClick}
-            style={{
-              flexDirection: 'row',
-              width: '100%',
-              marginBottom: 12,
-            }}
+            style={Styles.aboutBlockButton}
           >
-            <Text
-              style={{
-                color: '#0057B8',
-                fontSize: 14,
-                fontWeight: '500',
-                fontFamily: 'Lato',
-                marginVertical: 12,
-              }}
-            >
-              個資聲明 & 隱私權政策
-            </Text>
+            <Text style={Styles.aboutBlockText}>個資聲明 & 隱私權政策</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={handleTermOfUseClick}
-            style={{
-              flexDirection: 'row',
-              width: '100%',
-              marginBottom: 12,
-            }}
+            style={Styles.aboutBlockButton}
           >
-            <Text
-              style={{
-                color: '#0057B8',
-                fontSize: 14,
-                fontWeight: '500',
-                fontFamily: 'Lato',
-                marginVertical: 12,
-              }}
-            >
-              使用條款
-            </Text>
+            <Text style={Styles.aboutBlockText}>使用條款</Text>
           </TouchableOpacity>
 
           {userProfile?.userType !== 'guest' && (
             <TouchableOpacity
               onPress={handleOpenPopupModal}
-              style={{
-                flexDirection: 'row',
-                width: '100%',
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingHorizontal: 20,
-                borderRadius: 50,
-                marginBottom: 28,
-                backgroundColor: '#FF585D',
-              }}
+              style={Styles.logoutButton}
             >
-              <Text
-                style={{
-                  color: '#FFFFFF',
-                  fontSize: 14,
-                  fontWeight: '500',
-                  fontFamily: 'Lato',
-                  marginVertical: 14,
-                }}
-              >
-                登出
-              </Text>
+              <Text style={Styles.logoutButtonText}>登出</Text>
             </TouchableOpacity>
           )}
         </ScrollView>
@@ -508,88 +261,24 @@ export default function SettingPage({ route, navigation }: PageRouterProps) {
       {isOpenModal ? (
         <Pressable
           onPress={handleClosePopupModal}
-          style={{
-            position: 'absolute',
-            zIndex: 10000,
-            backgroundColor: '#00000066',
-            flex: 1,
-            width: '100%',
-            height: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
+          style={Styles.popupModalContainer}
         >
-          <View style={{ width: '100%', paddingHorizontal: 24 }}>
-            <View
-              style={{
-                backgroundColor: '#ffffff',
-                borderRadius: 16,
-                padding: 24,
-              }}
-            >
-              <Text
-                style={{
-                  color: '#1A1A1A',
-                  fontFamily: 'Lato',
-                  fontSize: 24,
-                  fontWeight: '700',
-                  marginBottom: 16,
-                }}
-              >
-                登出帳號
-              </Text>
-              <Text
-                style={{
-                  color: '#2D2D2D',
-                  fontFamily: 'Lato',
-                  fontSize: 14,
-                  fontWeight: '400',
-                }}
-              >
-                是否確定要登出此帳號？
-              </Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'flex-end',
-                  marginTop: 24,
-                }}
-              >
+          <View style={Styles.popupModalContent}>
+            <View style={Styles.popupModalContentFlex}>
+              <Text style={Styles.popupLogoutTitle}>登出帳號</Text>
+              <Text style={Styles.popupLogoutText}>是否確定要登出此帳號？</Text>
+              <View style={Styles.popupLogoutOptionsContainer}>
                 <TouchableOpacity
                   onPress={handleLogoutClick}
-                  style={{
-                    borderColor: '#0057B8',
-                    borderRadius: 50,
-                    borderWidth: 1,
-                    marginRight: 8,
-                  }}
+                  style={Styles.popupLogoutYesButton}
                 >
-                  <Text
-                    style={{
-                      marginHorizontal: 34,
-                      marginVertical: 12,
-                      color: '#0057B8',
-                    }}
-                  >
-                    是
-                  </Text>
+                  <Text style={Styles.popupLogoutYesButtonText}>是</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={handleClosePopupModal}
-                  style={{
-                    backgroundColor: '#0057B8',
-                    borderRadius: 50,
-                  }}
+                  style={Styles.popupLogoutNoButton}
                 >
-                  <Text
-                    style={{
-                      marginHorizontal: 34,
-                      marginVertical: 12,
-                      color: '#ffffff',
-                    }}
-                  >
-                    否
-                  </Text>
+                  <Text style={Styles.popupLogoutNoButtonText}>否</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -602,38 +291,10 @@ export default function SettingPage({ route, navigation }: PageRouterProps) {
           onOverlayPress={handleCloseModal}
           adjustToContentHeight
         >
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              paddingTop: 36,
-              paddingHorizontal: 16,
-              backgroundColor: '#EBF1F9',
-              borderRadius: 16,
-            }}
-          >
-            <Text
-              style={{
-                color: '#FF585D',
-                fontSize: 24,
-                fontWeight: '700',
-                fontFamily: 'Lato',
-                marginBottom: 8,
-              }}
-            >
-              歡迎回來
-            </Text>
+          <View style={Styles.welcomeBlock}>
+            <Text style={Styles.welcomeText1}>歡迎回來</Text>
 
-            <Text
-              style={{
-                color: '#FF585D',
-                fontSize: 16,
-                fontWeight: '500',
-                fontFamily: 'Lato',
-                textAlign: 'center',
-                marginBottom: 12,
-              }}
-            >
+            <Text style={Styles.welcomeText2}>
               {'很高興您決定繼續留在 Wish Map\n與我們一起為病童們繼續圓夢'}
             </Text>
 
@@ -643,26 +304,9 @@ export default function SettingPage({ route, navigation }: PageRouterProps) {
 
             <TouchableOpacity
               onPress={handleCloseModal}
-              style={{
-                borderRadius: 50,
-                width: '100%',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: '#0057B8',
-                marginBottom: 28,
-                marginTop: 16,
-              }}
+              style={Styles.welcomeModalCloseButton}
             >
-              <Text
-                style={{
-                  fontSize: 14,
-                  fontFamily: 'Lato',
-                  marginVertical: 14,
-                  color: '#ffffff',
-                }}
-              >
-                知道了
-              </Text>
+              <Text style={Styles.welcomeModalCloseButtonText}>知道了</Text>
             </TouchableOpacity>
           </View>
         </Modalize>

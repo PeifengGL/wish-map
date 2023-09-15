@@ -99,17 +99,8 @@ export default function EditUsernamePage({ navigation }: PageRouterProps) {
       />
 
       <View style={Styles.headerContainer}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            width: '100%',
-          }}
-        >
-          <View style={{ marginVertical: 16 }}>
-            {renderEditUsernameGoBack()}
-          </View>
+        <View style={Styles.headerFlex}>
+          <View style={Styles.goBackButton}>{renderEditUsernameGoBack()}</View>
 
           <TouchableOpacity
             onPress={saveEditUsername}
@@ -127,49 +118,16 @@ export default function EditUsernamePage({ navigation }: PageRouterProps) {
         </View>
       </View>
 
-      <View style={{ marginHorizontal: 16 }}>
-        <Text
-          style={{
-            marginTop: 24,
-            fontSize: 24,
-            fontWeight: '700',
-            fontFamily: 'Lato',
-            color: '#0057B8',
-            marginBottom: 8,
-          }}
-        >
-          使用者名稱
-        </Text>
-        <Text
-          style={{
-            fontSize: 14,
-            fontWeight: '400',
-            fontFamily: 'Lato',
-            color: '#75787B',
-          }}
-        >
+      <View style={Styles.editUserNameContainer}>
+        <Text style={Styles.editUserNameTitle}>使用者名稱</Text>
+        <Text style={Styles.editUserNameDescription}>
           Wish Map 會使用以下使用者名稱在您填寫捐款人資料時，自動填入表格內
         </Text>
-        <View
-          style={{
-            height: 2,
-            width: '100%',
-            backgroundColor: '#D9D9D9',
-            marginVertical: 24,
-          }}
-        />
+        <View style={Styles.separator} />
 
         <View
           style={[
-            {
-              borderColor: '#0057B8',
-              borderWidth: 1,
-              borderRadius: 12,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              paddingHorizontal: 16,
-            },
+            Styles.editUserNameInputContainer,
             inputError && { borderColor: '#FF0000' },
           ]}
         >
@@ -181,9 +139,7 @@ export default function EditUsernamePage({ navigation }: PageRouterProps) {
               setUserName(text);
             }}
             onBlur={onInputBlur}
-            style={{
-              flex: 1,
-            }}
+            style={Styles.editUserNameInput}
           />
           {userName !== '' && !inputError && (
             <TouchableOpacity onPress={() => setUserName('')}>
@@ -199,16 +155,7 @@ export default function EditUsernamePage({ navigation }: PageRouterProps) {
           )}
         </View>
         {inputError && (
-          <Text
-            style={{
-              fontSize: 11,
-              fontFamily: 'Lato',
-              fontWeight: '500',
-              color: '#F23A3C',
-              marginTop: 4,
-              marginLeft: 16,
-            }}
-          >
+          <Text style={Styles.editUserNameInputErrorText}>
             使用者名稱無法為空
           </Text>
         )}

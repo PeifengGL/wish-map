@@ -118,6 +118,8 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
     navigation.push('EditAddress', {});
   };
 
+  const handleCloseModal = () => modalizeRef.current?.close();
+
   return (
     <SafeAreaView style={Styles.safeArea}>
       <FocusAwareStatusBar
@@ -133,36 +135,15 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
         }}
       >
         <View style={Styles.headerContainer}>
-          <View
-            style={{
-              position: 'absolute',
-              width: '100%',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-            <View style={{ marginVertical: 16 }}>
-              {renderEditProfileGoBack()}
-            </View>
+          <View style={Styles.headerFlex}>
+            <View style={Styles.goBackButton}>{renderEditProfileGoBack()}</View>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Text
-                style={{ fontSize: 14, fontFamily: 'Lato', color: '#0057B8' }}
-              >
-                完成
-              </Text>
+              <Text style={Styles.editDoneButton}>完成</Text>
             </TouchableOpacity>
           </View>
           <Text style={Styles.headerTitle}>編輯個人資料</Text>
         </View>
-        <View
-          style={{
-            alignItems: 'center',
-            width: '100%',
-            marginTop: 40,
-            marginBottom: 24,
-          }}
-        >
+        <View style={Styles.editProfileContainer}>
           <View>
             {userRemoveAvatar ? (
               <Avatar.Image
@@ -183,141 +164,48 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
 
             <TouchableOpacity
               onPress={() => modalizeRef.current?.open()}
-              style={{ position: 'absolute', bottom: 0, right: 0 }}
+              style={Styles.changeProfileAvatarButton}
             >
               <Image source={ImageProvider.Profile.ChangeAvatarIcon} />
             </TouchableOpacity>
           </View>
         </View>
-        <View style={{ marginHorizontal: 16 }}>
-          <View style={{ marginBottom: 12 }}>
-            <Text
-              style={{
-                fontSize: 14,
-                fontFamily: 'Lato',
-                fontWeight: '500',
-                color: '#1A1A1A',
-              }}
-            >
-              使用者名稱
-            </Text>
+        <View style={Styles.editProfileBlock}>
+          <View style={Styles.editProfileField}>
+            <Text style={Styles.editProfileFieldLabel}>使用者名稱</Text>
             <TouchableOpacity
               onPress={handleEditUsernameClick}
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                paddingHorizontal: 20,
-                borderColor: '#0057B8',
-                borderWidth: 1,
-                borderRadius: 50,
-                marginTop: 8,
-              }}
+              style={Styles.editProfileFieldButton}
             >
-              <Text
-                style={{
-                  fontSize: 14,
-                  fontFamily: 'Lato',
-                  color: '#0057B8',
-                  marginVertical: 12,
-                }}
-              >
+              <Text style={Styles.editProfileFieldButtonText}>
                 {userProfile?.userName}
               </Text>
               <Image source={ImageProvider.Profile.EditRightArrowIcon} />
             </TouchableOpacity>
           </View>
-          <View style={{ marginBottom: 12 }}>
-            <Text
-              style={{
-                fontSize: 14,
-                fontFamily: 'Lato',
-                fontWeight: '500',
-                color: '#1A1A1A',
-              }}
-            >
-              電子信箱
-            </Text>
+          <View style={Styles.editProfileField}>
+            <Text style={Styles.editProfileFieldLabel}>電子信箱</Text>
             <TouchableOpacity
               onPress={handleEditEmailClick}
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                paddingHorizontal: 20,
-                borderColor: '#0057B8',
-                borderWidth: 1,
-                borderRadius: 50,
-                marginTop: 8,
-              }}
+              style={Styles.editProfileFieldButton}
             >
-              <Text
-                style={{
-                  fontSize: 14,
-                  fontFamily: 'Lato',
-                  color: '#0057B8',
-                  marginVertical: 12,
-                }}
-              >
+              <Text style={Styles.editProfileFieldButtonText}>
                 {userProfile?.userEmail}
               </Text>
               <Image source={ImageProvider.Profile.EditRightArrowIcon} />
             </TouchableOpacity>
           </View>
-          <View style={{ marginBottom: 12 }}>
-            <Text
-              style={{
-                fontSize: 14,
-                fontFamily: 'Lato',
-                fontWeight: '500',
-                color: '#1A1A1A',
-              }}
-            >
-              手機號碼
-            </Text>
+          <View style={Styles.editProfileField}>
+            <Text style={Styles.editProfileFieldLabel}>手機號碼</Text>
             <TouchableOpacity
               onPress={handleEditPhoneClick}
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                paddingHorizontal: 20,
-                borderColor: '#0057B8',
-                borderWidth: 1,
-                borderRadius: 50,
-                marginTop: 8,
-              }}
+              style={Styles.editProfileFieldButton}
             >
-              <Text
-                style={{
-                  fontSize: 14,
-                  fontFamily: 'Lato',
-                  color: '#0057B8',
-                  marginVertical: 12,
-                }}
-              >
+              <Text style={Styles.editProfileFieldButtonText}>
                 {userProfile?.userPhone === '' ? (
-                  <Text
-                    style={{
-                      fontSize: 14,
-                      fontFamily: 'Lato',
-                      color: '#CCCCCC',
-                      marginVertical: 12,
-                      fontWeight: '500',
-                    }}
-                  >
-                    請輸入手機號碼
-                  </Text>
+                  <Text style={Styles.noProfileFieldText}>請輸入手機號碼</Text>
                 ) : (
-                  <Text
-                    style={{
-                      fontSize: 14,
-                      fontFamily: 'Lato',
-                      color: '#0057B8',
-                      marginVertical: 12,
-                      fontWeight: '500',
-                    }}
-                  >
+                  <Text style={Styles.editProfileFieldButtonText}>
                     {userProfile?.userPhone}
                   </Text>
                 )}
@@ -325,52 +213,16 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
               <Image source={ImageProvider.Profile.EditRightArrowIcon} />
             </TouchableOpacity>
           </View>
-          <View style={{ marginBottom: 12 }}>
-            <Text
-              style={{
-                fontSize: 14,
-                fontFamily: 'Lato',
-                fontWeight: '500',
-                color: '#1A1A1A',
-              }}
-            >
-              聯絡地址
-            </Text>
+          <View style={Styles.editProfileField}>
+            <Text style={Styles.editProfileFieldLabel}>聯絡地址</Text>
             <TouchableOpacity
               onPress={handleEditAddressClick}
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                paddingHorizontal: 20,
-                borderColor: '#0057B8',
-                borderWidth: 1,
-                borderRadius: 50,
-                marginTop: 8,
-              }}
+              style={Styles.editProfileFieldButton}
             >
               {userProfile?.userAddress === '' ? (
-                <Text
-                  style={{
-                    fontSize: 14,
-                    fontFamily: 'Lato',
-                    color: '#CCCCCC',
-                    marginVertical: 12,
-                    fontWeight: '500',
-                  }}
-                >
-                  請輸入聯絡地址
-                </Text>
+                <Text style={Styles.noProfileFieldText}>請輸入聯絡地址</Text>
               ) : (
-                <Text
-                  style={{
-                    fontSize: 14,
-                    fontFamily: 'Lato',
-                    color: '#0057B8',
-                    marginVertical: 12,
-                    fontWeight: '500',
-                  }}
-                >
+                <Text style={Styles.editProfileFieldButtonText}>
                   {userProfile?.userAddress}
                 </Text>
               )}
@@ -384,38 +236,27 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
       <Portal>
         <Modalize ref={modalizeRef} adjustToContentHeight>
           <View>
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <Text style={{ marginVertical: 36 }}>請選擇上傳途徑</Text>
-              <TouchableOpacity onPress={() => modalizeRef.current?.close}>
-                <Image
-                  source={ImageProvider.WishMap.ClosePrivacyIcon}
-                  style={{ position: 'absolute', right: 16 }}
-                />
+            <View style={Styles.modalHeaderContainer}>
+              <Text style={Styles.modalHeaderText}>請選擇上傳途徑</Text>
+              <TouchableOpacity
+                onPress={handleCloseModal}
+                style={Styles.modalHeaderCloseButton}
+              >
+                <Image source={ImageProvider.Profile.CloseUploadIcon} />
               </TouchableOpacity>
             </View>
-            <View style={{ marginBottom: 28, marginHorizontal: 16 }}>
+            <View style={Styles.chooseAvatarOptionsContainer}>
               <TouchableOpacity
                 onPress={handleChooseImageFromCamera}
-                style={{
-                  backgroundColor: '#0057B8',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: 24,
-                  borderRadius: 50,
-                }}
+                style={Styles.chooseAvatarOptionButton}
               >
-                <Text style={{ color: 'white', marginVertical: 12 }}>相機</Text>
+                <Text style={Styles.chooseAvatarOptionButtonText}>相機</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={handleChooseImageFromGallery}
-                style={{
-                  backgroundColor: '#0057B8',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: 50,
-                }}
+                style={Styles.chooseAvatarOptionButton}
               >
-                <Text style={{ color: 'white', marginVertical: 12 }}>相簿</Text>
+                <Text style={Styles.chooseAvatarOptionButtonText}>相簿</Text>
               </TouchableOpacity>
               {userRemoveAvatar ? null : (
                 <TouchableOpacity
@@ -424,31 +265,14 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
                     setUserSelectAvatar(undefined);
                     modalizeRef.current?.close();
                   }}
-                  style={{
-                    backgroundColor: '#ffffff',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: 50,
-                    borderWidth: 1,
-                    borderColor: '#FF585D',
-                    marginTop: 24,
-                  }}
+                  style={[
+                    Styles.chooseAvatarOptionButton,
+                    Styles.removeAvatarButton,
+                  ]}
                 >
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
+                  <View style={Styles.removeAvatarButtonFlex}>
                     <Image source={ImageProvider.Profile.RemoveAvatarIcon} />
-                    <Text
-                      style={{
-                        color: '#FF585D',
-                        marginVertical: 12,
-                        marginLeft: 6,
-                      }}
-                    >
+                    <Text style={Styles.removeAvatarButtonText}>
                       移除目前頭像
                     </Text>
                   </View>

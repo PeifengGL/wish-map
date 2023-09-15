@@ -102,15 +102,7 @@ export default function EditEmailPage({ navigation }: PageRouterProps) {
       />
 
       <View style={Styles.headerContainer}>
-        <View
-          style={{
-            flexDirection: 'row',
-            marginBottom: 12,
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            width: '100%',
-          }}
-        >
+        <View style={Styles.headerFlex}>
           {renderEdituserEmailGoBack()}
           <TouchableOpacity
             onPress={saveEditUserEmail}
@@ -118,7 +110,7 @@ export default function EditEmailPage({ navigation }: PageRouterProps) {
           >
             <Text
               style={[
-                { fontSize: 14, fontFamily: 'Lato', color: '#0057B8' },
+                Styles.saveButton,
                 inputError || userEmail === '' ? { color: '#75787B' } : {},
               ]}
             >
@@ -128,52 +120,14 @@ export default function EditEmailPage({ navigation }: PageRouterProps) {
         </View>
       </View>
 
-      <View style={{ marginHorizontal: 16 }}>
-        <Text
-          style={{
-            marginTop: 24,
-            fontSize: 24,
-            fontWeight: '700',
-            fontFamily: 'Lato',
-            color: '#0057B8',
-            marginBottom: 8,
-          }}
-        >
-          使用者電子信箱
-        </Text>
-        <Text
-          style={{
-            fontSize: 14,
-            fontWeight: '400',
-            fontFamily: 'Lato',
-            color: '#75787B',
-          }}
-        >
+      <View style={Styles.editUserEmailContainer}>
+        <Text style={Styles.editUserEmailTitle}>使用者電子信箱</Text>
+        <Text style={Styles.editUserEmailDescription}>
           Wish Map 會使用以下使用者電子信箱在您填寫捐款人資料時，自動填入表格內
         </Text>
-        <View
-          style={{
-            height: 2,
-            width: '100%',
-            backgroundColor: '#D9D9D9',
-            marginVertical: 24,
-          }}
-        />
+        <View style={Styles.separator} />
 
-        <View
-          style={[
-            {
-              borderColor: '#0057B8',
-              borderWidth: 1,
-              borderRadius: 12,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              paddingHorizontal: 16,
-            },
-            inputError && { borderColor: '#FF0000' },
-          ]}
-        >
+        <View style={[, inputError && { borderColor: '#FF0000' }]}>
           <TextInput
             placeholder="請輸入使用者電子信箱"
             value={userEmail}
@@ -182,9 +136,7 @@ export default function EditEmailPage({ navigation }: PageRouterProps) {
               // text !== '' ? setInputError(false) : setInputError(true);
             }}
             onBlur={onInputBlur}
-            style={{
-              flex: 1,
-            }}
+            style={Styles.editUserMailInput}
           />
           {userEmail !== '' && !inputError && (
             <TouchableOpacity onPress={() => setUserEmail('')}>
@@ -200,16 +152,7 @@ export default function EditEmailPage({ navigation }: PageRouterProps) {
           )}
         </View>
         {inputError && (
-          <Text
-            style={{
-              fontSize: 11,
-              fontFamily: 'Lato',
-              fontWeight: '500',
-              color: '#F23A3C',
-              marginTop: 4,
-              marginLeft: 16,
-            }}
-          >
+          <Text style={Styles.editUserMailInputError}>
             使用者電子信箱格式錯誤
           </Text>
         )}

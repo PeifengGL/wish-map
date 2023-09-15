@@ -13,11 +13,21 @@ const Styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   headerTitle: {
+    marginBottom: 14,
+    marginTop: 10,
     color: '#75787B',
     fontSize: 16,
     fontWeight: '500',
-    marginVertical: 28,
+    fontFamily: 'Lato',
   },
+  headerFlex: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    marginVertical: 16,
+  },
+  goBackButton: { position: 'absolute', left: 0, top: 0 },
 });
 
 export default Styles;

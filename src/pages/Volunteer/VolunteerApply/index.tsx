@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   ScrollView,
   TextInput,
+  Dimensions,
 } from 'react-native';
 import { RootStackParamList } from 'types/router';
 import FocusAwareStatusBar from 'util/StatusBarAdapter';
@@ -19,9 +20,10 @@ import { Modalize } from 'react-native-modalize';
 import DatePicker from 'react-native-date-picker';
 import LoadingModal from 'components/LoadingModal';
 import DataShareService from 'service';
-import Styles from './index.style';
 import { Subscription } from 'rxjs';
+import PrivacyContent, { PrivacyHeader } from 'components/PrivacyContent';
 import { UserProfileType } from 'types/profile';
+import Styles from './index.style';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'VolunteerApply'>;
@@ -29,6 +31,7 @@ type PageRouterProps = {
 };
 
 export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
+  const dimensionsHeight = Dimensions.get('window').height;
   const [gender, setGender] = useState<'F' | 'M' | ''>('');
   const [date, setDate] = useState<Date>(new Date());
   const [birthLabel, setBirthLabel] = useState<string>('- 年 - 月 - 日');
@@ -63,6 +66,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
   const [isAgreePrivacy, setIsAgreePrivacy] = useState<boolean>(false);
   const [isButtonEnable, setIsButtonEnable] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const [userProfile, setUserProfile] = useState<UserProfileType>();
 
@@ -128,6 +132,18 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
         <Image source={ImageProvider.Volunteer.VolunteerGoBackIcon} />
       </TouchableOpacity>
     );
+  };
+
+  const privacyModalizeRef = useRef<Modalize>(null);
+
+  const handlePrivacyClick = () => {
+    privacyModalizeRef.current?.open();
+    setModalIsOpen(true);
+  };
+
+  const handlePrivacyClose = () => {
+    privacyModalizeRef.current?.close();
+    setModalIsOpen(false);
   };
 
   const checkButtonEnable = () => {
@@ -226,14 +242,8 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               <Text style={Styles.fieldHeaderText}>性別</Text>
               <Text style={Styles.fieldHeaderRequiredText}>(必填)</Text>
             </View>
-            <View style={{ flexDirection: 'row' }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  flex: 0.5,
-                }}
-              >
+            <View style={Styles.genderOptionContainer}>
+              <View style={Styles.genderOption}>
                 <RadioButton.Android
                   value="M"
                   status={gender === 'M' ? 'checked' : 'unchecked'}
@@ -243,13 +253,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                 />
                 <Text>男</Text>
               </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  flex: 0.5,
-                }}
-              >
+              <View style={Styles.genderOption}>
                 <RadioButton.Android
                   value="F"
                   status={gender === 'F' ? 'checked' : 'unchecked'}
@@ -265,35 +269,13 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
             <View style={Styles.fieldHeaderContainer}>
               <Text style={Styles.fieldHeaderText}>生日</Text>
             </View>
-            <View
-              style={{
-                alignSelf: 'flex-start',
-              }}
-            >
+            <View style={Styles.birthdaySelectionContainer}>
               <TouchableOpacity
                 onPress={() => modalizeRef.current?.open()}
-                style={{
-                  borderColor: '#0057B8',
-                  borderRadius: 30,
-                  borderWidth: 1,
-                  alignSelf: 'center',
-                }}
+                style={Styles.birthdaySelectionButton}
               >
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginHorizontal: 16,
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      color: '#0057B8',
-                      marginVertical: 12,
-                      marginRight: 24,
-                    }}
-                  >
+                <View style={Styles.birthdaySelectionButtonTextContainer}>
+                  <Text style={Styles.birthdaySelectionButtonText}>
                     {birthLabel}
                   </Text>
                   <Image
@@ -375,12 +357,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               <Text style={Styles.fieldHeaderRequiredText}>(必填)</Text>
             </View>
             <View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
+              <View style={Styles.selectionContainer}>
                 <RadioButton.Android
                   value="北"
                   status={volunteerArea === '北' ? 'checked' : 'unchecked'}
@@ -392,12 +369,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                 />
                 <Text>北區（台北、新北、基隆、桃園、新竹、宜蘭）</Text>
               </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
+              <View style={Styles.selectionContainer}>
                 <RadioButton.Android
                   value="中"
                   status={volunteerArea === '中' ? 'checked' : 'unchecked'}
@@ -409,12 +381,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                 />
                 <Text>中區（苗栗、台中、彰化、南投、雲林）</Text>
               </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
+              <View style={Styles.selectionContainer}>
                 <RadioButton.Android
                   value="南"
                   status={volunteerArea === '南' ? 'checked' : 'unchecked'}
@@ -426,12 +393,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                 />
                 <Text>南區（嘉義、台南、高雄、屏東）</Text>
               </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
+              <View style={Styles.selectionContainer}>
                 <RadioButton.Android
                   value="東"
                   status={volunteerArea === '東' ? 'checked' : 'unchecked'}
@@ -455,13 +417,8 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
             </View>
 
             <View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
-                <View style={{ marginRight: 6 }}>
+              <View style={Styles.selectionContainer}>
+                <View style={Styles.volunteerTypeSelectionContainer}>
                   <CheckBox
                     tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                     value={volunteerTypes.includes('個案志工')}
@@ -472,25 +429,20 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           )
                         : setVolunteerTypes([...volunteerTypes, '個案志工']);
                     }}
-                    style={{ width: 20, height: 20 }}
+                    style={Styles.checkBox}
                   />
                 </View>
 
-                <Text style={{ fontSize: 14, color: '#2D2D2D' }}>個案志工</Text>
+                <Text style={Styles.volunteerTypeTitle}>個案志工</Text>
               </View>
-              <Text style={{ fontSize: 12, marginLeft: 30, color: '#4B4B4B' }}>
+              <Text style={Styles.volunteerTypeContent}>
                 需通過志工訓練，可配合進行院訪、家訪工作
               </Text>
             </View>
 
             <View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
-                <View style={{ marginRight: 6 }}>
+              <View style={Styles.selectionContainer}>
+                <View style={Styles.volunteerTypeSelectionContainer}>
                   <CheckBox
                     tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                     value={volunteerTypes.includes('活動志工')}
@@ -501,24 +453,19 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           )
                         : setVolunteerTypes([...volunteerTypes, '活動志工']);
                     }}
-                    style={{ width: 20, height: 20 }}
+                    style={Styles.checkBox}
                   />
                 </View>
-                <Text style={{ fontSize: 14, color: '#2D2D2D' }}>活動志工</Text>
+                <Text style={Styles.volunteerTypeTitle}>活動志工</Text>
               </View>
-              <Text style={{ fontSize: 12, marginLeft: 30, color: '#4B4B4B' }}>
+              <Text style={Styles.volunteerTypeContent}>
                 協助各項活動之進行
               </Text>
             </View>
 
             <View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
-                <View style={{ marginRight: 6 }}>
+              <View style={Styles.selectionContainer}>
+                <View style={Styles.volunteerTypeSelectionContainer}>
                   <CheckBox
                     tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                     value={volunteerTypes.includes('會務志工')}
@@ -529,13 +476,13 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           )
                         : setVolunteerTypes([...volunteerTypes, '會務志工']);
                     }}
-                    style={{ width: 20, height: 20 }}
+                    style={Styles.checkBox}
                   />
                 </View>
 
-                <Text style={{ fontSize: 14, color: '#2D2D2D' }}>會務志工</Text>
+                <Text style={Styles.volunteerTypeTitle}>會務志工</Text>
               </View>
-              <Text style={{ fontSize: 12, marginLeft: 30, color: '#4B4B4B' }}>
+              <Text style={Styles.volunteerTypeContent}>
                 協助辦公室各項事務性工作之進行
               </Text>
             </View>
@@ -550,528 +497,320 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               const { width } = event.nativeEvent.layout;
               setServiceTimeLayoutWidth(width);
             }}
-            style={{
-              flexDirection: 'row',
-              borderColor: '#0057B880',
-              borderRadius: 12,
-              borderWidth: 2,
-              marginBottom: 12,
-            }}
+            style={Styles.volunteerServiceTimeContainer}
           >
             <View style={{ width: serviceTimeLayoutWidth / 8 }}>
               <View style={Styles.serviceTimeHeader}>
-                <Text
-                  style={{
-                    marginHorizontal: 8,
-                    marginVertical: 8,
-                    fontSize: 12,
-                  }}
-                ></Text>
+                <Text style={Styles.emptyBlock}></Text>
               </View>
-              <View
-                style={{
-                  height: 40,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Text
-                  style={{
-                    marginHorizontal: 8,
-                    marginVertical: 8,
-                    fontSize: 12,
-                  }}
-                >
-                  上午
-                </Text>
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
+                <Text style={Styles.volunteerServiceTimeText}>上午</Text>
               </View>
-              <View
-                style={{
-                  height: 40,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Text
-                  style={{
-                    marginHorizontal: 8,
-                    marginVertical: 8,
-                    fontSize: 12,
-                  }}
-                >
-                  下午
-                </Text>
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
+                <Text style={Styles.volunteerServiceTimeText}>下午</Text>
               </View>
             </View>
 
             <View style={{ width: serviceTimeLayoutWidth / 8 }}>
               <View style={Styles.serviceTimeHeader}>
-                <Text
-                  style={{
-                    marginHorizontal: 8,
-                    marginVertical: 8,
-                    fontSize: 12,
+                <Text style={Styles.volunteerServiceTimeText}>週一</Text>
+              </View>
+
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
+                <CheckBox
+                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                  value={volunteerServiceTime['1A'] === 1}
+                  onValueChange={() => {
+                    volunteerServiceTime['1A'] === 1
+                      ? setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '1A': 0,
+                        })
+                      : setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '1A': 1,
+                        });
                   }}
-                >
-                  週一
-                </Text>
+                  style={Styles.checkBox}
+                />
               </View>
 
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 40,
-                }}
-              >
-                <View>
-                  <CheckBox
-                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                    value={volunteerServiceTime['1A'] === 1}
-                    onValueChange={() => {
-                      volunteerServiceTime['1A'] === 1
-                        ? setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '1A': 0,
-                          })
-                        : setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '1A': 1,
-                          });
-                    }}
-                    style={{ width: 20, height: 20 }}
-                  />
-                </View>
-              </View>
-
-              <View
-                style={{
-                  height: 40,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <View>
-                  <CheckBox
-                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                    value={volunteerServiceTime['1P'] === 1}
-                    onValueChange={() => {
-                      volunteerServiceTime['1P'] === 1
-                        ? setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '1P': 0,
-                          })
-                        : setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '1P': 1,
-                          });
-                    }}
-                    style={{ width: 20, height: 20 }}
-                  />
-                </View>
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
+                <CheckBox
+                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                  value={volunteerServiceTime['1P'] === 1}
+                  onValueChange={() => {
+                    volunteerServiceTime['1P'] === 1
+                      ? setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '1P': 0,
+                        })
+                      : setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '1P': 1,
+                        });
+                  }}
+                  style={Styles.checkBox}
+                />
               </View>
             </View>
 
             <View style={{ width: serviceTimeLayoutWidth / 8 }}>
               <View style={Styles.serviceTimeHeader}>
-                <Text
-                  style={{
-                    marginHorizontal: 8,
-                    marginVertical: 8,
-                    fontSize: 12,
-                  }}
-                >
-                  週二
-                </Text>
+                <Text style={Styles.volunteerServiceTimeText}>週二</Text>
               </View>
 
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 40,
-                }}
-              >
-                <View>
-                  <CheckBox
-                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                    value={volunteerServiceTime['2A'] === 1}
-                    onValueChange={() => {
-                      volunteerServiceTime['2A'] === 1
-                        ? setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '2A': 0,
-                          })
-                        : setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '2A': 1,
-                          });
-                    }}
-                    style={{ width: 20, height: 20 }}
-                  />
-                </View>
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
+                <CheckBox
+                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                  value={volunteerServiceTime['2A'] === 1}
+                  onValueChange={() => {
+                    volunteerServiceTime['2A'] === 1
+                      ? setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '2A': 0,
+                        })
+                      : setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '2A': 1,
+                        });
+                  }}
+                  style={Styles.checkBox}
+                />
               </View>
-              <View
-                style={{
-                  height: 40,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <View>
-                  <CheckBox
-                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                    value={volunteerServiceTime['2P'] === 1}
-                    onValueChange={() => {
-                      volunteerServiceTime['2P'] === 1
-                        ? setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '2P': 0,
-                          })
-                        : setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '2P': 1,
-                          });
-                    }}
-                    style={{ width: 20, height: 20 }}
-                  />
-                </View>
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
+                <CheckBox
+                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                  value={volunteerServiceTime['2P'] === 1}
+                  onValueChange={() => {
+                    volunteerServiceTime['2P'] === 1
+                      ? setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '2P': 0,
+                        })
+                      : setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '2P': 1,
+                        });
+                  }}
+                  style={Styles.checkBox}
+                />
               </View>
             </View>
 
             <View style={{ width: serviceTimeLayoutWidth / 8 }}>
               <View style={Styles.serviceTimeHeader}>
-                <Text
-                  style={{
-                    marginHorizontal: 8,
-                    marginVertical: 8,
-                    fontSize: 12,
-                  }}
-                >
-                  週三
-                </Text>
+                <Text style={Styles.volunteerServiceTimeText}>週三</Text>
               </View>
 
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 40,
-                }}
-              >
-                <View>
-                  <CheckBox
-                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                    value={volunteerServiceTime['3A'] === 1}
-                    onValueChange={() => {
-                      volunteerServiceTime['3A'] === 1
-                        ? setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '3A': 0,
-                          })
-                        : setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '3A': 1,
-                          });
-                    }}
-                    style={{ width: 20, height: 20 }}
-                  />
-                </View>
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
+                <CheckBox
+                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                  value={volunteerServiceTime['3A'] === 1}
+                  onValueChange={() => {
+                    volunteerServiceTime['3A'] === 1
+                      ? setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '3A': 0,
+                        })
+                      : setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '3A': 1,
+                        });
+                  }}
+                  style={Styles.checkBox}
+                />
               </View>
-              <View
-                style={{
-                  height: 40,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <View>
-                  <CheckBox
-                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                    value={volunteerServiceTime['3P'] === 1}
-                    onValueChange={() => {
-                      volunteerServiceTime['3P'] === 1
-                        ? setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '3P': 0,
-                          })
-                        : setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '3P': 1,
-                          });
-                    }}
-                    style={{ width: 20, height: 20 }}
-                  />
-                </View>
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
+                <CheckBox
+                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                  value={volunteerServiceTime['3P'] === 1}
+                  onValueChange={() => {
+                    volunteerServiceTime['3P'] === 1
+                      ? setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '3P': 0,
+                        })
+                      : setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '3P': 1,
+                        });
+                  }}
+                  style={Styles.checkBox}
+                />
               </View>
             </View>
 
             <View style={{ width: serviceTimeLayoutWidth / 8 }}>
               <View style={Styles.serviceTimeHeader}>
-                <Text
-                  style={{
-                    marginHorizontal: 8,
-                    marginVertical: 8,
-                    fontSize: 12,
-                  }}
-                >
-                  週四
-                </Text>
+                <Text style={Styles.volunteerServiceTimeText}>週四</Text>
               </View>
 
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 40,
-                }}
-              >
-                <View>
-                  <CheckBox
-                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                    value={volunteerServiceTime['4A'] === 1}
-                    onValueChange={() => {
-                      volunteerServiceTime['4A'] === 1
-                        ? setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '4A': 0,
-                          })
-                        : setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '4A': 1,
-                          });
-                    }}
-                    style={{ width: 20, height: 20 }}
-                  />
-                </View>
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
+                <CheckBox
+                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                  value={volunteerServiceTime['4A'] === 1}
+                  onValueChange={() => {
+                    volunteerServiceTime['4A'] === 1
+                      ? setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '4A': 0,
+                        })
+                      : setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '4A': 1,
+                        });
+                  }}
+                  style={Styles.checkBox}
+                />
               </View>
-              <View
-                style={{
-                  height: 40,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <View>
-                  <CheckBox
-                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                    value={volunteerServiceTime['4P'] === 1}
-                    onValueChange={() => {
-                      volunteerServiceTime['4P'] === 1
-                        ? setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '4P': 0,
-                          })
-                        : setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '4P': 1,
-                          });
-                    }}
-                    style={{ width: 20, height: 20 }}
-                  />
-                </View>
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
+                <CheckBox
+                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                  value={volunteerServiceTime['4P'] === 1}
+                  onValueChange={() => {
+                    volunteerServiceTime['4P'] === 1
+                      ? setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '4P': 0,
+                        })
+                      : setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '4P': 1,
+                        });
+                  }}
+                  style={Styles.checkBox}
+                />
               </View>
             </View>
 
             <View style={{ width: serviceTimeLayoutWidth / 8 }}>
               <View style={Styles.serviceTimeHeader}>
-                <Text
-                  style={{
-                    marginHorizontal: 8,
-                    marginVertical: 8,
-                    fontSize: 12,
-                  }}
-                >
-                  週五
-                </Text>
+                <Text style={Styles.volunteerServiceTimeText}>週五</Text>
               </View>
 
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 40,
-                }}
-              >
-                <View>
-                  <CheckBox
-                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                    value={volunteerServiceTime['5A'] === 1}
-                    onValueChange={() => {
-                      volunteerServiceTime['5A'] === 1
-                        ? setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '5A': 0,
-                          })
-                        : setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '5A': 1,
-                          });
-                    }}
-                    style={{ width: 20, height: 20 }}
-                  />
-                </View>
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
+                <CheckBox
+                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                  value={volunteerServiceTime['5A'] === 1}
+                  onValueChange={() => {
+                    volunteerServiceTime['5A'] === 1
+                      ? setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '5A': 0,
+                        })
+                      : setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '5A': 1,
+                        });
+                  }}
+                  style={Styles.checkBox}
+                />
               </View>
-              <View
-                style={{
-                  height: 40,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <View>
-                  <CheckBox
-                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                    value={volunteerServiceTime['5P'] === 1}
-                    onValueChange={() => {
-                      volunteerServiceTime['5P'] === 1
-                        ? setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '5P': 0,
-                          })
-                        : setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '5P': 1,
-                          });
-                    }}
-                    style={{ width: 20, height: 20 }}
-                  />
-                </View>
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
+                <CheckBox
+                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                  value={volunteerServiceTime['5P'] === 1}
+                  onValueChange={() => {
+                    volunteerServiceTime['5P'] === 1
+                      ? setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '5P': 0,
+                        })
+                      : setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '5P': 1,
+                        });
+                  }}
+                  style={Styles.checkBox}
+                />
               </View>
             </View>
 
             <View style={{ width: serviceTimeLayoutWidth / 8 }}>
               <View style={Styles.serviceTimeHeader}>
-                <Text
-                  style={{
-                    marginHorizontal: 8,
-                    marginVertical: 8,
-                    fontSize: 12,
-                  }}
-                >
-                  週六
-                </Text>
+                <Text style={Styles.volunteerServiceTimeText}>週六</Text>
               </View>
 
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 40,
-                }}
-              >
-                <View>
-                  <CheckBox
-                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                    value={volunteerServiceTime['6A'] === 1}
-                    onValueChange={() => {
-                      volunteerServiceTime['6A'] === 1
-                        ? setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '6A': 0,
-                          })
-                        : setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '6A': 1,
-                          });
-                    }}
-                    style={{ width: 20, height: 20 }}
-                  />
-                </View>
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
+                <CheckBox
+                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                  value={volunteerServiceTime['6A'] === 1}
+                  onValueChange={() => {
+                    volunteerServiceTime['6A'] === 1
+                      ? setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '6A': 0,
+                        })
+                      : setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '6A': 1,
+                        });
+                  }}
+                  style={Styles.checkBox}
+                />
               </View>
-              <View
-                style={{
-                  height: 40,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <View>
-                  <CheckBox
-                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                    value={volunteerServiceTime['6P'] === 1}
-                    onValueChange={() => {
-                      volunteerServiceTime['6P'] === 1
-                        ? setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '6P': 0,
-                          })
-                        : setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '6P': 1,
-                          });
-                    }}
-                    style={{ width: 20, height: 20 }}
-                  />
-                </View>
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
+                <CheckBox
+                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                  value={volunteerServiceTime['6P'] === 1}
+                  onValueChange={() => {
+                    volunteerServiceTime['6P'] === 1
+                      ? setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '6P': 0,
+                        })
+                      : setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '6P': 1,
+                        });
+                  }}
+                  style={Styles.checkBox}
+                />
               </View>
             </View>
 
             <View style={{ width: serviceTimeLayoutWidth / 8 - 2 }}>
               <View style={Styles.serviceTimeHeader}>
-                <Text
-                  style={{
-                    marginHorizontal: 8,
-                    marginVertical: 8,
-                    fontSize: 12,
+                <Text style={Styles.volunteerServiceTimeText}>週日</Text>
+              </View>
+
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
+                <CheckBox
+                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                  value={volunteerServiceTime['7A'] === 1}
+                  onValueChange={() => {
+                    volunteerServiceTime['7A'] === 1
+                      ? setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '7A': 0,
+                        })
+                      : setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '7A': 1,
+                        });
                   }}
-                >
-                  週日
-                </Text>
+                  style={Styles.checkBox}
+                />
               </View>
 
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 40,
-                }}
-              >
-                <View>
-                  <CheckBox
-                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                    value={volunteerServiceTime['7A'] === 1}
-                    onValueChange={() => {
-                      volunteerServiceTime['7A'] === 1
-                        ? setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '7A': 0,
-                          })
-                        : setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '7A': 1,
-                          });
-                    }}
-                    style={{ width: 20, height: 20 }}
-                  />
-                </View>
-              </View>
-
-              <View
-                style={{
-                  height: 40,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <View>
-                  <CheckBox
-                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                    value={volunteerServiceTime['7P'] === 1}
-                    onValueChange={() => {
-                      volunteerServiceTime['7P'] === 1
-                        ? setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '7P': 0,
-                          })
-                        : setVolunteerServiceTime({
-                            ...volunteerServiceTime,
-                            '7P': 1,
-                          });
-                    }}
-                    style={{ width: 20, height: 20 }}
-                  />
-                </View>
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
+                <CheckBox
+                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                  value={volunteerServiceTime['7P'] === 1}
+                  onValueChange={() => {
+                    volunteerServiceTime['7P'] === 1
+                      ? setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '7P': 0,
+                        })
+                      : setVolunteerServiceTime({
+                          ...volunteerServiceTime,
+                          '7P': 1,
+                        });
+                  }}
+                  style={Styles.checkBox}
+                />
               </View>
             </View>
           </View>
@@ -1085,12 +824,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               <Text style={Styles.fieldHeaderRequiredText}>(必填)</Text>
             </View>
 
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}
-            >
+            <View style={Styles.selectionContainer}>
               <View>
                 <CheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
@@ -1098,13 +832,17 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   onValueChange={() => {
                     setIsAgreePrivacy(!isAgreePrivacy);
                   }}
-                  style={{ width: 20, height: 20 }}
+                  style={Styles.checkBox}
                 />
               </View>
 
-              <Text style={{ fontSize: 14, color: '#2D2D2D', marginLeft: 6 }}>
-                我已閱讀個資聲明並同意該條款
-              </Text>
+              <View style={Styles.privateInfoContainer}>
+                <Text style={Styles.privateText1}>我已閱讀</Text>
+                <TouchableOpacity onPress={handlePrivacyClick}>
+                  <Text style={Styles.privateText2}> 個資聲明 </Text>
+                </TouchableOpacity>
+                <Text style={Styles.privateText3}>並同意該條款</Text>
+              </View>
             </View>
           </View>
 
@@ -1177,7 +915,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               <Image source={ImageProvider.Volunteer.VolunteerConfirm} />
             </TouchableOpacity>
           </View>
-          <View style={{ alignContent: 'center', alignItems: 'center' }}>
+          <View style={Styles.dateSelectionContainer}>
             <DatePicker
               mode="date"
               date={date}
@@ -1188,6 +926,14 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
             />
           </View>
         </View>
+      </Modalize>
+      <Modalize
+        ref={privacyModalizeRef}
+        modalHeight={dimensionsHeight}
+        onClosed={() => setModalIsOpen(false)}
+        HeaderComponent={PrivacyHeader(handlePrivacyClose)}
+      >
+        <PrivacyContent />
       </Modalize>
       {isLoading ? <LoadingModal /> : null}
     </SafeAreaView>

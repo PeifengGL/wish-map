@@ -79,76 +79,27 @@ export default function EditAddressPage({ navigation }: PageRouterProps) {
       />
 
       <View style={Styles.headerContainer}>
-        <View
-          style={{
-            flexDirection: 'row',
-            marginBottom: 12,
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            width: '100%',
-          }}
-        >
+        <View style={Styles.headerFlex}>
           {renderEditUserAddressGoBack()}
           <TouchableOpacity onPress={saveEditUserPhone}>
-            <Text
-              style={{ fontSize: 14, fontFamily: 'Lato', color: '#0057B8' }}
-            >
-              儲存
-            </Text>
+            <Text style={Styles.saveButtonText}>儲存</Text>
           </TouchableOpacity>
         </View>
       </View>
 
-      <View style={{ marginHorizontal: 16 }}>
-        <Text
-          style={{
-            marginTop: 24,
-            fontSize: 24,
-            fontWeight: '700',
-            fontFamily: 'Lato',
-            color: '#0057B8',
-            marginBottom: 8,
-          }}
-        >
-          使用者聯絡地址
-        </Text>
-        <Text
-          style={{
-            fontSize: 14,
-            fontWeight: '400',
-            fontFamily: 'Lato',
-            color: '#75787B',
-          }}
-        >
+      <View style={Styles.editUserAddressContainer}>
+        <Text style={Styles.editUserAddressTitle}>使用者聯絡地址</Text>
+        <Text style={Styles.editUserAddressDescription}>
           Wish Map 會使用以下使用者聯絡地址在您填寫捐款人資料時，自動填入表格內
         </Text>
-        <View
-          style={{
-            height: 2,
-            width: '100%',
-            backgroundColor: '#D9D9D9',
-            marginVertical: 24,
-          }}
-        />
+        <View style={Styles.separator} />
 
-        <View
-          style={{
-            borderColor: '#0057B8',
-            borderWidth: 1,
-            borderRadius: 12,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingHorizontal: 16,
-          }}
-        >
+        <View style={Styles.editUserAddressInputContainer}>
           <TextInput
             placeholder="請輸入聯絡地址"
             value={userAddress}
             onChangeText={setUserAddress}
-            style={{
-              flex: 1,
-            }}
+            style={Styles.editUserAddressInput}
           />
           {userAddress !== '' && (
             <TouchableOpacity onPress={() => setUserAddress('')}>

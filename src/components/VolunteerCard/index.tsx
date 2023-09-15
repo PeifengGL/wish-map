@@ -8,12 +8,8 @@ const VolunteerCard = (props: VolunteerCardPropsType) => {
   const { volunteerInfoData } = props;
 
   return (
-    <View style={Styles.cardContainer}>
-      <View
-        style={{
-          flexDirection: 'row',
-        }}
-      >
+    <View style={Styles.card}>
+      <View style={Styles.cardContainer}>
         <View style={Styles.cardImageContainer}>
           <Image
             source={volunteerInfoData.cover_image}
@@ -47,8 +43,8 @@ const VolunteerCard = (props: VolunteerCardPropsType) => {
           </View>
         </View>
       </View>
-      <View style={{ marginHorizontal: 8, marginBottom: 8 }}>
-        <Text style={{ color: '#FF585D', fontSize: 11 }}>
+      <View style={Styles.cardRegistrationTimeHintContainer}>
+        <Text style={Styles.cardRegistrationTimeHintText}>
           {`報名時間：${volunteerInfoData.registration_time}\n需有志工訓練經驗及提供良民證`}
         </Text>
       </View>

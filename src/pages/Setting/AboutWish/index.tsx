@@ -39,31 +39,12 @@ export default function AboutWishPage({ navigation }: PageRouterProps) {
       />
 
       <View style={Styles.headerContainer}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '100%',
-            marginVertical: 16,
-          }}
-        >
-          <View style={{ position: 'absolute', left: 0, top: 0 }}>
+        <View style={Styles.headerFlex}>
+          <View style={Styles.goBackButton}>
             {renderDeleteAccountReasonGoBack()}
           </View>
 
-          <Text
-            style={{
-              marginBottom: 14,
-              marginTop: 10,
-              color: '#75787B',
-              fontSize: 16,
-              fontWeight: '500',
-              fontFamily: 'Lato',
-            }}
-          >
-            關於喜願
-          </Text>
+          <Text style={Styles.headerTitle}>關於喜願</Text>
           <View />
         </View>
       </View>

@@ -169,6 +169,18 @@ const Styles = StyleSheet.create({
     letterSpacing: 0.25,
     marginBottom: 30,
   },
+  toast: {
+    backgroundColor: 'rgba(50, 47, 53, 0.9)',
+    width: '90%',
+    alignSelf: 'center',
+    borderRadius: 4,
+    paddingHorizontal: 16,
+    borderLeftColor: 'rgba(50, 47, 53, 0.9)',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  toastText: { fontSize: 15, color: '#fff', marginVertical: 12 },
 });
 
 export default Styles;

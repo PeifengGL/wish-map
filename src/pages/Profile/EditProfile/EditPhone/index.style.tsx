@@ -17,6 +17,55 @@ const Styles = StyleSheet.create({
     fontWeight: '500',
     marginVertical: 28,
   },
+  headerFlex: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+  },
+  goBackButton: { marginVertical: 16 },
+  saveButton: { fontSize: 14, fontFamily: 'Lato', color: '#0057B8' },
+  editUserPhoneContainer: { marginHorizontal: 16 },
+  editUserPhoneTitle: {
+    marginTop: 24,
+    fontSize: 24,
+    fontWeight: '700',
+    fontFamily: 'Lato',
+    color: '#0057B8',
+    marginBottom: 8,
+  },
+  editUserPhoneDescription: {
+    fontSize: 14,
+    fontWeight: '400',
+    fontFamily: 'Lato',
+    color: '#75787B',
+  },
+  separator: {
+    height: 2,
+    width: '100%',
+    backgroundColor: '#D9D9D9',
+    marginVertical: 24,
+  },
+  editUserPhoneInputContainer: {
+    borderColor: '#0057B8',
+    borderWidth: 1,
+    borderRadius: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+  },
+  editUserPhoneInput: {
+    flex: 1,
+  },
+  editUserPhoneInputError: {
+    fontSize: 11,
+    fontFamily: 'Lato',
+    fontWeight: '500',
+    color: '#F23A3C',
+    marginTop: 4,
+    marginLeft: 16,
+  },
 });
 
 export default Styles;

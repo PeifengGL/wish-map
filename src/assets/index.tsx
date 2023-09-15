@@ -98,6 +98,7 @@ import EditProfileTextInput_Clean_Icon from 'assets/images/profile/textinput_cle
 import EditProfileTextInput_Error_Icon from 'assets/images/profile/input_error.png';
 import ProfileBackground_Image from 'assets/images/profile/Profile_Background.png';
 import ProfileLogin_Icon from 'assets/images/profile/login.png';
+import CloseUpload_Icon from 'assets/images/profile/close_upload.png';
 
 // Setting Page Image
 import SettingGoBack_Icon from 'assets/images/setting/setting_goback.png';
@@ -215,6 +216,7 @@ const ImageProvider = {
     EditProfileTextInputErrorIcon: EditProfileTextInput_Error_Icon,
     ProfileBackgroundImage: ProfileBackground_Image,
     ProfileLoginIcon: ProfileLogin_Icon,
+    CloseUploadIcon: CloseUpload_Icon,
   },
   Setting: {
     SettingGoBackIcon: SettingGoBack_Icon,

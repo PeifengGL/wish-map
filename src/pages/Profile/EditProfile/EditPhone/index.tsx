@@ -100,21 +100,12 @@ export default function EditPhonePage({ navigation }: PageRouterProps) {
       />
 
       <View style={Styles.headerContainer}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            width: '100%',
-          }}
-        >
-          <View style={{ marginVertical: 16 }}>
-            {renderEditUserEmailGoBack()}
-          </View>
+        <View style={Styles.headerFlex}>
+          <View style={Styles.goBackButton}>{renderEditUserEmailGoBack()}</View>
           <TouchableOpacity onPress={saveEditUserPhone} disabled={inputError}>
             <Text
               style={[
-                { fontSize: 14, fontFamily: 'Lato', color: '#0057B8' },
+                Styles.saveButton,
                 inputError ? { color: '#75787B' } : {},
               ]}
             >
@@ -124,49 +115,16 @@ export default function EditPhonePage({ navigation }: PageRouterProps) {
         </View>
       </View>
 
-      <View style={{ marginHorizontal: 16 }}>
-        <Text
-          style={{
-            marginTop: 24,
-            fontSize: 24,
-            fontWeight: '700',
-            fontFamily: 'Lato',
-            color: '#0057B8',
-            marginBottom: 8,
-          }}
-        >
-          使用者手機號碼
-        </Text>
-        <Text
-          style={{
-            fontSize: 14,
-            fontWeight: '400',
-            fontFamily: 'Lato',
-            color: '#75787B',
-          }}
-        >
+      <View style={Styles.editUserPhoneContainer}>
+        <Text style={Styles.editUserPhoneTitle}>使用者手機號碼</Text>
+        <Text style={Styles.editUserPhoneDescription}>
           Wish Map 會使用以下使用者手機號碼在您填寫捐款人資料時，自動填入表格內
         </Text>
-        <View
-          style={{
-            height: 2,
-            width: '100%',
-            backgroundColor: '#D9D9D9',
-            marginVertical: 24,
-          }}
-        />
+        <View style={Styles.separator} />
 
         <View
           style={[
-            {
-              borderColor: '#0057B8',
-              borderWidth: 1,
-              borderRadius: 12,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              paddingHorizontal: 16,
-            },
+            Styles.editUserPhoneInputContainer,
             inputError && { borderColor: '#FF0000' },
           ]}
         >
@@ -178,9 +136,7 @@ export default function EditPhonePage({ navigation }: PageRouterProps) {
               setUserPhone(text.replace(/-/g, ''));
               setFormatPhoneNumber(formatPhone(text));
             }}
-            style={{
-              flex: 1,
-            }}
+            style={Styles.editUserPhoneInput}
           />
           {userPhone !== '' && !inputError && (
             <TouchableOpacity
@@ -201,18 +157,7 @@ export default function EditPhonePage({ navigation }: PageRouterProps) {
           )}
         </View>
         {inputError && (
-          <Text
-            style={{
-              fontSize: 11,
-              fontFamily: 'Lato',
-              fontWeight: '500',
-              color: '#F23A3C',
-              marginTop: 4,
-              marginLeft: 16,
-            }}
-          >
-            請輸入正確手機號碼
-          </Text>
+          <Text style={Styles.editUserPhoneInputError}>請輸入正確手機號碼</Text>
         )}
       </View>
     </SafeAreaView>

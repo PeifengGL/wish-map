@@ -73,36 +73,20 @@ export default function ArticleDetailPage({
           const { height } = event.nativeEvent.layout;
           setHeaderHeight(height);
         }}
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#ffffff',
-          position: 'absolute',
-          top: 0,
-          width: '100%',
-          opacity: showHeader ? 1 : 0,
-          zIndex: showHeader ? 100 : -1,
-          elevation: 5, // This adds shadow on Android
-          shadowColor: '#000', // This adds shadow on iOS
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.2,
-          shadowRadius: 4,
-        }}
+        style={[
+          Styles.stickyHeader,
+          { opacity: showHeader ? 1 : 0, zIndex: showHeader ? 100 : -1 },
+        ]}
       >
-        <Text style={{ marginBottom: 24, marginTop: statusBarHeight! + 24 }}>
+        <Text
+          style={[
+            Styles.stickyHeaderTitle,
+            { marginTop: statusBarHeight! + 24 },
+          ]}
+        >
           文章
         </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            width: '100%',
-            alignItems: 'center',
-            position: 'absolute',
-            top: statusBarHeight! + 10,
-            paddingHorizontal: 16,
-          }}
-        >
+        <View style={Styles.stickyHeaderFlex}>
           <TouchableOpacity onPress={handleArticleDetailGoBack}>
             <Image source={ImageProvider.Article.ArticleGoBackIcon} />
           </TouchableOpacity>
