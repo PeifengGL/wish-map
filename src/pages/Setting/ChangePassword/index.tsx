@@ -6,7 +6,6 @@ import {
   SafeAreaView,
   Image,
   TextInput,
-  ToastAndroid,
 } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
@@ -35,7 +34,7 @@ export default function ChangePasswordPage({
   const [hideInputContent, setHideInputContent] = useState<boolean>(true);
   const [onFocusInput, setOnFocusInput] = useState<boolean>(false);
   const [inputError, setInputError] = useState<string>('');
-  const renderEditUserAddressGoBack = () => {
+  const renderChangePasswordGoBack = () => {
     return (
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Image source={ImageProvider.Profile.ProfileGoBackIcon} />
@@ -113,7 +112,7 @@ export default function ChangePasswordPage({
       />
 
       <View style={Styles.headerContainer}>
-        <View style={Styles.goBackButton}>{renderEditUserAddressGoBack()}</View>
+        <View style={Styles.goBackButton}>{renderChangePasswordGoBack()}</View>
       </View>
 
       <View style={Styles.changePasswordContainer}>

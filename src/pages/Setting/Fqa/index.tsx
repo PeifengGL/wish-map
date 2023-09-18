@@ -13,11 +13,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/ty
 import { SettingStackParamList } from 'types/router';
 import FocusAwareStatusBar from 'util/StatusBarAdapter';
 import ImageProvider from 'assets';
-import { Subscription } from 'rxjs';
-import DataShareService from 'service';
-import { UserProfileType } from 'types/profile';
 import Styles from './index.style';
-import WishRadioButton from 'components/WishRadioButton';
 
 type PageRouterProps = {
   route: RouteProp<SettingStackParamList, 'Fqa'>;
@@ -25,7 +21,6 @@ type PageRouterProps = {
 };
 
 export default function FqaPage({ navigation }: PageRouterProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
   const [fqaData, setFqaData] = useState<any>([
     {
       title: 'Q1. 喜願的服務內容為何',
@@ -93,7 +88,7 @@ export default function FqaPage({ navigation }: PageRouterProps) {
       isExpanded: false,
     },
   ]);
-  const renderDeleteAccountReasonGoBack = () => {
+  const renderFqaGoBack = () => {
     return (
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Image source={ImageProvider.Profile.ProfileGoBackIcon} />
@@ -103,44 +98,16 @@ export default function FqaPage({ navigation }: PageRouterProps) {
 
   const renderFqaContent = () => {
     return (
-      <View style={{ flex: 1, paddingHorizontal: 16, paddingVertical: 24 }}>
+      <View style={Styles.fqaContainer}>
         {fqaData.map(
           (
             item: { title: string; content: string; isExpanded: boolean },
             index: number,
           ) => {
             return (
-              <View
-                key={index}
-                style={{
-                  borderColor: '#0057B880',
-                  borderWidth: 1,
-                  borderRadius: 12,
-                  paddingHorizontal: 16,
-                  paddingVertical: 8,
-                  marginBottom: 16,
-                }}
-              >
-                <View
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Text
-                    style={{
-                      marginVertical: 12,
-                      color: '#0057B8',
-                      fontSize: 16,
-                      fontFamily: 'Lato',
-                      fontWeight: '500',
-                      flex: 1,
-                    }}
-                  >
-                    {item.title}
-                  </Text>
+              <View key={index} style={Styles.fqaItemContainer}>
+                <View style={Styles.fqaTopBlock}>
+                  <Text style={Styles.fqaItemTitle}>{item.title}</Text>
                   <TouchableOpacity
                     onPress={() => {
                       const newFqaData = [...fqaData];
@@ -177,36 +144,13 @@ export default function FqaPage({ navigation }: PageRouterProps) {
       />
 
       <View style={Styles.headerContainer}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '100%',
-            marginVertical: 16,
-          }}
-        >
-          <View style={{ position: 'absolute', left: 0, top: 0 }}>
-            {renderDeleteAccountReasonGoBack()}
-          </View>
-
-          <Text
-            style={{
-              marginBottom: 14,
-              marginTop: 10,
-              color: '#75787B',
-              fontSize: 16,
-              fontWeight: '500',
-              fontFamily: 'Lato',
-            }}
-          >
-            常見問題
-          </Text>
-          <View />
+        <View style={Styles.fqaBlock}>
+          <View style={Styles.fqaGoBack}>{renderFqaGoBack()}</View>
+          <Text style={Styles.fqaHeaderText}>常見問題</Text>
         </View>
       </View>
 
-      <ScrollView style={{ flex: 1 }}>{renderFqaContent()}</ScrollView>
+      <ScrollView style={Styles.fqaContent}>{renderFqaContent()}</ScrollView>
     </SafeAreaView>
   );
 }
@@ -214,7 +158,6 @@ export default function FqaPage({ navigation }: PageRouterProps) {
 const FqaView = ({ expanded, text }: { expanded: boolean; text: any }) => {
   const [height] = useState(new Animated.Value(0));
   const [separatorHeight] = useState(new Animated.Value(0));
-  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     Animated.timing(height, {
@@ -239,20 +182,14 @@ const FqaView = ({ expanded, text }: { expanded: boolean; text: any }) => {
       ]}
     >
       <Animated.View
-        style={{
-          height: separatorHeight,
-          backgroundColor: '#CCCCCC',
-          marginVertical: 12,
-        }}
+        style={[
+          Styles.fqaExpandSeparator,
+          {
+            height: separatorHeight,
+          },
+        ]}
       />
-      <Animated.Text
-        style={{
-          color: '#2D2D2D',
-          fontSize: 12,
-          fontFamily: 'Lato',
-          fontWeight: '400',
-        }}
-      >{`捐款人姓名：${text}`}</Animated.Text>
+      <Animated.Text style={Styles.fqaExpandText}>{text}</Animated.Text>
     </Animated.View>
   );
 };

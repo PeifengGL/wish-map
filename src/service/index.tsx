@@ -1,7 +1,7 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FilterMethodType } from 'types/wishMap';
 import { ProjectsDataType } from 'shared/project.data';
-import { IdentityType } from 'types/router';
+// import { IdentityType } from 'types/router';
 import { UserProfileType } from 'types/profile';
 
 class DataService {

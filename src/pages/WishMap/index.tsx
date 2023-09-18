@@ -5,7 +5,6 @@ import {
   View,
   Image,
   Pressable,
-  PermissionsAndroid,
   Dimensions,
   Animated,
   LayoutAnimation,
@@ -463,79 +462,26 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
             closeFilterTool={handleFilterToolClose}
           />
         </Modalize>
+
         <Modalize ref={sendWishApplyModalRef} adjustToContentHeight>
-          <View
-            style={{
-              height: '100%',
-              backgroundColor: '#ebf1f9',
-              justifyContent: 'flex-end',
-              alignItems: 'center',
-              borderTopLeftRadius: 28,
-              borderTopRightRadius: 28,
-            }}
-          >
-            <Text
-              style={{
-                color: '#FF585D',
-                fontSize: 24,
-                fontWeight: '700',
-                marginTop: 50,
-                marginBottom: 8,
-              }}
-            >
-              申請成功
-            </Text>
-            <Text
-              style={{
-                color: '#FF585D',
-                fontSize: 16,
-                fontWeight: '500',
-                textAlign: 'center',
-              }}
-            >
+          <View style={Styles.volunteerApplySuccessModalContainer}>
+            <Text style={Styles.applySuccessModalContent1}>申請成功</Text>
+            <Text style={Styles.applySuccessModalContent2}>
               {`每一位重症孩子都值得擁有希望幸福的每一天\n喜願與您一起讓願望一一實現！`}
             </Text>
             <Image
               source={ImageProvider.WishMap.WishApplyDoneImage}
-              style={{
-                width: 200,
-                height: 150,
-                resizeMode: 'contain',
-                aspectRatio: 1,
-              }}
+              style={Styles.applySuccessModalContent3}
             />
-            <Text
-              style={{
-                color: '#75787B',
-                fontSize: 14,
-                fontWeight: '500',
-                marginBottom: 24,
-                marginTop: 16,
-              }}
-            >
+            <Text style={Styles.applySuccessModalContent4}>
               預計審核時間一週內完成，本會將會盡快與您聯絡
             </Text>
-            <View style={{ width: '100%', marginBottom: 32 }}>
+            <View style={Styles.applySuccessModalButtonContainer}>
               <TouchableOpacity
-                style={{
-                  backgroundColor: '#0057B8',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: 50,
-                  marginHorizontal: 28,
-                }}
+                style={Styles.applySuccessModalButton}
                 onPress={() => sendWishApplyModalRef.current?.close()}
               >
-                <Text
-                  style={{
-                    fontSize: 14,
-                    fontWeight: '500',
-                    marginVertical: 12,
-                    color: '#FFFFFF',
-                  }}
-                >
-                  知道了
-                </Text>
+                <Text style={Styles.applySuccessModalButtonText}>知道了</Text>
               </TouchableOpacity>
             </View>
           </View>

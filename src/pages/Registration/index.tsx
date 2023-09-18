@@ -9,7 +9,6 @@ import {
   ActivityIndicator,
   Dimensions,
   StatusBar,
-  ToastAndroid,
 } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
@@ -23,7 +22,7 @@ import PrivacyContent, { PrivacyHeader } from 'components/PrivacyContent';
 import generateUUID from 'util/UUIDGenerator';
 import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
 import { UserProfileType } from 'types/profile';
-import Toast, { BaseToast, BaseToastProps } from 'react-native-toast-message';
+import Toast from 'react-native-toast-message';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'Registration'>;

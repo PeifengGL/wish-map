@@ -9,7 +9,6 @@ import {
   SafeAreaView,
   Dimensions,
   TextInput,
-  Alert,
   ToastAndroid,
   Pressable,
   BackHandler,
@@ -30,17 +29,13 @@ import PrivacyContent, { PrivacyHeader } from 'components/PrivacyContent';
 import LoadingModal from 'components/LoadingModal';
 import {
   launchImageLibrary,
-  launchCamera,
   ImagePickerResponse,
   ImageLibraryOptions,
   Asset,
 } from 'react-native-image-picker';
 
 import DocumentPicker, {
-  DirectoryPickerResponse,
   DocumentPickerResponse,
-  isCancel,
-  isInProgress,
   types,
 } from 'react-native-document-picker';
 import { Subscription } from 'rxjs';
@@ -263,40 +258,17 @@ export default function WishApplyNextStepPage({
   const renderSelectedImage = () => {
     return supplementFile.map((item, index) => {
       return (
-        <View
-          key={index}
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingHorizontal: 16,
-          }}
-        >
+        <View key={index} style={Styles.renderSelectedImageContainer}>
           <TouchableOpacity
             onPress={() => {
               setPreviewImage(item);
               setIsShowImageOpenModal(true);
             }}
           >
-            <Image
-              source={{ uri: item }}
-              style={{
-                width: 60,
-                height: 80,
-                marginVertical: 8,
-                borderRadius: 8,
-              }}
-            />
+            <Image source={{ uri: item }} style={Styles.renderSelectedImage} />
           </TouchableOpacity>
 
-          <View
-            style={{
-              marginLeft: 16,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              flex: 1,
-            }}
-          >
+          <View style={Styles.renderSelectedImageText}>
             <Text>{`病歷摘要 - ${index + 1}.jpg`}</Text>
             <TouchableOpacity
               onPress={() =>
@@ -342,16 +314,7 @@ export default function WishApplyNextStepPage({
               style={Styles.contentTitleText}
             >{`若您是或身邊有3歲以上，未滿18歲的重症病童，\n您可以向本會提出圓夢申請，請填寫下列表單，本會將由專人與您聯繫。\n亦可撥打圓夢專線：02-2718-2656`}</Text>
           </View>
-          <Text
-            style={{
-              fontSize: 22,
-              fontWeight: '500',
-              color: '#0057B8',
-              marginBottom: 16,
-            }}
-          >
-            病童資料
-          </Text>
+          <Text style={Styles.blockTitleText}>病童資料</Text>
           <View>
             <View style={Styles.fieldContainer}>
               <View style={Styles.fieldHeaderContainer}>
@@ -369,15 +332,15 @@ export default function WishApplyNextStepPage({
                 <Text style={Styles.fieldHeaderText}>性別</Text>
                 <Text style={Styles.fieldHeaderRequiredText}>(必填)</Text>
               </View>
-              <View style={{ flexDirection: 'row' }}>
-                <View style={{ flex: 0.5 }}>
+              <View style={Styles.genderContainer}>
+                <View style={Styles.genderItemContainer}>
                   <WishRadioButton
                     itemText="男"
                     isSelected={childGender === '男'}
                     radioClickFunction={() => genderRadioButtonClick('男')}
                   />
                 </View>
-                <View style={{ flex: 0.5 }}>
+                <View style={Styles.genderItemContainer}>
                   <WishRadioButton
                     itemText="女"
                     isSelected={childGender === '女'}
@@ -390,35 +353,13 @@ export default function WishApplyNextStepPage({
               <View style={Styles.fieldHeaderContainer}>
                 <Text style={Styles.fieldHeaderText}>生日</Text>
               </View>
-              <View
-                style={{
-                  alignSelf: 'flex-start',
-                }}
-              >
+              <View style={Styles.birthdayContainer}>
                 <TouchableOpacity
                   onPress={() => modalizeRef.current?.open()}
-                  style={{
-                    borderColor: '#0057B8',
-                    borderRadius: 30,
-                    borderWidth: 1,
-                    alignSelf: 'center',
-                  }}
+                  style={Styles.selectBirthdayButton}
                 >
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      marginHorizontal: 16,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: 12,
-                        color: '#0057B8',
-                        marginVertical: 12,
-                        marginRight: 24,
-                      }}
-                    >
+                  <View style={Styles.selectBirthdayButtonTextContainer}>
+                    <Text style={Styles.selectBirthdayButtonText}>
                       {birthLabel}
                     </Text>
                     <Image
@@ -440,16 +381,7 @@ export default function WishApplyNextStepPage({
               />
             </View>
             <View style={Styles.separator} />
-            <Text
-              style={{
-                fontSize: 22,
-                fontWeight: '500',
-                color: '#0057B8',
-                marginBottom: 16,
-              }}
-            >
-              聯絡資料
-            </Text>
+            <Text style={Styles.blockTitleText}>聯絡資料</Text>
             <View style={Styles.fieldContainer}>
               <View style={Styles.fieldHeaderContainer}>
                 <Text style={Styles.fieldHeaderText}>聯絡地址</Text>
@@ -495,16 +427,7 @@ export default function WishApplyNextStepPage({
               />
             </View>
             <View style={Styles.separator} />
-            <Text
-              style={{
-                fontSize: 22,
-                fontWeight: '500',
-                color: '#0057B8',
-                marginBottom: 16,
-              }}
-            >
-              病況資料
-            </Text>
+            <Text style={Styles.blockTitleText}>病況資料</Text>
             <View style={Styles.fieldContainer}>
               <View style={Styles.fieldHeaderContainer}>
                 <Text style={Styles.fieldHeaderText}>醫院</Text>
@@ -542,39 +465,16 @@ export default function WishApplyNextStepPage({
               </View>
               <TouchableOpacity
                 onPress={() => picturePickModalizeRef.current?.open()}
-                style={{
-                  borderWidth: 1,
-                  borderColor: '#0057B8',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: 50,
-                  marginBottom: 20,
-                }}
+                style={Styles.medicalRecordsButton}
               >
-                <Text
-                  style={{
-                    marginVertical: 12,
-                    fontSize: 14,
-                    fontWeight: '500',
-                    color: '#0057B8',
-                  }}
-                >
+                <Text style={Styles.medicalRecordsButtonText}>
                   {`請上傳所需附件（例如：病歷摘要)`}
                 </Text>
               </TouchableOpacity>
               {renderSelectedImage()}
             </View>
             <View style={Styles.separator} />
-            <Text
-              style={{
-                fontSize: 22,
-                fontWeight: '500',
-                color: '#0057B8',
-                marginBottom: 16,
-              }}
-            >
-              其他
-            </Text>
+            <Text style={Styles.blockTitleText}>其他</Text>
             <View style={Styles.fieldContainer}>
               <View style={Styles.fieldHeaderContainer}>
                 <Text style={Styles.fieldHeaderText}>如何得知喜願</Text>
@@ -582,14 +482,8 @@ export default function WishApplyNextStepPage({
               </View>
 
               <View>
-                <View style={{ flexDirection: 'row', marginBottom: 12 }}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      flex: 0.5,
-                    }}
-                  >
+                <View style={Styles.otherBlockContainer}>
+                  <View style={Styles.otherRowContainer}>
                     <CheckBox
                       tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                       value={howToKnowMakeWish.includes('病友')}
@@ -603,19 +497,9 @@ export default function WishApplyNextStepPage({
                         }
                       }}
                     />
-                    <Text
-                      style={{ fontSize: 14, color: '#2D2D2D', marginLeft: 4 }}
-                    >
-                      病友
-                    </Text>
+                    <Text style={Styles.otherRowCheckBoxText}>病友</Text>
                   </View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      flex: 0.5,
-                    }}
-                  >
+                  <View style={Styles.otherRowContainer}>
                     <CheckBox
                       tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                       value={howToKnowMakeWish.includes('醫護')}
@@ -629,22 +513,12 @@ export default function WishApplyNextStepPage({
                         }
                       }}
                     />
-                    <Text
-                      style={{ fontSize: 14, color: '#2D2D2D', marginLeft: 4 }}
-                    >
-                      醫護
-                    </Text>
+                    <Text style={Styles.otherRowCheckBoxText}>醫護</Text>
                   </View>
                 </View>
 
-                <View style={{ flexDirection: 'row' }}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      flex: 0.5,
-                    }}
-                  >
+                <View style={Styles.otherBlockContainer2}>
+                  <View style={Styles.otherRowContainer}>
                     <CheckBox
                       tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                       value={howToKnowMakeWish.includes('網路')}
@@ -658,19 +532,9 @@ export default function WishApplyNextStepPage({
                         }
                       }}
                     />
-                    <Text
-                      style={{ fontSize: 14, color: '#2D2D2D', marginLeft: 4 }}
-                    >
-                      網路
-                    </Text>
+                    <Text style={Styles.otherRowCheckBoxText}>網路</Text>
                   </View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      flex: 0.5,
-                    }}
-                  >
+                  <View style={Styles.otherRowContainer}>
                     <CheckBox
                       tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                       value={howToKnowMakeWish.includes('其他')}
@@ -684,11 +548,7 @@ export default function WishApplyNextStepPage({
                         }
                       }}
                     />
-                    <Text
-                      style={{ fontSize: 14, color: '#2D2D2D', marginLeft: 4 }}
-                    >
-                      其他
-                    </Text>
+                    <Text style={Styles.otherRowCheckBoxText}>其他</Text>
                   </View>
                 </View>
               </View>
@@ -698,13 +558,7 @@ export default function WishApplyNextStepPage({
                 <Text style={Styles.fieldHeaderText}>個資聲明</Text>
                 <Text style={Styles.fieldHeaderRequiredText}>(必填)</Text>
               </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  flex: 0.5,
-                }}
-              >
+              <View style={Styles.otherRowContainer}>
                 <CheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={isAgreePrivacy}
@@ -712,32 +566,21 @@ export default function WishApplyNextStepPage({
                     setIsAgreePrivacy(!isAgreePrivacy);
                   }}
                 />
-                <View style={{ flexDirection: 'row' }}>
-                  <Text
-                    style={{ fontSize: 14, color: '#2D2D2D', marginLeft: 4 }}
-                  >
-                    我已閱讀
-                  </Text>
+                <View style={Styles.otherBlockContainer2}>
+                  <Text style={Styles.otherRowCheckBoxText}>我已閱讀</Text>
                   <TouchableOpacity onPress={handlePrivacyClick}>
-                    <Text style={{ color: '#0057B8' }}> 個資聲明 </Text>
+                    <Text style={Styles.policyButtonText}> 個資聲明 </Text>
                   </TouchableOpacity>
-                  <Text style={{ fontSize: 14, color: '#2D2D2D' }}>
-                    並同意該條款
-                  </Text>
+                  <Text style={Styles.readTermsText}>並同意該條款</Text>
                 </View>
               </View>
             </View>
           </View>
+
           <TouchableOpacity
             onPress={sendWishApply}
             style={[
-              {
-                width: '100%',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginBottom: 12,
-                borderRadius: 50,
-              },
+              Styles.sendApplyButton,
               isButtonEnable
                 ? { backgroundColor: '#0057B8' }
                 : { backgroundColor: '#ECECEC' },
@@ -746,7 +589,7 @@ export default function WishApplyNextStepPage({
           >
             <Text
               style={[
-                { marginVertical: 14 },
+                Styles.sendApplyButtonText,
                 isButtonEnable ? { color: 'white' } : { color: '#909090' },
               ]}
             >
@@ -769,44 +612,34 @@ export default function WishApplyNextStepPage({
             modalizeRef.current?.close();
           }}
         >
-          <View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginTop: 24,
-                paddingHorizontal: 16,
+          <View style={Styles.selectBirthdayModalHeader}>
+            <TouchableOpacity onPress={() => modalizeRef.current?.close()}>
+              <Image source={ImageProvider.Volunteer.VolunteerClose} />
+            </TouchableOpacity>
+
+            <Text>選擇出生日期</Text>
+            <TouchableOpacity
+              onPress={() => {
+                setBirthLabel(
+                  `${date.getFullYear()} 年 ${
+                    date.getMonth() + 1
+                  } 月 ${date.getUTCDate()} 日`,
+                );
+                modalizeRef.current?.close();
               }}
             >
-              <TouchableOpacity onPress={() => modalizeRef.current?.close()}>
-                <Image source={ImageProvider.Volunteer.VolunteerClose} />
-              </TouchableOpacity>
-
-              <Text>選擇出生日期</Text>
-              <TouchableOpacity
-                onPress={() => {
-                  setBirthLabel(
-                    `${date.getFullYear()} 年 ${
-                      date.getMonth() + 1
-                    } 月 ${date.getUTCDate()} 日`,
-                  );
-                  modalizeRef.current?.close();
-                }}
-              >
-                <Image source={ImageProvider.Volunteer.VolunteerConfirm} />
-              </TouchableOpacity>
-            </View>
-            <View style={{ alignContent: 'center', alignItems: 'center' }}>
-              <DatePicker
-                mode="date"
-                date={date}
-                onDateChange={date => setDate(date)}
-                locale="zh-TW"
-                androidVariant="nativeAndroid"
-                fadeToColor="#0057B8"
-              />
-            </View>
+              <Image source={ImageProvider.Volunteer.VolunteerConfirm} />
+            </TouchableOpacity>
+          </View>
+          <View style={Styles.selectBirthdayModalContainer}>
+            <DatePicker
+              mode="date"
+              date={date}
+              onDateChange={date => setDate(date)}
+              locale="zh-TW"
+              androidVariant="nativeAndroid"
+              fadeToColor="#0057B8"
+            />
           </View>
         </Modalize>
         <Modalize
@@ -817,92 +650,67 @@ export default function WishApplyNextStepPage({
         >
           <PrivacyContent />
         </Modalize>
+
         <Modalize ref={picturePickModalizeRef} adjustToContentHeight>
-          <View>
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <Text style={{ marginVertical: 36 }}>請選擇上傳途徑</Text>
-              <TouchableOpacity
-                onPress={() => picturePickModalizeRef.current?.close}
-              >
-                <Image
-                  source={ImageProvider.WishMap.ClosePrivacyIcon}
-                  style={{ position: 'absolute', right: 16 }}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={{ marginBottom: 28, marginHorizontal: 16 }}>
-              <TouchableOpacity
-                onPress={handleChooseImageFromFile}
-                style={{
-                  backgroundColor: '#0057B8',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: 24,
-                  borderRadius: 50,
-                }}
-              >
-                <Text style={{ color: 'white', marginVertical: 12 }}>檔案</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={handleChooseImageFromGallery}
-                style={{
-                  backgroundColor: '#0057B8',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: 50,
-                }}
-              >
-                <Text style={{ color: 'white', marginVertical: 12 }}>相簿</Text>
-              </TouchableOpacity>
-            </View>
+          <View style={Styles.selectImageModalContainer}>
+            <Text style={Styles.selectImageModalHeaderTitle}>
+              請選擇上傳途徑
+            </Text>
+            <TouchableOpacity
+              onPress={() => picturePickModalizeRef.current?.close()}
+              style={Styles.selectImageModalClose}
+            >
+              <Image source={ImageProvider.WishMap.ClosePrivacyIcon} />
+            </TouchableOpacity>
+          </View>
+          <View style={Styles.selectImageButtonsContainer}>
+            <TouchableOpacity
+              onPress={handleChooseImageFromFile}
+              style={Styles.selectImageModalFileButton}
+            >
+              <Text style={Styles.selectImageModeButtonText}>檔案</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleChooseImageFromGallery}
+              style={Styles.selectImageModalAlbumButton}
+            >
+              <Text style={Styles.selectImageModeButtonText}>相簿</Text>
+            </TouchableOpacity>
           </View>
         </Modalize>
       </Portal>
+
       {isLoading ? <LoadingModal /> : null}
+
       {isShowImageOpenModal ? (
         <Pressable
           onPress={closeShowPreviewImageModal}
-          style={{
-            position: 'absolute',
-            zIndex: 10000,
-            backgroundColor: '#00000066',
-            flex: 1,
-            width: '100%',
-            height: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
+          style={Styles.showImageOpenModalContainer}
         >
-          <View>
-            {selectedPreviewImageInfo.uri ? (
-              <Image
-                source={{ uri: selectedPreviewImageInfo.uri }}
-                onLoadEnd={() => setPreviewImageLoadEnd(true)}
-                style={
-                  selectedPreviewImageInfo.ratio > 1
-                    ? {
-                        width: Dimensions.get('window').width,
-                        aspectRatio: selectedPreviewImageInfo.ratio,
-                      }
-                    : {
-                        height:
-                          Dimensions.get('window').height - statusBarHeight!,
-                        aspectRatio: selectedPreviewImageInfo.ratio,
-                      }
-                }
-              />
-            ) : null}
-            {previewImageLoadEnd ? (
-              <TouchableOpacity
-                onPress={closeShowPreviewImageModal}
-                style={{ position: 'absolute', right: 8, top: 8 }}
-              >
-                <Image
-                  source={ImageProvider.WishMap.WishApplyCancelImageIcon}
-                />
-              </TouchableOpacity>
-            ) : null}
-          </View>
+          {selectedPreviewImageInfo.uri ? (
+            <Image
+              source={{ uri: selectedPreviewImageInfo.uri }}
+              onLoadEnd={() => setPreviewImageLoadEnd(true)}
+              style={
+                selectedPreviewImageInfo.ratio > 1
+                  ? {
+                      width: Dimensions.get('window').width,
+                      aspectRatio: selectedPreviewImageInfo.ratio,
+                    }
+                  : {
+                      height:
+                        Dimensions.get('window').height - statusBarHeight!,
+                      aspectRatio: selectedPreviewImageInfo.ratio,
+                    }
+              }
+            />
+          ) : null}
+          <TouchableOpacity
+            onPress={closeShowPreviewImageModal}
+            style={Styles.showImageOpenModalCloseButton}
+          >
+            <Image source={ImageProvider.WishMap.WishApplyCancelImageIcon} />
+          </TouchableOpacity>
         </Pressable>
       ) : null}
     </SafeAreaView>

@@ -5,8 +5,6 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Image,
-  TextInput,
-  ToastAndroid,
   Dimensions,
   ImageBackground,
 } from 'react-native';
@@ -30,10 +28,9 @@ export default function DeleteAccountPage({
   route,
   navigation,
 }: PageRouterProps) {
-  const [deleteAccountReason, setDeleteAccountReason] = useState<string>('');
   const rootNavigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const renderDeleteAccountReasonGoBack = () => {
+  const renderDeleteAccountBack = () => {
     return (
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Image source={ImageProvider.Profile.ProfileGoBackIcon} />
@@ -101,98 +98,29 @@ export default function DeleteAccountPage({
         }}
       >
         <View style={Styles.headerContainer}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              width: '100%',
-              marginVertical: 16,
-            }}
-          >
-            {renderDeleteAccountReasonGoBack()}
-            <View />
-          </View>
+          <View style={Styles.goBackButton}>{renderDeleteAccountBack()}</View>
         </View>
 
-        <View style={{ marginHorizontal: 16 }}>
-          <Text
-            style={{
-              marginTop: 24,
-              fontSize: 24,
-              fontWeight: '700',
-              fontFamily: 'Lato',
-              color: '#0057B8',
-              marginBottom: 8,
-            }}
-          >
-            刪除 Wish Map 帳號
-          </Text>
-          <Text
-            style={{
-              fontSize: 14,
-              fontWeight: '400',
-              fontFamily: 'Lato',
-              color: '#75787B',
-            }}
-          >
+        <View style={Styles.content}>
+          <Text style={Styles.title}>刪除 Wish Map 帳號</Text>
+          <Text style={Styles.description}>
             對於您決定刪除帳號我們感到非常不捨！想了解您刪除帳號的原因，幫助我們更加了解您的想法
           </Text>
 
-          <View
-            style={{
-              height: 2,
-              width: '100%',
-              backgroundColor: '#D9D9D9',
-              marginVertical: 24,
-            }}
-          />
+          <View style={Styles.separator} />
 
           <TouchableOpacity
             onPress={handleCancelDeleteAccount}
-            style={{
-              borderRadius: 50,
-              width: '100%',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: '#0057B8',
-              marginBottom: 24,
-            }}
+            style={Styles.cancelButton}
           >
-            <Text
-              style={{
-                fontSize: 14,
-                fontFamily: 'Lato',
-                marginVertical: 14,
-                color: '#ffffff',
-              }}
-            >
-              取消
-            </Text>
+            <Text style={Styles.cancelButtonText}>取消</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={handleDeleteAccount}
-            style={{
-              borderRadius: 50,
-              width: '100%',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: '#ffffff',
-              borderColor: '#FF585D',
-              borderWidth: 1,
-            }}
+            style={Styles.deleteAccountButton}
           >
-            <Text
-              style={{
-                fontSize: 14,
-                fontFamily: 'Lato',
-                marginVertical: 14,
-                color: '#FF585D',
-              }}
-            >
-              刪除帳號
-            </Text>
+            <Text style={Styles.deleteAccountButtonText}>刪除帳號</Text>
           </TouchableOpacity>
         </View>
       </ImageBackground>

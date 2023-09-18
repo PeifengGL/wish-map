@@ -4,8 +4,6 @@ import { WishApplyStepOneDataType } from 'types/wishMap';
 
 export type RootStackParamList = {
   Loading: {};
-  Home: { id?: string };
-  TestPage: { text?: string };
   HomeTabs: {};
   Welcome: {};
   Registration: { isDeleteAccount?: boolean; isLogout?: boolean };
@@ -43,7 +41,6 @@ export type SettingStackParamList = {
   DeleteAccount: {};
   DeleteAccountReason: {};
   DeleteAccountSafeCheck: {};
-  ReportIssue: {};
   Fqa: {};
   AboutWish: {};
   PrivacyPolicy: {};

@@ -30,7 +30,6 @@ import ResetPasswordPage from 'pages/Setting/ResetPassword';
 import DeleteAccountPage from 'pages/Setting/DeleteAccount/DeleteAccount';
 import DeleteAccountReasonPage from 'pages/Setting/DeleteAccount/DeleteAccountReason';
 import DeleteAccountSafeCheckPage from 'pages/Setting/DeleteAccount/DeleteAccountSafeCheck';
-import ReportIssuePage from 'pages/Setting/ReportIssue';
 import FqaPage from 'pages/Setting/Fqa';
 import AboutWishPage from 'pages/Setting/AboutWish';
 import PrivacyPolicyPage from 'pages/Setting/PrivacyPolicy';
@@ -233,10 +232,6 @@ export default function Routes() {
                     <SettingStack.Screen
                       name="DeleteAccountSafeCheck"
                       component={DeleteAccountSafeCheckPage}
-                    />
-                    <SettingStack.Screen
-                      name="ReportIssue"
-                      component={ReportIssuePage}
                     />
                     <SettingStack.Screen name="Fqa" component={FqaPage} />
                     <SettingStack.Screen

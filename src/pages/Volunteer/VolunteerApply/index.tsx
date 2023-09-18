@@ -887,44 +887,34 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
           modalizeRef.current?.close();
         }}
       >
-        <View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginTop: 24,
-              paddingHorizontal: 16,
+        <View style={Styles.selectDateHeader}>
+          <TouchableOpacity onPress={() => modalizeRef.current?.close()}>
+            <Image source={ImageProvider.Volunteer.VolunteerClose} />
+          </TouchableOpacity>
+
+          <Text>選擇出生日期</Text>
+          <TouchableOpacity
+            onPress={() => {
+              setBirthLabel(
+                `${date.getFullYear()} 年 ${
+                  date.getMonth() + 1
+                } 月 ${date.getUTCDate()} 日`,
+              );
+              modalizeRef.current?.close();
             }}
           >
-            <TouchableOpacity onPress={() => modalizeRef.current?.close()}>
-              <Image source={ImageProvider.Volunteer.VolunteerClose} />
-            </TouchableOpacity>
-
-            <Text>選擇出生日期</Text>
-            <TouchableOpacity
-              onPress={() => {
-                setBirthLabel(
-                  `${date.getFullYear()} 年 ${
-                    date.getMonth() + 1
-                  } 月 ${date.getUTCDate()} 日`,
-                );
-                modalizeRef.current?.close();
-              }}
-            >
-              <Image source={ImageProvider.Volunteer.VolunteerConfirm} />
-            </TouchableOpacity>
-          </View>
-          <View style={Styles.dateSelectionContainer}>
-            <DatePicker
-              mode="date"
-              date={date}
-              onDateChange={date => setDate(date)}
-              locale="zh-TW"
-              androidVariant="nativeAndroid"
-              fadeToColor="#0057B8"
-            />
-          </View>
+            <Image source={ImageProvider.Volunteer.VolunteerConfirm} />
+          </TouchableOpacity>
+        </View>
+        <View style={Styles.dateSelectionContainer}>
+          <DatePicker
+            mode="date"
+            date={date}
+            onDateChange={date => setDate(date)}
+            locale="zh-TW"
+            androidVariant="nativeAndroid"
+            fadeToColor="#0057B8"
+          />
         </View>
       </Modalize>
       <Modalize

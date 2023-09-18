@@ -38,19 +38,10 @@ export default function ResetPasswordPage({ navigation }: PageRouterProps) {
   const [confirmNewPasswordError, setConfirmNewPasswordError] =
     useState<string>('');
 
-  const renderEditUserAddressGoBack = () => {
+  const renderResetPasswordGoBack = () => {
     return (
       <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text
-          style={{
-            color: '#FF585D',
-            fontFamily: 'Lato',
-            fontSize: 14,
-            fontWeight: '500',
-          }}
-        >
-          取消
-        </Text>
+        <Text style={Styles.cancelButtonText}>取消</Text>
       </TouchableOpacity>
     );
   };
@@ -149,48 +140,15 @@ export default function ResetPasswordPage({ navigation }: PageRouterProps) {
       />
 
       <View style={Styles.headerContainer}>
-        <View
-          style={{
-            flexDirection: 'row',
-            marginBottom: 12,
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            width: '100%',
-          }}
-        >
-          {renderEditUserAddressGoBack()}
-        </View>
+        <View style={Styles.goBackButton}>{renderResetPasswordGoBack()}</View>
       </View>
 
-      <View
-        style={{
-          marginHorizontal: 16,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Text
-          style={{
-            marginTop: 24,
-            fontSize: 24,
-            fontWeight: '700',
-            fontFamily: 'Lato',
-            color: '#0057B8',
-            marginBottom: 8,
-          }}
-        >
-          重置密碼
-        </Text>
-        <View style={{ width: '100%', marginTop: 16 }}>
+      <View style={Styles.resetPassword}>
+        <Text style={Styles.resetPasswordTitle}>重置密碼</Text>
+        <View style={Styles.resetPasswordContainer}>
           <View
             style={[
-              {
-                borderRadius: 12,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-                paddingHorizontal: 16,
-              },
+              Styles.resetPasswordInputContainer,
               newPasswordError !== ''
                 ? { borderWidth: 2, borderColor: '#FF0000' }
                 : onFocusNewPasswordInput
@@ -208,27 +166,13 @@ export default function ResetPasswordPage({ navigation }: PageRouterProps) {
               onFocus={handleNewPasswordOnFocus}
               onBlur={handleNewPasswordOnBlur}
               secureTextEntry={hideNewPasswordContent}
-              style={{
-                flex: 1,
-              }}
+              style={Styles.input}
             />
 
-            <View
-              style={{
-                position: 'absolute',
-                backgroundColor: '#ffffff',
-                left: 16,
-                top: -8,
-              }}
-            >
+            <View style={Styles.inputLabel}>
               <Text
                 style={[
-                  {
-                    fontSize: 12,
-                    fontWeight: '700',
-                    fontFamily: 'Lato',
-                    marginHorizontal: 6,
-                  },
+                  Styles.inputLabelText,
                   newPasswordError !== ''
                     ? { color: '#FF0000' }
                     : { color: '#0057B8' },
@@ -259,31 +203,15 @@ export default function ResetPasswordPage({ navigation }: PageRouterProps) {
             )}
           </View>
 
-          <Text
-            style={{
-              fontSize: 12,
-              fontWeight: '700',
-              fontFamily: 'Lato',
-              marginHorizontal: 6,
-              color: '#FF0000',
-              marginTop: 6,
-              marginLeft: 16,
-            }}
-          >
+          <Text style={Styles.inputErrorText}>
             {newPasswordError !== '' ? newPasswordError : ''}
           </Text>
         </View>
 
-        <View style={{ width: '100%', marginTop: 16 }}>
+        <View style={Styles.resetPasswordContainer}>
           <View
             style={[
-              {
-                borderRadius: 12,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-                paddingHorizontal: 16,
-              },
+              Styles.resetPasswordInputContainer,
               confirmNewPasswordError !== ''
                 ? { borderWidth: 2, borderColor: '#FF0000' }
                 : onFocusConfirmNewPasswordInput
@@ -301,27 +229,13 @@ export default function ResetPasswordPage({ navigation }: PageRouterProps) {
               onFocus={handleConfirmNewPasswordOnFocus}
               onBlur={handleConfirmNewPasswordOnBlur}
               secureTextEntry={hideConfirmNewPasswordContent}
-              style={{
-                flex: 1,
-              }}
+              style={Styles.input}
             />
 
-            <View
-              style={{
-                position: 'absolute',
-                backgroundColor: '#ffffff',
-                left: 16,
-                top: -8,
-              }}
-            >
+            <View style={Styles.inputLabel}>
               <Text
                 style={[
-                  {
-                    fontSize: 12,
-                    fontWeight: '700',
-                    fontFamily: 'Lato',
-                    marginHorizontal: 6,
-                  },
+                  Styles.inputLabelText,
                   confirmNewPasswordError !== ''
                     ? { color: '#FF0000' }
                     : { color: '#0057B8' },
@@ -353,42 +267,16 @@ export default function ResetPasswordPage({ navigation }: PageRouterProps) {
               </TouchableOpacity>
             )}
           </View>
-          <Text
-            style={{
-              fontSize: 12,
-              fontWeight: '700',
-              fontFamily: 'Lato',
-              marginHorizontal: 6,
-              color: '#FF0000',
-              marginTop: 6,
-              marginLeft: 16,
-            }}
-          >
+          <Text style={Styles.inputErrorText}>
             {confirmNewPasswordError !== '' ? confirmNewPasswordError : ''}
           </Text>
         </View>
 
         <TouchableOpacity
           onPress={handleSubmit}
-          style={{
-            backgroundColor: '#0057B8',
-            borderRadius: 50,
-            width: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginTop: 20,
-          }}
+          style={Styles.resetPasswordButton}
         >
-          <Text
-            style={{
-              color: '#ffffff',
-              fontSize: 14,
-              fontFamily: 'Lato',
-              marginVertical: 14,
-            }}
-          >
-            送出
-          </Text>
+          <Text style={Styles.resetPasswordButtonText}>送出</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

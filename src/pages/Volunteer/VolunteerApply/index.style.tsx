@@ -135,6 +135,13 @@ const Styles = StyleSheet.create({
     marginVertical: 8,
     fontSize: 12,
   },
+  selectDateHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 24,
+    paddingHorizontal: 16,
+  },
 });
 
 export default Styles;

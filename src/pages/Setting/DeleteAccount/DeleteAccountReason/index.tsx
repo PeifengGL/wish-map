@@ -5,11 +5,9 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Image,
-  TextInput,
   ToastAndroid,
   Dimensions,
   ImageBackground,
-  StatusBar,
 } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
@@ -34,7 +32,6 @@ export default function DeleteAccountReasonPage({
   route,
   navigation,
 }: PageRouterProps) {
-  const statusBarHeight = StatusBar.currentHeight;
   const [deleteAccountReason, setDeleteAccountReason] = useState<string>('');
 
   const renderDeleteAccountReasonGoBack = () => {
@@ -89,61 +86,22 @@ export default function DeleteAccountReasonPage({
         }}
       >
         <View style={Styles.headerContainer}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              width: '100%',
-              marginVertical: 16,
-            }}
-          >
+          <View style={Styles.deleteAccountReasonGoBackContainer}>
             {renderDeleteAccountReasonGoBack()}
-            <View />
           </View>
         </View>
 
-        <View style={{ marginHorizontal: 16 }}>
-          <Text
-            style={{
-              marginTop: 24,
-              fontSize: 24,
-              fontWeight: '700',
-              fontFamily: 'Lato',
-              color: '#0057B8',
-              marginBottom: 8,
-            }}
-          >
-            刪除 Wish Map 帳號
-          </Text>
-          <Text
-            style={{
-              fontSize: 14,
-              fontWeight: '400',
-              fontFamily: 'Lato',
-              color: '#75787B',
-            }}
-          >
+        <View style={Styles.content}>
+          <Text style={Styles.title}>刪除 Wish Map 帳號</Text>
+          <Text style={Styles.description}>
             對於您決定刪除帳號我們感到非常不捨！想了解您刪除帳號的原因，幫助我們更加了解您的想法
           </Text>
 
-          <View
-            style={{
-              height: 2,
-              width: '100%',
-              backgroundColor: '#D9D9D9',
-              marginVertical: 24,
-            }}
-          />
+          <View style={Styles.separator} />
 
-          <View
-            style={{
-              width: '100%',
-              justifyContent: 'space-between',
-            }}
-          >
+          <View style={Styles.reasonContainer}>
             <View>
-              <View style={{ marginBottom: 28 }}>
+              <View style={Styles.reasonItemContainer}>
                 <WishRadioButton
                   itemText="我對資料安全有疑慮"
                   isSelected={deleteAccountReason === '我對資料安全有疑慮'}
@@ -151,7 +109,7 @@ export default function DeleteAccountReasonPage({
                 />
               </View>
 
-              <View style={{ marginBottom: 28 }}>
+              <View style={Styles.reasonItemContainer}>
                 <WishRadioButton
                   itemText="隱私顧慮"
                   isSelected={deleteAccountReason === '隱私顧慮'}
@@ -159,7 +117,7 @@ export default function DeleteAccountReasonPage({
                 />
               </View>
 
-              <View style={{ marginBottom: 28 }}>
+              <View style={Styles.reasonItemContainer}>
                 <WishRadioButton
                   itemText="找不到想捐款的對象"
                   isSelected={deleteAccountReason === '找不到想捐款的對象'}
@@ -167,7 +125,7 @@ export default function DeleteAccountReasonPage({
                 />
               </View>
 
-              <View style={{ marginBottom: 28 }}>
+              <View style={Styles.reasonItemContainer}>
                 <WishRadioButton
                   itemText="無法開始使用"
                   isSelected={deleteAccountReason === '無法開始使用'}
@@ -175,7 +133,7 @@ export default function DeleteAccountReasonPage({
                 />
               </View>
 
-              <View style={{ marginBottom: 28 }}>
+              <View style={Styles.reasonItemContainer}>
                 <WishRadioButton
                   itemText="操作不方便"
                   isSelected={deleteAccountReason === '操作不方便'}
@@ -183,7 +141,7 @@ export default function DeleteAccountReasonPage({
                 />
               </View>
 
-              <View style={{ marginBottom: 28 }}>
+              <View style={Styles.reasonItemContainer}>
                 <WishRadioButton
                   itemText="其他"
                   isSelected={deleteAccountReason === '其他'}
@@ -193,23 +151,11 @@ export default function DeleteAccountReasonPage({
             </View>
           </View>
         </View>
-        <View
-          style={{
-            position: 'absolute',
-            bottom: 28,
-            paddingHorizontal: 16,
-            width: '100%',
-          }}
-        >
+        <View style={Styles.continueButtonContainer}>
           <TouchableOpacity
             onPress={handleNextStep}
             style={[
-              {
-                borderRadius: 50,
-                width: '100%',
-                alignItems: 'center',
-                justifyContent: 'center',
-              },
+              Styles.continueButton,
               deleteAccountReason === ''
                 ? { backgroundColor: '#ECECEC' }
                 : { backgroundColor: '#0057B8' },
@@ -218,11 +164,7 @@ export default function DeleteAccountReasonPage({
           >
             <Text
               style={[
-                {
-                  fontSize: 14,
-                  fontFamily: 'Lato',
-                  marginVertical: 14,
-                },
+                Styles.continueButtonText,
                 deleteAccountReason === ''
                   ? { color: '#909090' }
                   : { color: '#ffffff' },

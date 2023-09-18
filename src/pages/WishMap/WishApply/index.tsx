@@ -77,19 +77,10 @@ export default function WishApplyPage({ navigation }: PageRouterProps) {
                 style={Styles.contentTitleText}
               >{`若您是或身邊有3歲以上，未滿18歲的重症病童，\n您可以向本會提出圓夢申請，請填寫下列表單，本會將由專人與您聯繫。\n亦可撥打圓夢專線：02-2718-2656`}</Text>
             </View>
-            <Text
-              style={{
-                fontSize: 22,
-                fontWeight: '500',
-                color: '#0057B8',
-                marginBottom: 16,
-              }}
-            >
-              申請人身分
-            </Text>
+            <Text style={Styles.applyBlockTitleText}>申請人身分</Text>
             <View>
-              <View style={{ marginBottom: 16 }}>
-                <View style={{ marginBottom: 8 }}>
+              <View style={Styles.applyBlockItemContainer}>
+                <View style={Styles.applyBlockItem}>
                   <WishRadioButton
                     itemText="病童本人"
                     isSelected={wishApplierType === '病童本人'}
@@ -99,7 +90,7 @@ export default function WishApplyPage({ navigation }: PageRouterProps) {
 
                 {wishApplierType === '病童本人' ? (
                   <>
-                    <View style={{ marginBottom: 8 }}>
+                    <View style={Styles.applyBlockItem}>
                       <TextInput
                         label="申請人姓名"
                         value={wishApplierName}
@@ -107,10 +98,7 @@ export default function WishApplyPage({ navigation }: PageRouterProps) {
                         onChangeText={text => setWishApplierName(text)}
                         mode="outlined"
                         outlineColor="#0057B8"
-                        outlineStyle={{
-                          borderRadius: 12,
-                          borderColor: '#0057B8',
-                        }}
+                        outlineStyle={Styles.inputOutline}
                         theme={{
                           colors: {
                             primary: '#0057B8',
@@ -124,10 +112,7 @@ export default function WishApplyPage({ navigation }: PageRouterProps) {
                       placeholder="請輸入手機號碼"
                       onChangeText={text => setWishApplierPhone(text)}
                       mode="outlined"
-                      outlineStyle={{
-                        borderRadius: 12,
-                        borderColor: '#0057B8',
-                      }}
+                      outlineStyle={Styles.inputOutline}
                       theme={{
                         colors: {
                           primary: '#0057B8',
@@ -137,8 +122,8 @@ export default function WishApplyPage({ navigation }: PageRouterProps) {
                   </>
                 ) : null}
               </View>
-              <View style={{ marginBottom: 16 }}>
-                <View style={{ marginBottom: 8 }}>
+              <View style={Styles.applyBlockItemContainer}>
+                <View style={Styles.applyBlockItem}>
                   <WishRadioButton
                     itemText="病童親屬"
                     isSelected={wishApplierType === '病童親屬'}
@@ -148,7 +133,7 @@ export default function WishApplyPage({ navigation }: PageRouterProps) {
 
                 {wishApplierType === '病童親屬' ? (
                   <>
-                    <View style={{ marginBottom: 8 }}>
+                    <View style={Styles.applyBlockItem}>
                       <TextInput
                         label="申請人姓名"
                         value={wishApplierName}
@@ -156,10 +141,7 @@ export default function WishApplyPage({ navigation }: PageRouterProps) {
                         onChangeText={text => setWishApplierName(text)}
                         mode="outlined"
                         outlineColor="#0057B8"
-                        outlineStyle={{
-                          borderRadius: 12,
-                          borderColor: '#0057B8',
-                        }}
+                        outlineStyle={Styles.inputOutline}
                         theme={{
                           colors: {
                             primary: '#0057B8',
@@ -167,17 +149,14 @@ export default function WishApplyPage({ navigation }: PageRouterProps) {
                         }}
                       />
                     </View>
-                    <View style={{ marginBottom: 8 }}>
+                    <View style={Styles.applyBlockItem}>
                       <TextInput
                         label="手機號碼"
                         value={wishApplierPhone}
                         placeholder="請輸入手機號碼"
                         onChangeText={text => setWishApplierPhone(text)}
                         mode="outlined"
-                        outlineStyle={{
-                          borderRadius: 12,
-                          borderColor: '#0057B8',
-                        }}
+                        outlineStyle={Styles.inputOutline}
                         theme={{
                           colors: {
                             primary: '#0057B8',
@@ -188,8 +167,8 @@ export default function WishApplyPage({ navigation }: PageRouterProps) {
                   </>
                 ) : null}
               </View>
-              <View style={{ marginBottom: 16 }}>
-                <View style={{ marginBottom: 8 }}>
+              <View style={Styles.applyBlockItemContainer}>
+                <View style={Styles.applyBlockItem}>
                   <WishRadioButton
                     itemText="醫護/社工"
                     isSelected={wishApplierType === '醫護/社工'}
@@ -199,7 +178,7 @@ export default function WishApplyPage({ navigation }: PageRouterProps) {
 
                 {wishApplierType === '醫護/社工' ? (
                   <>
-                    <View style={{ marginBottom: 8 }}>
+                    <View style={Styles.applyBlockItem}>
                       <TextInput
                         label="申請人姓名"
                         value={wishApplierName}
@@ -207,10 +186,7 @@ export default function WishApplyPage({ navigation }: PageRouterProps) {
                         onChangeText={text => setWishApplierName(text)}
                         mode="outlined"
                         outlineColor="#0057B8"
-                        outlineStyle={{
-                          borderRadius: 12,
-                          borderColor: '#0057B8',
-                        }}
+                        outlineStyle={Styles.inputOutline}
                         theme={{
                           colors: {
                             primary: '#0057B8',
@@ -218,17 +194,14 @@ export default function WishApplyPage({ navigation }: PageRouterProps) {
                         }}
                       />
                     </View>
-                    <View style={{ marginBottom: 8 }}>
+                    <View style={Styles.applyBlockItem}>
                       <TextInput
                         label="手機號碼"
                         value={wishApplierPhone}
                         placeholder="請輸入手機號碼"
                         onChangeText={text => setWishApplierPhone(text)}
                         mode="outlined"
-                        outlineStyle={{
-                          borderRadius: 12,
-                          borderColor: '#0057B8',
-                        }}
+                        outlineStyle={Styles.inputOutline}
                         theme={{
                           colors: {
                             primary: '#0057B8',
@@ -236,17 +209,14 @@ export default function WishApplyPage({ navigation }: PageRouterProps) {
                         }}
                       />
                     </View>
-                    <View style={{ marginBottom: 8 }}>
+                    <View style={Styles.applyBlockItem}>
                       <TextInput
                         label="服務單位"
                         value={wishApplierServiceUnits}
                         placeholder="請輸入服務單位"
                         onChangeText={text => setWishApplierServiceUnits(text)}
                         mode="outlined"
-                        outlineStyle={{
-                          borderRadius: 12,
-                          borderColor: '#0057B8',
-                        }}
+                        outlineStyle={Styles.inputOutline}
                         theme={{
                           colors: {
                             primary: '#0057B8',
@@ -254,17 +224,14 @@ export default function WishApplyPage({ navigation }: PageRouterProps) {
                         }}
                       />
                     </View>
-                    <View style={{ marginBottom: 8 }}>
+                    <View style={Styles.applyBlockItem}>
                       <TextInput
                         label="職稱"
                         value={wishApplierJobTitle}
                         placeholder="請輸入職稱"
                         onChangeText={text => setWishApplierJobTitle(text)}
                         mode="outlined"
-                        outlineStyle={{
-                          borderRadius: 12,
-                          borderColor: '#0057B8',
-                        }}
+                        outlineStyle={Styles.inputOutline}
                         theme={{
                           colors: {
                             primary: '#0057B8',
@@ -279,26 +246,10 @@ export default function WishApplyPage({ navigation }: PageRouterProps) {
           </View>
         </KeyboardAwareScrollView>
         <TouchableOpacity
-          style={{
-            backgroundColor: '#0057B8',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: 50,
-            marginHorizontal: 16,
-            marginBottom: 28,
-          }}
+          style={Styles.nextStepButton}
           onPress={handleNextButtonClick}
         >
-          <Text
-            style={{
-              fontSize: 14,
-              fontWeight: '500',
-              marginVertical: 12,
-              color: '#FFFFFF',
-            }}
-          >
-            下一步
-          </Text>
+          <Text style={Styles.nextStepButtonText}>下一步</Text>
         </TouchableOpacity>
       </ImageBackground>
     </SafeAreaView>

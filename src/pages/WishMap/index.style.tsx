@@ -190,6 +190,54 @@ const Styles = StyleSheet.create({
     fontWeight: '500',
     marginVertical: 14,
   },
+  volunteerApplySuccessModalContainer: {
+    height: '100%',
+    backgroundColor: '#ebf1f9',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
+  },
+  applySuccessModalContent1: {
+    color: '#FF585D',
+    fontSize: 24,
+    fontWeight: '700',
+    marginTop: 50,
+    marginBottom: 8,
+  },
+  applySuccessModalContent2: {
+    color: '#FF585D',
+    fontSize: 16,
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  applySuccessModalContent3: {
+    width: 200,
+    height: 150,
+    resizeMode: 'contain',
+    aspectRatio: 1,
+  },
+  applySuccessModalContent4: {
+    color: '#75787B',
+    fontSize: 14,
+    fontWeight: '500',
+    marginBottom: 24,
+    marginTop: 16,
+  },
+  applySuccessModalButtonContainer: { width: '100%', marginBottom: 32 },
+  applySuccessModalButton: {
+    backgroundColor: '#0057B8',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 50,
+    marginHorizontal: 28,
+  },
+  applySuccessModalButtonText: {
+    fontSize: 14,
+    fontWeight: '500',
+    marginVertical: 12,
+    color: '#FFFFFF',
+  },
 });
 
 export default Styles;

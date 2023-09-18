@@ -22,7 +22,7 @@ type PageRouterProps = {
 };
 
 export default function AboutWishPage({ navigation }: PageRouterProps) {
-  const renderDeleteAccountReasonGoBack = () => {
+  const renderAboutWishGoBack = () => {
     return (
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Image source={ImageProvider.Profile.ProfileGoBackIcon} />
@@ -40,16 +40,12 @@ export default function AboutWishPage({ navigation }: PageRouterProps) {
 
       <View style={Styles.headerContainer}>
         <View style={Styles.headerFlex}>
-          <View style={Styles.goBackButton}>
-            {renderDeleteAccountReasonGoBack()}
-          </View>
-
+          <View style={Styles.goBackButton}>{renderAboutWishGoBack()}</View>
           <Text style={Styles.headerTitle}>關於喜願</Text>
-          <View />
         </View>
       </View>
       <ScrollView>
-        <View style={{ paddingHorizontal: 16, marginTop: 40 }}>
+        <View style={Styles.aboutWishContent}>
           <WishConceptContent wishData={WishData} />
         </View>
       </ScrollView>

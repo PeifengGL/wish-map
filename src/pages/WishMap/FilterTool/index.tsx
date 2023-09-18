@@ -208,7 +208,7 @@ export default function FilterToolComponent(props: FilterToolComponentType) {
             onPress={handleCleanWordButtonPress}
             style={{ display: filterInput !== '' ? 'flex' : 'none' }}
           >
-            <Image source={ImageProvider.WishMap.CleanKeywordIcon} style={{}} />
+            <Image source={ImageProvider.WishMap.CleanKeywordIcon} />
           </TouchableOpacity>
         </View>
         <View style={Styles.separator} />

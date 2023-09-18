@@ -157,9 +157,7 @@ export default function SettingPage({ route, navigation }: PageRouterProps) {
         <View style={Styles.headerContainer}>
           <View style={Styles.headerFlex}>
             <View style={Styles.goBackButton}>{renderSettingGoBack()}</View>
-
             <Text style={Styles.settingTitle}>設定</Text>
-            <View />
           </View>
         </View>
 

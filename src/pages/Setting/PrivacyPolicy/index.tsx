@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   SafeAreaView,
   Image,
-  TextInput,
-  ToastAndroid,
-  Dimensions,
-  ImageBackground,
   ScrollView,
 } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
@@ -25,7 +21,7 @@ type PageRouterProps = {
 };
 
 export default function PrivacyPolicyPage({ navigation }: PageRouterProps) {
-  const renderDeleteAccountReasonGoBack = () => {
+  const renderPrivacyPolicyGoBack = () => {
     return (
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Image source={ImageProvider.Profile.ProfileGoBackIcon} />
@@ -42,37 +38,14 @@ export default function PrivacyPolicyPage({ navigation }: PageRouterProps) {
       />
 
       <View style={Styles.headerContainer}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '100%',
-            marginVertical: 16,
-          }}
-        >
-          <View style={{ position: 'absolute', left: 0, top: 0 }}>
-            {renderDeleteAccountReasonGoBack()}
-          </View>
-
-          <Text
-            style={{
-              marginBottom: 14,
-              marginTop: 10,
-              color: '#75787B',
-              fontSize: 16,
-              fontWeight: '500',
-              fontFamily: 'Lato',
-            }}
-          >
-            個資聲明 ＆ 隱私政策
-          </Text>
-          <View />
+        <View style={Styles.headerBlock}>
+          <View style={Styles.headerGoBack}>{renderPrivacyPolicyGoBack()}</View>
+          <Text style={Styles.headerTitle}>個資聲明 ＆ 隱私政策</Text>
         </View>
       </View>
 
       <ScrollView>
-        <View style={{ marginTop: 40 }}>
+        <View style={Styles.content}>
           <PrivacyContent />
         </View>
       </ScrollView>

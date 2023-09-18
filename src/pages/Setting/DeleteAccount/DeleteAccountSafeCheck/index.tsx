@@ -6,7 +6,6 @@ import {
   SafeAreaView,
   Image,
   TextInput,
-  ToastAndroid,
   Dimensions,
   ImageBackground,
 } from 'react-native';
@@ -19,7 +18,6 @@ import { Subscription } from 'rxjs';
 import DataShareService from 'service';
 import { UserProfileType } from 'types/profile';
 import Styles from './index.style';
-import WishRadioButton from 'components/WishRadioButton';
 
 type PageRouterProps = {
   route: RouteProp<SettingStackParamList, 'DeleteAccountSafeCheck'>;
@@ -37,7 +35,7 @@ export default function DeleteAccountSafeCheckPage({
   const [onFocusInput, setOnFocusInput] = useState<boolean>(false);
   const [inputError, setInputError] = useState<string>('');
 
-  const renderDeleteAccountReasonGoBack = () => {
+  const renderDeleteAccountSafeCheckGoBack = () => {
     return (
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Image source={ImageProvider.Profile.ProfileGoBackIcon} />
@@ -95,63 +93,23 @@ export default function DeleteAccountSafeCheckPage({
         }}
       >
         <View style={Styles.headerContainer}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              width: '100%',
-              marginVertical: 16,
-            }}
-          >
-            {renderDeleteAccountReasonGoBack()}
-            <View />
+          <View style={Styles.deleteAccountReasonGoBackContainer}>
+            {renderDeleteAccountSafeCheckGoBack()}
           </View>
         </View>
 
-        <View style={{ marginHorizontal: 16 }}>
-          <Text
-            style={{
-              marginTop: 24,
-              fontSize: 24,
-              fontWeight: '700',
-              fontFamily: 'Lato',
-              color: '#0057B8',
-              marginBottom: 8,
-            }}
-          >
-            保護帳號安全
-          </Text>
-          <Text
-            style={{
-              fontSize: 14,
-              fontWeight: '400',
-              fontFamily: 'Lato',
-              color: '#75787B',
-            }}
-          >
+        <View style={Styles.content}>
+          <Text style={Styles.title}>保護帳號安全</Text>
+          <Text style={Styles.description}>
             對為了保障您的帳號安全，請再次輸入密碼以繼續
           </Text>
 
-          <View
-            style={{
-              height: 2,
-              width: '100%',
-              backgroundColor: '#D9D9D9',
-              marginVertical: 24,
-            }}
-          />
+          <View style={Styles.separator} />
 
-          <View style={{ width: '100%', marginTop: 16 }}>
+          <View style={Styles.passwordInputBlock}>
             <View
               style={[
-                {
-                  borderRadius: 12,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  paddingHorizontal: 16,
-                },
+                Styles.passwordInputContainer,
                 inputError !== ''
                   ? { borderWidth: 2, borderColor: '#FF0000' }
                   : onFocusInput
@@ -169,27 +127,13 @@ export default function DeleteAccountSafeCheckPage({
                 onFocus={handleOnFocus}
                 onBlur={handleOnBlur}
                 secureTextEntry={hideInputContent}
-                style={{
-                  flex: 1,
-                }}
+                style={Styles.input}
               />
 
-              <View
-                style={{
-                  position: 'absolute',
-                  backgroundColor: '#ffffff',
-                  left: 16,
-                  top: -8,
-                }}
-              >
+              <View style={Styles.inputLabel}>
                 <Text
                   style={[
-                    {
-                      fontSize: 12,
-                      fontWeight: '700',
-                      fontFamily: 'Lato',
-                      marginHorizontal: 6,
-                    },
+                    Styles.inputLabelText,
                     inputError !== ''
                       ? { color: '#FF0000' }
                       : { color: '#0057B8' },
@@ -217,16 +161,7 @@ export default function DeleteAccountSafeCheckPage({
                 </TouchableOpacity>
               )}
             </View>
-            <Text
-              style={{
-                fontSize: 12,
-                fontWeight: '700',
-                fontFamily: 'Lato',
-                marginHorizontal: 6,
-                color: '#FF0000',
-                marginTop: 6,
-              }}
-            >
+            <Text style={Styles.errorText}>
               {inputError !== '' ? inputError : ''}
             </Text>
           </View>
@@ -234,13 +169,7 @@ export default function DeleteAccountSafeCheckPage({
           <TouchableOpacity
             onPress={handleNextStep}
             style={[
-              {
-                borderRadius: 50,
-                width: '100%',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginTop: 20,
-              },
+              Styles.nextStepButton,
               inputPassword === ''
                 ? { backgroundColor: '#ECECEC' }
                 : { backgroundColor: '#0057B8' },
@@ -249,11 +178,7 @@ export default function DeleteAccountSafeCheckPage({
           >
             <Text
               style={[
-                {
-                  fontSize: 14,
-                  fontFamily: 'Lato',
-                  marginVertical: 14,
-                },
+                Styles.nextStepButtonText,
                 inputPassword === ''
                   ? { color: '#909090' }
                   : { color: '#ffffff' },

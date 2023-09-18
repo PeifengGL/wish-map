@@ -28,6 +28,7 @@ const Styles = StyleSheet.create({
     marginVertical: 16,
   },
   goBackButton: { position: 'absolute', left: 0, top: 0 },
+  aboutWishContent: { paddingHorizontal: 16, marginTop: 40 },
 });
 
 export default Styles;

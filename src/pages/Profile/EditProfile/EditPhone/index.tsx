@@ -56,7 +56,7 @@ export default function EditPhonePage({ navigation }: PageRouterProps) {
     }
   }, [userPhone]);
 
-  const renderEditUserEmailGoBack = () => {
+  const renderEditUserPhoneGoBack = () => {
     return (
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Image source={ImageProvider.Profile.ProfileGoBackIcon} />
@@ -101,7 +101,7 @@ export default function EditPhonePage({ navigation }: PageRouterProps) {
 
       <View style={Styles.headerContainer}>
         <View style={Styles.headerFlex}>
-          <View style={Styles.goBackButton}>{renderEditUserEmailGoBack()}</View>
+          <View style={Styles.goBackButton}>{renderEditUserPhoneGoBack()}</View>
           <TouchableOpacity onPress={saveEditUserPhone} disabled={inputError}>
             <Text
               style={[

@@ -32,6 +32,32 @@ const Styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
   },
+  applyBlockTitleText: {
+    fontSize: 22,
+    fontWeight: '500',
+    color: '#0057B8',
+    marginBottom: 16,
+  },
+  applyBlockItemContainer: { marginBottom: 16 },
+  applyBlockItem: { marginBottom: 8 },
+  inputOutline: {
+    borderRadius: 12,
+    borderColor: '#0057B8',
+  },
+  nextStepButton: {
+    backgroundColor: '#0057B8',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 50,
+    marginHorizontal: 16,
+    marginBottom: 36,
+  },
+  nextStepButtonText: {
+    fontSize: 14,
+    fontWeight: '500',
+    marginVertical: 12,
+    color: '#FFFFFF',
+  },
 });
 
 export default Styles;

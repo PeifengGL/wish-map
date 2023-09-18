@@ -5,14 +5,11 @@ import {
   Text,
   TouchableOpacity,
   View,
-  SafeAreaView,
   ScrollView,
   StatusBar,
-  Platform,
 } from 'react-native';
 import { RootStackParamList } from 'types/router';
 import ShareButton from 'components/ShareButton';
-import FocusAwareStatusBar from 'util/StatusBarAdapter';
 import { ArticleClass, ArticlesData } from 'shared/articles.data';
 import ImageProvider from 'assets';
 import ArticleCard from 'components/ArticleCard';
