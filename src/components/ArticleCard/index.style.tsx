@@ -34,6 +34,7 @@ const Styles = StyleSheet.create({
     flexDirection: 'column',
     paddingVertical: 8,
     marginRight: 8,
+    position: 'relative',
   },
   classText: {
     fontWeight: '400',
@@ -47,11 +48,15 @@ const Styles = StyleSheet.create({
     color: '#0057B8',
   },
   subTitleText: {
-    marginTop: 4,
+    fontWeight: '500',
     fontSize: 12,
+    color: '#939698',
+    marginTop: 4,
   },
   dateText: {
-    marginTop: 4,
+    position: 'absolute',
+    bottom: 5,
+    right: 5,
     fontSize: 12,
     color: '#2D2D2D',
     textAlign: 'right',

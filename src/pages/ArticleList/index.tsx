@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,12 +7,14 @@ import {
   Dimensions,
   SafeAreaView,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import { ArticlesData, ArticleClass } from 'shared/articles.data';
 import CapsuleButton from 'components/CapsuleButton';
 import ArticleCard from 'components/ArticleCard';
 import Styles from './index.style';
 import FocusAwareStatusBar from 'util/StatusBarAdapter';
+import { getArticles } from 'api/ArticleList';
 
 export default function ArticleListPage() {
   const [activeTab, setActiveTab] = useState('message');
@@ -131,6 +133,32 @@ export default function ArticleListPage() {
     }
   };
 
+  const [articleList, setArticleList] = useState([]);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
+
+  useEffect(() => {
+    getArticles().then(data => {
+      // console.log('pages140', data);
+      setArticleList(data);
+    });
+  }, []);
+
+  const handleScroll = (event: any) => {
+    if (isFetching) {
+      return;
+    }
+    const { layoutMeasurement, contentSize, contentOffset } = event.nativeEvent;
+    const isCloseToBottom =
+      layoutMeasurement.height + contentOffset.y >= contentSize.height - 10;
+    if (isCloseToBottom) {
+      console.log('call next api');
+      setIsFetching(true);
+      setTimeout(() => {
+        setIsFetching(false);
+      }, 5000);
+    }
+  };
+
   return (
     <SafeAreaView style={Styles.safeAreaView}>
       <FocusAwareStatusBar backgroundColor="#ffffff" barStyle="dark-content" />
@@ -179,8 +207,13 @@ export default function ArticleListPage() {
           {renderArticleClass()}
         </ScrollView>
       </View>
-      <ScrollView style={Styles.contentScrollView}>
-        {activeTab === 'message'
+      <ScrollView onScroll={handleScroll} style={Styles.contentScrollView}>
+        {articleList.map((article, index) => (
+          <View key={index} style={Styles.articleCardContainer}>
+            <ArticleCard articleData={article} />
+          </View>
+        ))}
+        {/* {activeTab === 'message'
           ? messageList.map((message, index) => {
               return (
                 <View key={index} style={Styles.articleCardContainer}>
@@ -194,7 +227,12 @@ export default function ArticleListPage() {
                   <ArticleCard key={index} articleData={journey} />
                 </View>
               );
-            })}
+            })} */}
+        {isFetching && (
+          <View style={{ marginBottom: 10 }}>
+            <ActivityIndicator size="large" />
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
