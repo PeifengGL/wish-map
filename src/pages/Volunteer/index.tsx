@@ -30,7 +30,7 @@ export default function VolunteerPage({ route, navigation }: PageRouterProps) {
   const modalRef = React.useRef<Modalize>(null);
 
   useEffect(() => {
-    if (route.params?.enterOrigin === 'VolunteerApply') {
+    if (route.params?.originEntry === 'VolunteerApply') {
       modalRef.current?.open();
     }
   }, [route.params]);
@@ -107,93 +107,35 @@ export default function VolunteerPage({ route, navigation }: PageRouterProps) {
       </ScrollView>
       <TouchableOpacity
         onPress={handleVolunteerCardClick}
-        style={{
-          backgroundColor: '#0057B8',
-          borderRadius: 50,
-          position: 'absolute',
-          right: 16,
-          bottom: 24,
-        }}
+        style={Styles.volunteerApplyButtonContainer}
       >
-        <View
-          style={{
-            marginHorizontal: 16,
-            marginVertical: 10,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
+        <View style={Styles.volunteerApplyButton}>
           <Image source={ImageProvider.Volunteer.VolunteerApplyIcon} />
-          <Text style={{ color: 'white', marginLeft: 4 }}>志工申請</Text>
+          <Text style={Styles.volunteerApplyButtonText}>志工申請</Text>
         </View>
       </TouchableOpacity>
       <Portal>
         <Modalize ref={modalRef} adjustToContentHeight>
-          <View
-            style={{
-              height: '100%',
-              backgroundColor: '#ebf1f9',
-              justifyContent: 'flex-end',
-              alignItems: 'center',
-              borderTopLeftRadius: 28,
-              borderTopRightRadius: 28,
-            }}
-          >
-            <Text
-              style={{
-                color: '#FF585D',
-                fontSize: 24,
-                fontWeight: '700',
-                marginTop: 50,
-              }}
-            >
+          <View style={Styles.volunteerApplyDoneModalContainer}>
+            <Text style={Styles.volunteerApplyDoneModalContent1}>
               謝謝您的愛心
             </Text>
-            <Text style={{ color: '#FF585D', fontSize: 16, fontWeight: '500' }}>
+            <Text style={Styles.volunteerApplyDoneModalContent2}>
               期待與您一起為孩子們達成願望！
             </Text>
             <Image
               source={ImageProvider.Volunteer.VolunteerApplyBG}
-              style={{
-                width: 200,
-                height: 200,
-                resizeMode: 'contain',
-                aspectRatio: 1,
-              }}
+              style={Styles.volunteerApplyDoneModalContent3}
             />
-            <Text
-              style={{
-                color: '#75787B',
-                fontSize: 14,
-                fontWeight: '500',
-                marginBottom: 24,
-                marginTop: 16,
-              }}
-            >
+            <Text style={Styles.volunteerApplyDoneModalContent4}>
               預計審核時間一個月內完成，本會將會盡快與您聯絡
             </Text>
-            <View style={{ width: '100%', marginBottom: 32 }}>
+            <View style={Styles.closeModalButtonContainer}>
               <TouchableOpacity
-                style={{
-                  backgroundColor: '#0057B8',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: 50,
-                  marginHorizontal: 28,
-                }}
+                style={Styles.closeModalButton}
                 onPress={() => modalRef.current?.close()}
               >
-                <Text
-                  style={{
-                    fontSize: 14,
-                    fontWeight: '500',
-                    marginVertical: 12,
-                    color: '#FFFFFF',
-                  }}
-                >
-                  知道了
-                </Text>
+                <Text style={Styles.closeModalButtonText}>知道了</Text>
               </TouchableOpacity>
             </View>
           </View>

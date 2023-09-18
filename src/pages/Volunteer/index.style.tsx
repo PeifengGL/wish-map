@@ -110,6 +110,70 @@ const Styles = StyleSheet.create({
     color: '#2D2D2D',
     textAlign: 'right',
   },
+  volunteerApplyButtonContainer: {
+    backgroundColor: '#0057B8',
+    borderRadius: 50,
+    position: 'absolute',
+    right: 16,
+    bottom: 24,
+  },
+  volunteerApplyButton: {
+    marginHorizontal: 16,
+    marginVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  volunteerApplyButtonText: { color: 'white', marginLeft: 4 },
+  volunteerApplyDoneModalContainer: {
+    height: '100%',
+    backgroundColor: '#ebf1f9',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
+  },
+  volunteerApplyDoneModalContent1: {
+    color: '#FF585D',
+    fontSize: 24,
+    fontWeight: '700',
+    marginTop: 50,
+  },
+  volunteerApplyDoneModalContent2: {
+    color: '#FF585D',
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  volunteerApplyDoneModalContent3: {
+    width: 200,
+    height: 200,
+    resizeMode: 'contain',
+    aspectRatio: 1,
+  },
+  volunteerApplyDoneModalContent4: {
+    color: '#75787B',
+    fontSize: 14,
+    fontWeight: '500',
+    marginBottom: 24,
+    marginTop: 16,
+  },
+  closeModalButtonContainer: {
+    width: '100%',
+    marginBottom: 32,
+  },
+  closeModalButton: {
+    backgroundColor: '#0057B8',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 50,
+    marginHorizontal: 28,
+  },
+  closeModalButtonText: {
+    fontSize: 14,
+    fontWeight: '500',
+    marginVertical: 12,
+    color: '#FFFFFF',
+  },
 });
 
 export default Styles;

@@ -9,7 +9,6 @@ import WelcomePage from 'pages/Welcome';
 import WishMapPage from 'pages/WishMap';
 import VolunteerPage from 'pages/Volunteer';
 import ArticleListPage from 'pages/ArticleList';
-import ProfilePage from 'pages/Profile';
 import FilterResultPage from 'pages/WishMap/FilterResult';
 import ProjectDetailPage from 'pages/WishMap/ProjectDetail';
 import RegistrationPage from 'pages/Registration';
@@ -18,39 +17,74 @@ import VolunteerApplyPage from 'pages/Volunteer/VolunteerApply';
 import WishApplyPage from 'pages/WishMap/WishApply';
 import WishApplyNextStepPage from 'pages/WishMap/WishApplyNextStep';
 
+import ProfilePage from 'pages/Profile';
+import EditProfilePage from 'pages/Profile/EditProfile';
+import EditUsernamePage from 'pages/Profile/EditProfile/EditUserName';
+import EditEmailPage from 'pages/Profile/EditProfile/EditEmail';
+import EditPhonePage from 'pages/Profile/EditProfile/EditPhone';
+import EditAddressPage from 'pages/Profile/EditProfile/EditAddress';
+
+import SettingPage from 'pages/Setting';
+import ChangePasswordPage from 'pages/Setting/ChangePassword';
+import ResetPasswordPage from 'pages/Setting/ResetPassword';
+import DeleteAccountPage from 'pages/Setting/DeleteAccount/DeleteAccount';
+import DeleteAccountReasonPage from 'pages/Setting/DeleteAccount/DeleteAccountReason';
+import DeleteAccountSafeCheckPage from 'pages/Setting/DeleteAccount/DeleteAccountSafeCheck';
+import FqaPage from 'pages/Setting/Fqa';
+import AboutWishPage from 'pages/Setting/AboutWish';
+import PrivacyPolicyPage from 'pages/Setting/PrivacyPolicy';
+import TermOfUsePage from 'pages/Setting/TermOfUse';
+
 import { NavigationContainer } from '@react-navigation/native';
-import { RootStackParamList } from 'types/router';
+import {
+  RootStackParamList,
+  ProfileStackParamList,
+  SettingStackParamList,
+} from 'types/router';
 import ImageProvider from 'assets';
 
 import DataShareService from 'service';
 import { Subscription } from 'rxjs';
-import { IdentityType } from 'types/router';
+import { UserProfileType } from 'types/profile';
 
 import Styles from './index.style';
+import LoadingPage from 'pages/Loading';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
 export default function Routes() {
-  const [isLogin, setIsLogin] = useState(false);
-  const [identityType, setIdentityType] = useState<IdentityType>('guest');
+  const [userProfile, setUserProfile] = useState<UserProfileType | null>(null);
+  const [isFirstOpenApp, setIsFirstOpenApp] = useState<boolean>(true);
 
   useEffect(() => {
-    const isLoginSubscription: Subscription =
-      DataShareService.getLoginStatus$().subscribe((newIsLogin: boolean) => {
-        setIsLogin(newIsLogin);
-      });
-    const identityTypeSubscription: Subscription =
-      DataShareService.getIdentityType$().subscribe(
-        (newIdentityType: IdentityType) => {
-          setIdentityType(newIdentityType);
+    const isFirstOpenAppSubscription: Subscription =
+      DataShareService.getIsFirstOpenApp$().subscribe(
+        (newIsFirstOpenApp: boolean) => {
+          console.log('newIsFirstOpenApp', newIsFirstOpenApp);
+          setIsFirstOpenApp(newIsFirstOpenApp);
         },
       );
+
     return () => {
-      isLoginSubscription.unsubscribe();
-      identityTypeSubscription.unsubscribe();
+      isFirstOpenAppSubscription.unsubscribe();
     };
-  }, []);
+  }, [isFirstOpenApp]);
+
+  useEffect(() => {
+    const userProfileSubscription: Subscription =
+      DataShareService.getUserProfile$().subscribe(
+        (newUserProfile: UserProfileType) => {
+          if (newUserProfile !== null && userProfile !== newUserProfile) {
+            setUserProfile(newUserProfile);
+          }
+        },
+      );
+
+    return () => {
+      userProfileSubscription.unsubscribe();
+    };
+  }, [userProfile]);
 
   const HomeTabs = () => {
     return (
@@ -112,7 +146,7 @@ export default function Routes() {
         <Tab.Screen
           name="WishMap"
           component={WishMapPage}
-          // initialParams={{ childPage: 'WishMap' }}
+          initialParams={{ childPage: 'WishMap' }}
         />
         <Tab.Screen name="Volunteer" component={VolunteerPage} />
         <Tab.Screen name="ArticleList" component={ArticleListPage} />
@@ -121,37 +155,113 @@ export default function Routes() {
     );
   };
 
+  const ProfileStack = createNativeStackNavigator<ProfileStackParamList>();
+  const SettingStack = createNativeStackNavigator<SettingStackParamList>();
+
   return (
     <NavigationContainer>
       <Host>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          {identityType !== '' ? (
-            <>
-              <Stack.Screen name="HomeTabs" component={HomeTabs} />
-              <Stack.Screen name="FilterResult" component={FilterResultPage} />
-              <Stack.Screen
-                name="ProjectDetail"
-                component={ProjectDetailPage}
-              />
-              <Stack.Screen
-                name="ArticleDetail"
-                component={ArticleDetailPage}
-              />
-              <Stack.Screen
-                name="VolunteerApply"
-                component={VolunteerApplyPage}
-              />
-              <Stack.Screen name="WishApply" component={WishApplyPage} />
-              <Stack.Screen
-                name="WishApplyNextStep"
-                component={WishApplyNextStepPage}
-              />
-            </>
+          {!isFirstOpenApp ? (
+            userProfile?.userType !== '' && userProfile !== null ? (
+              <>
+                <Stack.Screen name="HomeTabs" component={HomeTabs} />
+                <Stack.Screen
+                  name="FilterResult"
+                  component={FilterResultPage}
+                />
+                <Stack.Screen
+                  name="ProjectDetail"
+                  component={ProjectDetailPage}
+                />
+                <Stack.Screen
+                  name="ArticleDetail"
+                  component={ArticleDetailPage}
+                />
+                <Stack.Screen
+                  name="VolunteerApply"
+                  component={VolunteerApplyPage}
+                />
+                <Stack.Screen name="WishApply" component={WishApplyPage} />
+                <Stack.Screen
+                  name="WishApplyNextStep"
+                  component={WishApplyNextStepPage}
+                />
+                <ProfileStack.Group>
+                  <ProfileStack.Screen
+                    name="EditProfile"
+                    component={EditProfilePage}
+                  />
+                  <ProfileStack.Screen
+                    name="EditUsername"
+                    component={EditUsernamePage}
+                  />
+                  <ProfileStack.Screen
+                    name="EditEmail"
+                    component={EditEmailPage}
+                  />
+                  <ProfileStack.Screen
+                    name="EditPhone"
+                    component={EditPhonePage}
+                  />
+                  <ProfileStack.Screen
+                    name="EditAddress"
+                    component={EditAddressPage}
+                  />
+                  <SettingStack.Group>
+                    <SettingStack.Screen
+                      name="Setting"
+                      component={SettingPage}
+                    />
+                    <SettingStack.Screen
+                      name="ChangePassword"
+                      component={ChangePasswordPage}
+                    />
+                    <SettingStack.Screen
+                      name="ResetPassword"
+                      component={ResetPasswordPage}
+                    />
+                    <SettingStack.Screen
+                      name="DeleteAccount"
+                      component={DeleteAccountPage}
+                    />
+                    <SettingStack.Screen
+                      name="DeleteAccountReason"
+                      component={DeleteAccountReasonPage}
+                    />
+                    <SettingStack.Screen
+                      name="DeleteAccountSafeCheck"
+                      component={DeleteAccountSafeCheckPage}
+                    />
+                    <SettingStack.Screen name="Fqa" component={FqaPage} />
+                    <SettingStack.Screen
+                      name="AboutWish"
+                      component={AboutWishPage}
+                    />
+                    <SettingStack.Screen
+                      name="PrivacyPolicy"
+                      component={PrivacyPolicyPage}
+                    />
+                    <SettingStack.Screen
+                      name="TermOfUse"
+                      component={TermOfUsePage}
+                    />
+                  </SettingStack.Group>
+                </ProfileStack.Group>
+              </>
+            ) : (
+              <>
+                <Stack.Screen
+                  name="Registration"
+                  component={RegistrationPage}
+                />
+                <Stack.Screen name="Login" component={LoginPage} />
+              </>
+            )
           ) : (
             <>
+              <Stack.Screen name="Loading" component={LoadingPage} />
               <Stack.Screen name="Welcome" component={WelcomePage} />
-              <Stack.Screen name="Registration" component={RegistrationPage} />
-              <Stack.Screen name="Login" component={LoginPage} />
             </>
           )}
         </Stack.Navigator>

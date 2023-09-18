@@ -8,6 +8,7 @@ import {
   ImageBackground,
   ActivityIndicator,
   Dimensions,
+  StatusBar,
 } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
@@ -18,13 +19,20 @@ import DataShareService from 'service';
 import { Portal } from 'react-native-portalize';
 import { Modalize } from 'react-native-modalize';
 import PrivacyContent, { PrivacyHeader } from 'components/PrivacyContent';
+import generateUUID from 'util/UUIDGenerator';
+import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
+import { UserProfileType } from 'types/profile';
+import Toast from 'react-native-toast-message';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'Registration'>;
   navigation: NativeStackNavigationProp<RootStackParamList, 'Registration'>;
 };
 
-export default function RegistrationPage({ navigation }: PageRouterProps) {
+export default function RegistrationPage({
+  route,
+  navigation,
+}: PageRouterProps) {
   const dimensionsHeight = Dimensions.get('window').height;
   useEffect(() => {
     navigation.setOptions({ headerShown: false });
@@ -36,6 +44,7 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
   const [isUsernameFocused, setIsUsernameFocused] = useState(false);
   const [isUsernameInvalid, setIsUsernameInvalid] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
   const privacyModalizeRef = useRef<Modalize>(null);
   const handleUsernameOnChange = (text: string) => {
     setUsername(text);
@@ -170,14 +179,6 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
     setIsFormValid(condition);
   };
 
-  useEffect(() => {
-    setInterval(() => {
-      if (isRegistered) {
-        DataShareService.setIdentityType('member');
-      }
-    }, 2000);
-  }, [isRegistered]);
-
   const handleRegister = () => {
     // 在此處理註冊邏輯
     // 可以使用 username、email 和 password 狀態
@@ -186,7 +187,25 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
     }
 
     setIsRegistered(true);
+    const userProfile: UserProfileType = {
+      userName: username,
+      userEmail: email,
+      userPhone: '',
+      userAddress: '',
+      userUID: generateUUID(),
+      userType: 'member',
+      userPassword: password,
+    };
+    console.log('userProfile', userProfile);
+    LocalStorage.setData(LocalStorageKeys.UserProfileKey, userProfile).finally(
+      () => {
+        console.log('set user profile to local storage success');
+        setTimeout(() => {}, 2000);
+        DataShareService.setUserProfile(userProfile);
+      },
+    );
   };
+
   const handlePrivacyPolicy = () => {
     privacyModalizeRef.current?.open();
   };
@@ -198,7 +217,19 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
   };
 
   const handleGuestClick = () => {
-    DataShareService.setIdentityType('guest');
+    const userProfile: UserProfileType = {
+      userName: '',
+      userEmail: '',
+      userPhone: '',
+      userAddress: '',
+      userUID: '',
+      userType: 'guest',
+      userPassword: '',
+    };
+    console.log('userProfile', userProfile);
+    LocalStorage.setData(LocalStorageKeys.UserProfileKey, userProfile).then(
+      () => DataShareService.setUserProfile(userProfile),
+    );
   };
 
   const handlePrivacyClose = () => {
@@ -206,8 +237,51 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
     setModalIsOpen(false);
   };
 
+  const toastConfig = {
+    customToast: ({ text1 }: any) => (
+      <View style={Styles.toast}>
+        <Text style={Styles.toastText}>{text1}</Text>
+        <TouchableOpacity onPress={() => Toast.hide()}>
+          <Image source={ImageProvider.Register.CloseToast} />
+        </TouchableOpacity>
+      </View>
+    ),
+  };
+
+  useEffect(() => {
+    console.log('route.params', route.params);
+    if (route.params?.isDeleteAccount === true) {
+      Toast.show({
+        type: 'customToast',
+        text1: '已永久刪除帳號',
+        position: 'bottom',
+        bottomOffset: 28,
+        autoHide: true,
+        visibilityTime: 3000,
+      });
+      navigation.setParams({ isDeleteAccount: false, isLogout: false });
+    }
+
+    if (route.params?.isLogout === true) {
+      Toast.show({
+        type: 'customToast',
+        text1: '已登出帳號',
+        position: 'bottom',
+        bottomOffset: 28,
+        autoHide: true,
+        visibilityTime: 3000,
+      });
+      navigation.setParams({ isDeleteAccount: false, isLogout: false });
+    }
+  }, [route.params]);
+
   return (
     <View style={Styles.container}>
+      <StatusBar
+        backgroundColor="#ffffff"
+        barStyle="dark-content"
+        translucent={false}
+      />
       <ImageBackground
         source={ImageProvider.Register.Background}
         style={Styles.background}
@@ -244,11 +318,7 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
             {/* Username 使用者名稱 */}
             <View style={Styles.inputGroup}>
               <TextInput
-                style={[
-                  Styles.input,
-                  isUsernameFocused && Styles.inputFocused,
-                  isUsernameInvalid && Styles.inputError,
-                ]}
+                style={[Styles.input]}
                 placeholder="請輸入使用者名稱"
                 value={username}
                 onChangeText={text => handleUsernameOnChange(text)}
@@ -428,6 +498,7 @@ export default function RegistrationPage({ navigation }: PageRouterProps) {
           <PrivacyContent />
         </Modalize>
       </Portal>
+      <Toast config={toastConfig} />
     </View>
   );
 }

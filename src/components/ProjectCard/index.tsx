@@ -27,7 +27,7 @@ const ProjectCard = (props: ProjectCardPropsType) => {
   };
 
   const handleCardClick = () => {
-    navigation.navigate('ProjectDetail', { projectData, enterOrigin: 'other' });
+    navigation.navigate('ProjectDetail', { projectData, originEntry: 'other' });
   };
 
   return (

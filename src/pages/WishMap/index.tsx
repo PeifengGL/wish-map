@@ -5,11 +5,11 @@ import {
   View,
   Image,
   Pressable,
-  PermissionsAndroid,
   Dimensions,
   Animated,
   LayoutAnimation,
   StatusBar,
+  Platform,
 } from 'react-native';
 import { Portal } from 'react-native-portalize';
 import { RouteProp } from '@react-navigation/native';
@@ -19,6 +19,12 @@ import MapView from 'react-native-map-clustering';
 import Geolocation from '@react-native-community/geolocation';
 import { Modalize } from 'react-native-modalize';
 import { Subscription } from 'rxjs';
+import {
+  request,
+  PERMISSIONS,
+  RESULTS,
+  Permission,
+} from 'react-native-permissions';
 
 import { FilterMethodType } from 'types/wishMap';
 import { RootStackParamList } from 'types/router';
@@ -38,6 +44,27 @@ type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'WishMap'>;
   navigation: NativeStackNavigationProp<RootStackParamList, 'WishMap'>;
 };
+
+export async function getLocationPermissions() {
+  let permission: Permission | undefined;
+
+  if (Platform.OS === 'android') {
+    permission = PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION;
+  } else if (Platform.OS === 'ios') {
+    permission = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
+  }
+
+  if (!permission) {
+    return false; // Handle the case where the platform is neither Android nor iOS
+  }
+
+  const granted = await request(permission, {
+    title: 'WishMap',
+    message: 'WishMap would like access to your location ',
+  });
+
+  return granted === RESULTS.GRANTED;
+}
 
 export default function WishMapPage({ route, navigation }: PageRouterProps) {
   const dimensionsHeight = Dimensions.get('window').height;
@@ -67,51 +94,92 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
   const handleDonateWishClick = () => {
     navigation.navigate('ProjectDetail', {
       wishData: WishData,
-      enterOrigin: 'wishMap',
+      originEntry: 'wishMap',
     });
   };
 
   const requestUserLocationPermission = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: '喜願Wish Map App',
-          message:
-            '喜願Wish Map App 需要取得您的定位權限' +
-            '您可以在地圖上顯示您的位置',
-          buttonNeutral: '稍後再試',
-          buttonNegative: '取消',
-          buttonPositive: '允許',
-        },
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        setIsModalVisible(false);
-        setSelectedMarkerId(-1);
-        Geolocation.getCurrentPosition(
-          position => {
-            const { latitude, longitude } = position.coords;
-            mapRef.current?.animateToRegion({
-              latitude,
-              longitude,
-              latitudeDelta: 0.03,
-              longitudeDelta: 0.03,
-            });
-          },
-          error => {
-            console.log(error);
-          },
-          {
-            enableHighAccuracy: true,
-          },
-        );
-      } else {
-        console.log('Location permission denied');
-      }
-    } catch (err) {
-      console.warn(err);
+    console.log('requestUserLocationPermission');
+    let permission: Permission | undefined;
+
+    if (Platform.OS === 'android') {
+      permission = PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
+    } else if (Platform.OS === 'ios') {
+      permission = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
     }
+
+    if (!permission) {
+      return false; // Handle the case where the platform is neither Android nor iOS
+    }
+
+    const granted = await request(permission, {
+      title: 'WishMap',
+      message: 'WishMap would like access to your location ',
+    });
+
+    setIsModalVisible(false);
+    setSelectedMarkerId(-1);
+    Geolocation.getCurrentPosition(
+      position => {
+        const { latitude, longitude } = position.coords;
+        mapRef.current?.animateToRegion({
+          latitude,
+          longitude,
+          latitudeDelta: 0.03,
+          longitudeDelta: 0.03,
+        });
+      },
+      error => {
+        console.log(error);
+      },
+      {
+        enableHighAccuracy: true,
+      },
+    );
+
+    return granted === RESULTS.GRANTED;
   };
+  // const requestUserLocationPermission = async () => {
+  //   try {
+  //     const granted = await PermissionsAndroid.request(
+  //       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+  //       {
+  //         title: '喜願Wish Map App',
+  //         message:
+  //           '喜願Wish Map App 需要取得您的定位權限' +
+  //           '您可以在地圖上顯示您的位置',
+  //         buttonNeutral: '稍後再試',
+  //         buttonNegative: '取消',
+  //         buttonPositive: '允許',
+  //       },
+  //     );
+  //     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+  // setIsModalVisible(false);
+  // setSelectedMarkerId(-1);
+  // Geolocation.getCurrentPosition(
+  //   position => {
+  //     const { latitude, longitude } = position.coords;
+  //     mapRef.current?.animateToRegion({
+  //       latitude,
+  //       longitude,
+  //       latitudeDelta: 0.03,
+  //       longitudeDelta: 0.03,
+  //     });
+  //   },
+  //   error => {
+  //     console.log(error);
+  //   },
+  //   {
+  //     enableHighAccuracy: true,
+  //   },
+  // );
+  //     } else {
+  //       console.log('Location permission denied');
+  //     }
+  //   } catch (err) {
+  //     console.warn(err);
+  //   }
+  // };
 
   const handleMarkerPress = (project: any) => {
     setSelectedMarkerId(project.id);
@@ -152,6 +220,7 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
   };
 
   const handleMapLoadingComplete = () => {
+    console.log('Map Loading Complete');
     setIsMapLoadingComplete(true);
   };
 
@@ -234,7 +303,7 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
   }, [route.params]);
 
   useEffect(() => {
-    if (route.params?.enterOrigin === 'WishApply') {
+    if (route.params?.originEntry === 'WishApply') {
       sendWishApplyModalRef.current?.open();
     }
   }, [route.params]);
@@ -300,6 +369,9 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
           onMapLoaded={handleMapLoadingComplete}
           moveOnMarkerPress={false}
           rotateEnabled={false}
+          loadingIndicatorColor="#0057B8"
+          onMapReady={handleMapLoadingComplete}
+          // followsUserLocation={true}
         >
           {renderMarkers()}
         </MapView>
@@ -390,79 +462,26 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
             closeFilterTool={handleFilterToolClose}
           />
         </Modalize>
+
         <Modalize ref={sendWishApplyModalRef} adjustToContentHeight>
-          <View
-            style={{
-              height: '100%',
-              backgroundColor: '#ebf1f9',
-              justifyContent: 'flex-end',
-              alignItems: 'center',
-              borderTopLeftRadius: 28,
-              borderTopRightRadius: 28,
-            }}
-          >
-            <Text
-              style={{
-                color: '#FF585D',
-                fontSize: 24,
-                fontWeight: '700',
-                marginTop: 50,
-                marginBottom: 8,
-              }}
-            >
-              申請成功
-            </Text>
-            <Text
-              style={{
-                color: '#FF585D',
-                fontSize: 16,
-                fontWeight: '500',
-                textAlign: 'center',
-              }}
-            >
+          <View style={Styles.volunteerApplySuccessModalContainer}>
+            <Text style={Styles.applySuccessModalContent1}>申請成功</Text>
+            <Text style={Styles.applySuccessModalContent2}>
               {`每一位重症孩子都值得擁有希望幸福的每一天\n喜願與您一起讓願望一一實現！`}
             </Text>
             <Image
               source={ImageProvider.WishMap.WishApplyDoneImage}
-              style={{
-                width: 200,
-                height: 150,
-                resizeMode: 'contain',
-                aspectRatio: 1,
-              }}
+              style={Styles.applySuccessModalContent3}
             />
-            <Text
-              style={{
-                color: '#75787B',
-                fontSize: 14,
-                fontWeight: '500',
-                marginBottom: 24,
-                marginTop: 16,
-              }}
-            >
+            <Text style={Styles.applySuccessModalContent4}>
               預計審核時間一週內完成，本會將會盡快與您聯絡
             </Text>
-            <View style={{ width: '100%', marginBottom: 32 }}>
+            <View style={Styles.applySuccessModalButtonContainer}>
               <TouchableOpacity
-                style={{
-                  backgroundColor: '#0057B8',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: 50,
-                  marginHorizontal: 28,
-                }}
+                style={Styles.applySuccessModalButton}
                 onPress={() => sendWishApplyModalRef.current?.close()}
               >
-                <Text
-                  style={{
-                    fontSize: 14,
-                    fontWeight: '500',
-                    marginVertical: 12,
-                    color: '#FFFFFF',
-                  }}
-                >
-                  知道了
-                </Text>
+                <Text style={Styles.applySuccessModalButtonText}>知道了</Text>
               </TouchableOpacity>
             </View>
           </View>

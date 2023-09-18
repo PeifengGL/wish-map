@@ -3,21 +3,20 @@ import { ArticlesDataType } from 'shared/articles.data';
 import { WishApplyStepOneDataType } from 'types/wishMap';
 
 export type RootStackParamList = {
-  Home: { id?: string };
-  TestPage: { text?: string };
+  Loading: {};
   HomeTabs: {};
   Welcome: {};
-  Registration: {};
+  Registration: { isDeleteAccount?: boolean; isLogout?: boolean };
   Login: {};
-  WishMap: { childPage?: string; enterOrigin?: string };
-  Volunteer: { enterOrigin: string; data?: any };
+  WishMap: { childPage?: string; originEntry?: string };
+  Volunteer: { originEntry: string; data?: any };
   ArticleList: {};
   Profile: {};
   FilterResult: {};
   ProjectDetail: {
     projectData?: ProjectsDataType;
     wishData?: WishDataType;
-    enterOrigin: string;
+    originEntry: string;
   };
   ArticleDetail: {
     articleData?: ArticlesDataType;
@@ -25,6 +24,27 @@ export type RootStackParamList = {
   VolunteerApply: {};
   WishApply: {};
   WishApplyNextStep: { stepOneData: WishApplyStepOneDataType };
+};
+
+export type ProfileStackParamList = {
+  EditProfile: {};
+  EditUsername: {};
+  EditEmail: {};
+  EditPhone: {};
+  EditAddress: {};
+};
+
+export type SettingStackParamList = {
+  Setting: { cancelDeleteAccountStatus?: boolean };
+  ChangePassword: { resetPasswordStatus?: boolean };
+  ResetPassword: {};
+  DeleteAccount: {};
+  DeleteAccountReason: {};
+  DeleteAccountSafeCheck: {};
+  Fqa: {};
+  AboutWish: {};
+  PrivacyPolicy: {};
+  TermOfUse: {};
 };
 
 export type IdentityType = 'guest' | 'member' | '';

@@ -50,6 +50,29 @@ const Styles = StyleSheet.create({
     marginTop: 12,
     marginBottom: 24,
   },
+  stickyHeader: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
+    position: 'absolute',
+    top: 0,
+    width: '100%',
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+  stickyHeaderTitle: { marginBottom: 24 },
+  stickyHeaderFlex: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    alignItems: 'center',
+    position: 'absolute',
+    top: statusBarHeight! + 10,
+    paddingHorizontal: 16,
+  },
 });
 
 export default Styles;

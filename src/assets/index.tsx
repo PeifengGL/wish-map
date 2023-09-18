@@ -27,6 +27,7 @@ import Hide_Register from 'assets/images/register/hide.png';
 import Show_Register from 'assets/images/register/show.png';
 import Error_Register from 'assets/images/register/error.png';
 import Welcome_Register from 'assets/images/register/welcome.png';
+import CloseToastIcon from 'assets/images/register/close_toast.png';
 
 // WishMap Page Image
 import Dream_Donate_Icon from 'assets/images/wishmap/Heart.png';
@@ -65,6 +66,8 @@ import Article_Cover_Image1 from 'assets/images/article/BG1.png';
 import Article_Cover_Image2 from 'assets/images/article/BG2.png';
 import Article_GoBack_Icon from 'assets/images/article/goBack.png';
 import Article_Share_Icon from 'assets/images/article/article_share.png';
+import Article_Detail_GoBack_Icon from 'assets/images/article/articel_goback.png';
+import Article_Detail_Share_Icon from 'assets/images/article/header_share.png';
 
 // Volunteer Page Image
 import Volunteer_Cover_Image1 from 'assets/images/volunteer/BG.png';
@@ -77,6 +80,40 @@ import Volunteer_Close from 'assets/images/volunteer/volunteer_close.png';
 import Volunteer_Confirm from 'assets/images/volunteer/volunteer_confirm.png';
 import Volunteer_Apply_Icon from 'assets/images/volunteer/apply/Apply.png';
 import VolunteerApply_BG from 'assets/images/volunteer/apply/VolunteerApply.png';
+
+// Profile Page Image
+import Profile_BG from 'assets/images/profile/profile_bg.png';
+import User_Avatar from 'assets/images/profile/user_avatar.png';
+import EditProfile_Icon from 'assets/images/profile/Edit.png';
+import OpenSetting_Icon from 'assets/images/profile/settings.png';
+import Default_Avatar from 'assets/images/profile/default_avatar.png';
+import GuestHint_Image from 'assets/images/profile/guest_hint_icon.png';
+import Collapsing_Icon from 'assets/images/profile/collapsing.png';
+import Expand_Icon from 'assets/images/profile/expand.png';
+import ProfileGoBack_Icon from 'assets/images/profile/profile_goback.png';
+import ChangeAvatar_Icon from 'assets/images/profile/change_avator_icon.png';
+import RemoveAvatar_Icon from 'assets/images/profile/remove_avatar.png';
+import EditRightArrow_Icon from 'assets/images/profile/edit_right_arrow.png';
+import EditProfileTextInput_Clean_Icon from 'assets/images/profile/textinput_clean.png';
+import EditProfileTextInput_Error_Icon from 'assets/images/profile/input_error.png';
+import ProfileBackground_Image from 'assets/images/profile/Profile_Background.png';
+import ProfileLogin_Icon from 'assets/images/profile/login.png';
+import CloseUpload_Icon from 'assets/images/profile/close_upload.png';
+
+// Setting Page Image
+import SettingGoBack_Icon from 'assets/images/setting/setting_goback.png';
+import ChangePassword_Icon from 'assets/images/setting/change_password.png';
+import DeleteAccount_Icon from 'assets/images/setting/delete_account.png';
+import RateApp_Icon from 'assets/images/setting/rate.png';
+import ReportIssue_Icon from 'assets/images/setting/report.png';
+import SettingRightArrow_Icon from 'assets/images/setting/setting_right_arrow.png';
+import SettingBackground_Image from 'assets/images/setting/Setting_Background.png';
+import SettingInputError_Icon from 'assets/images/setting/input_error.png';
+import SettingShowPassword_Icon from 'assets/images/setting/show_pw.png';
+import SettingHidePassword_Icon from 'assets/images/setting/hide_pw.png';
+import SettingCancelDeleteAccount_Image from 'assets/images/setting/cancel_delete_img.png';
+import FqaTopArrowIcon from 'assets/images/setting/fqa_top_arrow.png';
+import FqaBottomArrowIcon from 'assets/images/setting/fqa_bottom_arrow.png';
 
 const ImageProvider = {
   Welcome: {
@@ -98,6 +135,7 @@ const ImageProvider = {
     Show: Show_Register,
     Error: Error_Register,
     Welcome: Welcome_Register,
+    CloseToast: CloseToastIcon,
   },
   Login: {
     Background: Background_Login,
@@ -146,6 +184,8 @@ const ImageProvider = {
     ArticleCoverImage2: Article_Cover_Image2,
     ArticleGoBackIcon: Article_GoBack_Icon,
     ArticleShareIcon: Article_Share_Icon,
+    ArticleDetailGoBackIcon: Article_Detail_GoBack_Icon,
+    ArticleDetailShareIcon: Article_Detail_Share_Icon,
   },
   Volunteer: {
     VolunteerCoverImage1: Volunteer_Cover_Image1,
@@ -158,6 +198,40 @@ const ImageProvider = {
     VolunteerConfirm: Volunteer_Confirm,
     VolunteerApplyIcon: Volunteer_Apply_Icon,
     VolunteerApplyBG: VolunteerApply_BG,
+  },
+  Profile: {
+    ProfileBG: Profile_BG,
+    UserAvatar: User_Avatar,
+    EditProfileIcon: EditProfile_Icon,
+    OpenSettingIcon: OpenSetting_Icon,
+    DefaultAvatar: Default_Avatar,
+    GuestHintImage: GuestHint_Image,
+    CollapsingIcon: Collapsing_Icon,
+    ExpandIcon: Expand_Icon,
+    ProfileGoBackIcon: ProfileGoBack_Icon,
+    ChangeAvatarIcon: ChangeAvatar_Icon,
+    RemoveAvatarIcon: RemoveAvatar_Icon,
+    EditRightArrowIcon: EditRightArrow_Icon,
+    EditProfileTextInputCleanIcon: EditProfileTextInput_Clean_Icon,
+    EditProfileTextInputErrorIcon: EditProfileTextInput_Error_Icon,
+    ProfileBackgroundImage: ProfileBackground_Image,
+    ProfileLoginIcon: ProfileLogin_Icon,
+    CloseUploadIcon: CloseUpload_Icon,
+  },
+  Setting: {
+    SettingGoBackIcon: SettingGoBack_Icon,
+    ChangePassword: ChangePassword_Icon,
+    DeleteAccount: DeleteAccount_Icon,
+    RateApp: RateApp_Icon,
+    ReportIssue: ReportIssue_Icon,
+    SettingRightArrowIcon: SettingRightArrow_Icon,
+    SettingBackgroundImage: SettingBackground_Image,
+    SettingInputErrorIcon: SettingInputError_Icon,
+    SettingShowPasswordIcon: SettingShowPassword_Icon,
+    SettingHidePasswordIcon: SettingHidePassword_Icon,
+    SettingCancelDeleteAccountImage: SettingCancelDeleteAccount_Image,
+    FqaTopArrowIcon: FqaTopArrowIcon,
+    FqaBottomArrowIcon: FqaBottomArrowIcon,
   },
 };
 

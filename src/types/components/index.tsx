@@ -1,4 +1,4 @@
-import { ProjectsDataType } from 'shared/project.data';
+import { ProjectsDataType, WishDataType } from 'shared/project.data';
 import { ArticlesDataType } from 'shared/articles.data';
 import {
   ImageSourcePropType,
@@ -63,4 +63,8 @@ export type WishRadioButtonPropsType = {
   isSelected: boolean;
   radioClickFunction: (text: string) => void;
   itemText?: string;
+};
+
+export type WishConceptContentPropsType = {
+  wishData: WishDataType;
 };

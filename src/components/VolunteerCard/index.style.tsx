@@ -3,7 +3,7 @@ import { StyleSheet, Dimensions } from 'react-native';
 const screenWidthRate = 360 / Dimensions.get('window').width;
 
 const Styles = StyleSheet.create({
-  cardContainer: {
+  card: {
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
     shadowColor: '#000000',
@@ -16,6 +16,9 @@ const Styles = StyleSheet.create({
     shadowRadius: 6,
     marginVertical: 2,
     marginHorizontal: 1,
+  },
+  cardContainer: {
+    flexDirection: 'row',
   },
   cardImageContainer: {
     width: 118 * screenWidthRate,
@@ -48,8 +51,10 @@ const Styles = StyleSheet.create({
   rowText: {
     fontSize: 12,
     color: '#4B4B4B',
-    marginLeft: 4,  
+    marginLeft: 4,
   },
+  cardRegistrationTimeHintContainer: { marginHorizontal: 8, marginBottom: 8 },
+  cardRegistrationTimeHintText: { color: '#FF585D', fontSize: 11 },
 });
 
 export default Styles;

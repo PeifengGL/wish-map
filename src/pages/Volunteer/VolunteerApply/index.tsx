@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   ScrollView,
   TextInput,
+  Dimensions,
 } from 'react-native';
 import { RootStackParamList } from 'types/router';
 import FocusAwareStatusBar from 'util/StatusBarAdapter';
@@ -19,6 +20,9 @@ import { Modalize } from 'react-native-modalize';
 import DatePicker from 'react-native-date-picker';
 import LoadingModal from 'components/LoadingModal';
 import DataShareService from 'service';
+import { Subscription } from 'rxjs';
+import PrivacyContent, { PrivacyHeader } from 'components/PrivacyContent';
+import { UserProfileType } from 'types/profile';
 import Styles from './index.style';
 
 type PageRouterProps = {
@@ -27,6 +31,7 @@ type PageRouterProps = {
 };
 
 export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
+  const dimensionsHeight = Dimensions.get('window').height;
   const [gender, setGender] = useState<'F' | 'M' | ''>('');
   const [date, setDate] = useState<Date>(new Date());
   const [birthLabel, setBirthLabel] = useState<string>('- 年 - 月 - 日');
@@ -61,6 +66,21 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
   const [isAgreePrivacy, setIsAgreePrivacy] = useState<boolean>(false);
   const [isButtonEnable, setIsButtonEnable] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const [userProfile, setUserProfile] = useState<UserProfileType>();
+
+  useEffect(() => {
+    const userProfileSubscription: Subscription =
+      DataShareService.getUserProfile$().subscribe(
+        (newUserProfile: UserProfileType) => {
+          setUserProfile(newUserProfile);
+        },
+      );
+    return () => {
+      userProfileSubscription.unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     checkButtonEnable();
@@ -114,6 +134,18 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
     );
   };
 
+  const privacyModalizeRef = useRef<Modalize>(null);
+
+  const handlePrivacyClick = () => {
+    privacyModalizeRef.current?.open();
+    setModalIsOpen(true);
+  };
+
+  const handlePrivacyClose = () => {
+    privacyModalizeRef.current?.close();
+    setModalIsOpen(false);
+  };
+
   const checkButtonEnable = () => {
     if (
       gender !== '' &&
@@ -134,7 +166,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
 
   const sendVolunteerApply = async () => {
     const volunteerApplyData = {
-      userId: 'user01',
+      userId: userProfile?.userUID,
       志工姓名: volunteerName,
       性別: gender,
       生日: birthLabel,
@@ -161,6 +193,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
       週日上午: volunteerServiceTime['7A'] === 1 ? 'v' : '',
       週日下午: volunteerServiceTime['7P'] === 1 ? 'v' : '',
     };
+    console.log('volunteerApplyData', volunteerApplyData);
 
     setIsLoading(true);
     await DataShareService.sendVolunteerApply(volunteerApplyData).finally(() =>
@@ -168,14 +201,18 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
     );
 
     navigation.navigate('Volunteer', {
-      enterOrigin: 'VolunteerApply',
+      originEntry: 'VolunteerApply',
       data: volunteerApplyData,
     });
   };
 
   return (
     <SafeAreaView style={Styles.safeArea}>
-      <FocusAwareStatusBar backgroundColor="#EBF1F9" barStyle="dark-content" />
+      <FocusAwareStatusBar
+        backgroundColor="#EBF1F9"
+        barStyle="dark-content"
+        translucent={false}
+      />
 
       <View style={Styles.headerContainer}>
         <View style={Styles.headerGoBack}>{renderVolunteerApplyGoBack()}</View>
@@ -195,7 +232,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               <Text style={Styles.fieldHeaderRequiredText}>(必填)</Text>
             </View>
             <TextInput
-              placeholder="請輸入捐款人姓名"
+              placeholder="請輸入志工姓名"
               style={Styles.fieldTextInputStyle}
               onChangeText={handleVolunteerNameChange}
             />
@@ -205,40 +242,24 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               <Text style={Styles.fieldHeaderText}>性別</Text>
               <Text style={Styles.fieldHeaderRequiredText}>(必填)</Text>
             </View>
-            <View style={{ flexDirection: 'row' }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  flex: 0.5,
-                }}
-              >
-                <RadioButton
+            <View style={Styles.genderOptionContainer}>
+              <View style={Styles.genderOption}>
+                <RadioButton.Android
                   value="M"
                   status={gender === 'M' ? 'checked' : 'unchecked'}
                   onPress={() => setGender('M')}
                   color="#00BAB3"
                   uncheckedColor="#00BAB3"
-                  theme={{ dark: false }}
                 />
                 <Text>男</Text>
               </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  flex: 0.5,
-                }}
-              >
-                <RadioButton
+              <View style={Styles.genderOption}>
+                <RadioButton.Android
                   value="F"
                   status={gender === 'F' ? 'checked' : 'unchecked'}
                   onPress={() => setGender('F')}
                   color="#00BAB3"
                   uncheckedColor="#00BAB3"
-                  theme={{
-                    dark: false,
-                  }}
                 />
                 <Text>女</Text>
               </View>
@@ -248,35 +269,13 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
             <View style={Styles.fieldHeaderContainer}>
               <Text style={Styles.fieldHeaderText}>生日</Text>
             </View>
-            <View
-              style={{
-                alignSelf: 'flex-start',
-              }}
-            >
+            <View style={Styles.birthdaySelectionContainer}>
               <TouchableOpacity
                 onPress={() => modalizeRef.current?.open()}
-                style={{
-                  borderColor: '#0057B8',
-                  borderRadius: 30,
-                  borderWidth: 1,
-                  alignSelf: 'center',
-                }}
+                style={Styles.birthdaySelectionButton}
               >
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginHorizontal: 16,
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      color: '#0057B8',
-                      marginVertical: 12,
-                      marginRight: 24,
-                    }}
-                  >
+                <View style={Styles.birthdaySelectionButtonTextContainer}>
+                  <Text style={Styles.birthdaySelectionButtonText}>
                     {birthLabel}
                   </Text>
                   <Image
@@ -358,13 +357,8 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               <Text style={Styles.fieldHeaderRequiredText}>(必填)</Text>
             </View>
             <View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
-                <RadioButton
+              <View style={Styles.selectionContainer}>
+                <RadioButton.Android
                   value="北"
                   status={volunteerArea === '北' ? 'checked' : 'unchecked'}
                   onPress={() => {
@@ -372,17 +366,11 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   }}
                   color="#00BAB3"
                   uncheckedColor="#00BAB3"
-                  theme={{ dark: false }}
                 />
                 <Text>北區（台北、新北、基隆、桃園、新竹、宜蘭）</Text>
               </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
-                <RadioButton
+              <View style={Styles.selectionContainer}>
+                <RadioButton.Android
                   value="中"
                   status={volunteerArea === '中' ? 'checked' : 'unchecked'}
                   onPress={() => {
@@ -390,17 +378,11 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   }}
                   color="#00BAB3"
                   uncheckedColor="#00BAB3"
-                  theme={{ dark: false }}
                 />
                 <Text>中區（苗栗、台中、彰化、南投、雲林）</Text>
               </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
-                <RadioButton
+              <View style={Styles.selectionContainer}>
+                <RadioButton.Android
                   value="南"
                   status={volunteerArea === '南' ? 'checked' : 'unchecked'}
                   onPress={() => {
@@ -408,17 +390,11 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   }}
                   color="#00BAB3"
                   uncheckedColor="#00BAB3"
-                  theme={{ dark: false }}
                 />
                 <Text>南區（嘉義、台南、高雄、屏東）</Text>
               </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
-                <RadioButton
+              <View style={Styles.selectionContainer}>
+                <RadioButton.Android
                   value="東"
                   status={volunteerArea === '東' ? 'checked' : 'unchecked'}
                   onPress={() => {
@@ -426,7 +402,6 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                   }}
                   color="#00BAB3"
                   uncheckedColor="#00BAB3"
-                  theme={{ dark: false }}
                 />
                 <Text>東區（花蓮、台東）</Text>
               </View>
@@ -442,76 +417,72 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
             </View>
 
             <View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
-                <CheckBox
-                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                  value={volunteerTypes.includes('個案志工')}
-                  onValueChange={() => {
-                    volunteerTypes.includes('個案志工')
-                      ? setVolunteerTypes(
-                          volunteerTypes.filter(item => item !== '個案志工'),
-                        )
-                      : setVolunteerTypes([...volunteerTypes, '個案志工']);
-                  }}
-                />
-                <Text style={{ fontSize: 14, color: '#2D2D2D' }}>個案志工</Text>
+              <View style={Styles.selectionContainer}>
+                <View style={Styles.volunteerTypeSelectionContainer}>
+                  <CheckBox
+                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                    value={volunteerTypes.includes('個案志工')}
+                    onValueChange={() => {
+                      volunteerTypes.includes('個案志工')
+                        ? setVolunteerTypes(
+                            volunteerTypes.filter(item => item !== '個案志工'),
+                          )
+                        : setVolunteerTypes([...volunteerTypes, '個案志工']);
+                    }}
+                    style={Styles.checkBox}
+                  />
+                </View>
+
+                <Text style={Styles.volunteerTypeTitle}>個案志工</Text>
               </View>
-              <Text style={{ fontSize: 12, marginLeft: 30, color: '#4B4B4B' }}>
+              <Text style={Styles.volunteerTypeContent}>
                 需通過志工訓練，可配合進行院訪、家訪工作
               </Text>
             </View>
 
             <View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
-                <CheckBox
-                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                  value={volunteerTypes.includes('活動志工')}
-                  onValueChange={() => {
-                    volunteerTypes.includes('活動志工')
-                      ? setVolunteerTypes(
-                          volunteerTypes.filter(item => item !== '活動志工'),
-                        )
-                      : setVolunteerTypes([...volunteerTypes, '活動志工']);
-                  }}
-                />
-                <Text style={{ fontSize: 14, color: '#2D2D2D' }}>活動志工</Text>
+              <View style={Styles.selectionContainer}>
+                <View style={Styles.volunteerTypeSelectionContainer}>
+                  <CheckBox
+                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                    value={volunteerTypes.includes('活動志工')}
+                    onValueChange={() => {
+                      volunteerTypes.includes('活動志工')
+                        ? setVolunteerTypes(
+                            volunteerTypes.filter(item => item !== '活動志工'),
+                          )
+                        : setVolunteerTypes([...volunteerTypes, '活動志工']);
+                    }}
+                    style={Styles.checkBox}
+                  />
+                </View>
+                <Text style={Styles.volunteerTypeTitle}>活動志工</Text>
               </View>
-              <Text style={{ fontSize: 12, marginLeft: 30, color: '#4B4B4B' }}>
+              <Text style={Styles.volunteerTypeContent}>
                 協助各項活動之進行
               </Text>
             </View>
 
             <View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
-                <CheckBox
-                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                  value={volunteerTypes.includes('會務志工')}
-                  onValueChange={() => {
-                    volunteerTypes.includes('會務志工')
-                      ? setVolunteerTypes(
-                          volunteerTypes.filter(item => item !== '會務志工'),
-                        )
-                      : setVolunteerTypes([...volunteerTypes, '會務志工']);
-                  }}
-                />
-                <Text style={{ fontSize: 14, color: '#2D2D2D' }}>會務志工</Text>
+              <View style={Styles.selectionContainer}>
+                <View style={Styles.volunteerTypeSelectionContainer}>
+                  <CheckBox
+                    tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                    value={volunteerTypes.includes('會務志工')}
+                    onValueChange={() => {
+                      volunteerTypes.includes('會務志工')
+                        ? setVolunteerTypes(
+                            volunteerTypes.filter(item => item !== '會務志工'),
+                          )
+                        : setVolunteerTypes([...volunteerTypes, '會務志工']);
+                    }}
+                    style={Styles.checkBox}
+                  />
+                </View>
+
+                <Text style={Styles.volunteerTypeTitle}>會務志工</Text>
               </View>
-              <Text style={{ fontSize: 12, marginLeft: 30, color: '#4B4B4B' }}>
+              <Text style={Styles.volunteerTypeContent}>
                 協助辦公室各項事務性工作之進行
               </Text>
             </View>
@@ -526,80 +497,26 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               const { width } = event.nativeEvent.layout;
               setServiceTimeLayoutWidth(width);
             }}
-            style={{
-              flexDirection: 'row',
-              borderColor: '#0057B880',
-              borderRadius: 12,
-              borderWidth: 2,
-              marginBottom: 12,
-            }}
+            style={Styles.volunteerServiceTimeContainer}
           >
             <View style={{ width: serviceTimeLayoutWidth / 8 }}>
               <View style={Styles.serviceTimeHeader}>
-                <Text
-                  style={{
-                    marginHorizontal: 8,
-                    marginVertical: 8,
-                    fontSize: 12,
-                  }}
-                ></Text>
+                <Text style={Styles.emptyBlock}></Text>
               </View>
-              <View
-                style={{
-                  height: 40,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Text
-                  style={{
-                    marginHorizontal: 8,
-                    marginVertical: 8,
-                    fontSize: 12,
-                  }}
-                >
-                  上午
-                </Text>
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
+                <Text style={Styles.volunteerServiceTimeText}>上午</Text>
               </View>
-              <View
-                style={{
-                  height: 40,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Text
-                  style={{
-                    marginHorizontal: 8,
-                    marginVertical: 8,
-                    fontSize: 12,
-                  }}
-                >
-                  下午
-                </Text>
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
+                <Text style={Styles.volunteerServiceTimeText}>下午</Text>
               </View>
             </View>
 
             <View style={{ width: serviceTimeLayoutWidth / 8 }}>
               <View style={Styles.serviceTimeHeader}>
-                <Text
-                  style={{
-                    marginHorizontal: 8,
-                    marginVertical: 8,
-                    fontSize: 12,
-                  }}
-                >
-                  週一
-                </Text>
+                <Text style={Styles.volunteerServiceTimeText}>週一</Text>
               </View>
 
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 40,
-                }}
-              >
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
                 <CheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['1A'] === 1}
@@ -614,16 +531,11 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '1A': 1,
                         });
                   }}
+                  style={Styles.checkBox}
                 />
               </View>
 
-              <View
-                style={{
-                  height: 40,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
                 <CheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['1P'] === 1}
@@ -638,30 +550,17 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '1P': 1,
                         });
                   }}
+                  style={Styles.checkBox}
                 />
               </View>
             </View>
 
             <View style={{ width: serviceTimeLayoutWidth / 8 }}>
               <View style={Styles.serviceTimeHeader}>
-                <Text
-                  style={{
-                    marginHorizontal: 8,
-                    marginVertical: 8,
-                    fontSize: 12,
-                  }}
-                >
-                  週二
-                </Text>
+                <Text style={Styles.volunteerServiceTimeText}>週二</Text>
               </View>
 
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 40,
-                }}
-              >
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
                 <CheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['2A'] === 1}
@@ -676,15 +575,10 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '2A': 1,
                         });
                   }}
+                  style={Styles.checkBox}
                 />
               </View>
-              <View
-                style={{
-                  height: 40,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
                 <CheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['2P'] === 1}
@@ -699,30 +593,17 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '2P': 1,
                         });
                   }}
+                  style={Styles.checkBox}
                 />
               </View>
             </View>
 
             <View style={{ width: serviceTimeLayoutWidth / 8 }}>
               <View style={Styles.serviceTimeHeader}>
-                <Text
-                  style={{
-                    marginHorizontal: 8,
-                    marginVertical: 8,
-                    fontSize: 12,
-                  }}
-                >
-                  週三
-                </Text>
+                <Text style={Styles.volunteerServiceTimeText}>週三</Text>
               </View>
 
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 40,
-                }}
-              >
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
                 <CheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['3A'] === 1}
@@ -737,15 +618,10 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '3A': 1,
                         });
                   }}
+                  style={Styles.checkBox}
                 />
               </View>
-              <View
-                style={{
-                  height: 40,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
                 <CheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['3P'] === 1}
@@ -760,30 +636,17 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '3P': 1,
                         });
                   }}
+                  style={Styles.checkBox}
                 />
               </View>
             </View>
 
             <View style={{ width: serviceTimeLayoutWidth / 8 }}>
               <View style={Styles.serviceTimeHeader}>
-                <Text
-                  style={{
-                    marginHorizontal: 8,
-                    marginVertical: 8,
-                    fontSize: 12,
-                  }}
-                >
-                  週四
-                </Text>
+                <Text style={Styles.volunteerServiceTimeText}>週四</Text>
               </View>
 
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 40,
-                }}
-              >
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
                 <CheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['4A'] === 1}
@@ -798,15 +661,10 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '4A': 1,
                         });
                   }}
+                  style={Styles.checkBox}
                 />
               </View>
-              <View
-                style={{
-                  height: 40,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
                 <CheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['4P'] === 1}
@@ -821,30 +679,17 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '4P': 1,
                         });
                   }}
+                  style={Styles.checkBox}
                 />
               </View>
             </View>
 
             <View style={{ width: serviceTimeLayoutWidth / 8 }}>
               <View style={Styles.serviceTimeHeader}>
-                <Text
-                  style={{
-                    marginHorizontal: 8,
-                    marginVertical: 8,
-                    fontSize: 12,
-                  }}
-                >
-                  週五
-                </Text>
+                <Text style={Styles.volunteerServiceTimeText}>週五</Text>
               </View>
 
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 40,
-                }}
-              >
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
                 <CheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['5A'] === 1}
@@ -859,15 +704,10 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '5A': 1,
                         });
                   }}
+                  style={Styles.checkBox}
                 />
               </View>
-              <View
-                style={{
-                  height: 40,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
                 <CheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['5P'] === 1}
@@ -882,30 +722,17 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '5P': 1,
                         });
                   }}
+                  style={Styles.checkBox}
                 />
               </View>
             </View>
 
             <View style={{ width: serviceTimeLayoutWidth / 8 }}>
               <View style={Styles.serviceTimeHeader}>
-                <Text
-                  style={{
-                    marginHorizontal: 8,
-                    marginVertical: 8,
-                    fontSize: 12,
-                  }}
-                >
-                  週六
-                </Text>
+                <Text style={Styles.volunteerServiceTimeText}>週六</Text>
               </View>
 
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 40,
-                }}
-              >
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
                 <CheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['6A'] === 1}
@@ -920,15 +747,10 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '6A': 1,
                         });
                   }}
+                  style={Styles.checkBox}
                 />
               </View>
-              <View
-                style={{
-                  height: 40,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
                 <CheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['6P'] === 1}
@@ -943,30 +765,17 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '6P': 1,
                         });
                   }}
+                  style={Styles.checkBox}
                 />
               </View>
             </View>
 
             <View style={{ width: serviceTimeLayoutWidth / 8 - 2 }}>
               <View style={Styles.serviceTimeHeader}>
-                <Text
-                  style={{
-                    marginHorizontal: 8,
-                    marginVertical: 8,
-                    fontSize: 12,
-                  }}
-                >
-                  週日
-                </Text>
+                <Text style={Styles.volunteerServiceTimeText}>週日</Text>
               </View>
 
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 40,
-                }}
-              >
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
                 <CheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['7A'] === 1}
@@ -981,16 +790,11 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '7A': 1,
                         });
                   }}
+                  style={Styles.checkBox}
                 />
               </View>
 
-              <View
-                style={{
-                  height: 40,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
+              <View style={Styles.volunteerServiceTimeBlockContainer}>
                 <CheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['7P'] === 1}
@@ -1005,6 +809,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '7P': 1,
                         });
                   }}
+                  style={Styles.checkBox}
                 />
               </View>
             </View>
@@ -1019,22 +824,25 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               <Text style={Styles.fieldHeaderRequiredText}>(必填)</Text>
             </View>
 
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}
-            >
-              <CheckBox
-                tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                value={isAgreePrivacy}
-                onValueChange={() => {
-                  setIsAgreePrivacy(!isAgreePrivacy);
-                }}
-              />
-              <Text style={{ fontSize: 14, color: '#2D2D2D' }}>
-                我已閱讀個資聲明並同意該條款
-              </Text>
+            <View style={Styles.selectionContainer}>
+              <View>
+                <CheckBox
+                  tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
+                  value={isAgreePrivacy}
+                  onValueChange={() => {
+                    setIsAgreePrivacy(!isAgreePrivacy);
+                  }}
+                  style={Styles.checkBox}
+                />
+              </View>
+
+              <View style={Styles.privateInfoContainer}>
+                <Text style={Styles.privateText1}>我已閱讀</Text>
+                <TouchableOpacity onPress={handlePrivacyClick}>
+                  <Text style={Styles.privateText2}> 個資聲明 </Text>
+                </TouchableOpacity>
+                <Text style={Styles.privateText3}>並同意該條款</Text>
+              </View>
             </View>
           </View>
 
@@ -1079,45 +887,43 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
           modalizeRef.current?.close();
         }}
       >
-        <View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginTop: 24,
-              paddingHorizontal: 16,
+        <View style={Styles.selectDateHeader}>
+          <TouchableOpacity onPress={() => modalizeRef.current?.close()}>
+            <Image source={ImageProvider.Volunteer.VolunteerClose} />
+          </TouchableOpacity>
+
+          <Text>選擇出生日期</Text>
+          <TouchableOpacity
+            onPress={() => {
+              setBirthLabel(
+                `${date.getFullYear()} 年 ${
+                  date.getMonth() + 1
+                } 月 ${date.getUTCDate()} 日`,
+              );
+              modalizeRef.current?.close();
             }}
           >
-            <TouchableOpacity onPress={() => modalizeRef.current?.close()}>
-              <Image source={ImageProvider.Volunteer.VolunteerClose} />
-            </TouchableOpacity>
-
-            <Text>選擇出生日期</Text>
-            <TouchableOpacity
-              onPress={() => {
-                setBirthLabel(
-                  `${date.getFullYear()} 年 ${
-                    date.getMonth() + 1
-                  } 月 ${date.getUTCDate()} 日`,
-                );
-                modalizeRef.current?.close();
-              }}
-            >
-              <Image source={ImageProvider.Volunteer.VolunteerConfirm} />
-            </TouchableOpacity>
-          </View>
-          <View style={{ alignContent: 'center', alignItems: 'center' }}>
-            <DatePicker
-              mode="date"
-              date={date}
-              onDateChange={date => setDate(date)}
-              locale="zh-TW"
-              androidVariant="nativeAndroid"
-              fadeToColor="#0057B8"
-            />
-          </View>
+            <Image source={ImageProvider.Volunteer.VolunteerConfirm} />
+          </TouchableOpacity>
         </View>
+        <View style={Styles.dateSelectionContainer}>
+          <DatePicker
+            mode="date"
+            date={date}
+            onDateChange={date => setDate(date)}
+            locale="zh-TW"
+            androidVariant="nativeAndroid"
+            fadeToColor="#0057B8"
+          />
+        </View>
+      </Modalize>
+      <Modalize
+        ref={privacyModalizeRef}
+        modalHeight={dimensionsHeight}
+        onClosed={() => setModalIsOpen(false)}
+        HeaderComponent={PrivacyHeader(handlePrivacyClose)}
+      >
+        <PrivacyContent />
       </Modalize>
       {isLoading ? <LoadingModal /> : null}
     </SafeAreaView>
