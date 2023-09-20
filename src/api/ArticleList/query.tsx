@@ -1,6 +1,6 @@
 const gql = String.raw;
 
-export const getNewsArticlesQuery = gql`
+export const getArticlesQuery = gql`
   query GetArticlesByTag($tag: String!, $cursor: String, $handle: String!) {
     blog(handle: $handle) {
       articles(
@@ -29,4 +29,4 @@ export const getNewsArticlesQuery = gql`
   }
 `;
 
-export const getWishesArticlesQuery = gql``;
+export const getArticleByIdQuery = gql``;

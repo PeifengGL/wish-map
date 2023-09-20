@@ -1,5 +1,5 @@
 import storefront from 'api';
-import { getNewsArticlesQuery } from './query';
+import { getArticlesQuery } from './query';
 
 export const getArticles = async (tag: string, cursor: string, tab: string) => {
   let handle;
@@ -14,6 +14,6 @@ export const getArticles = async (tag: string, cursor: string, tab: string) => {
     cursor: cursor === '' ? null : cursor,
     handle: handle,
   };
-  const data = await storefront(getNewsArticlesQuery, variables);
+  const data = await storefront(getArticlesQuery, variables);
   return data.blog.articles;
 };
