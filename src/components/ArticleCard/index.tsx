@@ -3,8 +3,6 @@ import { Text, View, Image, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
 import { RootStackParamList } from 'types/router';
-import { ArticleCardPropsType } from 'types/components';
-import { ArticleClass } from 'shared/articles.data';
 import Styles from './index.style';
 
 type ArticleCardProps = {
@@ -30,10 +28,9 @@ const ArticleCard = (articleData: ArticleCardProps) => {
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const handleArticleCardClick = () => {
-    const getArticle = `getArticle/${id}`;
-    // navigation.push('ArticleDetail', {
-    //   articleData: articleData,
-    // });
+    navigation.push('ArticleDetail', {
+      articleId: id,
+    });
   };
 
   return (
