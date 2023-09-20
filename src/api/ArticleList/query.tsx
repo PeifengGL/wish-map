@@ -1,8 +1,8 @@
 const gql = String.raw;
 
 export const getNewsArticlesQuery = gql`
-  query GetArticlesByTag($tag: String!, $cursor: String) {
-    blog(handle: "news") {
+  query GetArticlesByTag($tag: String!, $cursor: String, $handle: String!) {
+    blog(handle: $handle) {
       articles(
         first: 10
         reverse: true
@@ -13,6 +13,7 @@ export const getNewsArticlesQuery = gql`
         nodes {
           id
           title
+          excerpt
           tags
           publishedAt
           image {

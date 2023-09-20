@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -9,7 +9,7 @@ import {
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
-import { ArticlesData, ArticleClass } from 'shared/articles.data';
+import { ArticleClass } from 'shared/articles.data';
 import CapsuleButton from 'components/CapsuleButton';
 import ArticleCard from 'components/ArticleCard';
 import Styles from './index.style';
@@ -17,56 +17,13 @@ import FocusAwareStatusBar from 'util/StatusBarAdapter';
 import { getArticles } from 'api/ArticleList';
 
 export default function ArticleListPage() {
-  const [activeTab, setActiveTab] = useState('message');
+  const [activeTab, setActiveTab] = useState<'message' | 'journey'>('message');
   const [activeArticleClass, setActiveArticleClass] = useState({
     message: '所有貼文',
     journey: '所有貼文',
   });
   const [animationValue] = useState(new Animated.Value(0));
   const windowsWidth = Dimensions.get('window').width;
-  const [messageList, setMessageList] = useState(
-    ArticlesData.filter(article => article.group === 'message'),
-  );
-  const [journeyList, setJourneyList] = useState(
-    ArticlesData.filter(article => article.group === 'journey'),
-  );
-
-  const handleCapsuleButtonPress = (text: string) => {
-    if (activeTab === 'message') {
-      setActiveArticleClass({
-        ...activeArticleClass,
-        message: text,
-      });
-      text === '所有貼文'
-        ? setMessageList(
-            ArticlesData.filter(article => article.group === 'message'),
-          )
-        : setMessageList(
-            ArticlesData.filter(
-              article =>
-                article.group === 'message' &&
-                ArticleClass.message[article.type] === text,
-            ),
-          );
-    } else if (activeTab === 'journey') {
-      setActiveArticleClass({
-        ...activeArticleClass,
-        journey: text,
-      });
-      text === '所有貼文'
-        ? setJourneyList(
-            ArticlesData.filter(article => article.group === 'journey'),
-          )
-        : setJourneyList(
-            ArticlesData.filter(
-              article =>
-                article.group === 'journey' &&
-                ArticleClass.journey[article.type] === text,
-            ),
-          );
-    }
-  };
-
   const renderArticleClass = () => {
     if (activeTab === 'message') {
       const messageClassList = Object.values(ArticleClass.message);
@@ -133,15 +90,76 @@ export default function ArticleListPage() {
     }
   };
 
-  const [articleList, setArticleList] = useState([]);
+  const [articleList, setArticleList] = useState<any>([]);
   const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [endCursor, setEndCursor] = useState<string>('');
+  const [isDataEnd, setIsDataEnd] = useState<boolean>(false);
+  const scrollRef = useRef<ScrollView>(null);
+  const classScrollRef = useRef<ScrollView>(null);
 
   useEffect(() => {
-    getArticles().then(data => {
-      // console.log('pages140', data);
-      setArticleList(data);
+    getArticles('', endCursor, activeTab).then(data => {
+      setArticleList(data.nodes);
+      if (data.pageInfo.hasNextPage) {
+        setEndCursor(data.pageInfo.endCursor);
+      } else {
+        setEndCursor('');
+      }
     });
   }, []);
+
+  useEffect(() => {
+    // scrollToTop
+    scrollRef.current?.scrollTo({
+      y: 0,
+      animated: true,
+    });
+    setIsDataEnd(false);
+    const tag = activeArticleClass[activeTab];
+    getArticles(tag, '', activeTab).then(data => {
+      setArticleList(data.nodes);
+      if (data.pageInfo.hasNextPage) {
+        setEndCursor(data.pageInfo.endCursor);
+      } else {
+        setEndCursor('');
+      }
+    });
+  }, [activeTab, activeArticleClass]);
+
+  useEffect(() => {
+    classScrollRef.current?.scrollTo({
+      x: 0,
+      animated: true,
+    });
+  }, [activeTab]);
+
+  useEffect(() => {
+    if (!isFetching) {
+      return;
+    }
+    if (isDataEnd) {
+      setIsFetching(false);
+      return;
+    }
+    const tag = activeArticleClass[activeTab];
+    getArticles(tag, endCursor, activeTab)
+      .then(data => {
+        setArticleList([...articleList, ...data.nodes]);
+        if (data.pageInfo.hasNextPage) {
+          setEndCursor(data.pageInfo.endCursor);
+        } else {
+          setEndCursor('');
+          setIsDataEnd(true);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        setEndCursor('');
+      })
+      .finally(() => {
+        setIsFetching(false);
+      });
+  }, [isFetching]);
 
   const handleScroll = (event: any) => {
     if (isFetching) {
@@ -151,11 +169,21 @@ export default function ArticleListPage() {
     const isCloseToBottom =
       layoutMeasurement.height + contentOffset.y >= contentSize.height - 10;
     if (isCloseToBottom) {
-      console.log('call next api');
       setIsFetching(true);
-      setTimeout(() => {
-        setIsFetching(false);
-      }, 5000);
+    }
+  };
+
+  const handleCapsuleButtonPress = (text: string) => {
+    if (activeTab === 'message') {
+      setActiveArticleClass({
+        ...activeArticleClass,
+        message: text,
+      });
+    } else if (activeTab === 'journey') {
+      setActiveArticleClass({
+        ...activeArticleClass,
+        journey: text,
+      });
     }
   };
 
@@ -203,12 +231,17 @@ export default function ArticleListPage() {
           horizontal
           style={Styles.classScrollView}
           showsHorizontalScrollIndicator={false}
+          ref={classScrollRef}
         >
           {renderArticleClass()}
         </ScrollView>
       </View>
-      <ScrollView onScroll={handleScroll} style={Styles.contentScrollView}>
-        {articleList.map((article, index) => (
+      <ScrollView
+        onScroll={handleScroll}
+        style={Styles.contentScrollView}
+        ref={scrollRef}
+      >
+        {articleList.map((article: any, index: number) => (
           <View key={index} style={Styles.articleCardContainer}>
             <ArticleCard articleData={article} />
           </View>

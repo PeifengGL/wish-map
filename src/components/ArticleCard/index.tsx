@@ -14,12 +14,18 @@ type ArticleCardProps = {
     publishedAt: string;
     tags: string[];
     title: string;
+    excerpt: string;
   };
 };
 
 const ArticleCard = (articleData: ArticleCardProps) => {
   const data = articleData.articleData;
-  const { id, image, publishedAt, tags, title } = data;
+  const { id, image, publishedAt, tags, title, excerpt } = data;
+  const publishDate = new Date(publishedAt);
+  const year = publishDate.getFullYear();
+  const month = publishDate.getMonth() + 1;
+  const day = publishDate.getDate();
+
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
@@ -33,7 +39,9 @@ const ArticleCard = (articleData: ArticleCardProps) => {
   return (
     <Pressable style={Styles.cardContainer} onPress={handleArticleCardClick}>
       <View style={Styles.cardImageContainer}>
-        <Image source={{ uri: image.url }} style={Styles.cardImage} />
+        {image?.url && (
+          <Image source={{ uri: image.url }} style={Styles.cardImage} />
+        )}
       </View>
       <View style={Styles.childrenBox}>
         <Text style={Styles.classText} numberOfLines={2}>
@@ -42,11 +50,11 @@ const ArticleCard = (articleData: ArticleCardProps) => {
         <Text style={Styles.titleText} numberOfLines={2}>
           {title}
         </Text>
-        {/* <Text style={Styles.subTitleText} numberOfLines={3}>
-          {article api 沒有 subTitle}
-        </Text> */}
+        <Text style={Styles.subTitleText} numberOfLines={3}>
+          {excerpt}
+        </Text>
         <Text style={Styles.dateText} numberOfLines={3}>
-          {publishedAt}
+          發布日期 {`${year} 年 ${month} 月 ${day} 日`}
         </Text>
       </View>
     </Pressable>

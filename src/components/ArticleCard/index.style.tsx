@@ -52,6 +52,7 @@ const Styles = StyleSheet.create({
     fontSize: 12,
     color: '#939698',
     marginTop: 4,
+    marginBottom: 12,
   },
   dateText: {
     position: 'absolute',
