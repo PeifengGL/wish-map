@@ -174,6 +174,13 @@ export default function ArticleListPage() {
   };
 
   const handleCapsuleButtonPress = (text: string) => {
+    if (text === activeArticleClass[activeTab]) {
+      scrollRef.current?.scrollTo({
+        y: 0,
+        animated: true,
+      });
+      return;
+    }
     if (activeTab === 'message') {
       setActiveArticleClass({
         ...activeArticleClass,
