@@ -15,6 +15,15 @@ import Styles from './index.style';
 import FocusAwareStatusBar from 'util/StatusBarAdapter';
 import { getArticles, getTagsByTab } from 'api/ArticleList';
 
+type Article = {
+  id: string;
+  image: { url: string };
+  publishedAt: string;
+  tags: string[];
+  title: string;
+  excerpt: string;
+};
+
 export default function ArticleListPage() {
   const [activeTab, setActiveTab] = useState<'message' | 'journey'>('message');
   const [activeArticleClass, setActiveArticleClass] = useState({
@@ -51,7 +60,7 @@ export default function ArticleListPage() {
     outputRange: [0, windowsWidth / 2],
   });
 
-  const handleTabClick = (tabName: any) => {
+  const handleTabClick = (tabName: 'message' | 'journey') => {
     if (tabName !== activeTab) {
       setActiveTab(tabName);
       Animated.timing(animationValue, {
@@ -62,7 +71,7 @@ export default function ArticleListPage() {
     }
   };
 
-  const [articleList, setArticleList] = useState<any>([]);
+  const [articleList, setArticleList] = useState<Article[]>([]);
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [endCursor, setEndCursor] = useState<string>('');
   const [isDataEnd, setIsDataEnd] = useState<boolean>(false);
@@ -81,7 +90,6 @@ export default function ArticleListPage() {
   }, []);
 
   useEffect(() => {
-    // scrollToTop
     scrollRef.current?.scrollTo({
       y: 0,
       animated: true,
@@ -220,26 +228,11 @@ export default function ArticleListPage() {
         style={Styles.contentScrollView}
         ref={scrollRef}
       >
-        {articleList.map((article: any, index: number) => (
+        {articleList.map((article: Article, index: number) => (
           <View key={index} style={Styles.articleCardContainer}>
             <ArticleCard articleData={article} />
           </View>
         ))}
-        {/* {activeTab === 'message'
-          ? messageList.map((message, index) => {
-              return (
-                <View key={index} style={Styles.articleCardContainer}>
-                  <ArticleCard articleData={message} />
-                </View>
-              );
-            })
-          : journeyList.map((journey, index) => {
-              return (
-                <View key={index} style={Styles.articleCardContainer}>
-                  <ArticleCard key={index} articleData={journey} />
-                </View>
-              );
-            })} */}
         {isFetching && (
           <View style={{ marginBottom: 10 }}>
             <ActivityIndicator size="large" />

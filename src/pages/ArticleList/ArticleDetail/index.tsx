@@ -23,32 +23,64 @@ type PageRouterProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'ArticleDetail'>;
 };
 
+type ArticleData = {
+  contentHtml: string;
+  excerpt: string;
+  handle: string;
+  id: string;
+  image: {
+    url: string;
+  };
+  onlineStoreUrl: string;
+  publishedAt: string;
+  tags: [];
+  title: string;
+  blog: {
+    handle: string;
+    title: string;
+  };
+};
+
+type ArticleCardData = {
+  id: string;
+  image: { url: string };
+  publishedAt: string;
+  tags: string[];
+  title: string;
+  excerpt: string;
+};
+
+const articleDefaultData = {
+  contentHtml: '',
+  excerpt: '',
+  handle: '',
+  id: '',
+  image: {
+    url: '',
+  },
+  onlineStoreUrl: '',
+  publishedAt: '',
+  tags: [],
+  title: '',
+  blog: {
+    handle: '',
+    title: '',
+  },
+} as ArticleData;
+
 export default function ArticleDetailPage({
   route,
   navigation,
 }: PageRouterProps) {
   const { articleId } = route.params;
-  const [articleData, setArticleData] = useState({
-    contentHtml: '',
-    excerpt: '',
-    handle: '',
-    id: '',
-    image: {
-      url: '',
-    },
-    onlineStoreUrl: '',
-    publishedAt: '',
-    tags: [],
-    title: '',
-    blog: {
-      handle: '',
-      title: '',
-    },
-  });
+  const [articleData, setArticleData] =
+    useState<ArticleData>(articleDefaultData);
   const [contentHtml, setContentHtml] = useState({
     html: '',
   });
-  const [readMoreArticles, setReadMoreArticles] = useState([]);
+  const [readMoreArticles, setReadMoreArticles] = useState<ArticleCardData[]>(
+    [],
+  );
 
   const { width } = useWindowDimensions();
 
@@ -68,7 +100,7 @@ export default function ArticleDetailPage({
       .then(filter => {
         getReadMoreArticles(filter.handle).then(data => {
           const readMoreList = data.filter(
-            (article: { id: string }) => article.id !== filter.id,
+            (article: ArticleCardData) => article.id !== filter.id,
           );
           if (readMoreList.length >= 4) {
             readMoreList.pop();
