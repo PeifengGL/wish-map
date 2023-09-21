@@ -1,4 +1,5 @@
 import storefront from 'api';
+import { ArticleCardData } from 'types/articleList';
 import {
   getArticlesQuery,
   getArticleByIdQuery,
@@ -19,6 +20,14 @@ export const getArticles = async (tag: string, cursor: string, tab: string) => {
     handle: handle,
   };
   const data = await storefront(getArticlesQuery, variables);
+  if (tag === '所有貼文') {
+    return data.blog.articles;
+  }
+  const orgArticles = data.blog.articles.nodes;
+  const filteredArticles = orgArticles.filter((article: ArticleCardData) =>
+    article.tags.includes(tag),
+  );
+  data.blog.articles.nodes = filteredArticles;
   return data.blog.articles;
 };
 

@@ -24,6 +24,7 @@ export default function ArticleListPage() {
   });
   const [animationValue] = useState(new Animated.Value(0));
   const windowsWidth = Dimensions.get('window').width;
+  const windowsHeight = Dimensions.get('window').height;
   const renderArticleClass = () => {
     const tags = getTagsByTab(activeTab)!;
     return tags.map((tag, index) => {
@@ -168,6 +169,12 @@ export default function ArticleListPage() {
     }
   };
 
+  const handleContentSizeChange = (height: number, width: number) => {
+    if (width <= windowsHeight && !isDataEnd) {
+      setIsFetching(true);
+    }
+  };
+
   return (
     <SafeAreaView style={Styles.safeAreaView}>
       <FocusAwareStatusBar backgroundColor="#ffffff" barStyle="dark-content" />
@@ -221,6 +228,7 @@ export default function ArticleListPage() {
         onScroll={handleScroll}
         style={Styles.contentScrollView}
         ref={scrollRef}
+        onContentSizeChange={handleContentSizeChange}
       >
         {articleList.map((article: ArticleCardData, index: number) => (
           <View key={index} style={Styles.articleCardContainer}>
