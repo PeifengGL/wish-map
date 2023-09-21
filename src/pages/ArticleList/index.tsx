@@ -9,12 +9,11 @@ import {
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
-import { ArticleClass } from 'shared/articles.data';
 import CapsuleButton from 'components/CapsuleButton';
 import ArticleCard from 'components/ArticleCard';
 import Styles from './index.style';
 import FocusAwareStatusBar from 'util/StatusBarAdapter';
-import { getArticles } from 'api/ArticleList';
+import { getArticles, getTagsByTab } from 'api/ArticleList';
 
 export default function ArticleListPage() {
   const [activeTab, setActiveTab] = useState<'message' | 'journey'>('message');
@@ -25,53 +24,26 @@ export default function ArticleListPage() {
   const [animationValue] = useState(new Animated.Value(0));
   const windowsWidth = Dimensions.get('window').width;
   const renderArticleClass = () => {
-    if (activeTab === 'message') {
-      const messageClassList = Object.values(ArticleClass.message);
-      return messageClassList.map((messageClass, index) => {
-        return (
-          <View style={Styles.capsuleButtonContainer} key={index}>
-            <CapsuleButton
-              showText={messageClass}
-              returnText={messageClass}
-              isSelected={messageClass === activeArticleClass.message}
-              capsuleContainerStyle={{
-                backgroundColor:
-                  messageClass === activeArticleClass.message
-                    ? '#FFB549'
-                    : '#FFFFFF',
-                borderColor: '#FFB549',
-              }}
-              handleCapsuleButtonPress={() =>
-                handleCapsuleButtonPress(messageClass)
-              }
-            />
-          </View>
-        );
-      });
-    } else if (activeTab === 'journey') {
-      const journeyClassList = Object.values(ArticleClass.journey);
-      return journeyClassList.map((journeyClass, index) => {
-        return (
-          <View style={Styles.capsuleButtonContainer} key={index}>
-            <CapsuleButton
-              showText={journeyClass}
-              returnText={journeyClass}
-              isSelected={journeyClass === activeArticleClass.journey}
-              capsuleContainerStyle={{
-                backgroundColor:
-                  journeyClass === activeArticleClass.journey
-                    ? '#FFB549'
-                    : '#FFFFFF',
-                borderColor: '#FFB549',
-              }}
-              handleCapsuleButtonPress={() =>
-                handleCapsuleButtonPress(journeyClass)
-              }
-            />
-          </View>
-        );
-      });
-    }
+    const tags = getTagsByTab(activeTab)!;
+    return tags.map((tag, index) => {
+      return (
+        <View style={Styles.capsuleButtonContainer} key={index}>
+          <CapsuleButton
+            showText={tag.name}
+            returnText={tag.name}
+            isSelected={tag.name === activeArticleClass[activeTab]}
+            capsuleContainerStyle={{
+              backgroundColor:
+                tag.name === activeArticleClass[activeTab]
+                  ? '#FFB549'
+                  : '#FFFFFF',
+              borderColor: '#FFB549',
+            }}
+            handleCapsuleButtonPress={() => handleCapsuleButtonPress(tag.name)}
+          />
+        </View>
+      );
+    });
   };
 
   const tabIndicatorPosition = animationValue.interpolate({

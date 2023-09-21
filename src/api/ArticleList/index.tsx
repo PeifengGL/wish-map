@@ -37,3 +37,26 @@ export const getReadMoreArticles = async (handle: string) => {
   const data = await storefront(getReadMoreArticlesQuery, variables);
   return data.blog.articles.nodes;
 };
+
+export const getTagsByTab = (activeTab: string) => {
+  if (activeTab === 'message') {
+    const tags = [
+      { name: '所有貼文' },
+      { name: '最新消息' },
+      { name: '宣傳合作' },
+      { name: '愛的延續' },
+      { name: '活動花絮' },
+    ];
+    return tags;
+  } else if (activeTab === 'journey') {
+    const tags = [
+      { name: '所有貼文' },
+      { name: '圓夢剪影' },
+      { name: '我想成為' },
+      { name: '我想擁有' },
+      { name: '我想要去' },
+      { name: '我想要見' },
+    ];
+    return tags;
+  }
+};
