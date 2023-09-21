@@ -46,6 +46,7 @@ export const getTagsByTab = (activeTab: string) => {
       { name: '宣傳合作' },
       { name: '愛的延續' },
       { name: '活動花絮' },
+      { name: '我想成為' },
     ];
     return tags;
   } else if (activeTab === 'journey') {
