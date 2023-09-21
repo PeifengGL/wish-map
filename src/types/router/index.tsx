@@ -1,5 +1,4 @@
 import { ProjectsDataType, WishDataType } from 'shared/project.data';
-import { ArticlesDataType } from 'shared/articles.data';
 import { WishApplyStepOneDataType } from 'types/wishMap';
 
 export type RootStackParamList = {
@@ -19,7 +18,7 @@ export type RootStackParamList = {
     originEntry: string;
   };
   ArticleDetail: {
-    articleData?: ArticlesDataType;
+    articleId: string;
   };
   VolunteerApply: {};
   WishApply: {};

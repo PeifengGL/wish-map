@@ -10,33 +10,83 @@ import {
 } from 'react-native';
 import { RootStackParamList } from 'types/router';
 import ShareButton from 'components/ShareButton';
-import { ArticleClass, ArticlesData } from 'shared/articles.data';
 import ImageProvider from 'assets';
 import ArticleCard from 'components/ArticleCard';
 import Styles from './index.style';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { getArticleById, getReadMoreArticles } from 'api/ArticleList';
+import { ArticleData, ArticleCardData } from 'types/articleList';
+import { useWindowDimensions } from 'react-native';
+import RenderHtml from 'react-native-render-html';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'ArticleDetail'>;
   navigation: NativeStackNavigationProp<RootStackParamList, 'ArticleDetail'>;
 };
 
+const articleDefaultData = {
+  contentHtml: '',
+  excerpt: '',
+  handle: '',
+  id: '',
+  image: {
+    url: '',
+  },
+  onlineStoreUrl: '',
+  publishedAt: '',
+  tags: [],
+  title: '',
+  blog: {
+    handle: '',
+    title: '',
+  },
+} as ArticleData;
+
 export default function ArticleDetailPage({
   route,
   navigation,
 }: PageRouterProps) {
-  const { articleData } = route.params;
+  const { articleId } = route.params;
+  const [articleData, setArticleData] =
+    useState<ArticleData>(articleDefaultData);
+  const [contentHtml, setContentHtml] = useState({
+    html: '',
+  });
+  const [readMoreArticles, setReadMoreArticles] = useState<ArticleCardData[]>(
+    [],
+  );
+
+  const { width } = useWindowDimensions();
+
   const statusBarHeight = StatusBar.currentHeight;
 
-  const readData = ArticlesData.filter(
-    article => article.group === articleData?.group,
-  );
+  useEffect(() => {
+    getArticleById(articleId)
+      .then(data => {
+        setArticleData(data);
+        setContentHtml({ html: data.contentHtml });
+        const filter = {
+          handle: data.blog.handle,
+          id: data.id,
+        };
+        return filter;
+      })
+      .then(filter => {
+        getReadMoreArticles(filter.handle).then(data => {
+          const readMoreList = data.filter(
+            (article: ArticleCardData) => article.id !== filter.id,
+          );
+          if (readMoreList.length >= 4) {
+            readMoreList.pop();
+          }
+          setReadMoreArticles(readMoreList);
+        });
+      });
+  }, []);
 
   const handleArticleDetailGoBack = () => {
     navigation.goBack();
   };
-
-  const dataGroup = articleData?.group!;
 
   const scrollOffset = useRef(0);
   const [showHeader, setShowHeader] = useState(false);
@@ -56,6 +106,14 @@ export default function ArticleDetailPage({
     scrollOffset.current = currentOffset;
   };
   // StatusBar.setBarStyle('light-content', true);
+
+  const getDate = (publishedAt: string) => {
+    const publishDate = new Date(publishedAt);
+    const year = publishDate.getFullYear();
+    const month = publishDate.getMonth() + 1;
+    const day = publishDate.getDate();
+    return `發布日期  ${year} 年 ${month} 月 ${day} 日`;
+  };
 
   return (
     <View style={Styles.safeArea}>
@@ -89,7 +147,7 @@ export default function ArticleDetailPage({
           </TouchableOpacity>
 
           <ShareButton
-            share_url={articleData?.article_url!}
+            share_url={articleData.onlineStoreUrl}
             type="article"
             shareIcon={ImageProvider.Article.ArticleDetailShareIcon}
           />
@@ -97,52 +155,50 @@ export default function ArticleDetailPage({
       </View>
 
       <ScrollView onScroll={handleScroll} scrollEventThrottle={100}>
-        <Image
-          onLayout={event => {
-            const { height } = event.nativeEvent.layout;
-            setImageHeight(height);
-          }}
-          source={articleData?.cover_image}
-          resizeMode="contain"
-          style={Styles.image}
-        />
+        {articleData.image.url !== '' && (
+          <Image
+            onLayout={event => {
+              const { height } = event.nativeEvent.layout;
+              setImageHeight(height);
+            }}
+            source={{ uri: articleData.image.url }}
+            resizeMode="contain"
+            style={Styles.image}
+          />
+        )}
         <View style={Styles.headerButtonContainer}>
           <TouchableOpacity onPress={handleArticleDetailGoBack}>
             <Image source={ImageProvider.Article.ArticleDetailGoBackIcon} />
           </TouchableOpacity>
           <ShareButton
-            share_url={articleData?.article_url!}
+            share_url={articleData.onlineStoreUrl}
             type="article"
             shareIcon={ImageProvider.Article.ArticleShareIcon}
           />
         </View>
         <View style={Styles.contentContainer}>
           <View style={Styles.textContainer}>
-            <Text style={Styles.text1Style}>
-              {ArticleClass[dataGroup][articleData?.type!]}
+            <Text style={Styles.text1Style}>{articleData.tags.join(' ')}</Text>
+            <Text style={Styles.text2Style}>
+              {getDate(articleData.publishedAt)}
             </Text>
-            <Text style={Styles.text2Style}>{articleData?.date}</Text>
           </View>
-          <Text style={Styles.titleText}>{articleData?.title}</Text>
-          <Text style={Styles.subTtitleText}>{articleData?.subTitle}</Text>
-          <Text style={Styles.contentText}>{articleData?.content}</Text>
+          <Text style={Styles.titleText}>{articleData.title}</Text>
+          <Text style={Styles.subTtitleText}>{articleData.excerpt}</Text>
+          {contentHtml.html !== '' && (
+            <RenderHtml contentWidth={width - 32} source={contentHtml} />
+          )}
           <View style={Styles.separator} />
           <Text style={Styles.titleText}>繼續閱讀</Text>
-          {readData.length > 2
-            ? readData.slice(0, 3).map((article, index) => {
-                return (
-                  <View key={index} style={Styles.articleCardContainer}>
-                    <ArticleCard articleData={article} />
-                  </View>
-                );
-              })
-            : readData.map((article, index) => {
-                return (
-                  <View key={index} style={Styles.articleCardContainer}>
-                    <ArticleCard articleData={article} />
-                  </View>
-                );
-              })}
+          {readMoreArticles.length !== 0 ? (
+            readMoreArticles.map((article, index) => (
+              <View key={index} style={Styles.articleCardContainer}>
+                <ArticleCard articleData={article} />
+              </View>
+            ))
+          ) : (
+            <View style={Styles.articleCardContainer}></View>
+          )}
         </View>
       </ScrollView>
       {/* {showHeader && (
