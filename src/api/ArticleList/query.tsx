@@ -17,7 +17,7 @@ export const getArticlesQuery = gql`
           tags
           publishedAt
           image {
-            url
+            url(transform: { maxHeight: 200, maxWidth: 200 })
           }
         }
         pageInfo {
@@ -62,7 +62,7 @@ export const getReadMoreArticlesQuery = gql`
           tags
           publishedAt
           image {
-            url
+            url(transform: { maxHeight: 200, maxWidth: 200 })
           }
         }
       }
