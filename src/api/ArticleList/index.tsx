@@ -22,10 +22,7 @@ export const getArticles = async (tag: string, cursor: string, tab: string) => {
   return data.blog.articles;
 };
 
-export const getArticleById = async (id: string | undefined) => {
-  if (id === undefined) {
-    return;
-  }
+export const getArticleById = async (id: string) => {
   const variables = {
     id: id,
   };

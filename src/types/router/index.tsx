@@ -18,7 +18,7 @@ export type RootStackParamList = {
     originEntry: string;
   };
   ArticleDetail: {
-    articleId?: string;
+    articleId: string;
   };
   VolunteerApply: {};
   WishApply: {};
