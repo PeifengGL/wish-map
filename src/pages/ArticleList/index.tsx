@@ -77,6 +77,7 @@ export default function ArticleListPage() {
         setEndCursor(data.pageInfo.endCursor);
       } else {
         setEndCursor('');
+        setIsDataEnd(true);
       }
     });
   }, []);
@@ -94,6 +95,7 @@ export default function ArticleListPage() {
         setEndCursor(data.pageInfo.endCursor);
       } else {
         setEndCursor('');
+        setIsDataEnd(true);
       }
     });
   }, [activeTab, activeArticleClass]);
@@ -134,7 +136,7 @@ export default function ArticleListPage() {
   }, [isFetching]);
 
   const handleScroll = (event: any) => {
-    if (isFetching) {
+    if (isFetching || isDataEnd) {
       return;
     }
     const { layoutMeasurement, contentSize, contentOffset } = event.nativeEvent;
