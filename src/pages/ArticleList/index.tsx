@@ -14,15 +14,7 @@ import ArticleCard from 'components/ArticleCard';
 import Styles from './index.style';
 import FocusAwareStatusBar from 'util/StatusBarAdapter';
 import { getArticles, getTagsByTab } from 'api/ArticleList';
-
-type Article = {
-  id: string;
-  image: { url: string };
-  publishedAt: string;
-  tags: string[];
-  title: string;
-  excerpt: string;
-};
+import { ArticleCardData } from 'types/articleList';
 
 export default function ArticleListPage() {
   const [activeTab, setActiveTab] = useState<'message' | 'journey'>('message');
@@ -71,7 +63,7 @@ export default function ArticleListPage() {
     }
   };
 
-  const [articleList, setArticleList] = useState<Article[]>([]);
+  const [articleList, setArticleList] = useState<ArticleCardData[]>([]);
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [endCursor, setEndCursor] = useState<string>('');
   const [isDataEnd, setIsDataEnd] = useState<boolean>(false);
@@ -228,7 +220,7 @@ export default function ArticleListPage() {
         style={Styles.contentScrollView}
         ref={scrollRef}
       >
-        {articleList.map((article: Article, index: number) => (
+        {articleList.map((article: ArticleCardData, index: number) => (
           <View key={index} style={Styles.articleCardContainer}>
             <ArticleCard articleData={article} />
           </View>

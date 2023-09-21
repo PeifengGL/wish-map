@@ -15,39 +15,13 @@ import ArticleCard from 'components/ArticleCard';
 import Styles from './index.style';
 import { useState, useRef, useEffect } from 'react';
 import { getArticleById, getReadMoreArticles } from 'api/ArticleList';
+import { ArticleData, ArticleCardData } from 'types/articleList';
 import { useWindowDimensions } from 'react-native';
 import RenderHtml from 'react-native-render-html';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'ArticleDetail'>;
   navigation: NativeStackNavigationProp<RootStackParamList, 'ArticleDetail'>;
-};
-
-type ArticleData = {
-  contentHtml: string;
-  excerpt: string;
-  handle: string;
-  id: string;
-  image: {
-    url: string;
-  };
-  onlineStoreUrl: string;
-  publishedAt: string;
-  tags: [];
-  title: string;
-  blog: {
-    handle: string;
-    title: string;
-  };
-};
-
-type ArticleCardData = {
-  id: string;
-  image: { url: string };
-  publishedAt: string;
-  tags: string[];
-  title: string;
-  excerpt: string;
 };
 
 const articleDefaultData = {

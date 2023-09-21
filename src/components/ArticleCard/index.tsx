@@ -4,16 +4,10 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
 import { RootStackParamList } from 'types/router';
 import Styles from './index.style';
+import { ArticleCardData } from 'types/articleList';
 
 type ArticleCardProps = {
-  articleData: {
-    id: string;
-    image: { url: string };
-    publishedAt: string;
-    tags: string[];
-    title: string;
-    excerpt: string;
-  };
+  articleData: ArticleCardData;
 };
 
 const ArticleCard = (articleData: ArticleCardProps) => {
