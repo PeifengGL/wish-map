@@ -26,6 +26,8 @@ import ImageProvider from 'assets';
 import { Subscription } from 'rxjs';
 import FocusAwareStatusBar from 'util/StatusBarAdapter';
 
+import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
+
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'Profile'>;
   navigation: NativeStackNavigationProp<ProfileStackParamList>;
