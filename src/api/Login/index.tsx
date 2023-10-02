@@ -1,5 +1,9 @@
 import storefront from 'api';
-import { createAccessTokenQuery, getCustomerInfoQuery } from './query';
+import {
+  createAccessTokenQuery,
+  getCustomerInfoQuery,
+  getCustomerOrdersQuery,
+} from './query';
 // Login -> Email + Password -> getToken ->
 // (localStorage?) -> getInfoByToken -> getOrder ->
 
@@ -33,8 +37,18 @@ export const getCustomerInfo = async (token: string) => {
   }
 };
 
-export const updateAccessToken = () => {};
+export const getCustomerOrders = async (token: string) => {
+  const variables = {
+    customerAccessToken: token,
+  };
+  try {
+    const data = await storefront(getCustomerOrdersQuery, variables);
+    return data.customer.orders;
+  } catch (e) {
+    console.log(e);
+  }
+};
 
-export const getCustomerOrder = () => {};
+export const updateAccessToken = () => {};
 
 export const updateCustomerInfo = () => {};

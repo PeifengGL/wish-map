@@ -26,7 +26,6 @@ export const getCustomerInfoQuery = gql`
       createdAt
       displayName
       numberOfOrders
-      phone
       defaultAddress {
         city
         company
@@ -35,6 +34,36 @@ export const getCustomerInfoQuery = gql`
         address2
         countryCodeV2
         zip
+        phone
+      }
+    }
+  }
+`;
+
+export const getCustomerOrdersQuery = gql`
+  query getCustomerOrders($customerAccessToken: String!) {
+    customer(customerAccessToken: $customerAccessToken) {
+      orders(first: 6, reverse: true, sortKey: PROCESSED_AT) {
+        nodes {
+          name
+          email
+          phone
+          billingAddress {
+            city
+            address1
+            name
+            phone
+          }
+          originalTotalPrice {
+            amount
+            currencyCode
+          }
+          processedAt
+        }
+        pageInfo {
+          endCursor
+          hasNextPage
+        }
       }
     }
   }
