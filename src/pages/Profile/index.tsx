@@ -27,6 +27,7 @@ import { Subscription } from 'rxjs';
 import FocusAwareStatusBar from 'util/StatusBarAdapter';
 
 import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
+import { getCustomerInfo, getCustomerOrders } from 'api/Login';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'Profile'>;
@@ -36,7 +37,15 @@ type PageRouterProps = {
 export default function ProfilePage({ navigation }: PageRouterProps) {
   const statusBarHeight = StatusBar.currentHeight;
 
-  const [userProfile, setUserProfile] = useState<UserProfileType>();
+  const [userProfile, setUserProfile] = useState<UserProfileType>({
+    userName: '',
+    userEmail: '',
+    userPhone: '',
+    userAddress: '',
+    userUID: '',
+    userType: 'guest',
+    userPassword: '',
+  });
   const [scrollingPosition, setScrollingPosition] = useState(0);
   const [projectInfoHeight, setProjectInfoHeight] = useState(0);
   const [imageHeight, setImageHeight] = useState(
@@ -96,15 +105,49 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
   ]);
 
   useEffect(() => {
-    const userProfileSubscription: Subscription =
-      DataShareService.getUserProfile$().subscribe(
-        (newUserProfile: UserProfileType) => {
-          setUserProfile(newUserProfile);
-        },
-      );
-    return () => {
-      userProfileSubscription.unsubscribe();
-    };
+    // const userProfileSubscription: Subscription =
+    //   DataShareService.getUserProfile$().subscribe(
+    //     (newUserProfile: UserProfileType) => {
+    //       setUserProfile(newUserProfile);
+    //     },
+    //   );
+    // return () => {
+    //   userProfileSubscription.unsubscribe();
+    // };
+
+    // getCustomerInfo by accessToken
+
+    LocalStorage.getData(LocalStorageKeys.CustomerAccessTokenKey)
+      .then(token => {
+        if (token && typeof token === 'string') {
+          getCustomerInfo(token).then(info => {
+            if (info === null) {
+              return;
+            }
+            const address = info.defaultAddress;
+            const displayAddress = `${address.zip} ${address.city}${address.address1}`;
+            const newUserProfile: UserProfileType = {
+              userName: info?.displayName,
+              userEmail: info?.email,
+              userPhone: address?.phone,
+              userAddress: displayAddress,
+              userUID: info?.id,
+              userType: 'member',
+              userPassword: '',
+            };
+            setUserProfile(newUserProfile);
+          });
+        }
+        return token;
+      })
+      .then(token => {
+        if (token && typeof token === 'string') {
+          getCustomerOrders(token).then(orders => {
+            console.log(orders.nodes);
+            // setDonateData(orders.nodes);
+          });
+        }
+      });
   }, []);
 
   const handleScroll = (event: any) => {
@@ -246,7 +289,7 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
         </View>
       </View>
 
-      {userProfile?.userType === 'member' ? (
+      {userProfile?.userType === 'member' && donateData.length > 0 ? (
         <ScrollView
           onScroll={handleScroll}
           style={[

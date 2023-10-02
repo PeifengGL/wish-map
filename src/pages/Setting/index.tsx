@@ -129,6 +129,7 @@ export default function SettingPage({ route, navigation }: PageRouterProps) {
       userPassword: '',
     };
 
+    LocalStorage.setData(LocalStorageKeys.CustomerAccessTokenKey, '');
     LocalStorage.setData(LocalStorageKeys.UserProfileKey, userProfile).finally(
       () => {
         DataShareService.setUserProfile(userProfile);
