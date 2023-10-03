@@ -26,6 +26,7 @@ export const getCustomerInfoQuery = gql`
       createdAt
       displayName
       numberOfOrders
+      phone
       defaultAddress {
         city
         company
