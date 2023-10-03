@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  Button,
   View,
   Text,
   TouchableOpacity,
@@ -25,8 +24,6 @@ import {
   launchCamera,
   launchImageLibrary,
 } from 'react-native-image-picker';
-import { Subscription } from 'rxjs';
-import DataShareService from 'service';
 import { UserProfileType } from 'types/profile';
 import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
 import { getCustomerInfo } from 'api/Login';
