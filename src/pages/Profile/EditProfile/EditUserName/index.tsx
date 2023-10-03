@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  Button,
   View,
   Text,
   TouchableOpacity,
@@ -14,33 +13,21 @@ import { ProfileStackParamList } from 'types/router';
 import Styles from './index.style';
 import FocusAwareStatusBar from 'util/StatusBarAdapter';
 import ImageProvider from 'assets';
-import { Subscription } from 'rxjs';
-import DataShareService from 'service';
-import { UserProfileType } from 'types/profile';
 import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
+import { updateCustomerUsername } from 'api/Login';
 
 type PageRouterProps = {
   route: RouteProp<ProfileStackParamList, 'EditUsername'>;
   navigation: NativeStackNavigationProp<ProfileStackParamList, 'EditUsername'>;
 };
 
-export default function EditUsernamePage({ navigation }: PageRouterProps) {
-  const [userProfile, setUserProfile] = useState<UserProfileType>();
-  const [userName, setUserName] = useState<string>('');
+export default function EditUsernamePage({
+  route,
+  navigation,
+}: PageRouterProps) {
+  const { username } = route.params;
   const [inputError, setInputError] = useState<boolean>(false);
-
-  useEffect(() => {
-    const userProfileSubscription: Subscription =
-      DataShareService.getUserProfile$().subscribe(
-        (newUserProfile: UserProfileType) => {
-          setUserProfile(newUserProfile);
-          setUserName(newUserProfile.userName);
-        },
-      );
-    return () => {
-      userProfileSubscription.unsubscribe();
-    };
-  }, []);
+  const [userName, setUserName] = useState<string>(username);
 
   useEffect(() => {
     if (userName === '') {
@@ -60,25 +47,16 @@ export default function EditUsernamePage({ navigation }: PageRouterProps) {
 
   const saveEditUsername = () => {
     if (userName !== '') {
-      const updatedUserProfile: UserProfileType = {
-        userUID: userProfile?.userUID!,
-        userName: userName,
-        userEmail: userProfile?.userEmail!,
-        userPhone: userProfile?.userPhone!,
-        userAddress: userProfile?.userAddress!,
-        userType: userProfile?.userType!,
-        userPassword: userProfile?.userPassword!,
-      };
-
-      LocalStorage.setData<UserProfileType>(
-        LocalStorageKeys.UserProfileKey,
-        updatedUserProfile,
-      ).then(() => {
-        DataShareService.setUserProfile(updatedUserProfile);
-        console.log('updatedUserProfile-success', updatedUserProfile);
-      });
-
-      navigation.goBack();
+      LocalStorage.getData(LocalStorageKeys.CustomerAccessTokenKey).then(
+        token => {
+          if (token && typeof token === 'string') {
+            updateCustomerUsername(token, userName).then(customerData => {
+              console.log(customerData);
+              navigation.goBack();
+            });
+          }
+        },
+      );
     }
   };
 

@@ -12,37 +12,20 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/ty
 import { ProfileStackParamList } from 'types/router';
 import FocusAwareStatusBar from 'util/StatusBarAdapter';
 import ImageProvider from 'assets';
-import { Subscription } from 'rxjs';
-import DataShareService from 'service';
-import { UserProfileType } from 'types/profile';
 import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
 import Styles from './index.style';
+import { updateCustomerPhone } from 'api/Login';
 
 type PageRouterProps = {
   route: RouteProp<ProfileStackParamList, 'EditPhone'>;
   navigation: NativeStackNavigationProp<ProfileStackParamList, 'EditPhone'>;
 };
 
-export default function EditPhonePage({ navigation }: PageRouterProps) {
-  const [userProfile, setUserProfile] = useState<UserProfileType>();
-  const [userPhone, setUserPhone] = useState<string>('');
-  const [formatPhoneNumber, setFormatPhoneNumber] = useState<string>('');
+export default function EditPhonePage({ route, navigation }: PageRouterProps) {
+  const { phone } = route.params;
+  const [userPhone, setUserPhone] = useState<string>(phone);
   const [inputError, setInputError] = useState<boolean>(false);
-  const phoneRegex: RegExp = /^09\d{8}$/;
-
-  useEffect(() => {
-    const userProfileSubscription: Subscription =
-      DataShareService.getUserProfile$().subscribe(
-        (newUserProfile: UserProfileType) => {
-          setUserProfile(newUserProfile);
-          setUserPhone(newUserProfile.userPhone.replace(/-/g, ''));
-          setFormatPhoneNumber(newUserProfile.userPhone);
-        },
-      );
-    return () => {
-      userProfileSubscription.unsubscribe();
-    };
-  }, []);
+  const phoneRegex: RegExp = /^\+8869\d{8}$/;
 
   useEffect(() => {
     console.log('userPhone', userPhone);
@@ -65,30 +48,18 @@ export default function EditPhonePage({ navigation }: PageRouterProps) {
   };
 
   const saveEditUserPhone = () => {
-    const updatedUserProfile: UserProfileType = {
-      userUID: userProfile?.userUID!,
-      userName: userProfile?.userName!,
-      userPhone: formatPhoneNumber,
-      userEmail: userProfile?.userEmail!,
-      userAddress: userProfile?.userAddress!,
-      userType: userProfile?.userType!,
-      userPassword: userProfile?.userPassword!,
-    };
-
-    LocalStorage.setData<UserProfileType>(
-      LocalStorageKeys.UserProfileKey,
-      updatedUserProfile,
-    ).then(() => {
-      DataShareService.setUserProfile(updatedUserProfile);
-      console.log('updatedUserProfile-success', updatedUserProfile);
-    });
-
-    navigation.goBack();
-  };
-
-  const formatPhone = (phoneNumber: string) => {
-    const phoneRegex = /^(\d{4})(\d{3})(\d{3})$/;
-    return phoneNumber.replace(phoneRegex, '$1-$2-$3');
+    if (userPhone !== '') {
+      LocalStorage.getData(LocalStorageKeys.CustomerAccessTokenKey).then(
+        token => {
+          if (token && typeof token === 'string') {
+            updateCustomerPhone(token, userPhone).then(customerData => {
+              console.log(customerData);
+              navigation.goBack();
+            });
+          }
+        },
+      );
+    }
   };
 
   return (
@@ -130,11 +101,9 @@ export default function EditPhonePage({ navigation }: PageRouterProps) {
         >
           <TextInput
             placeholder="請輸入手機號碼"
-            value={formatPhoneNumber}
+            value={userPhone}
             onChangeText={text => {
-              console.log('text', text);
-              setUserPhone(text.replace(/-/g, ''));
-              setFormatPhoneNumber(formatPhone(text));
+              setUserPhone(text);
             }}
             style={Styles.editUserPhoneInput}
           />
@@ -142,7 +111,6 @@ export default function EditPhonePage({ navigation }: PageRouterProps) {
             <TouchableOpacity
               onPress={() => {
                 setUserPhone('');
-                setFormatPhoneNumber('');
               }}
             >
               <Image

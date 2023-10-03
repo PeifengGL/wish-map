@@ -15,7 +15,11 @@ import {
   ProfileStackParamList,
   SettingStackParamList,
 } from 'types/router';
-import { RouteProp, useNavigation } from '@react-navigation/native';
+import {
+  RouteProp,
+  useFocusEffect,
+  useNavigation,
+} from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
 import DataShareService from 'service';
 import Styles from './index.style';
@@ -23,7 +27,6 @@ import { Avatar } from 'react-native-paper';
 import { UserProfileType } from 'types/profile';
 
 import ImageProvider from 'assets';
-import { Subscription } from 'rxjs';
 import FocusAwareStatusBar from 'util/StatusBarAdapter';
 
 import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
@@ -104,51 +107,41 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
     },
   ]);
 
-  useEffect(() => {
-    // const userProfileSubscription: Subscription =
-    //   DataShareService.getUserProfile$().subscribe(
-    //     (newUserProfile: UserProfileType) => {
-    //       setUserProfile(newUserProfile);
-    //     },
-    //   );
-    // return () => {
-    //   userProfileSubscription.unsubscribe();
-    // };
-
-    // getCustomerInfo by accessToken
-
-    LocalStorage.getData(LocalStorageKeys.CustomerAccessTokenKey)
-      .then(token => {
-        if (token && typeof token === 'string') {
-          getCustomerInfo(token).then(info => {
-            if (info === null) {
-              return;
-            }
-            const address = info.defaultAddress;
-            const displayAddress = `${address.zip} ${address.city}${address.address1}`;
-            const newUserProfile: UserProfileType = {
-              userName: info?.displayName,
-              userEmail: info?.email,
-              userPhone: info?.phone,
-              userAddress: displayAddress,
-              userUID: info?.id,
-              userType: 'member',
-              userPassword: '',
-            };
-            setUserProfile(newUserProfile);
-          });
-        }
-        return token;
-      })
-      .then(token => {
-        if (token && typeof token === 'string') {
-          getCustomerOrders(token).then(orders => {
-            console.log(orders.nodes);
-            // setDonateData(orders.nodes);
-          });
-        }
-      });
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      LocalStorage.getData(LocalStorageKeys.CustomerAccessTokenKey)
+        .then(token => {
+          if (token && typeof token === 'string') {
+            getCustomerInfo(token).then(info => {
+              if (info === null) {
+                return;
+              }
+              const address = info.defaultAddress;
+              const displayAddress = `${address.zip} ${address.city}${address.address1}`;
+              const newUserProfile: UserProfileType = {
+                userName: info?.displayName,
+                userEmail: info?.email,
+                userPhone: info?.phone,
+                userAddress: displayAddress,
+                userUID: info?.id,
+                userType: 'member',
+                userPassword: '',
+              };
+              setUserProfile(newUserProfile);
+            });
+          }
+          return token;
+        })
+        .then(token => {
+          if (token && typeof token === 'string') {
+            getCustomerOrders(token).then(orders => {
+              console.log(orders.nodes);
+              // setDonateData(orders.nodes);
+            });
+          }
+        });
+    }, []),
+  );
 
   const handleScroll = (event: any) => {
     const currentOffset = event.nativeEvent.contentOffset.y;

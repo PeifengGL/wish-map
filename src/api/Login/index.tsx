@@ -3,9 +3,8 @@ import {
   createAccessTokenQuery,
   getCustomerInfoQuery,
   getCustomerOrdersQuery,
+  customerUpdateQuery,
 } from './query';
-// Login -> Email + Password -> getToken ->
-// (localStorage?) -> getInfoByToken -> getOrder ->
 
 export const createCustomerAccessToken = async (
   email: string,
@@ -44,6 +43,61 @@ export const getCustomerOrders = async (token: string) => {
   try {
     const data = await storefront(getCustomerOrdersQuery, variables);
     return data.customer.orders;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const updateCustomerUsername = async (
+  accessToken: string,
+  username: string,
+) => {
+  const variables = {
+    customerAccessToken: accessToken,
+    customer: {
+      lastName: username,
+      firstName: '',
+    },
+  };
+  try {
+    const data = await storefront(customerUpdateQuery, variables);
+    return data.customerUpdate.customer;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const updateCustomerEmail = async (
+  accessToken: string,
+  email: string,
+) => {
+  const variables = {
+    customerAccessToken: accessToken,
+    customer: {
+      email: email,
+    },
+  };
+  try {
+    const data = await storefront(customerUpdateQuery, variables);
+    return data.customerUpdate.customer;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const updateCustomerPhone = async (
+  accessToken: string,
+  phone: string,
+) => {
+  const variables = {
+    customerAccessToken: accessToken,
+    customer: {
+      phone: phone,
+    },
+  };
+  try {
+    const data = await storefront(customerUpdateQuery, variables);
+    return data.customerUpdate.customer;
   } catch (e) {
     console.log(e);
   }

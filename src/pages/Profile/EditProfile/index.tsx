@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   Dimensions,
   ImageBackground,
 } from 'react-native';
-import { RouteProp } from '@react-navigation/native';
+import { RouteProp, useFocusEffect } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
 import { ProfileStackParamList } from 'types/router';
 import Styles from './index.style';
@@ -47,40 +47,33 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
     userPassword: '',
   });
 
-  useEffect(() => {
-    // const userProfileSubscription: Subscription =
-    //   DataShareService.getUserProfile$().subscribe(
-    //     (newUserProfile: UserProfileType) => {
-    //       setUserProfile(newUserProfile);
-    //     },
-    //   );
-    // return () => {
-    //   userProfileSubscription.unsubscribe();
-    // };
-    LocalStorage.getData(LocalStorageKeys.CustomerAccessTokenKey).then(
-      token => {
-        if (token && typeof token === 'string') {
-          getCustomerInfo(token).then(info => {
-            if (info === null) {
-              return;
-            }
-            const address = info.defaultAddress;
-            const displayAddress = `${address.zip} ${address.city}${address.address1}`;
-            const newUserProfile: UserProfileType = {
-              userName: info?.displayName,
-              userEmail: info?.email,
-              userPhone: address?.phone,
-              userAddress: displayAddress,
-              userUID: info?.id,
-              userType: 'member',
-              userPassword: '',
-            };
-            setUserProfile(newUserProfile);
-          });
-        }
-      },
-    );
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      LocalStorage.getData(LocalStorageKeys.CustomerAccessTokenKey).then(
+        token => {
+          if (token && typeof token === 'string') {
+            getCustomerInfo(token).then(info => {
+              if (info === null) {
+                return;
+              }
+              const address = info.defaultAddress;
+              const displayAddress = `${address.zip} ${address.city}${address.address1}`;
+              const newUserProfile: UserProfileType = {
+                userName: info?.displayName,
+                userEmail: info?.email,
+                userPhone: info?.phone,
+                userAddress: displayAddress,
+                userUID: info?.id,
+                userType: 'member',
+                userPassword: '',
+              };
+              setUserProfile(newUserProfile);
+            });
+          }
+        },
+      );
+    }, []),
+  );
 
   const renderEditProfileGoBack = () => {
     return (

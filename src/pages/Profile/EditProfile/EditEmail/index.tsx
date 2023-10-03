@@ -12,36 +12,21 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/ty
 import { ProfileStackParamList } from 'types/router';
 import FocusAwareStatusBar from 'util/StatusBarAdapter';
 import ImageProvider from 'assets';
-import { Subscription } from 'rxjs';
-import DataShareService from 'service';
-import { UserProfileType } from 'types/profile';
 import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
 
 import Styles from './index.style';
+import { updateCustomerEmail } from 'api/Login';
 
 type PageRouterProps = {
   route: RouteProp<ProfileStackParamList, 'EditEmail'>;
   navigation: NativeStackNavigationProp<ProfileStackParamList, 'EditEmail'>;
 };
 
-export default function EditEmailPage({ navigation }: PageRouterProps) {
-  const [userProfile, setUserProfile] = useState<UserProfileType>();
-  const [userEmail, setUserEmail] = useState<string>('');
+export default function EditEmailPage({ route, navigation }: PageRouterProps) {
+  const { email } = route.params;
+  const [userEmail, setUserEmail] = useState<string>(email);
   const [inputError, setInputError] = useState<boolean>(false);
   const emailRegex: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-  useEffect(() => {
-    const userProfileSubscription: Subscription =
-      DataShareService.getUserProfile$().subscribe(
-        (newUserProfile: UserProfileType) => {
-          setUserProfile(newUserProfile);
-          setUserEmail(newUserProfile.userEmail);
-        },
-      );
-    return () => {
-      userProfileSubscription.unsubscribe();
-    };
-  }, []);
 
   useEffect(() => {
     if (userEmail === '') {
@@ -63,25 +48,16 @@ export default function EditEmailPage({ navigation }: PageRouterProps) {
 
   const saveEditUserEmail = () => {
     if (userEmail !== '') {
-      const updatedUserProfile: UserProfileType = {
-        userUID: userProfile?.userUID!,
-        userName: userProfile?.userName!,
-        userEmail: userEmail,
-        userPhone: userProfile?.userPhone!,
-        userAddress: userProfile?.userAddress!,
-        userType: userProfile?.userType!,
-        userPassword: userProfile?.userPassword!,
-      };
-
-      LocalStorage.setData<UserProfileType>(
-        LocalStorageKeys.UserProfileKey,
-        updatedUserProfile,
-      ).then(() => {
-        DataShareService.setUserProfile(updatedUserProfile);
-        console.log('updatedUserProfile-success', updatedUserProfile);
-      });
-
-      navigation.goBack();
+      LocalStorage.getData(LocalStorageKeys.CustomerAccessTokenKey).then(
+        token => {
+          if (token && typeof token === 'string') {
+            updateCustomerEmail(token, userEmail).then(customerData => {
+              console.log(customerData);
+              navigation.goBack();
+            });
+          }
+        },
+      );
     }
   };
 
@@ -127,13 +103,17 @@ export default function EditEmailPage({ navigation }: PageRouterProps) {
         </Text>
         <View style={Styles.separator} />
 
-        <View style={[, inputError && { borderColor: '#FF0000' }]}>
+        <View
+          style={[
+            Styles.editUserMailInputContainer,
+            inputError && { borderColor: '#FF0000' },
+          ]}
+        >
           <TextInput
             placeholder="請輸入使用者電子信箱"
             value={userEmail}
             onChangeText={text => {
               setUserEmail(text);
-              // text !== '' ? setInputError(false) : setInputError(true);
             }}
             onBlur={onInputBlur}
             style={Styles.editUserMailInput}
