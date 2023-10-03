@@ -28,6 +28,8 @@ import {
 import { Subscription } from 'rxjs';
 import DataShareService from 'service';
 import { UserProfileType } from 'types/profile';
+import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
+import { getCustomerInfo } from 'api/Login';
 
 type PageRouterProps = {
   route: RouteProp<ProfileStackParamList, 'EditProfile'>;
@@ -38,18 +40,49 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
   const modalizeRef = useRef<Modalize>(null);
   const [userSelectAvatar, setUserSelectAvatar] = useState<Asset>();
   const [userRemoveAvatar, setUserRemoveAvatar] = useState<boolean>(false);
-  const [userProfile, setUserProfile] = useState<UserProfileType>();
+  const [userProfile, setUserProfile] = useState<UserProfileType>({
+    userName: '',
+    userEmail: '',
+    userPhone: '',
+    userAddress: '',
+    userUID: '',
+    userType: 'member',
+    userPassword: '',
+  });
 
   useEffect(() => {
-    const userProfileSubscription: Subscription =
-      DataShareService.getUserProfile$().subscribe(
-        (newUserProfile: UserProfileType) => {
-          setUserProfile(newUserProfile);
-        },
-      );
-    return () => {
-      userProfileSubscription.unsubscribe();
-    };
+    // const userProfileSubscription: Subscription =
+    //   DataShareService.getUserProfile$().subscribe(
+    //     (newUserProfile: UserProfileType) => {
+    //       setUserProfile(newUserProfile);
+    //     },
+    //   );
+    // return () => {
+    //   userProfileSubscription.unsubscribe();
+    // };
+    LocalStorage.getData(LocalStorageKeys.CustomerAccessTokenKey).then(
+      token => {
+        if (token && typeof token === 'string') {
+          getCustomerInfo(token).then(info => {
+            if (info === null) {
+              return;
+            }
+            const address = info.defaultAddress;
+            const displayAddress = `${address.zip} ${address.city}${address.address1}`;
+            const newUserProfile: UserProfileType = {
+              userName: info?.displayName,
+              userEmail: info?.email,
+              userPhone: address?.phone,
+              userAddress: displayAddress,
+              userUID: info?.id,
+              userType: 'member',
+              userPassword: '',
+            };
+            setUserProfile(newUserProfile);
+          });
+        }
+      },
+    );
   }, []);
 
   const renderEditProfileGoBack = () => {
@@ -102,20 +135,20 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
     });
   };
 
-  const handleEditUsernameClick = () => {
-    navigation.push('EditUsername', {});
+  const handleEditUsernameClick = (username: string) => {
+    navigation.push('EditUsername', { username: username });
   };
 
-  const handleEditEmailClick = () => {
-    navigation.push('EditEmail', {});
+  const handleEditEmailClick = (email: string) => {
+    navigation.push('EditEmail', { email: email });
   };
 
-  const handleEditPhoneClick = () => {
-    navigation.push('EditPhone', {});
+  const handleEditPhoneClick = (phone: string) => {
+    navigation.push('EditPhone', { phone: phone });
   };
 
-  const handleEditAddressClick = () => {
-    navigation.push('EditAddress', {});
+  const handleEditAddressClick = (address: string) => {
+    navigation.push('EditAddress', { address: address });
   };
 
   const handleCloseModal = () => modalizeRef.current?.close();
@@ -174,11 +207,11 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
           <View style={Styles.editProfileField}>
             <Text style={Styles.editProfileFieldLabel}>使用者名稱</Text>
             <TouchableOpacity
-              onPress={handleEditUsernameClick}
+              onPress={() => handleEditUsernameClick(userProfile.userName)}
               style={Styles.editProfileFieldButton}
             >
               <Text style={Styles.editProfileFieldButtonText}>
-                {userProfile?.userName}
+                {userProfile.userName}
               </Text>
               <Image source={ImageProvider.Profile.EditRightArrowIcon} />
             </TouchableOpacity>
@@ -186,7 +219,7 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
           <View style={Styles.editProfileField}>
             <Text style={Styles.editProfileFieldLabel}>電子信箱</Text>
             <TouchableOpacity
-              onPress={handleEditEmailClick}
+              onPress={() => handleEditEmailClick(userProfile.userEmail)}
               style={Styles.editProfileFieldButton}
             >
               <Text style={Styles.editProfileFieldButtonText}>
@@ -198,7 +231,7 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
           <View style={Styles.editProfileField}>
             <Text style={Styles.editProfileFieldLabel}>手機號碼</Text>
             <TouchableOpacity
-              onPress={handleEditPhoneClick}
+              onPress={() => handleEditPhoneClick(userProfile.userPhone)}
               style={Styles.editProfileFieldButton}
             >
               <Text style={Styles.editProfileFieldButtonText}>
@@ -216,7 +249,7 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
           <View style={Styles.editProfileField}>
             <Text style={Styles.editProfileFieldLabel}>聯絡地址</Text>
             <TouchableOpacity
-              onPress={handleEditAddressClick}
+              onPress={() => handleEditAddressClick(userProfile.userAddress)}
               style={Styles.editProfileFieldButton}
             >
               {userProfile?.userAddress === '' ? (
