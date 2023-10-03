@@ -129,7 +129,7 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
             const newUserProfile: UserProfileType = {
               userName: info?.displayName,
               userEmail: info?.email,
-              userPhone: address?.phone,
+              userPhone: info?.phone,
               userAddress: displayAddress,
               userUID: info?.id,
               userType: 'member',
