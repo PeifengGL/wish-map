@@ -68,3 +68,34 @@ export const getCustomerOrdersQuery = gql`
     }
   }
 `;
+
+export const customerUpdateQuery = gql`
+  mutation customerUpdate(
+    $customerAccessToken: String!
+    $customer: CustomerUpdateInput!
+  ) {
+    customerUpdate(
+      customerAccessToken: $customerAccessToken
+      customer: $customer
+    ) {
+      customer {
+        id
+        displayName
+        firstName
+        lastName
+        email
+        phone
+        acceptsMarketing
+      }
+      customerAccessToken {
+        accessToken
+        expiresAt
+      }
+      customerUserErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+`;
