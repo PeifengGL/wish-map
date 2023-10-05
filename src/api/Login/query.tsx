@@ -1,5 +1,24 @@
 const gql = String.raw;
 
+export const createCustomerAccountQuery = gql`
+  mutation createCustomerAccount($input: CustomerCreateInput!) {
+    customerCreate(input: $input) {
+      customer {
+        id
+        email
+        firstName
+        lastName
+        phone
+      }
+      customerUserErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+`;
+
 export const createAccessTokenQuery = gql`
   mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
     customerAccessTokenCreate(input: $input) {

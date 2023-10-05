@@ -7,7 +7,30 @@ import {
   getCustomerDefaultAddressQuery,
   updateCustomerAddressQuery,
   createCustomerAddressQuery,
+  createCustomerAccountQuery,
 } from './query';
+
+export const createCustomerAccount = async (
+  username: string,
+  email: string,
+  password: string,
+) => {
+  const variables = {
+    input: {
+      acceptsMarketing: false,
+      email: email,
+      firstName: '',
+      lastName: username,
+      password: password,
+    },
+  };
+  try {
+    const data = await storefront(createCustomerAccountQuery, variables);
+    return data.customerCreate;
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 export const createCustomerAccessToken = async (
   email: string,
