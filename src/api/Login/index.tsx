@@ -3,9 +3,9 @@ import {
   createAccessTokenQuery,
   getCustomerInfoQuery,
   getCustomerOrdersQuery,
-  customerUpdateQuery,
+  updateCustomerQuery,
   getCustomerDefaultAddressQuery,
-  customerAddressUpdateQuery,
+  updateCustomerAddressQuery,
   createCustomerAddressQuery,
 } from './query';
 
@@ -91,7 +91,7 @@ export const updateCustomerUsername = async (
     },
   };
   try {
-    const data = await storefront(customerUpdateQuery, variables);
+    const data = await storefront(updateCustomerQuery, variables);
     return data.customerUpdate.customer;
   } catch (e) {
     console.log(e);
@@ -109,7 +109,7 @@ export const updateCustomerEmail = async (
     },
   };
   try {
-    const data = await storefront(customerUpdateQuery, variables);
+    const data = await storefront(updateCustomerQuery, variables);
     return data.customerUpdate.customer;
   } catch (e) {
     console.log(e);
@@ -127,7 +127,7 @@ export const updateCustomerPhone = async (
     },
   };
   try {
-    const data = await storefront(customerUpdateQuery, variables);
+    const data = await storefront(updateCustomerQuery, variables);
     return data.customerUpdate.customer;
   } catch (e) {
     console.log(e);
@@ -145,7 +145,7 @@ export const updateCustomerAddress = async (
     address: address,
   };
   try {
-    const data = await storefront(customerAddressUpdateQuery, variables);
+    const data = await storefront(updateCustomerAddressQuery, variables);
     return data.customerAddressUpdate.customerAddress;
   } catch (e) {
     console.log(e);

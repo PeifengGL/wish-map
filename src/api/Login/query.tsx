@@ -107,7 +107,7 @@ export const getCustomerOrdersQuery = gql`
   }
 `;
 
-export const customerUpdateQuery = gql`
+export const updateCustomerQuery = gql`
   mutation customerUpdate(
     $customerAccessToken: String!
     $customer: CustomerUpdateInput!
@@ -138,7 +138,7 @@ export const customerUpdateQuery = gql`
   }
 `;
 
-export const customerAddressUpdateQuery = gql`
+export const updateCustomerAddressQuery = gql`
   mutation customerAddressUpdate(
     $address: MailingAddressInput!
     $customerAccessToken: String!
