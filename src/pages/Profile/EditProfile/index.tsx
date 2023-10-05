@@ -56,13 +56,17 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
               if (info === null) {
                 return;
               }
-              const address = info.defaultAddress;
-              const displayAddress = `${address.zip} ${address.city}${address.address1}`;
+              let address;
+              let displayAddress;
+              if (info.defaultAddress !== null) {
+                address = info.defaultAddress;
+                displayAddress = `${address.zip} ${address.city}${address.address1}`;
+              }
               const newUserProfile: UserProfileType = {
                 userName: info?.displayName,
                 userEmail: info?.email,
                 userPhone: info?.phone,
-                userAddress: displayAddress,
+                userAddress: displayAddress || '',
                 userUID: info?.id,
                 userType: 'member',
                 userPassword: '',
