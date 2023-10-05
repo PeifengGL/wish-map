@@ -16,6 +16,30 @@ export const createAccessTokenQuery = gql`
   }
 `;
 
+export const createCustomerAddressQuery = gql`
+  mutation customerAddressCreate(
+    $address: MailingAddressInput!
+    $customerAccessToken: String!
+  ) {
+    customerAddressCreate(
+      address: $address
+      customerAccessToken: $customerAccessToken
+    ) {
+      customerAddress {
+        id
+        zip
+        city
+        address1
+      }
+      customerUserErrors {
+        code
+        message
+        field
+      }
+    }
+  }
+`;
+
 export const getCustomerInfoQuery = gql`
   query getCustomer($customerAccessToken: String!) {
     customer(customerAccessToken: $customerAccessToken) {
@@ -36,6 +60,19 @@ export const getCustomerInfoQuery = gql`
         countryCodeV2
         zip
         phone
+      }
+    }
+  }
+`;
+
+export const getCustomerDefaultAddressQuery = gql`
+  query getCustomer($customerAccessToken: String!) {
+    customer(customerAccessToken: $customerAccessToken) {
+      defaultAddress {
+        id
+        city
+        address1
+        zip
       }
     }
   }
@@ -96,6 +133,31 @@ export const customerUpdateQuery = gql`
         code
         field
         message
+      }
+    }
+  }
+`;
+
+export const customerAddressUpdateQuery = gql`
+  mutation customerAddressUpdate(
+    $address: MailingAddressInput!
+    $customerAccessToken: String!
+    $id: ID!
+  ) {
+    customerAddressUpdate(
+      address: $address
+      customerAccessToken: $customerAccessToken
+      id: $id
+    ) {
+      customerAddress {
+        city
+        zip
+        address1
+      }
+      customerUserErrors {
+        code
+        message
+        field
       }
     }
   }

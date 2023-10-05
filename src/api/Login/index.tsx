@@ -4,6 +4,9 @@ import {
   getCustomerInfoQuery,
   getCustomerOrdersQuery,
   customerUpdateQuery,
+  getCustomerDefaultAddressQuery,
+  customerAddressUpdateQuery,
+  createCustomerAddressQuery,
 } from './query';
 
 export const createCustomerAccessToken = async (
@@ -24,6 +27,22 @@ export const createCustomerAccessToken = async (
   }
 };
 
+export const createCustomerAddress = async (
+  accessToken: string,
+  address: { address1: string; city: string; zip: string },
+) => {
+  const variables = {
+    customerAccessToken: accessToken,
+    address: address,
+  };
+  try {
+    const data = await storefront(createCustomerAddressQuery, variables);
+    return data.customerAddressCreate.customerAddress;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const getCustomerInfo = async (token: string) => {
   const variables = {
     customerAccessToken: token,
@@ -31,6 +50,18 @@ export const getCustomerInfo = async (token: string) => {
   try {
     const data = await storefront(getCustomerInfoQuery, variables);
     return data.customer;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const getCustomerDefaultAddress = async (token: string) => {
+  const variables = {
+    customerAccessToken: token,
+  };
+  try {
+    const data = await storefront(getCustomerDefaultAddressQuery, variables);
+    return data.customer.defaultAddress;
   } catch (e) {
     console.log(e);
   }
@@ -103,6 +134,22 @@ export const updateCustomerPhone = async (
   }
 };
 
-export const updateAccessToken = () => {};
+export const updateCustomerAddress = async (
+  accessToken: string,
+  id: string,
+  address: { address1: string; city: string; zip: string },
+) => {
+  const variables = {
+    customerAccessToken: accessToken,
+    id: id,
+    address: address,
+  };
+  try {
+    const data = await storefront(customerAddressUpdateQuery, variables);
+    return data.customerAddressUpdate.customerAddress;
+  } catch (e) {
+    console.log(e);
+  }
+};
 
-export const updateCustomerInfo = () => {};
+export const updateAccessToken = () => {};

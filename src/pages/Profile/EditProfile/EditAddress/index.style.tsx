@@ -54,9 +54,38 @@ const Styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 16,
+    marginBottom: 16,
   },
   editUserAddressInput: {
     flex: 1,
+  },
+  editUserZipAndCityInputContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  inputLabel: {
+    marginHorizontal: 5,
+    color: '#0057B8',
+  },
+  editUserZipInput: {
+    display: 'flex',
+    flex: 2,
+    borderColor: '#0057B8',
+    borderWidth: 1,
+    borderRadius: 12,
+    textAlign: 'center',
+    marginHorizontal: 5,
+  },
+  editUserCityInput: {
+    display: 'flex',
+    flex: 5,
+    borderColor: '#0057B8',
+    borderWidth: 1,
+    borderRadius: 12,
+    textAlign: 'center',
+    marginHorizontal: 5,
   },
 });
 
