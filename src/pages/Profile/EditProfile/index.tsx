@@ -65,7 +65,7 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
               const newUserProfile: UserProfileType = {
                 userName: info?.displayName,
                 userEmail: info?.email,
-                userPhone: info?.phone,
+                userPhone: info?.phone || '',
                 userAddress: displayAddress || '',
                 userUID: info?.id,
                 userType: 'member',
