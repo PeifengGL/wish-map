@@ -42,6 +42,12 @@ const Styles = StyleSheet.create({
     fontWeight: '500',
     color: '#1A1A1A',
   },
+  readOnly: {
+    fontSize: 12,
+    fontFamily: 'Lato',
+    fontWeight: '500',
+    color: '#909090',
+  },
   editProfileFieldButton: {
     flexDirection: 'row',
     justifyContent: 'space-between',

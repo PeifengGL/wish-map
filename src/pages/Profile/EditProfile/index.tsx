@@ -211,15 +211,17 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
             </TouchableOpacity>
           </View>
           <View style={Styles.editProfileField}>
-            <Text style={Styles.editProfileFieldLabel}>電子信箱</Text>
+            <Text style={Styles.editProfileFieldLabel}>
+              電子信箱<Text style={Styles.readOnly}>（不可修改）</Text>
+            </Text>
             <TouchableOpacity
+              disabled={true}
               onPress={() => handleEditEmailClick(userProfile.userEmail)}
               style={Styles.editProfileFieldButton}
             >
               <Text style={Styles.editProfileFieldButtonText}>
                 {userProfile?.userEmail}
               </Text>
-              <Image source={ImageProvider.Profile.EditRightArrowIcon} />
             </TouchableOpacity>
           </View>
           <View style={Styles.editProfileField}>
