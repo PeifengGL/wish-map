@@ -26,7 +26,6 @@ type PageRouterProps = {
 };
 
 export default function EditAddressPage({ navigation }: PageRouterProps) {
-  const [userZip, setUserZip] = useState<string>('');
   const [userCity, setUserCity] = useState<string>('');
   const [userAddress, setUserAddress] = useState<string>('');
 
@@ -37,7 +36,6 @@ export default function EditAddressPage({ navigation }: PageRouterProps) {
           getCustomerDefaultAddress(token).then(data => {
             if (data && data.id) {
               setUserAddress(data?.address1);
-              setUserZip(data?.zip);
               setUserCity(data?.city);
             }
           });
@@ -55,7 +53,7 @@ export default function EditAddressPage({ navigation }: PageRouterProps) {
   };
 
   const saveEditUserAddress = () => {
-    if (userAddress !== '' && userZip !== '' && userCity !== '') {
+    if (userAddress !== '' && userCity !== '') {
       LocalStorage.getData(LocalStorageKeys.CustomerAccessTokenKey).then(
         token => {
           if (token && typeof token === 'string') {
@@ -63,7 +61,6 @@ export default function EditAddressPage({ navigation }: PageRouterProps) {
               const address = {
                 address1: userAddress,
                 city: userCity,
-                zip: userZip,
               };
               if (data && data.id) {
                 updateCustomerAddress(token, data.id, address).then(data => {
@@ -107,24 +104,25 @@ export default function EditAddressPage({ navigation }: PageRouterProps) {
         </Text>
         <View style={Styles.separator} />
 
-        <View style={Styles.editUserZipAndCityInputContainer}>
-          <Text style={Styles.inputLabel}>郵遞區號／城市</Text>
-          <TextInput
-            placeholder="郵遞區號"
-            value={userZip}
-            onChangeText={setUserZip}
-            style={Styles.editUserZipInput}
-          />
-          <TextInput
-            placeholder="請輸入居住城市"
-            value={userCity}
-            onChangeText={setUserCity}
-            style={Styles.editUserCityInput}
-          />
-        </View>
         <View style={Styles.editUserAddressInputContainer}>
           <TextInput
-            placeholder="請輸入聯絡地址"
+            placeholder="請輸入居住城市（例如：新北市）"
+            value={userCity}
+            onChangeText={setUserCity}
+            style={Styles.editUserAddressInput}
+          />
+          {userAddress !== '' && (
+            <TouchableOpacity onPress={() => setUserCity('')}>
+              <Image
+                source={ImageProvider.Profile.EditProfileTextInputCleanIcon}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
+
+        <View style={Styles.editUserAddressInputContainer}>
+          <TextInput
+            placeholder="請輸入聯絡地址（例如：XX 區 XX 路 X 巷 X 號）"
             value={userAddress}
             onChangeText={setUserAddress}
             style={Styles.editUserAddressInput}

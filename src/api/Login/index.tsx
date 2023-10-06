@@ -52,7 +52,7 @@ export const createCustomerAccessToken = async (
 
 export const createCustomerAddress = async (
   accessToken: string,
-  address: { address1: string; city: string; zip: string },
+  address: { address1: string; city: string },
 ) => {
   const variables = {
     customerAccessToken: accessToken,
@@ -160,7 +160,7 @@ export const updateCustomerPhone = async (
 export const updateCustomerAddress = async (
   accessToken: string,
   id: string,
-  address: { address1: string; city: string; zip: string },
+  address: { address1: string; city: string },
 ) => {
   const variables = {
     customerAccessToken: accessToken,
