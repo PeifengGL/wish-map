@@ -111,7 +111,7 @@ export default function EditAddressPage({ navigation }: PageRouterProps) {
             onChangeText={setUserCity}
             style={Styles.editUserAddressInput}
           />
-          {userAddress !== '' && (
+          {userCity !== '' && (
             <TouchableOpacity onPress={() => setUserCity('')}>
               <Image
                 source={ImageProvider.Profile.EditProfileTextInputCleanIcon}
