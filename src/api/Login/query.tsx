@@ -98,24 +98,30 @@ export const getCustomerDefaultAddressQuery = gql`
 `;
 
 export const getCustomerOrdersQuery = gql`
-  query getCustomerOrders($customerAccessToken: String!) {
+  query getCustomerOrders($customerAccessToken: String!, $cursor: String) {
     customer(customerAccessToken: $customerAccessToken) {
-      orders(first: 6, reverse: true, sortKey: PROCESSED_AT) {
+      orders(first: 6, reverse: true, sortKey: PROCESSED_AT, after: $cursor) {
         nodes {
-          name
           email
-          phone
           billingAddress {
             city
             address1
-            name
             phone
+            zip
+            firstName
+            lastName
+            company
           }
           originalTotalPrice {
             amount
             currencyCode
           }
           processedAt
+          lineItems(first: 10) {
+            nodes {
+              title
+            }
+          }
         }
         pageInfo {
           endCursor

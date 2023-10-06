@@ -90,9 +90,10 @@ export const getCustomerDefaultAddress = async (token: string) => {
   }
 };
 
-export const getCustomerOrders = async (token: string) => {
+export const getCustomerOrders = async (token: string, cursor: string) => {
   const variables = {
     customerAccessToken: token,
+    cursor: cursor === '' ? null : cursor,
   };
   try {
     const data = await storefront(getCustomerOrdersQuery, variables);
