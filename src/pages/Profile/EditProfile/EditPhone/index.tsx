@@ -15,6 +15,7 @@ import ImageProvider from 'assets';
 import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
 import Styles from './index.style';
 import { updateCustomerPhone } from 'api/Login';
+import Toast from 'react-native-toast-message';
 
 type PageRouterProps = {
   route: RouteProp<ProfileStackParamList, 'EditPhone'>;
@@ -28,8 +29,6 @@ export default function EditPhonePage({ route, navigation }: PageRouterProps) {
   const phoneRegex: RegExp = /^\+8869\d{8}$/;
 
   useEffect(() => {
-    console.log('userPhone', userPhone);
-    console.log(phoneRegex.test(userPhone));
     if (userPhone === '') {
       setInputError(false);
     } else if (!phoneRegex.test(userPhone)) {
@@ -54,12 +53,35 @@ export default function EditPhonePage({ route, navigation }: PageRouterProps) {
           if (token && typeof token === 'string') {
             updateCustomerPhone(token, userPhone).then(customerData => {
               console.log(customerData);
-              navigation.goBack();
+              if (customerData.customerUserErrors.length > 0) {
+                Toast.show({
+                  type: 'customToast',
+                  text1: customerData.customerUserErrors[0].message,
+                  position: 'bottom',
+                  bottomOffset: 28,
+                  autoHide: true,
+                  visibilityTime: 3000,
+                });
+              } else if (customerData.customer !== null) {
+                console.log(customerData.customer.phone);
+                navigation.goBack();
+              }
             });
           }
         },
       );
     }
+  };
+
+  const toastConfig = {
+    customToast: ({ text1 }: any) => (
+      <View style={Styles.toast}>
+        <Text style={Styles.toastText}>{text1}</Text>
+        <TouchableOpacity onPress={() => Toast.hide()}>
+          <Image source={ImageProvider.Register.CloseToast} />
+        </TouchableOpacity>
+      </View>
+    ),
   };
 
   return (
@@ -128,6 +150,7 @@ export default function EditPhonePage({ route, navigation }: PageRouterProps) {
           <Text style={Styles.editUserPhoneInputError}>請輸入正確手機號碼</Text>
         )}
       </View>
+      <Toast config={toastConfig} />
     </SafeAreaView>
   );
 }

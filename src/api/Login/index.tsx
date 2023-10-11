@@ -152,7 +152,7 @@ export const updateCustomerPhone = async (
   };
   try {
     const data = await storefront(updateCustomerQuery, variables);
-    return data.customerUpdate.customer;
+    return data.customerUpdate;
   } catch (e) {
     console.log(e);
   }
