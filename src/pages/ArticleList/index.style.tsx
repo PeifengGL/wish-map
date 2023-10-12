@@ -61,12 +61,9 @@ const Styles = StyleSheet.create({
     flexDirection: 'row',
     width: '200%',
   },
+  classScrollViewContainer: { paddingHorizontal: 16 },
   classScrollView: {
-    marginLeft: 16,
-    marginRight: 8,
-    marginVertical: 30,
-    height: 40,
-    width: 360,
+    marginVertical: 24,
   },
   cardContainer: {
     backgroundColor: '#FFFFFF',
