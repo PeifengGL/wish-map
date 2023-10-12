@@ -176,4 +176,22 @@ export const updateCustomerAddress = async (
   }
 };
 
+export const updateCustomerPassword = async (
+  accessToken: string,
+  password: string,
+) => {
+  const variables = {
+    customerAccessToken: accessToken,
+    customer: {
+      password: password,
+    },
+  };
+  try {
+    const data = await storefront(updateCustomerQuery, variables);
+    return data.customerUpdate;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const updateAccessToken = () => {};

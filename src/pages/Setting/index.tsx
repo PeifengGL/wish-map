@@ -60,7 +60,7 @@ export default function SettingPage({ route, navigation }: PageRouterProps) {
   }, [userProfile]);
 
   const handleChangePasswordClick = () => {
-    navigation.navigate('ChangePassword', {});
+    navigation.navigate('ResetPassword', {});
   };
 
   const handleDeleteAccountClick = () => {
