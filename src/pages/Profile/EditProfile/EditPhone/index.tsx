@@ -26,7 +26,7 @@ export default function EditPhonePage({ route, navigation }: PageRouterProps) {
   const { phone } = route.params;
   const [userPhone, setUserPhone] = useState<string>(phone);
   const [inputError, setInputError] = useState<boolean>(false);
-  const phoneRegex: RegExp = /^\+8869\d{8}$/;
+  const phoneRegex: RegExp = /^09\d{8}$/;
 
   useEffect(() => {
     if (userPhone === '') {
@@ -51,7 +51,12 @@ export default function EditPhonePage({ route, navigation }: PageRouterProps) {
       LocalStorage.getData(LocalStorageKeys.CustomerAccessTokenKey).then(
         token => {
           if (token && typeof token === 'string') {
-            updateCustomerPhone(token, userPhone).then(customerData => {
+            const cleanedNumber = userPhone.replace(/[-\s]/g, '');
+            let updatePhone = cleanedNumber;
+            if (cleanedNumber.startsWith('09') && cleanedNumber.length === 10) {
+              updatePhone = `+886${cleanedNumber.slice(1)}`;
+            }
+            updateCustomerPhone(token, updatePhone).then(customerData => {
               console.log(customerData);
               if (customerData.customerUserErrors.length > 0) {
                 Toast.show({
