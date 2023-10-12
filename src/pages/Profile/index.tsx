@@ -94,7 +94,7 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
               const newUserProfile: UserProfileType = {
                 userName: info?.displayName,
                 userEmail: info?.email,
-                userPhone: info?.phone || '',
+                userPhone: formatTaiwanPhoneNumber(info?.phone) || '',
                 userAddress: displayAddress || '',
                 userUID: info?.id,
                 userType: 'member',
@@ -171,6 +171,14 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
         setIsFetching(false);
       });
   }, [isFetching]);
+
+  const formatTaiwanPhoneNumber = (phoneNumber: string) => {
+    const cleanedNumber = phoneNumber.replace(/[-\s]/g, '');
+    if (cleanedNumber.startsWith('+886') && cleanedNumber.length === 13) {
+      return `0${cleanedNumber.slice(4)}`;
+    }
+    return phoneNumber;
+  };
 
   const handleScroll = (event: any) => {
     const currentOffset = event.nativeEvent.contentOffset.y;
