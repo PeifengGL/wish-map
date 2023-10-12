@@ -75,22 +75,24 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
                 userPassword: '',
               };
               setUserProfile(newUserProfile);
+              // 取得使用者資料了
+              LocalStorage.getData(
+                `${LocalStorageKeys.ProfilePictureKey}${info?.email}`,
+              ).then(uri => {
+                if (uri === null || uri === '') {
+                  setUserRemoveAvatar(true);
+                  setUserSelectAvatar(undefined);
+                  return;
+                } else if (uri !== undefined && typeof uri === 'string') {
+                  setUserRemoveAvatar(false);
+                  setUserSelectAvatar({ uri: uri });
+                  return;
+                }
+              });
             });
           }
         },
       );
-
-      LocalStorage.getData(LocalStorageKeys.ProfilePictureKey).then(uri => {
-        if (uri === null || uri === '') {
-          setUserRemoveAvatar(true);
-          setUserSelectAvatar(undefined);
-          return;
-        } else if (uri !== undefined && typeof uri === 'string') {
-          setUserRemoveAvatar(false);
-          setUserSelectAvatar({ uri: uri });
-          return;
-        }
-      });
     }, []),
   );
 
@@ -119,7 +121,10 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
         const newPath = `file://${RNFS.DocumentDirectoryPath}/${fileName}`;
         RNFS.copyFile(oldPath, newPath)
           .then(() => {
-            LocalStorage.setData(LocalStorageKeys.ProfilePictureKey, newPath);
+            LocalStorage.setData(
+              `${LocalStorageKeys.ProfilePictureKey}${userProfile?.userEmail}`,
+              newPath,
+            );
           })
           .catch(err => {
             console.log(err.message);
@@ -150,7 +155,10 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
         const newPath = `file://${RNFS.DocumentDirectoryPath}/${fileName}`;
         RNFS.copyFile(oldPath, newPath)
           .then(() => {
-            LocalStorage.setData(LocalStorageKeys.ProfilePictureKey, newPath);
+            LocalStorage.setData(
+              `${LocalStorageKeys.ProfilePictureKey}${userProfile?.userEmail}`,
+              newPath,
+            );
           })
           .catch(err => {
             console.log(err.message);
@@ -329,7 +337,7 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
                     setUserSelectAvatar(undefined);
                     modalizeRef.current?.close();
                     LocalStorage.setData(
-                      LocalStorageKeys.ProfilePictureKey,
+                      `${LocalStorageKeys.ProfilePictureKey}${userProfile?.userEmail}`,
                       '',
                     );
                   }}

@@ -101,6 +101,17 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
                 userPassword: '',
               };
               setUserProfile(newUserProfile);
+              LocalStorage.getData(
+                `${LocalStorageKeys.ProfilePictureKey}${info?.email}`,
+              ).then(uri => {
+                if (uri === null || uri === '') {
+                  setUserAvatar({ uri: '' });
+                  return;
+                } else if (uri !== undefined && typeof uri === 'string') {
+                  setUserAvatar({ uri: uri });
+                  return;
+                }
+              });
             });
           }
           return token;
@@ -123,16 +134,6 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
         .then(() => {
           setIsFetching(false);
         });
-
-      LocalStorage.getData(LocalStorageKeys.ProfilePictureKey).then(uri => {
-        if (uri === null || uri === '') {
-          setUserAvatar({ uri: '' });
-          return;
-        } else if (uri !== undefined && typeof uri === 'string') {
-          setUserAvatar({ uri: uri });
-          return;
-        }
-      });
     }, []),
   );
 
