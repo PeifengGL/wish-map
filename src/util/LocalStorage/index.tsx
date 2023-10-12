@@ -4,6 +4,7 @@ export const LocalStorageKeys = {
   UserProfileKey: '@wishmap:Profile',
   FirstOpenAppKey: '@wishmap:FirstOpenApp',
   CustomerAccessTokenKey: '@wishmap:CustomerAccessToken',
+  ProfilePictureKey: '@wishmap:ProfilePicture'
 };
 
 const LocalStorage = {

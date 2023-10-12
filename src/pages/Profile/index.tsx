@@ -72,6 +72,8 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
   const [donateData, setDonateData] = useState<any[]>([]);
   const scrollRef = useRef<ScrollView>(null);
 
+  const [userAvatar, setUserAvatar] = useState<any>({ uri: '' });
+
   useFocusEffect(
     React.useCallback(() => {
       LocalStorage.getData(LocalStorageKeys.CustomerAccessTokenKey)
@@ -121,6 +123,16 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
         .then(() => {
           setIsFetching(false);
         });
+
+      LocalStorage.getData(LocalStorageKeys.ProfilePictureKey).then(uri => {
+        if (uri === null || uri === '') {
+          setUserAvatar({ uri: '' });
+          return;
+        } else if (uri !== undefined && typeof uri === 'string') {
+          setUserAvatar({ uri: uri });
+          return;
+        }
+      });
     }, []),
   );
 
@@ -286,8 +298,10 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
         ]}
       >
         <View style={Styles.avatarContainer}>
-          {userProfile?.userType === 'member' ? (
-            <Avatar.Image size={70} source={ImageProvider.Profile.UserAvatar} />
+          {userProfile?.userType === 'member' &&
+          userAvatar.uri !== '' &&
+          userAvatar.uri !== null ? (
+            <Avatar.Image size={70} source={userAvatar} />
           ) : (
             <Avatar.Image
               size={70}

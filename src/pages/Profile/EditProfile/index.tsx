@@ -27,6 +27,7 @@ import {
 import { UserProfileType } from 'types/profile';
 import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
 import { getCustomerInfo } from 'api/Login';
+import RNFS from 'react-native-fs';
 
 type PageRouterProps = {
   route: RouteProp<ProfileStackParamList, 'EditProfile'>;
@@ -78,6 +79,18 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
           }
         },
       );
+
+      LocalStorage.getData(LocalStorageKeys.ProfilePictureKey).then(uri => {
+        if (uri === null || uri === '') {
+          setUserRemoveAvatar(true);
+          setUserSelectAvatar(undefined);
+          return;
+        } else if (uri !== undefined && typeof uri === 'string') {
+          setUserRemoveAvatar(false);
+          setUserSelectAvatar({ uri: uri });
+          return;
+        }
+      });
     }, []),
   );
 
@@ -100,10 +113,20 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
       } else if (response.errorMessage) {
         return;
       }
-      console.log(response.assets);
+      if (response.assets && response.assets.length > 0) {
+        const fileName = response.assets[0].fileName!;
+        const oldPath = response.assets[0].uri!;
+        const newPath = `file://${RNFS.DocumentDirectoryPath}/${fileName}`;
+        RNFS.copyFile(oldPath, newPath)
+          .then(() => {
+            LocalStorage.setData(LocalStorageKeys.ProfilePictureKey, newPath);
+          })
+          .catch(err => {
+            console.log(err.message);
+          });
+      }
 
       const newSelectedImages: Asset[] = response.assets!;
-
       setUserSelectAvatar(newSelectedImages[0]);
       setUserRemoveAvatar(false);
       modalizeRef.current?.close();
@@ -121,8 +144,18 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
       } else if (response.errorMessage) {
         return;
       }
-      console.log(response.assets);
-
+      if (response.assets && response.assets.length > 0) {
+        const fileName = response.assets[0].fileName!;
+        const oldPath = response.assets[0].uri!;
+        const newPath = `file://${RNFS.DocumentDirectoryPath}/${fileName}`;
+        RNFS.copyFile(oldPath, newPath)
+          .then(() => {
+            LocalStorage.setData(LocalStorageKeys.ProfilePictureKey, newPath);
+          })
+          .catch(err => {
+            console.log(err.message);
+          });
+      }
       const newSelectedImages: Asset[] = response.assets!;
 
       setUserSelectAvatar(newSelectedImages[0]);
@@ -295,6 +328,10 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
                     setUserRemoveAvatar(true);
                     setUserSelectAvatar(undefined);
                     modalizeRef.current?.close();
+                    LocalStorage.setData(
+                      LocalStorageKeys.ProfilePictureKey,
+                      '',
+                    );
                   }}
                   style={[
                     Styles.chooseAvatarOptionButton,
