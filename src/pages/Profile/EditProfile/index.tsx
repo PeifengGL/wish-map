@@ -96,7 +96,10 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
     }, []),
   );
 
-  const formatTaiwanPhoneNumber = (phoneNumber: string) => {
+  const formatTaiwanPhoneNumber = (phoneNumber: string | null) => {
+    if (phoneNumber === null) {
+      return;
+    }
     const cleanedNumber = phoneNumber.replace(/[-\s]/g, '');
     if (cleanedNumber.startsWith('+886') && cleanedNumber.length === 13) {
       return `0${cleanedNumber.slice(4)}`;
