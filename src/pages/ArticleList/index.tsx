@@ -214,7 +214,7 @@ export default function ArticleListPage() {
           ]}
         />
       </View>
-      <View>
+      <View style={Styles.classScrollViewContainer}>
         <ScrollView
           horizontal
           style={Styles.classScrollView}
