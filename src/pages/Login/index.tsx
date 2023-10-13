@@ -16,6 +16,9 @@ import ImageProvider from 'assets';
 import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
 import DataShareService from 'service';
+import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
+
+import { createCustomerAccessToken, getCustomerInfo } from 'api/Login';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'Login'>;
@@ -95,7 +98,7 @@ export default function Login({ navigation }: PageRouterProps) {
   };
 
   const checkPasswordValidity = () => {
-    const regex = /^[a-zA-Z0-9]{8,12}$/;
+    const regex = /^[a-zA-Z0-9]{8,15}$/;
     const condition = regex.test(password);
     if (condition) {
       setIsPasswordInvalid(false);
@@ -106,6 +109,7 @@ export default function Login({ navigation }: PageRouterProps) {
   };
   // password
 
+  const [isLoginFailed, setIsLoginFailed] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
   const validateForm = () => {
     const condition =
@@ -116,31 +120,62 @@ export default function Login({ navigation }: PageRouterProps) {
     setIsFormValid(condition);
   };
 
-  const handlePrivacyPolicy = () => {};
-
-  const handleTerms = () => {};
-
   const [isDefault, setIsDefault] = useState(true);
   const [isLogin, setIsLogin] = useState(false);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [isResetPassword, setIsResetPassword] = useState(false);
   const [isResetPasswordDone, setIsResetPasswordDone] = useState(false);
 
-  useEffect(() => {
-    setInterval(() => {
-      if (isLogin) {
-        DataShareService.setIdentityType('member');
-      }
-    }, 2000);
-  }, [isLogin]);
+  type UserProfileType = {
+    userName: string;
+    userEmail: string;
+    userPhone: string;
+    userAddress: string;
+    userUID: string;
+    userType: '' | 'member' | 'guest';
+    userPassword: string;
+  };
 
-  const handleLogin = () => {
+  const goToProfile = async () => {
+    // const data = await getCustomerInfo(token);
+    const userProfile: UserProfileType = {
+      userName: '',
+      userEmail: '',
+      userPhone: '',
+      userAddress: '',
+      userUID: '',
+      userType: 'member',
+      userPassword: '',
+    };
+    LocalStorage.setData(LocalStorageKeys.UserProfileKey, userProfile).then(
+      () => {
+        DataShareService.setUserProfile(userProfile);
+      },
+    );
+  };
+
+  const handleLogin = async () => {
     if (!isFormValid) {
       return;
     }
-    setAllStateFalse();
-    setIsLogin(true);
-    // console.log(email, password, isLogin);
+    setIsLoginFailed(false);
+    const accessToken = await createCustomerAccessToken(email, password);
+    if (accessToken && accessToken.customerAccessToken !== null) {
+      setAllStateFalse();
+      setIsLogin(true);
+      setIsLoginFailed(false);
+      const token = accessToken.customerAccessToken.accessToken;
+      await LocalStorage.setData(
+        LocalStorageKeys.CustomerAccessTokenKey,
+        token,
+      );
+      goToProfile();
+    } else {
+      console.log('登入失敗');
+      setIsLoginFailed(true);
+    }
+
+    return;
   };
 
   const handleForgotPassword = () => {
@@ -293,6 +328,12 @@ export default function Login({ navigation }: PageRouterProps) {
               )}
             </View>
             {/* END - Password 密碼 */}
+
+            {isLoginFailed && (
+              <Text style={Styles.loginFailedMessage}>
+                電子信箱或密碼輸入錯誤，登入失敗
+              </Text>
+            )}
 
             {/* Login 登入 */}
             <TouchableOpacity

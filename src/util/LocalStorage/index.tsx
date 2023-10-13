@@ -3,6 +3,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const LocalStorageKeys = {
   UserProfileKey: '@wishmap:Profile',
   FirstOpenAppKey: '@wishmap:FirstOpenApp',
+  CustomerAccessTokenKey: '@wishmap:CustomerAccessToken',
+  ProfilePictureKey: '@wishmap:ProfilePicture'
 };
 
 const LocalStorage = {

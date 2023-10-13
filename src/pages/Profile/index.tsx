@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
+  ActivityIndicator,
   Animated,
   Dimensions,
   Image,
@@ -15,7 +16,11 @@ import {
   ProfileStackParamList,
   SettingStackParamList,
 } from 'types/router';
-import { RouteProp, useNavigation } from '@react-navigation/native';
+import {
+  RouteProp,
+  useFocusEffect,
+  useNavigation,
+} from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
 import DataShareService from 'service';
 import Styles from './index.style';
@@ -23,8 +28,10 @@ import { Avatar } from 'react-native-paper';
 import { UserProfileType } from 'types/profile';
 
 import ImageProvider from 'assets';
-import { Subscription } from 'rxjs';
 import FocusAwareStatusBar from 'util/StatusBarAdapter';
+
+import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
+import { getCustomerInfo, getCustomerOrders } from 'api/Login';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'Profile'>;
@@ -34,7 +41,15 @@ type PageRouterProps = {
 export default function ProfilePage({ navigation }: PageRouterProps) {
   const statusBarHeight = StatusBar.currentHeight;
 
-  const [userProfile, setUserProfile] = useState<UserProfileType>();
+  const [userProfile, setUserProfile] = useState<UserProfileType>({
+    userName: '',
+    userEmail: '',
+    userPhone: '',
+    userAddress: '',
+    userUID: '',
+    userType: 'guest',
+    userPassword: '',
+  });
   const [scrollingPosition, setScrollingPosition] = useState(0);
   const [projectInfoHeight, setProjectInfoHeight] = useState(0);
   const [imageHeight, setImageHeight] = useState(
@@ -54,56 +69,119 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
 
   const scrollOffset = useRef(0);
 
-  const [donateData, setDonateData] = useState<any[]>([
-    {
-      id: 1,
-      title: '標題1',
-      dateTime: '2023 年 4 月 26 日 上午 9:00',
-      donateAmount: 3000,
-      donorName: '吳康仁',
-      donorEmail: 'XXXX@gmail.com',
-      donorPhone: '0935-XXX-XXX',
-      donorCompany: '資旅軟體開發有限公司',
-      receiptAddress: '臺北市信義區基隆路1段206號18樓',
-      isExpanded: false,
-    },
-    {
-      id: 2,
-      title: '標題2',
-      dateTime: '2023 年 4 月 29 日 下午 4:50',
-      donateAmount: 4500,
-      donorName: '吳康仁',
-      donorEmail: 'XXXX@gmail.com',
-      donorPhone: '0935-XXX-XXX',
-      donorCompany: '資旅軟體開發有限公司',
-      receiptAddress: '臺北市信義區基隆路1段206號18樓',
-      isExpanded: false,
-    },
-    {
-      id: 3,
-      title: '標題3',
-      dateTime: '2023 年 4 月 12 日 下午 4:50',
-      donateAmount: 9999,
-      donorName: '吳康仁',
-      donorEmail: 'XXXX@gmail.com',
-      donorPhone: '0935-XXX-XXX',
-      donorCompany: '資旅軟體開發有限公司',
-      receiptAddress: '臺北市信義區基隆路1段206號18樓',
-      isExpanded: false,
-    },
-  ]);
+  const [donateData, setDonateData] = useState<any[]>([]);
+  const scrollRef = useRef<ScrollView>(null);
+
+  const [userAvatar, setUserAvatar] = useState<any>({ uri: '' });
+
+  useFocusEffect(
+    React.useCallback(() => {
+      LocalStorage.getData(LocalStorageKeys.CustomerAccessTokenKey)
+        .then(token => {
+          if (token && typeof token === 'string') {
+            getCustomerInfo(token).then(info => {
+              if (info === null) {
+                return;
+              }
+              let address;
+              let displayAddress;
+              if (info.defaultAddress !== null) {
+                address = info.defaultAddress;
+                displayAddress = `${address.zip || ''}${address.city || ''}${
+                  address.address1 || ''
+                }`;
+              }
+              const newUserProfile: UserProfileType = {
+                userName: info?.displayName,
+                userEmail: info?.email,
+                userPhone: formatTaiwanPhoneNumber(info?.phone) || '',
+                userAddress: displayAddress || '',
+                userUID: info?.id,
+                userType: 'member',
+                userPassword: '',
+              };
+              setUserProfile(newUserProfile);
+              LocalStorage.getData(
+                `${LocalStorageKeys.ProfilePictureKey}${info?.email}`,
+              ).then(uri => {
+                if (uri === null || uri === '') {
+                  setUserAvatar({ uri: '' });
+                  return;
+                } else if (uri !== undefined && typeof uri === 'string') {
+                  setUserAvatar({ uri: uri });
+                  return;
+                }
+              });
+            });
+          }
+          return token;
+        })
+        .then(token => {
+          if (token && typeof token === 'string') {
+            setIsFetching(true);
+            getCustomerOrders(token, '').then(orders => {
+              setDonateData(orders.nodes);
+              if (orders.pageInfo.hasNextPage) {
+                setIsDataEnd(false);
+                setEndCursor(orders.pageInfo.endCursor);
+              } else {
+                setIsDataEnd(true);
+                setEndCursor('');
+              }
+            });
+          }
+        })
+        .then(() => {
+          setIsFetching(false);
+        });
+    }, []),
+  );
+
+  const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [isDataEnd, setIsDataEnd] = useState<boolean>(false);
+  const [endCursor, setEndCursor] = useState<string>('');
 
   useEffect(() => {
-    const userProfileSubscription: Subscription =
-      DataShareService.getUserProfile$().subscribe(
-        (newUserProfile: UserProfileType) => {
-          setUserProfile(newUserProfile);
-        },
-      );
-    return () => {
-      userProfileSubscription.unsubscribe();
-    };
-  }, []);
+    if (!isFetching) {
+      return;
+    }
+    if (isDataEnd) {
+      setIsFetching(false);
+      return;
+    }
+    LocalStorage.getData(LocalStorageKeys.CustomerAccessTokenKey)
+      .then(token => {
+        if (token && typeof token === 'string') {
+          getCustomerOrders(token, endCursor).then(orders => {
+            setDonateData([...donateData, ...orders.nodes]);
+            if (orders.pageInfo.hasNextPage) {
+              setEndCursor(orders.pageInfo.endCursor);
+            } else {
+              setEndCursor('');
+              setIsDataEnd(true);
+            }
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        setEndCursor('');
+      })
+      .finally(() => {
+        setIsFetching(false);
+      });
+  }, [isFetching]);
+
+  const formatTaiwanPhoneNumber = (phoneNumber: string | null) => {
+    if (phoneNumber === null) {
+      return;
+    }
+    const cleanedNumber = phoneNumber.replace(/[-\s]/g, '');
+    if (cleanedNumber.startsWith('+886') && cleanedNumber.length === 13) {
+      return `0${cleanedNumber.slice(4)}`;
+    }
+    return phoneNumber;
+  };
 
   const handleScroll = (event: any) => {
     const currentOffset = event.nativeEvent.contentOffset.y;
@@ -114,6 +192,16 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
 
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     scrollOffset.current = currentOffset;
+
+    if (isFetching || isDataEnd) {
+      return;
+    }
+    const { layoutMeasurement, contentSize, contentOffset } = event.nativeEvent;
+    const isCloseToBottom =
+      layoutMeasurement.height + contentOffset.y >= contentSize.height - 10;
+    if (isCloseToBottom) {
+      setIsFetching(true);
+    }
   };
 
   const startClick = () => {
@@ -134,6 +222,23 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
         </TouchableOpacity>
       </View>
     );
+  };
+
+  const formatDateTime = (dateTimeString: string) => {
+    const formattedDate = new Date(dateTimeString);
+    formattedDate.setUTCHours(formattedDate.getUTCHours() + 8);
+    const year = formattedDate.getFullYear();
+    const month = formattedDate.getMonth() + 1;
+    const day = formattedDate.getDate();
+    const hour = formattedDate.getHours();
+    const displayHour =
+      formattedDate.getHours() > 12
+        ? formattedDate.getHours() - 12
+        : formattedDate.getHours();
+    const amOrPm = hour >= 12 ? '下午' : '上午';
+    const minute = formattedDate.getMinutes();
+    const returnString = `${year} 年 ${month} 月 ${day} 日 ${amOrPm} ${displayHour}:${minute}`;
+    return returnString;
   };
 
   const toggleExpanded = (index: number) => {
@@ -205,8 +310,10 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
         ]}
       >
         <View style={Styles.avatarContainer}>
-          {userProfile?.userType === 'member' ? (
-            <Avatar.Image size={70} source={ImageProvider.Profile.UserAvatar} />
+          {userProfile?.userType === 'member' &&
+          userAvatar.uri !== '' &&
+          userAvatar.uri !== null ? (
+            <Avatar.Image size={70} source={userAvatar} />
           ) : (
             <Avatar.Image
               size={70}
@@ -252,6 +359,7 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
             { marginTop: projectInfoHeight - 20 },
           ]}
           decelerationRate={0.2}
+          ref={scrollRef}
         >
           <View style={Styles.infoBlock}>
             <View style={Styles.infoArea}>
@@ -274,15 +382,15 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
                 <View style={Styles.donateRecordContainer}>
                   <View>
                     <Text style={Styles.donateRecordTimeText}>
-                      {data.dateTime}
+                      {formatDateTime(data.processedAt)}
                     </Text>
                     <Text style={Styles.donateRecordTitleText}>
-                      {data.title}
+                      {data.lineItems.nodes[0].title}
                     </Text>
                   </View>
                   <View style={Styles.donateRecordTotalBlock}>
                     <Text style={Styles.donateRecordAmountText}>
-                      {`NT$ ${data.donateAmount}`}
+                      {`NT$ ${parseInt(data.originalTotalPrice.amount)}`}
                     </Text>
 
                     <TouchableOpacity onPress={() => toggleExpanded(index)}>
@@ -298,6 +406,16 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
               </View>
             );
           })}
+          {isFetching && (
+            <View style={{ marginBottom: 10 }}>
+              <ActivityIndicator size="large" />
+            </View>
+          )}
+          {donateData.length === 0 && (
+            <View style={Styles.noDonateRecordComponent}>
+              {noDonateRecord()}
+            </View>
+          )}
         </ScrollView>
       ) : (
         <ScrollView
@@ -351,19 +469,21 @@ const DonateView = ({ expanded, data }: { expanded: boolean; data: any }) => {
       <Animated.View style={{ height: textHeight }}>
         <Text
           style={Styles.donateDetailInfoBlockTitle}
-        >{`捐款人姓名：${data.donorName}`}</Text>
+        >{`捐款人姓名：${data?.billingAddress?.lastName}${data?.billingAddress?.firstName}`}</Text>
         <Text
           style={Styles.donateDetailInfoBlockTitle}
-        >{`電子信箱：${data.donorEmail}`}</Text>
+        >{`電子信箱：${data?.email}`}</Text>
         <Text
           style={Styles.donateDetailInfoBlockTitle}
-        >{`手機號碼：${data.donorPhone}`}</Text>
-        <Text
-          style={Styles.donateDetailInfoBlockTitle}
-        >{`收據抬頭：${data.donorCompany}`}</Text>
-        <Text
-          style={Styles.donateDetailInfoBlockTitle}
-        >{`收據接收地址：${data.receiptAddress}`}</Text>
+        >{`手機號碼：${data?.billingAddress?.phone}`}</Text>
+        <Text style={Styles.donateDetailInfoBlockTitle}>{`收據抬頭：${
+          data?.billingAddress?.company || ''
+        }`}</Text>
+        <Text style={Styles.donateDetailInfoBlockTitle}>{`收據接收地址：${
+          data?.billingAddress?.zip || ''
+        }${data?.billingAddress?.city || ''}${
+          data?.billingAddress?.address1 || ''
+        }`}</Text>
       </Animated.View>
     </Animated.View>
   );

@@ -74,6 +74,14 @@ const Styles = StyleSheet.create({
     alignSelf: 'flex-start',
     marginLeft: 16,
   },
+  loginFailedMessage: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#F23A3C',
+    alignSelf: 'flex-start',
+    marginLeft: 32,
+    marginBottom: 5,
+  },
   confirmContainer: {
     flexDirection: 'row',
     alignItems: 'baseline',

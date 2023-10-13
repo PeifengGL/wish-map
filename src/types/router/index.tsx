@@ -27,10 +27,10 @@ export type RootStackParamList = {
 
 export type ProfileStackParamList = {
   EditProfile: {};
-  EditUsername: {};
-  EditEmail: {};
-  EditPhone: {};
-  EditAddress: {};
+  EditUsername: { username: string };
+  EditEmail: { email: string };
+  EditPhone: { phone: string };
+  EditAddress: { address: string };
 };
 
 export type SettingStackParamList = {

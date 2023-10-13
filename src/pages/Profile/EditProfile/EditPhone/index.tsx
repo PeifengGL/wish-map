@@ -12,41 +12,23 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/ty
 import { ProfileStackParamList } from 'types/router';
 import FocusAwareStatusBar from 'util/StatusBarAdapter';
 import ImageProvider from 'assets';
-import { Subscription } from 'rxjs';
-import DataShareService from 'service';
-import { UserProfileType } from 'types/profile';
 import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
 import Styles from './index.style';
+import { updateCustomerPhone } from 'api/Login';
+import Toast from 'react-native-toast-message';
 
 type PageRouterProps = {
   route: RouteProp<ProfileStackParamList, 'EditPhone'>;
   navigation: NativeStackNavigationProp<ProfileStackParamList, 'EditPhone'>;
 };
 
-export default function EditPhonePage({ navigation }: PageRouterProps) {
-  const [userProfile, setUserProfile] = useState<UserProfileType>();
-  const [userPhone, setUserPhone] = useState<string>('');
-  const [formatPhoneNumber, setFormatPhoneNumber] = useState<string>('');
+export default function EditPhonePage({ route, navigation }: PageRouterProps) {
+  const { phone } = route.params;
+  const [userPhone, setUserPhone] = useState<string>(phone);
   const [inputError, setInputError] = useState<boolean>(false);
   const phoneRegex: RegExp = /^09\d{8}$/;
 
   useEffect(() => {
-    const userProfileSubscription: Subscription =
-      DataShareService.getUserProfile$().subscribe(
-        (newUserProfile: UserProfileType) => {
-          setUserProfile(newUserProfile);
-          setUserPhone(newUserProfile.userPhone.replace(/-/g, ''));
-          setFormatPhoneNumber(newUserProfile.userPhone);
-        },
-      );
-    return () => {
-      userProfileSubscription.unsubscribe();
-    };
-  }, []);
-
-  useEffect(() => {
-    console.log('userPhone', userPhone);
-    console.log(phoneRegex.test(userPhone));
     if (userPhone === '') {
       setInputError(false);
     } else if (!phoneRegex.test(userPhone)) {
@@ -65,30 +47,46 @@ export default function EditPhonePage({ navigation }: PageRouterProps) {
   };
 
   const saveEditUserPhone = () => {
-    const updatedUserProfile: UserProfileType = {
-      userUID: userProfile?.userUID!,
-      userName: userProfile?.userName!,
-      userPhone: formatPhoneNumber,
-      userEmail: userProfile?.userEmail!,
-      userAddress: userProfile?.userAddress!,
-      userType: userProfile?.userType!,
-      userPassword: userProfile?.userPassword!,
-    };
-
-    LocalStorage.setData<UserProfileType>(
-      LocalStorageKeys.UserProfileKey,
-      updatedUserProfile,
-    ).then(() => {
-      DataShareService.setUserProfile(updatedUserProfile);
-      console.log('updatedUserProfile-success', updatedUserProfile);
-    });
-
-    navigation.goBack();
+    if (userPhone !== '') {
+      LocalStorage.getData(LocalStorageKeys.CustomerAccessTokenKey).then(
+        token => {
+          if (token && typeof token === 'string') {
+            const cleanedNumber = userPhone.replace(/[-\s]/g, '');
+            let updatePhone = cleanedNumber;
+            if (cleanedNumber.startsWith('09') && cleanedNumber.length === 10) {
+              updatePhone = `+886${cleanedNumber.slice(1)}`;
+            }
+            updateCustomerPhone(token, updatePhone).then(customerData => {
+              console.log(customerData);
+              if (customerData.customerUserErrors.length > 0) {
+                Toast.show({
+                  type: 'customToast',
+                  text1: customerData.customerUserErrors[0].message,
+                  position: 'bottom',
+                  bottomOffset: 28,
+                  autoHide: true,
+                  visibilityTime: 3000,
+                });
+              } else if (customerData.customer !== null) {
+                console.log(customerData.customer.phone);
+                navigation.goBack();
+              }
+            });
+          }
+        },
+      );
+    }
   };
 
-  const formatPhone = (phoneNumber: string) => {
-    const phoneRegex = /^(\d{4})(\d{3})(\d{3})$/;
-    return phoneNumber.replace(phoneRegex, '$1-$2-$3');
+  const toastConfig = {
+    customToast: ({ text1 }: any) => (
+      <View style={Styles.toast}>
+        <Text style={Styles.toastText}>{text1}</Text>
+        <TouchableOpacity onPress={() => Toast.hide()}>
+          <Image source={ImageProvider.Register.CloseToast} />
+        </TouchableOpacity>
+      </View>
+    ),
   };
 
   return (
@@ -130,11 +128,9 @@ export default function EditPhonePage({ navigation }: PageRouterProps) {
         >
           <TextInput
             placeholder="請輸入手機號碼"
-            value={formatPhoneNumber}
+            value={userPhone}
             onChangeText={text => {
-              console.log('text', text);
-              setUserPhone(text.replace(/-/g, ''));
-              setFormatPhoneNumber(formatPhone(text));
+              setUserPhone(text);
             }}
             style={Styles.editUserPhoneInput}
           />
@@ -142,7 +138,6 @@ export default function EditPhonePage({ navigation }: PageRouterProps) {
             <TouchableOpacity
               onPress={() => {
                 setUserPhone('');
-                setFormatPhoneNumber('');
               }}
             >
               <Image
@@ -160,6 +155,7 @@ export default function EditPhonePage({ navigation }: PageRouterProps) {
           <Text style={Styles.editUserPhoneInputError}>請輸入正確手機號碼</Text>
         )}
       </View>
+      <Toast config={toastConfig} />
     </SafeAreaView>
   );
 }

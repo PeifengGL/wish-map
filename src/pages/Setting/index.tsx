@@ -60,7 +60,7 @@ export default function SettingPage({ route, navigation }: PageRouterProps) {
   }, [userProfile]);
 
   const handleChangePasswordClick = () => {
-    navigation.navigate('ChangePassword', {});
+    navigation.navigate('ResetPassword', {});
   };
 
   const handleDeleteAccountClick = () => {
@@ -129,6 +129,7 @@ export default function SettingPage({ route, navigation }: PageRouterProps) {
       userPassword: '',
     };
 
+    LocalStorage.setData(LocalStorageKeys.CustomerAccessTokenKey, '');
     LocalStorage.setData(LocalStorageKeys.UserProfileKey, userProfile).finally(
       () => {
         DataShareService.setUserProfile(userProfile);
@@ -179,7 +180,7 @@ export default function SettingPage({ route, navigation }: PageRouterProps) {
                 <Image source={ImageProvider.Setting.SettingRightArrowIcon} />
               </TouchableOpacity>
 
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 onPress={handleDeleteAccountClick}
                 style={Styles.blockButton}
               >
@@ -188,7 +189,7 @@ export default function SettingPage({ route, navigation }: PageRouterProps) {
                   <Text style={Styles.buttonText}>刪除帳號</Text>
                 </View>
                 <Image source={ImageProvider.Setting.SettingRightArrowIcon} />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
 
               <View style={Styles.separator} />
             </>

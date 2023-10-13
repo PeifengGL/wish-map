@@ -17,6 +17,7 @@ import DataShareService from 'service';
 import { UserProfileType } from 'types/profile';
 import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
 import Styles from './index.style';
+import { updateCustomerPassword } from 'api/Login';
 
 type PageRouterProps = {
   route: RouteProp<SettingStackParamList, 'ResetPassword'>;
@@ -112,22 +113,29 @@ export default function ResetPasswordPage({ navigation }: PageRouterProps) {
     }
 
     if (passwordRegex.test(newPassword) && confirmNewPassword === newPassword) {
-      const updatedUserProfile: UserProfileType = {
-        userUID: userProfile?.userUID!,
-        userName: userProfile?.userName!,
-        userPhone: userProfile?.userPhone!,
-        userEmail: userProfile?.userEmail!,
-        userAddress: userProfile?.userAddress!,
-        userType: userProfile?.userType!,
-        userPassword: newPassword,
-      };
-      LocalStorage.setData(
-        LocalStorageKeys.UserProfileKey,
-        updatedUserProfile,
-      ).finally(() => {
-        DataShareService.setUserProfile(updatedUserProfile);
-        navigation.navigate('ChangePassword', { resetPasswordStatus: true });
-      });
+      LocalStorage.getData(LocalStorageKeys.CustomerAccessTokenKey).then(
+        token => {
+          if (token && typeof token === 'string') {
+            updateCustomerPassword(token, newPassword).then(data => {
+              if (data.customerUserErrors.length > 0) {
+                console.log(
+                  'update password error',
+                  data.customerUserErrors[0].message,
+                );
+              } else {
+                console.log('update password success');
+                const newToken = data.customerAccessToken.accessToken;
+                LocalStorage.setData(
+                  LocalStorageKeys.CustomerAccessTokenKey,
+                  newToken,
+                ).then(() => {
+                  navigation.navigate('Setting', {});
+                });
+              }
+            });
+          }
+        },
+      );
     }
   };
 

@@ -87,7 +87,7 @@ export default function VolunteerPage({ route, navigation }: PageRouterProps) {
     <SafeAreaView style={Styles.safeAreaView}>
       <FocusAwareStatusBar backgroundColor="#ffffff" barStyle="dark-content" />
       <Text style={Styles.headerText}>志工專區</Text>
-      <View>
+      <View style={Styles.classScrollViewContainer}>
         <ScrollView
           horizontal
           style={Styles.classScrollView}

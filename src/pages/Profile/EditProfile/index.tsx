@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import {
-  Button,
   View,
   Text,
   TouchableOpacity,
@@ -9,7 +8,7 @@ import {
   Dimensions,
   ImageBackground,
 } from 'react-native';
-import { RouteProp } from '@react-navigation/native';
+import { RouteProp, useFocusEffect } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
 import { ProfileStackParamList } from 'types/router';
 import Styles from './index.style';
@@ -25,9 +24,10 @@ import {
   launchCamera,
   launchImageLibrary,
 } from 'react-native-image-picker';
-import { Subscription } from 'rxjs';
-import DataShareService from 'service';
 import { UserProfileType } from 'types/profile';
+import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
+import { getCustomerInfo } from 'api/Login';
+import RNFS from 'react-native-fs';
 
 type PageRouterProps = {
   route: RouteProp<ProfileStackParamList, 'EditProfile'>;
@@ -38,19 +38,74 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
   const modalizeRef = useRef<Modalize>(null);
   const [userSelectAvatar, setUserSelectAvatar] = useState<Asset>();
   const [userRemoveAvatar, setUserRemoveAvatar] = useState<boolean>(false);
-  const [userProfile, setUserProfile] = useState<UserProfileType>();
+  const [userProfile, setUserProfile] = useState<UserProfileType>({
+    userName: '',
+    userEmail: '',
+    userPhone: '',
+    userAddress: '',
+    userUID: '',
+    userType: 'member',
+    userPassword: '',
+  });
 
-  useEffect(() => {
-    const userProfileSubscription: Subscription =
-      DataShareService.getUserProfile$().subscribe(
-        (newUserProfile: UserProfileType) => {
-          setUserProfile(newUserProfile);
+  useFocusEffect(
+    React.useCallback(() => {
+      LocalStorage.getData(LocalStorageKeys.CustomerAccessTokenKey).then(
+        token => {
+          if (token && typeof token === 'string') {
+            getCustomerInfo(token).then(info => {
+              if (info === null) {
+                return;
+              }
+              let address;
+              let displayAddress;
+              if (info.defaultAddress !== null) {
+                address = info.defaultAddress;
+                displayAddress = `${address.zip || ''} ${address.city || ''}${
+                  address.address1 || ''
+                }`;
+              }
+              const newUserProfile: UserProfileType = {
+                userName: info?.displayName,
+                userEmail: info?.email,
+                userPhone: formatTaiwanPhoneNumber(info?.phone) || '',
+                userAddress: displayAddress || '',
+                userUID: info?.id,
+                userType: 'member',
+                userPassword: '',
+              };
+              setUserProfile(newUserProfile);
+              // 取得使用者資料了
+              LocalStorage.getData(
+                `${LocalStorageKeys.ProfilePictureKey}${info?.email}`,
+              ).then(uri => {
+                if (uri === null || uri === '') {
+                  setUserRemoveAvatar(true);
+                  setUserSelectAvatar(undefined);
+                  return;
+                } else if (uri !== undefined && typeof uri === 'string') {
+                  setUserRemoveAvatar(false);
+                  setUserSelectAvatar({ uri: uri });
+                  return;
+                }
+              });
+            });
+          }
         },
       );
-    return () => {
-      userProfileSubscription.unsubscribe();
-    };
-  }, []);
+    }, []),
+  );
+
+  const formatTaiwanPhoneNumber = (phoneNumber: string | null) => {
+    if (phoneNumber === null) {
+      return;
+    }
+    const cleanedNumber = phoneNumber.replace(/[-\s]/g, '');
+    if (cleanedNumber.startsWith('+886') && cleanedNumber.length === 13) {
+      return `0${cleanedNumber.slice(4)}`;
+    }
+    return phoneNumber;
+  };
 
   const renderEditProfileGoBack = () => {
     return (
@@ -71,10 +126,23 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
       } else if (response.errorMessage) {
         return;
       }
-      console.log(response.assets);
+      if (response.assets && response.assets.length > 0) {
+        const fileName = response.assets[0].fileName!;
+        const oldPath = response.assets[0].uri!;
+        const newPath = `file://${RNFS.DocumentDirectoryPath}/${fileName}`;
+        RNFS.copyFile(oldPath, newPath)
+          .then(() => {
+            LocalStorage.setData(
+              `${LocalStorageKeys.ProfilePictureKey}${userProfile?.userEmail}`,
+              newPath,
+            );
+          })
+          .catch(err => {
+            console.log(err.message);
+          });
+      }
 
       const newSelectedImages: Asset[] = response.assets!;
-
       setUserSelectAvatar(newSelectedImages[0]);
       setUserRemoveAvatar(false);
       modalizeRef.current?.close();
@@ -92,8 +160,21 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
       } else if (response.errorMessage) {
         return;
       }
-      console.log(response.assets);
-
+      if (response.assets && response.assets.length > 0) {
+        const fileName = response.assets[0].fileName!;
+        const oldPath = response.assets[0].uri!;
+        const newPath = `file://${RNFS.DocumentDirectoryPath}/${fileName}`;
+        RNFS.copyFile(oldPath, newPath)
+          .then(() => {
+            LocalStorage.setData(
+              `${LocalStorageKeys.ProfilePictureKey}${userProfile?.userEmail}`,
+              newPath,
+            );
+          })
+          .catch(err => {
+            console.log(err.message);
+          });
+      }
       const newSelectedImages: Asset[] = response.assets!;
 
       setUserSelectAvatar(newSelectedImages[0]);
@@ -102,20 +183,20 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
     });
   };
 
-  const handleEditUsernameClick = () => {
-    navigation.push('EditUsername', {});
+  const handleEditUsernameClick = (username: string) => {
+    navigation.push('EditUsername', { username: username });
   };
 
-  const handleEditEmailClick = () => {
-    navigation.push('EditEmail', {});
+  const handleEditEmailClick = (email: string) => {
+    navigation.push('EditEmail', { email: email });
   };
 
-  const handleEditPhoneClick = () => {
-    navigation.push('EditPhone', {});
+  const handleEditPhoneClick = (phone: string) => {
+    navigation.push('EditPhone', { phone: phone });
   };
 
-  const handleEditAddressClick = () => {
-    navigation.push('EditAddress', {});
+  const handleEditAddressClick = (address: string) => {
+    navigation.push('EditAddress', { address: address });
   };
 
   const handleCloseModal = () => modalizeRef.current?.close();
@@ -174,31 +255,33 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
           <View style={Styles.editProfileField}>
             <Text style={Styles.editProfileFieldLabel}>使用者名稱</Text>
             <TouchableOpacity
-              onPress={handleEditUsernameClick}
+              onPress={() => handleEditUsernameClick(userProfile.userName)}
               style={Styles.editProfileFieldButton}
             >
               <Text style={Styles.editProfileFieldButtonText}>
-                {userProfile?.userName}
+                {userProfile.userName}
               </Text>
               <Image source={ImageProvider.Profile.EditRightArrowIcon} />
             </TouchableOpacity>
           </View>
           <View style={Styles.editProfileField}>
-            <Text style={Styles.editProfileFieldLabel}>電子信箱</Text>
+            <Text style={Styles.editProfileFieldLabel}>
+              電子信箱<Text style={Styles.readOnly}>（不可修改）</Text>
+            </Text>
             <TouchableOpacity
-              onPress={handleEditEmailClick}
+              disabled={true}
+              onPress={() => handleEditEmailClick(userProfile.userEmail)}
               style={Styles.editProfileFieldButton}
             >
               <Text style={Styles.editProfileFieldButtonText}>
                 {userProfile?.userEmail}
               </Text>
-              <Image source={ImageProvider.Profile.EditRightArrowIcon} />
             </TouchableOpacity>
           </View>
           <View style={Styles.editProfileField}>
             <Text style={Styles.editProfileFieldLabel}>手機號碼</Text>
             <TouchableOpacity
-              onPress={handleEditPhoneClick}
+              onPress={() => handleEditPhoneClick(userProfile.userPhone)}
               style={Styles.editProfileFieldButton}
             >
               <Text style={Styles.editProfileFieldButtonText}>
@@ -216,7 +299,7 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
           <View style={Styles.editProfileField}>
             <Text style={Styles.editProfileFieldLabel}>聯絡地址</Text>
             <TouchableOpacity
-              onPress={handleEditAddressClick}
+              onPress={() => handleEditAddressClick(userProfile.userAddress)}
               style={Styles.editProfileFieldButton}
             >
               {userProfile?.userAddress === '' ? (
@@ -264,6 +347,10 @@ export default function EditProfilePage({ navigation }: PageRouterProps) {
                     setUserRemoveAvatar(true);
                     setUserSelectAvatar(undefined);
                     modalizeRef.current?.close();
+                    LocalStorage.setData(
+                      `${LocalStorageKeys.ProfilePictureKey}${userProfile?.userEmail}`,
+                      '',
+                    );
                   }}
                   style={[
                     Styles.chooseAvatarOptionButton,

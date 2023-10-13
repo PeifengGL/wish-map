@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   Dimensions,
   StatusBar,
+  Alert,
 } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
@@ -19,10 +20,10 @@ import DataShareService from 'service';
 import { Portal } from 'react-native-portalize';
 import { Modalize } from 'react-native-modalize';
 import PrivacyContent, { PrivacyHeader } from 'components/PrivacyContent';
-import generateUUID from 'util/UUIDGenerator';
 import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
 import { UserProfileType } from 'types/profile';
 import Toast from 'react-native-toast-message';
+import { createCustomerAccessToken, createCustomerAccount } from 'api/Login';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'Registration'>;
@@ -180,30 +181,50 @@ export default function RegistrationPage({
   };
 
   const handleRegister = () => {
-    // 在此處理註冊邏輯
-    // 可以使用 username、email 和 password 狀態
     if (!isFormValid) {
       return;
     }
+    createCustomerAccount(username, email, password).then(data => {
+      if (
+        data &&
+        data.customerUserErrors &&
+        data.customerUserErrors.length > 0
+      ) {
+        Alert.alert('註冊失敗', data.customerUserErrors[0]['message'], [
+          { text: '確認' },
+        ]);
+        return;
+      }
 
-    setIsRegistered(true);
-    const userProfile: UserProfileType = {
-      userName: username,
-      userEmail: email,
-      userPhone: '',
-      userAddress: '',
-      userUID: generateUUID(),
-      userType: 'member',
-      userPassword: password,
-    };
-    console.log('userProfile', userProfile);
-    LocalStorage.setData(LocalStorageKeys.UserProfileKey, userProfile).finally(
-      () => {
-        console.log('set user profile to local storage success');
-        setTimeout(() => {}, 2000);
-        DataShareService.setUserProfile(userProfile);
-      },
-    );
+      if (data && data.customer) {
+        setIsRegistered(true);
+        createCustomerAccessToken(email, password).then(data => {
+          if (data && data.customerAccessToken !== null) {
+            const token = data.customerAccessToken.accessToken;
+            LocalStorage.setData(
+              LocalStorageKeys.CustomerAccessTokenKey,
+              token,
+            ).then(() => {
+              const userProfile: UserProfileType = {
+                userName: '',
+                userEmail: '',
+                userPhone: '',
+                userAddress: '',
+                userUID: '',
+                userType: 'member',
+                userPassword: '',
+              };
+              LocalStorage.setData(
+                LocalStorageKeys.UserProfileKey,
+                userProfile,
+              ).finally(() => {
+                DataShareService.setUserProfile(userProfile);
+              });
+            });
+          }
+        });
+      }
+    });
   };
 
   const handlePrivacyPolicy = () => {

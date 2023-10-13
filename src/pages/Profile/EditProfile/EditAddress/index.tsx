@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -12,11 +12,13 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/ty
 import { ProfileStackParamList } from 'types/router';
 import FocusAwareStatusBar from 'util/StatusBarAdapter';
 import ImageProvider from 'assets';
-import { Subscription } from 'rxjs';
-import DataShareService from 'service';
-import { UserProfileType } from 'types/profile';
 import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
 import Styles from './index.style';
+import {
+  createCustomerAddress,
+  getCustomerDefaultAddress,
+  updateCustomerAddress,
+} from 'api/Login';
 
 type PageRouterProps = {
   route: RouteProp<ProfileStackParamList, 'EditAddress'>;
@@ -24,20 +26,22 @@ type PageRouterProps = {
 };
 
 export default function EditAddressPage({ navigation }: PageRouterProps) {
-  const [userProfile, setUserProfile] = useState<UserProfileType>();
+  const [userCity, setUserCity] = useState<string>('');
   const [userAddress, setUserAddress] = useState<string>('');
 
   useEffect(() => {
-    const userProfileSubscription: Subscription =
-      DataShareService.getUserProfile$().subscribe(
-        (newUserProfile: UserProfileType) => {
-          setUserProfile(newUserProfile);
-          setUserAddress(newUserProfile.userAddress);
-        },
-      );
-    return () => {
-      userProfileSubscription.unsubscribe();
-    };
+    LocalStorage.getData(LocalStorageKeys.CustomerAccessTokenKey).then(
+      token => {
+        if (token && typeof token === 'string') {
+          getCustomerDefaultAddress(token).then(data => {
+            if (data && data.id) {
+              setUserAddress(data?.address1);
+              setUserCity(data?.city);
+            }
+          });
+        }
+      },
+    );
   }, []);
 
   const renderEditUserAddressGoBack = () => {
@@ -48,26 +52,32 @@ export default function EditAddressPage({ navigation }: PageRouterProps) {
     );
   };
 
-  const saveEditUserPhone = () => {
-    const updatedUserProfile: UserProfileType = {
-      userUID: userProfile?.userUID!,
-      userName: userProfile?.userName!,
-      userPhone: userProfile?.userPhone!,
-      userEmail: userProfile?.userEmail!,
-      userAddress: userAddress,
-      userType: userProfile?.userType!,
-      userPassword: userProfile?.userPassword!,
-    };
-
-    LocalStorage.setData<UserProfileType>(
-      LocalStorageKeys.UserProfileKey,
-      updatedUserProfile,
-    ).then(() => {
-      DataShareService.setUserProfile(updatedUserProfile);
-      console.log('updatedUserProfile-success', updatedUserProfile);
-    });
-
-    navigation.goBack();
+  const saveEditUserAddress = () => {
+    if (userAddress !== '' && userCity !== '') {
+      LocalStorage.getData(LocalStorageKeys.CustomerAccessTokenKey).then(
+        token => {
+          if (token && typeof token === 'string') {
+            getCustomerDefaultAddress(token).then(data => {
+              const address = {
+                address1: userAddress,
+                city: userCity,
+              };
+              if (data && data.id) {
+                updateCustomerAddress(token, data.id, address).then(data => {
+                  console.log('updateAddress!, ', data);
+                  navigation.goBack();
+                });
+              } else {
+                createCustomerAddress(token, address).then(data => {
+                  console.log('createAddress!, ', data);
+                  navigation.goBack();
+                });
+              }
+            });
+          }
+        },
+      );
+    }
   };
 
   return (
@@ -81,7 +91,7 @@ export default function EditAddressPage({ navigation }: PageRouterProps) {
       <View style={Styles.headerContainer}>
         <View style={Styles.headerFlex}>
           {renderEditUserAddressGoBack()}
-          <TouchableOpacity onPress={saveEditUserPhone}>
+          <TouchableOpacity onPress={saveEditUserAddress}>
             <Text style={Styles.saveButtonText}>儲存</Text>
           </TouchableOpacity>
         </View>
@@ -96,7 +106,23 @@ export default function EditAddressPage({ navigation }: PageRouterProps) {
 
         <View style={Styles.editUserAddressInputContainer}>
           <TextInput
-            placeholder="請輸入聯絡地址"
+            placeholder="請輸入居住城市（例如：新北市）"
+            value={userCity}
+            onChangeText={setUserCity}
+            style={Styles.editUserAddressInput}
+          />
+          {userCity !== '' && (
+            <TouchableOpacity onPress={() => setUserCity('')}>
+              <Image
+                source={ImageProvider.Profile.EditProfileTextInputCleanIcon}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
+
+        <View style={Styles.editUserAddressInputContainer}>
+          <TextInput
+            placeholder="請輸入聯絡地址（例如：XX 區 XX 路 X 巷 X 號）"
             value={userAddress}
             onChangeText={setUserAddress}
             style={Styles.editUserAddressInput}
