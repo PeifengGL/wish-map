@@ -120,18 +120,6 @@ export default function Login({ navigation }: PageRouterProps) {
     setIsFormValid(condition);
   };
 
-  const handlePrivacyPolicy = () => {};
-
-  const handleTerms = () => {};
-
-  // useEffect(() => {
-  //   setInterval(() => {
-  //     if (isLogin) {
-  //       DataShareService.setIdentityType('member');
-  //     }
-  //   }, 2000);
-  // }, [isLogin]);
-
   const [isDefault, setIsDefault] = useState(true);
   const [isLogin, setIsLogin] = useState(false);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
