@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, TouchableOpacity, Image, Text, TextInput } from 'react-native';
 import Styles from './index.style';
 import ImageProvider from 'assets';
+import { recoverCustomer } from 'api/Login';
+import Toast from 'react-native-toast-message';
 
 interface ForgotPassword {
   handleBackToLogin: () => void;
@@ -16,6 +18,47 @@ const ForgotPassword: React.FC<ForgotPassword> = ({
   const [isEmailEmpty, setIsEmailEmpty] = useState(true);
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isEmailInvalid, setIsEmailInvalid] = useState(false);
+
+  const handleSendLink = () => {
+    recoverCustomer(email).then(data => {
+      if (
+        data &&
+        data.customerUserErrors &&
+        data.customerUserErrors.length > 0
+      ) {
+        Toast.show({
+          type: 'customToast',
+          text1: data.customerUserErrors[0].message,
+          position: 'bottom',
+          bottomOffset: 28,
+          autoHide: true,
+          visibilityTime: 3000,
+        });
+      } else if (!data) {
+        Toast.show({
+          type: 'customToast',
+          text1: '發生錯誤，或寄送超過上限次數',
+          position: 'bottom',
+          bottomOffset: 28,
+          autoHide: true,
+          visibilityTime: 3000,
+        });
+      } else {
+        Toast.show({
+          type: 'customToast',
+          text1: '已寄送重置連結至信箱，即將跳轉至登入頁面',
+          position: 'bottom',
+          bottomOffset: 28,
+          autoHide: true,
+          visibilityTime: 3000,
+        });
+        setTimeout(() => {
+          handleBackToLogin();
+        }, 2000);
+      }
+    });
+  };
+
   const handleEmailOnChange = (text: string) => {
     setEmail(text);
     // check to show delete button
@@ -54,6 +97,17 @@ const ForgotPassword: React.FC<ForgotPassword> = ({
   const validateForm = () => {
     const condition = !isEmailEmpty && !isEmailInvalid;
     setIsFormValid(condition);
+  };
+
+  const toastConfig = {
+    customToast: ({ text1 }: any) => (
+      <View style={Styles.toast}>
+        <Text style={Styles.toastText}>{text1}</Text>
+        <TouchableOpacity onPress={() => Toast.hide()}>
+          <Image source={ImageProvider.Register.CloseToast} />
+        </TouchableOpacity>
+      </View>
+    ),
   };
 
   return (
@@ -108,7 +162,7 @@ const ForgotPassword: React.FC<ForgotPassword> = ({
       {/* SendEmail 寄送連結 */}
       <TouchableOpacity
         style={isFormValid ? Styles.button : Styles.buttonDisabled}
-        onPress={handleSendEmail}
+        onPress={handleSendLink}
         disabled={!isFormValid}
       >
         <Text
@@ -118,6 +172,7 @@ const ForgotPassword: React.FC<ForgotPassword> = ({
         </Text>
       </TouchableOpacity>
       {/* END - SendEmail 寄送連結 */}
+      <Toast config={toastConfig} />
     </View>
   );
 };
