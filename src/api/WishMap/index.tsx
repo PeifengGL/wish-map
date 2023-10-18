@@ -30,22 +30,27 @@ export const getProducts = async () => {
     const data = await storefront(getProductsQuery, variables);
     const products = data.collection.products.nodes;
     const projectsData: ProjectsDataType[] = products.map((product: any) => {
-      return {
-        id: product.id,
-        latitude: getLatitude(),
-        longitude: getLongitude(),
-        age: getAge(),
-        city_country: '台北市',
-        district: '中山區',
-        title: product.title,
-        total_donation: 100,
-        donation_received: 50,
-        description: product.descriptionHtml,
-        cover_image: { uri: product.featuredImage.url },
-        donate_url: product.onlineStoreUrl,
-      };
+      const projectDataArray = [];
+      for (let i = 0; i < 8; i++) {
+        projectDataArray.push({
+          // id: product.id,
+          id: `${product.id}${i}`,
+          latitude: getLatitude(),
+          longitude: getLongitude(),
+          age: getAge(),
+          city_country: '台北市',
+          district: '中山區',
+          title: product.title,
+          total_donation: 100,
+          donation_received: 50,
+          description: product.descriptionHtml,
+          cover_image: { uri: product.featuredImage.url },
+          donate_url: product.onlineStoreUrl,
+        });
+      }
+      return projectDataArray;
     });
-    return projectsData;
+    return projectsData.flat();
   } catch (e) {
     console.log(e);
   }

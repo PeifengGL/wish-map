@@ -10,6 +10,7 @@ import {
   LayoutAnimation,
   TouchableOpacity,
   StatusBar,
+  useWindowDimensions,
 } from 'react-native';
 import { RootStackParamList } from 'types/router';
 import { RouteProp } from '@react-navigation/native';
@@ -21,6 +22,7 @@ import ProgressBar from 'components/ProgressBar';
 import DonateButton from 'components/DonateButton';
 import ShareButton from 'components/ShareButton';
 import WishConceptContent from 'components/WishConceptContent';
+import RenderHtml from 'react-native-render-html';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'ProjectDetail'>;
@@ -41,6 +43,10 @@ export default function ProjectDetailPage({
   const [imageHeight, setImageHeight] = useState(
     360 * (Dimensions.get('window').width / 360),
   );
+  const [contentHtml, setContentHtml] = useState({
+    html: projectData?.description!,
+  });
+  const { width } = useWindowDimensions();
 
   const handleProgressCalc = (
     received: number | undefined,
@@ -136,7 +142,7 @@ export default function ProjectDetailPage({
               Styles.donateDetailImage,
               { width: dimensionsWidth, height: imageHeight },
             ]}
-            source={ImageProvider.WishMap.ProjectFullImage}
+            source={projectData.cover_image}
           />
           <View
             onLayout={event => {
@@ -200,7 +206,9 @@ export default function ProjectDetailPage({
             <Text style={Styles.donateInfoDescriptionHint}>贊助小文</Text>
             <View style={Styles.donateDetailDescriptionContainer}>
               <Text style={Styles.donateInfoDescription}>
-                {projectData.description}
+                {contentHtml && contentHtml.html !== '' && (
+                  <RenderHtml contentWidth={width - 32} source={contentHtml} />
+                )}
               </Text>
             </View>
           </ScrollView>
