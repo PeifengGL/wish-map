@@ -35,19 +35,17 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-  <string>YOUR TEXT</string>
-  <key>NSLocationAlwaysUsageDescription</key>
-  <string>YOUR TEXT</string>
-  <key>NSLocationTemporaryUsageDescriptionDictionary</key>
-  <dict>
-    <key>YOUR-PURPOSE-KEY</key>
-    <string>YOUR TEXT</string>
-  </dict>
-  <key>NSLocationWhenInUseUsageDescription</key>
-  <string>YOUR TEXT</string>
+	<string>YOUR TEXT</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>YOUR TEXT</string>
+	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
+	<dict>
+		<key>YOUR-PURPOSE-KEY</key>
+		<string>YOUR TEXT</string>
+	</dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>YOUR TEXT</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>fonts/Lato-Black.ttf</string>
