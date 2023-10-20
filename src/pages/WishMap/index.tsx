@@ -39,6 +39,7 @@ import FilterToolButton from 'components/FilterToolButton';
 import ProjectCard from 'components/ProjectCard';
 import ImageProvider from 'assets';
 import Styles from './index.style';
+import { getProducts } from 'api/WishMap';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'WishMap'>;
@@ -86,6 +87,9 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
   const modalizeRef = useRef<Modalize>(null);
   const statusBar = StatusBar.currentHeight;
   const sendWishApplyModalRef = useRef<Modalize>(null);
+
+  const [projectsData, setProjectsData] =
+    useState<ProjectsDataType[]>(ProjectsData);
 
   const handleWishApplyClick = () => {
     navigation.navigate('WishApply', {});
@@ -199,7 +203,7 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
   };
 
   const renderMarkers = () => {
-    return ProjectsData.map(project => (
+    return projectsData.map(project => (
       <Marker
         key={project.id}
         coordinate={{
@@ -252,6 +256,11 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
   });
 
   useEffect(() => {
+    getProducts().then(data => {
+      if (data) {
+        setProjectsData(data);
+      }
+    });
     const filterMethodSub: Subscription =
       DataShareService.getFilterMethod$().subscribe(
         (filterMethodData: FilterMethodType) => {

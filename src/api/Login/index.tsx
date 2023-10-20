@@ -8,6 +8,7 @@ import {
   updateCustomerAddressQuery,
   createCustomerAddressQuery,
   createCustomerAccountQuery,
+  recoverCustomerQuery,
 } from './query';
 
 export const createCustomerAccount = async (
@@ -194,4 +195,14 @@ export const updateCustomerPassword = async (
   }
 };
 
-export const updateAccessToken = () => {};
+export const recoverCustomer = async (email: string) => {
+  const variables = {
+    email: email,
+  };
+  try {
+    const data = await storefront(recoverCustomerQuery, variables);
+    return data.customerRecover;
+  } catch (e) {
+    console.log(e);
+  }
+};
