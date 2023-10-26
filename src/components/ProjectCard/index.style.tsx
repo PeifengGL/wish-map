@@ -25,6 +25,7 @@ const Styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: 8,
+    flexWrap: 'wrap',
   },
   projectTitleText: { fontSize: 16, fontWeight: '500', color: '#1A1A1A' },
   projectLocationContainer: { display: 'flex', flexDirection: 'row' },

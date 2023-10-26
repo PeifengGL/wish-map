@@ -187,3 +187,15 @@ export const updateCustomerAddressQuery = gql`
     }
   }
 `;
+
+export const recoverCustomerQuery = gql`
+  mutation customerRecover($email: String!) {
+    customerRecover(email: $email) {
+      customerUserErrors {
+        message
+        code
+        field
+      }
+    }
+  }
+`;

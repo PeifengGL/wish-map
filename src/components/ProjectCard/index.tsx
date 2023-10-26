@@ -80,7 +80,7 @@ const ProjectCard = (props: ProjectCardPropsType) => {
           ellipsizeMode="tail"
           style={Styles.projectDescriptionText}
         >
-          {projectData?.description}
+          {/* {projectData?.description} */}
         </Text>
         <View style={Styles.donateButtonContainer}>
           <DonateButton
