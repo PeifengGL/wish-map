@@ -23,6 +23,7 @@ import DataShareService from 'service';
 import { Subscription } from 'rxjs';
 import PrivacyContent, { PrivacyHeader } from 'components/PrivacyContent';
 import { UserProfileType } from 'types/profile';
+import VolunteerToJotform from 'api/Jotform';
 import Styles from './index.style';
 
 type PageRouterProps = {
@@ -32,9 +33,10 @@ type PageRouterProps = {
 
 export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
   const dimensionsHeight = Dimensions.get('window').height;
-  const [gender, setGender] = useState<'F' | 'M' | ''>('');
+  const [gender, setGender] = useState<'男' | '女' | ''>('');
   const [date, setDate] = useState<Date>(new Date());
   const [birthLabel, setBirthLabel] = useState<string>('- 年 - 月 - 日');
+  const [birthToJotform, setBirthToJotform] = useState<string>('');
   const [volunteerName, setVolunteerName] = useState<string>('');
   const [volunteerEmail, setVolunteerEmail] = useState<string>('');
   const [volunteerPhone, setVolunteerPhone] = useState<string>('');
@@ -165,6 +167,37 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
   };
 
   const sendVolunteerApply = async () => {
+    const formData = new FormData();
+    const birthSplit = birthToJotform.split('/');
+    console.log('birthToJotform', birthToJotform);
+    const chineseNumbers = ['一', '二', '三', '四', '五', '六', '七'];
+    formData.append('submission[4]', volunteerName);
+    formData.append('submission[6]', gender);
+    formData.append('submission[7][year]', birthSplit[0]);
+    formData.append('submission[7][month]', birthSplit[1]);
+    formData.append('submission[7][day]', birthSplit[2]);
+    formData.append('submission[8]', volunteerEmail);
+    formData.append(
+      'submission[9][full]',
+      volunteerPhone.replace(/(\d{4})(\d{3})(\d{3})/, '$1-$2-$3'),
+    );
+    formData.append('submission[11][addr_line1]', volunteerAddress);
+    formData.append('submission[12]', volunteerJob);
+    formData.append('submission[13]', volunteerEducation);
+    formData.append('submission[15]', volunteerExpertise);
+    formData.append('submission[16]', volunteerArea);
+    for (const value of Object.values(volunteerTypes)) {
+      formData.append('submission[17][]', value);
+    }
+    for (const key in volunteerServiceTime) {
+      if (volunteerServiceTime[key] === 1) {
+        formData.append(
+          `submission[18][${key.substring(1, 2) === 'A' ? '0' : '1'}][]`,
+          chineseNumbers[parseInt(key) - 1],
+        );
+      }
+    }
+
     const volunteerApplyData = {
       userId: userProfile?.userUID,
       志工姓名: volunteerName,
@@ -193,9 +226,9 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
       週日上午: volunteerServiceTime['7A'] === 1 ? 'v' : '',
       週日下午: volunteerServiceTime['7P'] === 1 ? 'v' : '',
     };
-    console.log('volunteerApplyData', volunteerApplyData);
 
     setIsLoading(true);
+    VolunteerToJotform(formData);
     await DataShareService.sendVolunteerApply(volunteerApplyData).finally(() =>
       setIsLoading(false),
     );
@@ -246,8 +279,8 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               <View style={Styles.genderOption}>
                 <RadioButton.Android
                   value="M"
-                  status={gender === 'M' ? 'checked' : 'unchecked'}
-                  onPress={() => setGender('M')}
+                  status={gender === '男' ? 'checked' : 'unchecked'}
+                  onPress={() => setGender('男')}
                   color="#00BAB3"
                   uncheckedColor="#00BAB3"
                 />
@@ -256,8 +289,8 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               <View style={Styles.genderOption}>
                 <RadioButton.Android
                   value="F"
-                  status={gender === 'F' ? 'checked' : 'unchecked'}
-                  onPress={() => setGender('F')}
+                  status={gender === '女' ? 'checked' : 'unchecked'}
+                  onPress={() => setGender('女')}
                   color="#00BAB3"
                   uncheckedColor="#00BAB3"
                 />
@@ -360,9 +393,16 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               <View style={Styles.selectionContainer}>
                 <RadioButton.Android
                   value="北"
-                  status={volunteerArea === '北' ? 'checked' : 'unchecked'}
+                  status={
+                    volunteerArea ===
+                    '北區（台北、新北、基隆、桃園、新竹、宜蘭）'
+                      ? 'checked'
+                      : 'unchecked'
+                  }
                   onPress={() => {
-                    setVolunteerArea('北');
+                    setVolunteerArea(
+                      '北區（台北、新北、基隆、桃園、新竹、宜蘭）',
+                    );
                   }}
                   color="#00BAB3"
                   uncheckedColor="#00BAB3"
@@ -372,9 +412,13 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               <View style={Styles.selectionContainer}>
                 <RadioButton.Android
                   value="中"
-                  status={volunteerArea === '中' ? 'checked' : 'unchecked'}
+                  status={
+                    volunteerArea === '中區（苗栗、台中、彰化、南投、雲林）'
+                      ? 'checked'
+                      : 'unchecked'
+                  }
                   onPress={() => {
-                    setVolunteerArea('中');
+                    setVolunteerArea('中區（苗栗、台中、彰化、南投、雲林）');
                   }}
                   color="#00BAB3"
                   uncheckedColor="#00BAB3"
@@ -384,9 +428,13 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               <View style={Styles.selectionContainer}>
                 <RadioButton.Android
                   value="南"
-                  status={volunteerArea === '南' ? 'checked' : 'unchecked'}
+                  status={
+                    volunteerArea === '南區（嘉義、台南、高雄、屏東）'
+                      ? 'checked'
+                      : 'unchecked'
+                  }
                   onPress={() => {
-                    setVolunteerArea('南');
+                    setVolunteerArea('南區（嘉義、台南、高雄、屏東）');
                   }}
                   color="#00BAB3"
                   uncheckedColor="#00BAB3"
@@ -396,9 +444,13 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               <View style={Styles.selectionContainer}>
                 <RadioButton.Android
                   value="東"
-                  status={volunteerArea === '東' ? 'checked' : 'unchecked'}
+                  status={
+                    volunteerArea === '東區（花蓮、台東）'
+                      ? 'checked'
+                      : 'unchecked'
+                  }
                   onPress={() => {
-                    setVolunteerArea('東');
+                    setVolunteerArea('東區（花蓮、台東）');
                   }}
                   color="#00BAB3"
                   uncheckedColor="#00BAB3"
@@ -421,13 +473,24 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                 <View style={Styles.volunteerTypeSelectionContainer}>
                   <CheckBox
                     tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                    value={volunteerTypes.includes('個案志工')}
+                    value={volunteerTypes.includes(
+                      '個案志工：需通過志工訓練，可配合進行院訪、家訪工作',
+                    )}
                     onValueChange={() => {
-                      volunteerTypes.includes('個案志工')
+                      volunteerTypes.includes(
+                        '個案志工：需通過志工訓練，可配合進行院訪、家訪工作',
+                      )
                         ? setVolunteerTypes(
-                            volunteerTypes.filter(item => item !== '個案志工'),
+                            volunteerTypes.filter(
+                              item =>
+                                item !==
+                                '個案志工：需通過志工訓練，可配合進行院訪、家訪工作',
+                            ),
                           )
-                        : setVolunteerTypes([...volunteerTypes, '個案志工']);
+                        : setVolunteerTypes([
+                            ...volunteerTypes,
+                            '個案志工：需通過志工訓練，可配合進行院訪、家訪工作',
+                          ]);
                     }}
                     style={Styles.checkBox}
                   />
@@ -445,13 +508,20 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                 <View style={Styles.volunteerTypeSelectionContainer}>
                   <CheckBox
                     tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                    value={volunteerTypes.includes('活動志工')}
+                    value={volunteerTypes.includes(
+                      '活動志工：協助各項活動之進行',
+                    )}
                     onValueChange={() => {
-                      volunteerTypes.includes('活動志工')
+                      volunteerTypes.includes('活動志工：協助各項活動之進行')
                         ? setVolunteerTypes(
-                            volunteerTypes.filter(item => item !== '活動志工'),
+                            volunteerTypes.filter(
+                              item => item !== '活動志工：協助各項活動之進行',
+                            ),
                           )
-                        : setVolunteerTypes([...volunteerTypes, '活動志工']);
+                        : setVolunteerTypes([
+                            ...volunteerTypes,
+                            '活動志工：協助各項活動之進行',
+                          ]);
                     }}
                     style={Styles.checkBox}
                   />
@@ -468,13 +538,24 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                 <View style={Styles.volunteerTypeSelectionContainer}>
                   <CheckBox
                     tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
-                    value={volunteerTypes.includes('會務志工')}
+                    value={volunteerTypes.includes(
+                      '會務志工：協助辦公室各項事務性工作之進行',
+                    )}
                     onValueChange={() => {
-                      volunteerTypes.includes('會務志工')
+                      volunteerTypes.includes(
+                        '會務志工：協助辦公室各項事務性工作之進行',
+                      )
                         ? setVolunteerTypes(
-                            volunteerTypes.filter(item => item !== '會務志工'),
+                            volunteerTypes.filter(
+                              item =>
+                                item !==
+                                '會務志工：協助辦公室各項事務性工作之進行',
+                            ),
                           )
-                        : setVolunteerTypes([...volunteerTypes, '會務志工']);
+                        : setVolunteerTypes([
+                            ...volunteerTypes,
+                            '會務志工：協助辦公室各項事務性工作之進行',
+                          ]);
                     }}
                     style={Styles.checkBox}
                   />
@@ -883,6 +964,17 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               date.getMonth() + 1
             } 月 ${date.getUTCDate()} 日`,
           );
+          setBirthToJotform(
+            `${date.getFullYear()}/${
+              date.getUTCMonth() + 1 < 10
+                ? `0${date.getUTCMonth() + 1}`
+                : date.getUTCMonth() + 1
+            }/${
+              date.getUTCDate() < 10
+                ? `0${date.getUTCDate()}`
+                : date.getUTCDate()
+            }`,
+          );
           checkButtonEnable();
           modalizeRef.current?.close();
         }}
@@ -899,6 +991,17 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                 `${date.getFullYear()} 年 ${
                   date.getMonth() + 1
                 } 月 ${date.getUTCDate()} 日`,
+              );
+              setBirthToJotform(
+                `${date.getFullYear()}/${
+                  date.getUTCMonth() + 1 < 10
+                    ? `0${date.getUTCMonth() + 1}`
+                    : date.getUTCMonth() + 1
+                }/${
+                  date.getUTCDate() < 10
+                    ? `0${date.getUTCDate()}`
+                    : date.getUTCDate()
+                }`,
               );
               modalizeRef.current?.close();
             }}
