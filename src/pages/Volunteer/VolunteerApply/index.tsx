@@ -171,7 +171,6 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
   const sendVolunteerApply = async () => {
     const formData = new FormData();
     const birthSplit = birthToJotform.split('/');
-    console.log('birthToJotform', birthToJotform);
     const chineseNumbers = ['一', '二', '三', '四', '五', '六', '七'];
     formData.append('submission[4]', volunteerName);
     formData.append('submission[6]', gender);

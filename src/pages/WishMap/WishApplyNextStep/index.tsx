@@ -174,7 +174,6 @@ export default function WishApplyNextStepPage({
   const sendWishApply = async () => {
     const formData = new FormData();
     const birthSplit = birthToJotform.split('/');
-    console.log('birthToJotform', birthToJotform);
     formData.append('submission[3]', stepOneData.wishApplierType);
     formData.append('submission[5]', stepOneData.wishApplierName);
     formData.append(
