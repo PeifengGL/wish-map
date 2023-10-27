@@ -68,14 +68,6 @@ class DataService {
     return this.filteredResult$.asObservable();
   }
 
-  // setIdentityType(identityType: IdentityType) {
-  //   this.identityType$.next(identityType);
-  // }
-
-  // getIdentityType$(): Observable<IdentityType> {
-  //   return this.identityType$.asObservable();
-  // }
-
   setLoading(loading: boolean) {
     this.loading$.next(loading);
   }

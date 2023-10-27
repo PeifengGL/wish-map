@@ -33,13 +33,13 @@ import {
   ImageLibraryOptions,
   Asset,
 } from 'react-native-image-picker';
-
 import DocumentPicker, {
   DocumentPickerResponse,
   types,
 } from 'react-native-document-picker';
 import { Subscription } from 'rxjs';
 import { UserProfileType } from 'types/profile';
+import { WishApplyToJotform } from 'api/Jotform';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'WishApplyNextStep'>;
@@ -82,6 +82,7 @@ export default function WishApplyNextStepPage({
   }>({ uri: '', ratio: 1 });
   const [previewImageLoadEnd, setPreviewImageLoadEnd] = useState(false);
   const [userProfile, setUserProfile] = useState<UserProfileType>();
+  const [birthToJotform, setBirthToJotform] = useState<string>('');
 
   useEffect(() => {
     const userProfileSubscription: Subscription =
@@ -171,6 +172,37 @@ export default function WishApplyNextStepPage({
   ]);
 
   const sendWishApply = async () => {
+    const formData = new FormData();
+    const birthSplit = birthToJotform.split('/');
+    formData.append('submission[3]', stepOneData.wishApplierType);
+    formData.append('submission[5]', stepOneData.wishApplierName);
+    formData.append(
+      'submission[6]',
+      stepOneData.wishApplierPhone.replace(/(\d{4})(\d{3})(\d{3})/, '$1-$2-$3'),
+    );
+    formData.append('submission[7]', stepOneData.wishApplierServiceUnits);
+    formData.append('submission[8]', stepOneData.wishApplierJobTitle);
+    formData.append('submission[15]', childName);
+    formData.append('submission[17]', childGender);
+    formData.append('submission[18][year]', birthSplit[0]);
+    formData.append('submission[18][month]', birthSplit[1]);
+    formData.append('submission[18][day]', birthSplit[2]);
+    formData.append('submission[19]', supplement);
+    formData.append('submission[21][addr_line1]', contactAddress);
+    formData.append('submission[22]', contactPerson);
+    formData.append('submission[23]', contactRelationship);
+    formData.append(
+      'submission[24]',
+      contactPhone.replace(/(\d{4})(\d{3})(\d{3})/, '$1-$2-$3'),
+    );
+    formData.append('submission[28]', hospital);
+    formData.append('submission[30]', doctorName);
+    formData.append('submission[31]', medicalDepartment);
+    formData.append('submission[47]', 'Accepted');
+    howToKnowMakeWish.forEach(item => {
+      formData.append('submission[53][]', item);
+    });
+
     const wishApplyData = {
       userId: userProfile?.userUID,
       申請人身分: stepOneData.wishApplierType,
@@ -193,6 +225,7 @@ export default function WishApplyNextStepPage({
     };
 
     setIsLoading(true);
+    WishApplyToJotform(formData);
     await DataShareService.sendWishApply(wishApplyData).finally(() =>
       setIsLoading(false),
     );
@@ -609,6 +642,17 @@ export default function WishApplyNextStepPage({
                 date.getMonth() + 1
               } 月 ${date.getUTCDate()} 日`,
             );
+            setBirthToJotform(
+              `${date.getFullYear()}/${
+                date.getUTCMonth() + 1 < 10
+                  ? `0${date.getUTCMonth() + 1}`
+                  : date.getUTCMonth() + 1
+              }/${
+                date.getUTCDate() < 10
+                  ? `0${date.getUTCDate()}`
+                  : date.getUTCDate()
+              }`,
+            );
             modalizeRef.current?.close();
           }}
         >
@@ -624,6 +668,17 @@ export default function WishApplyNextStepPage({
                   `${date.getFullYear()} 年 ${
                     date.getMonth() + 1
                   } 月 ${date.getUTCDate()} 日`,
+                );
+                setBirthToJotform(
+                  `${date.getFullYear()}/${
+                    date.getUTCMonth() + 1 < 10
+                      ? `0${date.getUTCMonth() + 1}`
+                      : date.getUTCMonth() + 1
+                  }/${
+                    date.getUTCDate() < 10
+                      ? `0${date.getUTCDate()}`
+                      : date.getUTCDate()
+                  }`,
                 );
                 modalizeRef.current?.close();
               }}
