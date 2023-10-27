@@ -1,0 +1,2972 @@
+{
+  "coordinates": [
+    {
+      "cityAndDistrict": "臺北市中正區",
+      "city": "臺北市",
+      "district": "中正區",
+      "zip": "100",
+      "longitude": "121.5198839",
+      "latitude": "25.03240487"
+    },
+    {
+      "cityAndDistrict": "臺北市大同區",
+      "city": "臺北市",
+      "district": "大同區",
+      "zip": "103",
+      "longitude": "121.5130417",
+      "latitude": "25.06342433"
+    },
+    {
+      "cityAndDistrict": "臺北市中山區",
+      "city": "臺北市",
+      "district": "中山區",
+      "zip": "104",
+      "longitude": "121.5381597",
+      "latitude": "25.06969917"
+    },
+    {
+      "cityAndDistrict": "臺北市松山區",
+      "city": "臺北市",
+      "district": "松山區",
+      "zip": "105",
+      "longitude": "121.5575876",
+      "latitude": "25.05999101"
+    },
+    {
+      "cityAndDistrict": "臺北市大安區",
+      "city": "臺北市",
+      "district": "大安區",
+      "zip": "106",
+      "longitude": "121.5434446",
+      "latitude": "25.02677012"
+    },
+    {
+      "cityAndDistrict": "臺北市萬華區",
+      "city": "臺北市",
+      "district": "萬華區",
+      "zip": "108",
+      "longitude": "121.4979858",
+      "latitude": "25.0285899"
+    },
+    {
+      "cityAndDistrict": "臺北市信義區",
+      "city": "臺北市",
+      "district": "信義區",
+      "zip": "110",
+      "longitude": "121.5716697",
+      "latitude": "25.03062083"
+    },
+    {
+      "cityAndDistrict": "臺北市士林區",
+      "city": "臺北市",
+      "district": "士林區",
+      "zip": "111",
+      "longitude": "121.5508473",
+      "latitude": "25.12546704"
+    },
+    {
+      "cityAndDistrict": "臺北市北投區",
+      "city": "臺北市",
+      "district": "北投區",
+      "zip": "112",
+      "longitude": "121.5177992",
+      "latitude": "25.1480682"
+    },
+    {
+      "cityAndDistrict": "臺北市內湖區",
+      "city": "臺北市",
+      "district": "內湖區",
+      "zip": "114",
+      "longitude": "121.5923828",
+      "latitude": "25.08370623"
+    },
+    {
+      "cityAndDistrict": "臺北市南港區",
+      "city": "臺北市",
+      "district": "南港區",
+      "zip": "115",
+      "longitude": "121.6097573",
+      "latitude": "25.03600934"
+    },
+    {
+      "cityAndDistrict": "臺北市文山區",
+      "city": "臺北市",
+      "district": "文山區",
+      "zip": "116",
+      "longitude": "121.5736082",
+      "latitude": "24.98857934"
+    },
+    {
+      "cityAndDistrict": "基隆市仁愛區",
+      "city": "基隆市",
+      "district": "仁愛區",
+      "zip": "200",
+      "longitude": "121.7434205",
+      "latitude": "25.11945421"
+    },
+    {
+      "cityAndDistrict": "基隆市信義區",
+      "city": "基隆市",
+      "district": "信義區",
+      "zip": "201",
+      "longitude": "121.772646",
+      "latitude": "25.12576579"
+    },
+    {
+      "cityAndDistrict": "基隆市中正區",
+      "city": "基隆市",
+      "district": "中正區",
+      "zip": "202",
+      "longitude": "121.7783549",
+      "latitude": "25.14365754"
+    },
+    {
+      "cityAndDistrict": "基隆市中山區",
+      "city": "基隆市",
+      "district": "中山區",
+      "zip": "203",
+      "longitude": "121.7308913",
+      "latitude": "25.14986365"
+    },
+    {
+      "cityAndDistrict": "基隆市安樂區",
+      "city": "基隆市",
+      "district": "安樂區",
+      "zip": "204",
+      "longitude": "121.7078325",
+      "latitude": "25.14139521"
+    },
+    {
+      "cityAndDistrict": "基隆市暖暖區",
+      "city": "基隆市",
+      "district": "暖暖區",
+      "zip": "205",
+      "longitude": "121.7447344",
+      "latitude": "25.08097003"
+    },
+    {
+      "cityAndDistrict": "基隆市七堵區",
+      "city": "基隆市",
+      "district": "七堵區",
+      "zip": "206",
+      "longitude": "121.683628",
+      "latitude": "25.10962028"
+    },
+    {
+      "cityAndDistrict": "新北市萬里區",
+      "city": "新北市",
+      "district": "萬里區",
+      "zip": "207",
+      "longitude": "121.6439307",
+      "latitude": "25.17572457"
+    },
+    {
+      "cityAndDistrict": "新北市金山區",
+      "city": "新北市",
+      "district": "金山區",
+      "zip": "208",
+      "longitude": "121.6052639",
+      "latitude": "25.21714594"
+    },
+    {
+      "cityAndDistrict": "連江縣南竿鄉",
+      "city": "連江縣",
+      "district": "南竿鄉",
+      "zip": "209",
+      "longitude": "119.931128",
+      "latitude": "26.154321"
+    },
+    {
+      "cityAndDistrict": "連江縣北竿鄉",
+      "city": "連江縣",
+      "district": "北竿鄉",
+      "zip": "210",
+      "longitude": "119.994251",
+      "latitude": "26.225637"
+    },
+    {
+      "cityAndDistrict": "連江縣莒光鄉",
+      "city": "連江縣",
+      "district": "莒光鄉",
+      "zip": "211",
+      "longitude": "119.938877",
+      "latitude": "25.97298"
+    },
+    {
+      "cityAndDistrict": "連江縣東引鄉",
+      "city": "連江縣",
+      "district": "東引鄉",
+      "zip": "212",
+      "longitude": "120.4903",
+      "latitude": "26.366101"
+    },
+    {
+      "cityAndDistrict": "新北市板橋區",
+      "city": "新北市",
+      "district": "板橋區",
+      "zip": "220",
+      "longitude": "121.4579675",
+      "latitude": "25.01186453"
+    },
+    {
+      "cityAndDistrict": "新北市汐止區",
+      "city": "新北市",
+      "district": "汐止區",
+      "zip": "221",
+      "longitude": "121.6546992",
+      "latitude": "25.07331322"
+    },
+    {
+      "cityAndDistrict": "新北市深坑區",
+      "city": "新北市",
+      "district": "深坑區",
+      "zip": "222",
+      "longitude": "121.6200624",
+      "latitude": "24.99767506"
+    },
+    {
+      "cityAndDistrict": "新北市石碇區",
+      "city": "新北市",
+      "district": "石碇區",
+      "zip": "223",
+      "longitude": "121.6472277",
+      "latitude": "24.94714107"
+    },
+    {
+      "cityAndDistrict": "新北市瑞芳區",
+      "city": "新北市",
+      "district": "瑞芳區",
+      "zip": "224",
+      "longitude": "121.8232018",
+      "latitude": "25.0981293"
+    },
+    {
+      "cityAndDistrict": "新北市平溪區",
+      "city": "新北市",
+      "district": "平溪區",
+      "zip": "226",
+      "longitude": "121.7578817",
+      "latitude": "25.02607068"
+    },
+    {
+      "cityAndDistrict": "新北市雙溪區",
+      "city": "新北市",
+      "district": "雙溪區",
+      "zip": "227",
+      "longitude": "121.8329822",
+      "latitude": "24.99698394"
+    },
+    {
+      "cityAndDistrict": "新北市貢寮區",
+      "city": "新北市",
+      "district": "貢寮區",
+      "zip": "228",
+      "longitude": "121.9182466",
+      "latitude": "25.02485641"
+    },
+    {
+      "cityAndDistrict": "新北市新店區",
+      "city": "新北市",
+      "district": "新店區",
+      "zip": "231",
+      "longitude": "121.5316565",
+      "latitude": "24.93039008"
+    },
+    {
+      "cityAndDistrict": "新北市坪林區",
+      "city": "新北市",
+      "district": "坪林區",
+      "zip": "232",
+      "longitude": "121.724223",
+      "latitude": "24.91097073"
+    },
+    {
+      "cityAndDistrict": "新北市烏來區",
+      "city": "新北市",
+      "district": "烏來區",
+      "zip": "233",
+      "longitude": "121.5414806",
+      "latitude": "24.78824295"
+    },
+    {
+      "cityAndDistrict": "新北市永和區",
+      "city": "新北市",
+      "district": "永和區",
+      "zip": "234",
+      "longitude": "121.516745",
+      "latitude": "25.00810199"
+    },
+    {
+      "cityAndDistrict": "新北市中和區",
+      "city": "新北市",
+      "district": "中和區",
+      "zip": "235",
+      "longitude": "121.4936744",
+      "latitude": "24.99088039"
+    },
+    {
+      "cityAndDistrict": "新北市土城區",
+      "city": "新北市",
+      "district": "土城區",
+      "zip": "236",
+      "longitude": "121.445737",
+      "latitude": "24.96425102"
+    },
+    {
+      "cityAndDistrict": "新北市三峽區",
+      "city": "新北市",
+      "district": "三峽區",
+      "zip": "237",
+      "longitude": "121.4163094",
+      "latitude": "24.88209766"
+    },
+    {
+      "cityAndDistrict": "新北市樹林區",
+      "city": "新北市",
+      "district": "樹林區",
+      "zip": "238",
+      "longitude": "121.401034",
+      "latitude": "24.97970609"
+    },
+    {
+      "cityAndDistrict": "新北市鶯歌區",
+      "city": "新北市",
+      "district": "鶯歌區",
+      "zip": "239",
+      "longitude": "121.3466269",
+      "latitude": "24.9566258"
+    },
+    {
+      "cityAndDistrict": "新北市三重區",
+      "city": "新北市",
+      "district": "三重區",
+      "zip": "241",
+      "longitude": "121.4870977",
+      "latitude": "25.06281651"
+    },
+    {
+      "cityAndDistrict": "新北市新莊區",
+      "city": "新北市",
+      "district": "新莊區",
+      "zip": "242",
+      "longitude": "121.4367535",
+      "latitude": "25.0358303"
+    },
+    {
+      "cityAndDistrict": "新北市泰山區",
+      "city": "新北市",
+      "district": "泰山區",
+      "zip": "243",
+      "longitude": "121.4162785",
+      "latitude": "25.05549774"
+    },
+    {
+      "cityAndDistrict": "新北市林口區",
+      "city": "新北市",
+      "district": "林口區",
+      "zip": "244",
+      "longitude": "121.3527235",
+      "latitude": "25.1000868"
+    },
+    {
+      "cityAndDistrict": "新北市蘆洲區",
+      "city": "新北市",
+      "district": "蘆洲區",
+      "zip": "247",
+      "longitude": "121.4712461",
+      "latitude": "25.08927173"
+    },
+    {
+      "cityAndDistrict": "新北市五股區",
+      "city": "新北市",
+      "district": "五股區",
+      "zip": "248",
+      "longitude": "121.4332139",
+      "latitude": "25.09614746"
+    },
+    {
+      "cityAndDistrict": "新北市八里區",
+      "city": "新北市",
+      "district": "八里區",
+      "zip": "249",
+      "longitude": "121.4138359",
+      "latitude": "25.13812763"
+    },
+    {
+      "cityAndDistrict": "新北市淡水區",
+      "city": "新北市",
+      "district": "淡水區",
+      "zip": "251",
+      "longitude": "121.463904",
+      "latitude": "25.18907636"
+    },
+    {
+      "cityAndDistrict": "新北市三芝區",
+      "city": "新北市",
+      "district": "三芝區",
+      "zip": "252",
+      "longitude": "121.515558",
+      "latitude": "25.23159891"
+    },
+    {
+      "cityAndDistrict": "新北市石門區",
+      "city": "新北市",
+      "district": "石門區",
+      "zip": "253",
+      "longitude": "121.5692761",
+      "latitude": "25.26518079"
+    },
+    {
+      "cityAndDistrict": "宜蘭縣宜蘭市",
+      "city": "宜蘭縣",
+      "district": "宜蘭市",
+      "zip": "260",
+      "longitude": "121.7569358",
+      "latitude": "24.75021184"
+    },
+    {
+      "cityAndDistrict": "宜蘭縣頭城鎮",
+      "city": "宜蘭縣",
+      "district": "頭城鎮",
+      "zip": "261",
+      "longitude": "121.845797",
+      "latitude": "24.90075882"
+    },
+    {
+      "cityAndDistrict": "宜蘭縣礁溪鄉",
+      "city": "宜蘭縣",
+      "district": "礁溪鄉",
+      "zip": "262",
+      "longitude": "121.7346606",
+      "latitude": "24.81144192"
+    },
+    {
+      "cityAndDistrict": "宜蘭縣壯圍鄉",
+      "city": "宜蘭縣",
+      "district": "壯圍鄉",
+      "zip": "263",
+      "longitude": "121.8017622",
+      "latitude": "24.75183042"
+    },
+    {
+      "cityAndDistrict": "宜蘭縣員山鄉",
+      "city": "宜蘭縣",
+      "district": "員山鄉",
+      "zip": "264",
+      "longitude": "121.6612282",
+      "latitude": "24.74199237"
+    },
+    {
+      "cityAndDistrict": "宜蘭縣羅東鎮",
+      "city": "宜蘭縣",
+      "district": "羅東鎮",
+      "zip": "265",
+      "longitude": "121.7701782",
+      "latitude": "24.67884824"
+    },
+    {
+      "cityAndDistrict": "宜蘭縣三星鄉",
+      "city": "宜蘭縣",
+      "district": "三星鄉",
+      "zip": "266",
+      "longitude": "121.6642714",
+      "latitude": "24.66771972"
+    },
+    {
+      "cityAndDistrict": "宜蘭縣大同鄉",
+      "city": "宜蘭縣",
+      "district": "大同鄉",
+      "zip": "267",
+      "longitude": "121.5040369",
+      "latitude": "24.55152082"
+    },
+    {
+      "cityAndDistrict": "宜蘭縣五結鄉",
+      "city": "宜蘭縣",
+      "district": "五結鄉",
+      "zip": "268",
+      "longitude": "121.8058342",
+      "latitude": "24.68887343"
+    },
+    {
+      "cityAndDistrict": "宜蘭縣冬山鄉",
+      "city": "宜蘭縣",
+      "district": "冬山鄉",
+      "zip": "269",
+      "longitude": "121.760255",
+      "latitude": "24.64214986"
+    },
+    {
+      "cityAndDistrict": "宜蘭縣蘇澳鎮",
+      "city": "宜蘭縣",
+      "district": "蘇澳鎮",
+      "zip": "270",
+      "longitude": "121.8346892",
+      "latitude": "24.55467058"
+    },
+    {
+      "cityAndDistrict": "宜蘭縣南澳鄉",
+      "city": "宜蘭縣",
+      "district": "南澳鄉",
+      "zip": "272",
+      "longitude": "121.6560593",
+      "latitude": "24.44864058"
+    },
+    {
+      "cityAndDistrict": "宜蘭縣釣魚臺列嶼",
+      "city": "宜蘭縣",
+      "district": "釣魚臺列嶼",
+      "zip": "290",
+      "longitude": "123.475482",
+      "latitude": "25.746396"
+    },
+    {
+      "cityAndDistrict": "新竹市北區",
+      "city": "新竹市",
+      "district": "北區",
+      "zip": "300",
+      "longitude": "120.9491233",
+      "latitude": "24.82269542"
+    },
+    {
+      "cityAndDistrict": "新竹市東區",
+      "city": "新竹市",
+      "district": "東區",
+      "zip": "300",
+      "longitude": "120.9927505",
+      "latitude": "24.79028174"
+    },
+    {
+      "cityAndDistrict": "新竹市香山區",
+      "city": "新竹市",
+      "district": "香山區",
+      "zip": "300",
+      "longitude": "120.9236727",
+      "latitude": "24.77104342"
+    },
+    {
+      "cityAndDistrict": "新竹縣竹北市",
+      "city": "新竹縣",
+      "district": "竹北市",
+      "zip": "302",
+      "longitude": "120.9948704",
+      "latitude": "24.83816209"
+    },
+    {
+      "cityAndDistrict": "新竹縣湖口鄉",
+      "city": "新竹縣",
+      "district": "湖口鄉",
+      "zip": "303",
+      "longitude": "121.0517242",
+      "latitude": "24.88566341"
+    },
+    {
+      "cityAndDistrict": "新竹縣新豐鄉",
+      "city": "新竹縣",
+      "district": "新豐鄉",
+      "zip": "304",
+      "longitude": "120.9956033",
+      "latitude": "24.90731298"
+    },
+    {
+      "cityAndDistrict": "新竹縣新埔鎮",
+      "city": "新竹縣",
+      "district": "新埔鎮",
+      "zip": "305",
+      "longitude": "121.0939886",
+      "latitude": "24.84133959"
+    },
+    {
+      "cityAndDistrict": "新竹縣關西鎮",
+      "city": "新竹縣",
+      "district": "關西鎮",
+      "zip": "306",
+      "longitude": "121.1866221",
+      "latitude": "24.78514681"
+    },
+    {
+      "cityAndDistrict": "新竹縣芎林鄉",
+      "city": "新竹縣",
+      "district": "芎林鄉",
+      "zip": "307",
+      "longitude": "121.1046394",
+      "latitude": "24.7657116"
+    },
+    {
+      "cityAndDistrict": "新竹縣寶山鄉",
+      "city": "新竹縣",
+      "district": "寶山鄉",
+      "zip": "308",
+      "longitude": "120.9991605",
+      "latitude": "24.73697351"
+    },
+    {
+      "cityAndDistrict": "新竹縣竹東鎮",
+      "city": "新竹縣",
+      "district": "竹東鎮",
+      "zip": "310",
+      "longitude": "121.0753632",
+      "latitude": "24.73075802"
+    },
+    {
+      "cityAndDistrict": "新竹縣五峰鄉",
+      "city": "新竹縣",
+      "district": "五峰鄉",
+      "zip": "311",
+      "longitude": "121.1389495",
+      "latitude": "24.578054"
+    },
+    {
+      "cityAndDistrict": "新竹縣橫山鄉",
+      "city": "新竹縣",
+      "district": "橫山鄉",
+      "zip": "312",
+      "longitude": "121.1469732",
+      "latitude": "24.7078092"
+    },
+    {
+      "cityAndDistrict": "新竹縣尖石鄉",
+      "city": "新竹縣",
+      "district": "尖石鄉",
+      "zip": "313",
+      "longitude": "121.2819341",
+      "latitude": "24.59493235"
+    },
+    {
+      "cityAndDistrict": "新竹縣北埔鄉",
+      "city": "新竹縣",
+      "district": "北埔鄉",
+      "zip": "314",
+      "longitude": "121.0642745",
+      "latitude": "24.67207405"
+    },
+    {
+      "cityAndDistrict": "新竹縣峨眉鄉",
+      "city": "新竹縣",
+      "district": "峨眉鄉",
+      "zip": "315",
+      "longitude": "121.0110809",
+      "latitude": "24.67811197"
+    },
+    {
+      "cityAndDistrict": "桃園市中壢區",
+      "city": "桃園市",
+      "district": "中壢區",
+      "zip": "320",
+      "longitude": "121.2147243",
+      "latitude": "24.97993803"
+    },
+    {
+      "cityAndDistrict": "桃園市平鎮區",
+      "city": "桃園市",
+      "district": "平鎮區",
+      "zip": "324",
+      "longitude": "121.2140051",
+      "latitude": "24.92117923"
+    },
+    {
+      "cityAndDistrict": "桃園市龍潭區",
+      "city": "桃園市",
+      "district": "龍潭區",
+      "zip": "325",
+      "longitude": "121.2117877",
+      "latitude": "24.85064954"
+    },
+    {
+      "cityAndDistrict": "桃園市楊梅區",
+      "city": "桃園市",
+      "district": "楊梅區",
+      "zip": "326",
+      "longitude": "121.1291697",
+      "latitude": "24.91820989"
+    },
+    {
+      "cityAndDistrict": "桃園市新屋區",
+      "city": "桃園市",
+      "district": "新屋區",
+      "zip": "327",
+      "longitude": "121.067758",
+      "latitude": "24.97280352"
+    },
+    {
+      "cityAndDistrict": "桃園市觀音區",
+      "city": "桃園市",
+      "district": "觀音區",
+      "zip": "328",
+      "longitude": "121.1155021",
+      "latitude": "25.02671611"
+    },
+    {
+      "cityAndDistrict": "桃園市桃園區",
+      "city": "桃園市",
+      "district": "桃園區",
+      "zip": "330",
+      "longitude": "121.2996612",
+      "latitude": "25.00040024"
+    },
+    {
+      "cityAndDistrict": "桃園市龜山區",
+      "city": "桃園市",
+      "district": "龜山區",
+      "zip": "333",
+      "longitude": "121.3569265",
+      "latitude": "25.02417472"
+    },
+    {
+      "cityAndDistrict": "桃園市八德區",
+      "city": "桃園市",
+      "district": "八德區",
+      "zip": "334",
+      "longitude": "121.2913102",
+      "latitude": "24.94968903"
+    },
+    {
+      "cityAndDistrict": "桃園市大溪區",
+      "city": "桃園市",
+      "district": "大溪區",
+      "zip": "335",
+      "longitude": "121.296342",
+      "latitude": "24.86797026"
+    },
+    {
+      "cityAndDistrict": "桃園市復興區",
+      "city": "桃園市",
+      "district": "復興區",
+      "zip": "336",
+      "longitude": "121.3754588",
+      "latitude": "24.72949884"
+    },
+    {
+      "cityAndDistrict": "桃園市大園區",
+      "city": "桃園市",
+      "district": "大園區",
+      "zip": "337",
+      "longitude": "121.21177",
+      "latitude": "25.06384709"
+    },
+    {
+      "cityAndDistrict": "桃園市蘆竹區",
+      "city": "桃園市",
+      "district": "蘆竹區",
+      "zip": "338",
+      "longitude": "121.2831266",
+      "latitude": "25.06073337"
+    },
+    {
+      "cityAndDistrict": "苗栗縣竹南鎮",
+      "city": "苗栗縣",
+      "district": "竹南鎮",
+      "zip": "350",
+      "longitude": "120.8777316",
+      "latitude": "24.69862459"
+    },
+    {
+      "cityAndDistrict": "苗栗縣頭份市",
+      "city": "苗栗縣",
+      "district": "頭份市",
+      "zip": "351",
+      "longitude": "120.9189437",
+      "latitude": "24.67628243"
+    },
+    {
+      "cityAndDistrict": "苗栗縣三灣鄉",
+      "city": "苗栗縣",
+      "district": "三灣鄉",
+      "zip": "352",
+      "longitude": "120.9525745",
+      "latitude": "24.63599405"
+    },
+    {
+      "cityAndDistrict": "苗栗縣南庄鄉",
+      "city": "苗栗縣",
+      "district": "南庄鄉",
+      "zip": "353",
+      "longitude": "121.017471",
+      "latitude": "24.56608432"
+    },
+    {
+      "cityAndDistrict": "苗栗縣獅潭鄉",
+      "city": "苗栗縣",
+      "district": "獅潭鄉",
+      "zip": "354",
+      "longitude": "120.9206688",
+      "latitude": "24.51978614"
+    },
+    {
+      "cityAndDistrict": "苗栗縣後龍鎮",
+      "city": "苗栗縣",
+      "district": "後龍鎮",
+      "zip": "356",
+      "longitude": "120.781205",
+      "latitude": "24.6156265"
+    },
+    {
+      "cityAndDistrict": "苗栗縣通霄鎮",
+      "city": "苗栗縣",
+      "district": "通霄鎮",
+      "zip": "357",
+      "longitude": "120.7146378",
+      "latitude": "24.4850464"
+    },
+    {
+      "cityAndDistrict": "苗栗縣苑裡鎮",
+      "city": "苗栗縣",
+      "district": "苑裡鎮",
+      "zip": "358",
+      "longitude": "120.6882195",
+      "latitude": "24.4110232"
+    },
+    {
+      "cityAndDistrict": "苗栗縣苗栗市",
+      "city": "苗栗縣",
+      "district": "苗栗市",
+      "zip": "360",
+      "longitude": "120.8112299",
+      "latitude": "24.56382141"
+    },
+    {
+      "cityAndDistrict": "苗栗縣造橋鄉",
+      "city": "苗栗縣",
+      "district": "造橋鄉",
+      "zip": "361",
+      "longitude": "120.8695663",
+      "latitude": "24.62481314"
+    },
+    {
+      "cityAndDistrict": "苗栗縣頭屋鄉",
+      "city": "苗栗縣",
+      "district": "頭屋鄉",
+      "zip": "362",
+      "longitude": "120.8826631",
+      "latitude": "24.57345497"
+    },
+    {
+      "cityAndDistrict": "苗栗縣公館鄉",
+      "city": "苗栗縣",
+      "district": "公館鄉",
+      "zip": "363",
+      "longitude": "120.8505904",
+      "latitude": "24.50249686"
+    },
+    {
+      "cityAndDistrict": "苗栗縣大湖鄉",
+      "city": "苗栗縣",
+      "district": "大湖鄉",
+      "zip": "364",
+      "longitude": "120.8631192",
+      "latitude": "24.39359641"
+    },
+    {
+      "cityAndDistrict": "苗栗縣泰安鄉",
+      "city": "苗栗縣",
+      "district": "泰安鄉",
+      "zip": "365",
+      "longitude": "121.0681571",
+      "latitude": "24.41925819"
+    },
+    {
+      "cityAndDistrict": "苗栗縣銅鑼鄉",
+      "city": "苗栗縣",
+      "district": "銅鑼鄉",
+      "zip": "366",
+      "longitude": "120.7992043",
+      "latitude": "24.45591832"
+    },
+    {
+      "cityAndDistrict": "苗栗縣三義鄉",
+      "city": "苗栗縣",
+      "district": "三義鄉",
+      "zip": "367",
+      "longitude": "120.7701929",
+      "latitude": "24.38081659"
+    },
+    {
+      "cityAndDistrict": "苗栗縣西湖鄉",
+      "city": "苗栗縣",
+      "district": "西湖鄉",
+      "zip": "368",
+      "longitude": "120.7614144",
+      "latitude": "24.54153218"
+    },
+    {
+      "cityAndDistrict": "苗栗縣卓蘭鎮",
+      "city": "苗栗縣",
+      "district": "卓蘭鎮",
+      "zip": "369",
+      "longitude": "120.8561966",
+      "latitude": "24.32510167"
+    },
+    {
+      "cityAndDistrict": "臺中市中區",
+      "city": "臺中市",
+      "district": "中區",
+      "zip": "400",
+      "longitude": "120.680598",
+      "latitude": "24.14168566"
+    },
+    {
+      "cityAndDistrict": "臺中市東區",
+      "city": "臺中市",
+      "district": "東區",
+      "zip": "401",
+      "longitude": "120.6970865",
+      "latitude": "24.13733209"
+    },
+    {
+      "cityAndDistrict": "臺中市南區",
+      "city": "臺中市",
+      "district": "南區",
+      "zip": "402",
+      "longitude": "120.6646178",
+      "latitude": "24.12114107"
+    },
+    {
+      "cityAndDistrict": "臺中市西區",
+      "city": "臺中市",
+      "district": "西區",
+      "zip": "403",
+      "longitude": "120.6647579",
+      "latitude": "24.14391082"
+    },
+    {
+      "cityAndDistrict": "臺中市北區",
+      "city": "臺中市",
+      "district": "北區",
+      "zip": "404",
+      "longitude": "120.6809521",
+      "latitude": "24.15863985"
+    },
+    {
+      "cityAndDistrict": "臺中市北屯區",
+      "city": "臺中市",
+      "district": "北屯區",
+      "zip": "406",
+      "longitude": "120.7362319",
+      "latitude": "24.18400298"
+    },
+    {
+      "cityAndDistrict": "臺中市西屯區",
+      "city": "臺中市",
+      "district": "西屯區",
+      "zip": "407",
+      "longitude": "120.6270131",
+      "latitude": "24.18308895"
+    },
+    {
+      "cityAndDistrict": "臺中市南屯區",
+      "city": "臺中市",
+      "district": "南屯區",
+      "zip": "408",
+      "longitude": "120.6177379",
+      "latitude": "24.14165524"
+    },
+    {
+      "cityAndDistrict": "臺中市太平區",
+      "city": "臺中市",
+      "district": "太平區",
+      "zip": "411",
+      "longitude": "120.7734217",
+      "latitude": "24.11477375"
+    },
+    {
+      "cityAndDistrict": "臺中市大里區",
+      "city": "臺中市",
+      "district": "大里區",
+      "zip": "412",
+      "longitude": "120.6926261",
+      "latitude": "24.09575742"
+    },
+    {
+      "cityAndDistrict": "臺中市霧峰區",
+      "city": "臺中市",
+      "district": "霧峰區",
+      "zip": "413",
+      "longitude": "120.7201989",
+      "latitude": "24.04332785"
+    },
+    {
+      "cityAndDistrict": "臺中市烏日區",
+      "city": "臺中市",
+      "district": "烏日區",
+      "zip": "414",
+      "longitude": "120.6293305",
+      "latitude": "24.0839271"
+    },
+    {
+      "cityAndDistrict": "臺中市豐原區",
+      "city": "臺中市",
+      "district": "豐原區",
+      "zip": "420",
+      "longitude": "120.7375715",
+      "latitude": "24.24990298"
+    },
+    {
+      "cityAndDistrict": "臺中市后里區",
+      "city": "臺中市",
+      "district": "后里區",
+      "zip": "421",
+      "longitude": "120.7146127",
+      "latitude": "24.30962483"
+    },
+    {
+      "cityAndDistrict": "臺中市石岡區",
+      "city": "臺中市",
+      "district": "石岡區",
+      "zip": "422",
+      "longitude": "120.7903822",
+      "latitude": "24.26493299"
+    },
+    {
+      "cityAndDistrict": "臺中市東勢區",
+      "city": "臺中市",
+      "district": "東勢區",
+      "zip": "423",
+      "longitude": "120.8401401",
+      "latitude": "24.24952637"
+    },
+    {
+      "cityAndDistrict": "臺中市和平區",
+      "city": "臺中市",
+      "district": "和平區",
+      "zip": "424",
+      "longitude": "121.140185",
+      "latitude": "24.27620277"
+    },
+    {
+      "cityAndDistrict": "臺中市新社區",
+      "city": "臺中市",
+      "district": "新社區",
+      "zip": "426",
+      "longitude": "120.8313228",
+      "latitude": "24.17769289"
+    },
+    {
+      "cityAndDistrict": "臺中市潭子區",
+      "city": "臺中市",
+      "district": "潭子區",
+      "zip": "427",
+      "longitude": "120.710997",
+      "latitude": "24.21171121"
+    },
+    {
+      "cityAndDistrict": "臺中市大雅區",
+      "city": "臺中市",
+      "district": "大雅區",
+      "zip": "428",
+      "longitude": "120.6411818",
+      "latitude": "24.22704181"
+    },
+    {
+      "cityAndDistrict": "臺中市神岡區",
+      "city": "臺中市",
+      "district": "神岡區",
+      "zip": "429",
+      "longitude": "120.6733321",
+      "latitude": "24.26568008"
+    },
+    {
+      "cityAndDistrict": "臺中市大肚區",
+      "city": "臺中市",
+      "district": "大肚區",
+      "zip": "432",
+      "longitude": "120.5543243",
+      "latitude": "24.14467504"
+    },
+    {
+      "cityAndDistrict": "臺中市沙鹿區",
+      "city": "臺中市",
+      "district": "沙鹿區",
+      "zip": "433",
+      "longitude": "120.5838628",
+      "latitude": "24.23425212"
+    },
+    {
+      "cityAndDistrict": "臺中市龍井區",
+      "city": "臺中市",
+      "district": "龍井區",
+      "zip": "434",
+      "longitude": "120.5283728",
+      "latitude": "24.20062892"
+    },
+    {
+      "cityAndDistrict": "臺中市梧棲區",
+      "city": "臺中市",
+      "district": "梧棲區",
+      "zip": "435",
+      "longitude": "120.5301259",
+      "latitude": "24.24552431"
+    },
+    {
+      "cityAndDistrict": "臺中市清水區",
+      "city": "臺中市",
+      "district": "清水區",
+      "zip": "436",
+      "longitude": "120.5809094",
+      "latitude": "24.29205743"
+    },
+    {
+      "cityAndDistrict": "臺中市大甲區",
+      "city": "臺中市",
+      "district": "大甲區",
+      "zip": "437",
+      "longitude": "120.6357901",
+      "latitude": "24.37827161"
+    },
+    {
+      "cityAndDistrict": "臺中市外埔區",
+      "city": "臺中市",
+      "district": "外埔區",
+      "zip": "438",
+      "longitude": "120.6650639",
+      "latitude": "24.33551071"
+    },
+    {
+      "cityAndDistrict": "臺中市大安區",
+      "city": "臺中市",
+      "district": "大安區",
+      "zip": "439",
+      "longitude": "120.5914407",
+      "latitude": "24.36509555"
+    },
+    {
+      "cityAndDistrict": "彰化縣彰化市",
+      "city": "彰化縣",
+      "district": "彰化市",
+      "zip": "500",
+      "longitude": "120.5694208",
+      "latitude": "24.07532909"
+    },
+    {
+      "cityAndDistrict": "彰化縣芬園鄉",
+      "city": "彰化縣",
+      "district": "芬園鄉",
+      "zip": "502",
+      "longitude": "120.6294414",
+      "latitude": "24.00628794"
+    },
+    {
+      "cityAndDistrict": "彰化縣花壇鄉",
+      "city": "彰化縣",
+      "district": "花壇鄉",
+      "zip": "503",
+      "longitude": "120.5597655",
+      "latitude": "24.03006875"
+    },
+    {
+      "cityAndDistrict": "彰化縣秀水鄉",
+      "city": "彰化縣",
+      "district": "秀水鄉",
+      "zip": "504",
+      "longitude": "120.5041184",
+      "latitude": "24.03249405"
+    },
+    {
+      "cityAndDistrict": "彰化縣鹿港鎮",
+      "city": "彰化縣",
+      "district": "鹿港鎮",
+      "zip": "505",
+      "longitude": "120.4385491",
+      "latitude": "24.08286685"
+    },
+    {
+      "cityAndDistrict": "彰化縣福興鄉",
+      "city": "彰化縣",
+      "district": "福興鄉",
+      "zip": "506",
+      "longitude": "120.4310511",
+      "latitude": "24.03021674"
+    },
+    {
+      "cityAndDistrict": "彰化縣線西鄉",
+      "city": "彰化縣",
+      "district": "線西鄉",
+      "zip": "507",
+      "longitude": "120.452157",
+      "latitude": "24.13158127"
+    },
+    {
+      "cityAndDistrict": "彰化縣和美鎮",
+      "city": "彰化縣",
+      "district": "和美鎮",
+      "zip": "508",
+      "longitude": "120.5112045",
+      "latitude": "24.11379535"
+    },
+    {
+      "cityAndDistrict": "彰化縣伸港鄉",
+      "city": "彰化縣",
+      "district": "伸港鄉",
+      "zip": "509",
+      "longitude": "120.486449",
+      "latitude": "24.16367107"
+    },
+    {
+      "cityAndDistrict": "彰化縣員林市",
+      "city": "彰化縣",
+      "district": "員林市",
+      "zip": "510",
+      "longitude": "120.593073",
+      "latitude": "23.95650448"
+    },
+    {
+      "cityAndDistrict": "彰化縣社頭鄉",
+      "city": "彰化縣",
+      "district": "社頭鄉",
+      "zip": "511",
+      "longitude": "120.6021661",
+      "latitude": "23.90536413"
+    },
+    {
+      "cityAndDistrict": "彰化縣永靖鄉",
+      "city": "彰化縣",
+      "district": "永靖鄉",
+      "zip": "512",
+      "longitude": "120.5416032",
+      "latitude": "23.92139507"
+    },
+    {
+      "cityAndDistrict": "彰化縣埔心鄉",
+      "city": "彰化縣",
+      "district": "埔心鄉",
+      "zip": "513",
+      "longitude": "120.5342802",
+      "latitude": "23.95277521"
+    },
+    {
+      "cityAndDistrict": "彰化縣溪湖鎮",
+      "city": "彰化縣",
+      "district": "溪湖鎮",
+      "zip": "514",
+      "longitude": "120.4831739",
+      "latitude": "23.95171456"
+    },
+    {
+      "cityAndDistrict": "彰化縣大村鄉",
+      "city": "彰化縣",
+      "district": "大村鄉",
+      "zip": "515",
+      "longitude": "120.5586866",
+      "latitude": "23.99209206"
+    },
+    {
+      "cityAndDistrict": "彰化縣埔鹽鄉",
+      "city": "彰化縣",
+      "district": "埔鹽鄉",
+      "zip": "516",
+      "longitude": "120.4594626",
+      "latitude": "23.99204417"
+    },
+    {
+      "cityAndDistrict": "彰化縣田中鎮",
+      "city": "彰化縣",
+      "district": "田中鎮",
+      "zip": "520",
+      "longitude": "120.5903471",
+      "latitude": "23.85723872"
+    },
+    {
+      "cityAndDistrict": "彰化縣北斗鎮",
+      "city": "彰化縣",
+      "district": "北斗鎮",
+      "zip": "521",
+      "longitude": "120.5331566",
+      "latitude": "23.867574"
+    },
+    {
+      "cityAndDistrict": "彰化縣田尾鄉",
+      "city": "彰化縣",
+      "district": "田尾鄉",
+      "zip": "522",
+      "longitude": "120.5223244",
+      "latitude": "23.90056065"
+    },
+    {
+      "cityAndDistrict": "彰化縣埤頭鄉",
+      "city": "彰化縣",
+      "district": "埤頭鄉",
+      "zip": "523",
+      "longitude": "120.4675642",
+      "latitude": "23.88234118"
+    },
+    {
+      "cityAndDistrict": "彰化縣溪州鄉",
+      "city": "彰化縣",
+      "district": "溪州鄉",
+      "zip": "524",
+      "longitude": "120.5224904",
+      "latitude": "23.82725185"
+    },
+    {
+      "cityAndDistrict": "彰化縣竹塘鄉",
+      "city": "彰化縣",
+      "district": "竹塘鄉",
+      "zip": "525",
+      "longitude": "120.4136645",
+      "latitude": "23.8505872"
+    },
+    {
+      "cityAndDistrict": "彰化縣二林鎮",
+      "city": "彰化縣",
+      "district": "二林鎮",
+      "zip": "526",
+      "longitude": "120.404225",
+      "latitude": "23.91621405"
+    },
+    {
+      "cityAndDistrict": "彰化縣大城鄉",
+      "city": "彰化縣",
+      "district": "大城鄉",
+      "zip": "527",
+      "longitude": "120.3113284",
+      "latitude": "23.85069276"
+    },
+    {
+      "cityAndDistrict": "彰化縣芳苑鄉",
+      "city": "彰化縣",
+      "district": "芳苑鄉",
+      "zip": "528",
+      "longitude": "120.3539226",
+      "latitude": "23.9537906"
+    },
+    {
+      "cityAndDistrict": "彰化縣二水鄉",
+      "city": "彰化縣",
+      "district": "二水鄉",
+      "zip": "530",
+      "longitude": "120.628589",
+      "latitude": "23.8092402"
+    },
+    {
+      "cityAndDistrict": "南投縣南投市",
+      "city": "南投縣",
+      "district": "南投市",
+      "zip": "540",
+      "longitude": "120.6787658",
+      "latitude": "23.92173537"
+    },
+    {
+      "cityAndDistrict": "南投縣中寮鄉",
+      "city": "南投縣",
+      "district": "中寮鄉",
+      "zip": "541",
+      "longitude": "120.7859159",
+      "latitude": "23.90589214"
+    },
+    {
+      "cityAndDistrict": "南投縣草屯鎮",
+      "city": "南投縣",
+      "district": "草屯鎮",
+      "zip": "542",
+      "longitude": "120.7326182",
+      "latitude": "23.98321081"
+    },
+    {
+      "cityAndDistrict": "南投縣國姓鄉",
+      "city": "南投縣",
+      "district": "國姓鄉",
+      "zip": "544",
+      "longitude": "120.8676052",
+      "latitude": "24.03135413"
+    },
+    {
+      "cityAndDistrict": "南投縣埔里鎮",
+      "city": "南投縣",
+      "district": "埔里鎮",
+      "zip": "545",
+      "longitude": "120.9625259",
+      "latitude": "23.97892591"
+    },
+    {
+      "cityAndDistrict": "南投縣仁愛鄉",
+      "city": "南投縣",
+      "district": "仁愛鄉",
+      "zip": "546",
+      "longitude": "121.1443879",
+      "latitude": "24.02886513"
+    },
+    {
+      "cityAndDistrict": "南投縣名間鄉",
+      "city": "南投縣",
+      "district": "名間鄉",
+      "zip": "551",
+      "longitude": "120.6774402",
+      "latitude": "23.8510771"
+    },
+    {
+      "cityAndDistrict": "南投縣集集鎮",
+      "city": "南投縣",
+      "district": "集集鎮",
+      "zip": "552",
+      "longitude": "120.7854192",
+      "latitude": "23.83701687"
+    },
+    {
+      "cityAndDistrict": "南投縣水里鄉",
+      "city": "南投縣",
+      "district": "水里鄉",
+      "zip": "553",
+      "longitude": "120.8622721",
+      "latitude": "23.79612907"
+    },
+    {
+      "cityAndDistrict": "南投縣魚池鄉",
+      "city": "南投縣",
+      "district": "魚池鄉",
+      "zip": "555",
+      "longitude": "120.9256736",
+      "latitude": "23.87601213"
+    },
+    {
+      "cityAndDistrict": "南投縣信義鄉",
+      "city": "南投縣",
+      "district": "信義鄉",
+      "zip": "556",
+      "longitude": "121.0212867",
+      "latitude": "23.6554647"
+    },
+    {
+      "cityAndDistrict": "南投縣竹山鎮",
+      "city": "南投縣",
+      "district": "竹山鎮",
+      "zip": "557",
+      "longitude": "120.7100797",
+      "latitude": "23.69805518"
+    },
+    {
+      "cityAndDistrict": "南投縣鹿谷鄉",
+      "city": "南投縣",
+      "district": "鹿谷鄉",
+      "zip": "558",
+      "longitude": "120.7815065",
+      "latitude": "23.73776029"
+    },
+    {
+      "cityAndDistrict": "嘉義市西區",
+      "city": "嘉義市",
+      "district": "西區",
+      "zip": "600",
+      "longitude": "120.4248724",
+      "latitude": "23.47915529"
+    },
+    {
+      "cityAndDistrict": "嘉義市東區",
+      "city": "嘉義市",
+      "district": "東區",
+      "zip": "600",
+      "longitude": "120.4706244",
+      "latitude": "23.48170334"
+    },
+    {
+      "cityAndDistrict": "嘉義縣番路鄉",
+      "city": "嘉義縣",
+      "district": "番路鄉",
+      "zip": "602",
+      "longitude": "120.6075335",
+      "latitude": "23.42765669"
+    },
+    {
+      "cityAndDistrict": "嘉義縣梅山鄉",
+      "city": "嘉義縣",
+      "district": "梅山鄉",
+      "zip": "603",
+      "longitude": "120.6387459",
+      "latitude": "23.55535465"
+    },
+    {
+      "cityAndDistrict": "嘉義縣竹崎鄉",
+      "city": "嘉義縣",
+      "district": "竹崎鄉",
+      "zip": "604",
+      "longitude": "120.5965771",
+      "latitude": "23.50376527"
+    },
+    {
+      "cityAndDistrict": "嘉義縣阿里山鄉",
+      "city": "嘉義縣",
+      "district": "阿里山鄉",
+      "zip": "605",
+      "longitude": "120.7596173",
+      "latitude": "23.44077619"
+    },
+    {
+      "cityAndDistrict": "嘉義縣中埔鄉",
+      "city": "嘉義縣",
+      "district": "中埔鄉",
+      "zip": "606",
+      "longitude": "120.5365312",
+      "latitude": "23.40408998"
+    },
+    {
+      "cityAndDistrict": "嘉義縣大埔鄉",
+      "city": "嘉義縣",
+      "district": "大埔鄉",
+      "zip": "607",
+      "longitude": "120.5896466",
+      "latitude": "23.28848426"
+    },
+    {
+      "cityAndDistrict": "嘉義縣水上鄉",
+      "city": "嘉義縣",
+      "district": "水上鄉",
+      "zip": "608",
+      "longitude": "120.4147357",
+      "latitude": "23.42911287"
+    },
+    {
+      "cityAndDistrict": "嘉義縣鹿草鄉",
+      "city": "嘉義縣",
+      "district": "鹿草鄉",
+      "zip": "611",
+      "longitude": "120.3045468",
+      "latitude": "23.40811736"
+    },
+    {
+      "cityAndDistrict": "嘉義縣太保市",
+      "city": "嘉義縣",
+      "district": "太保市",
+      "zip": "612",
+      "longitude": "120.3440009",
+      "latitude": "23.4729191"
+    },
+    {
+      "cityAndDistrict": "嘉義縣朴子市",
+      "city": "嘉義縣",
+      "district": "朴子市",
+      "zip": "613",
+      "longitude": "120.2538977",
+      "latitude": "23.44610605"
+    },
+    {
+      "cityAndDistrict": "嘉義縣東石鄉",
+      "city": "嘉義縣",
+      "district": "東石鄉",
+      "zip": "614",
+      "longitude": "120.1738682",
+      "latitude": "23.46866059"
+    },
+    {
+      "cityAndDistrict": "嘉義縣六腳鄉",
+      "city": "嘉義縣",
+      "district": "六腳鄉",
+      "zip": "615",
+      "longitude": "120.2714728",
+      "latitude": "23.51020984"
+    },
+    {
+      "cityAndDistrict": "嘉義縣新港鄉",
+      "city": "嘉義縣",
+      "district": "新港鄉",
+      "zip": "616",
+      "longitude": "120.3482873",
+      "latitude": "23.54581295"
+    },
+    {
+      "cityAndDistrict": "嘉義縣民雄鄉",
+      "city": "嘉義縣",
+      "district": "民雄鄉",
+      "zip": "621",
+      "longitude": "120.4442798",
+      "latitude": "23.54255347"
+    },
+    {
+      "cityAndDistrict": "嘉義縣大林鎮",
+      "city": "嘉義縣",
+      "district": "大林鎮",
+      "zip": "622",
+      "longitude": "120.4807865",
+      "latitude": "23.59890827"
+    },
+    {
+      "cityAndDistrict": "嘉義縣溪口鄉",
+      "city": "嘉義縣",
+      "district": "溪口鄉",
+      "zip": "623",
+      "longitude": "120.4010282",
+      "latitude": "23.59353089"
+    },
+    {
+      "cityAndDistrict": "嘉義縣義竹鄉",
+      "city": "嘉義縣",
+      "district": "義竹鄉",
+      "zip": "624",
+      "longitude": "120.2239433",
+      "latitude": "23.34575872"
+    },
+    {
+      "cityAndDistrict": "嘉義縣布袋鎮",
+      "city": "嘉義縣",
+      "district": "布袋鎮",
+      "zip": "625",
+      "longitude": "120.1777498",
+      "latitude": "23.37494276"
+    },
+    {
+      "cityAndDistrict": "雲林縣斗南鎮",
+      "city": "雲林縣",
+      "district": "斗南鎮",
+      "zip": "630",
+      "longitude": "120.4826356",
+      "latitude": "23.67066393"
+    },
+    {
+      "cityAndDistrict": "雲林縣大埤鄉",
+      "city": "雲林縣",
+      "district": "大埤鄉",
+      "zip": "631",
+      "longitude": "120.4255592",
+      "latitude": "23.6455971"
+    },
+    {
+      "cityAndDistrict": "雲林縣虎尾鎮",
+      "city": "雲林縣",
+      "district": "虎尾鎮",
+      "zip": "632",
+      "longitude": "120.4293061",
+      "latitude": "23.71661545"
+    },
+    {
+      "cityAndDistrict": "雲林縣土庫鎮",
+      "city": "雲林縣",
+      "district": "土庫鎮",
+      "zip": "633",
+      "longitude": "120.3647252",
+      "latitude": "23.69110665"
+    },
+    {
+      "cityAndDistrict": "雲林縣褒忠鄉",
+      "city": "雲林縣",
+      "district": "褒忠鄉",
+      "zip": "634",
+      "longitude": "120.3116122",
+      "latitude": "23.71613204"
+    },
+    {
+      "cityAndDistrict": "雲林縣東勢鄉",
+      "city": "雲林縣",
+      "district": "東勢鄉",
+      "zip": "635",
+      "longitude": "120.2564173",
+      "latitude": "23.69612324"
+    },
+    {
+      "cityAndDistrict": "雲林縣臺西鄉",
+      "city": "雲林縣",
+      "district": "臺西鄉",
+      "zip": "636",
+      "longitude": "120.2054952",
+      "latitude": "23.71600815"
+    },
+    {
+      "cityAndDistrict": "雲林縣崙背鄉",
+      "city": "雲林縣",
+      "district": "崙背鄉",
+      "zip": "637",
+      "longitude": "120.3339769",
+      "latitude": "23.77849791"
+    },
+    {
+      "cityAndDistrict": "雲林縣麥寮鄉",
+      "city": "雲林縣",
+      "district": "麥寮鄉",
+      "zip": "638",
+      "longitude": "120.243533",
+      "latitude": "23.78817056"
+    },
+    {
+      "cityAndDistrict": "雲林縣斗六市",
+      "city": "雲林縣",
+      "district": "斗六市",
+      "zip": "640",
+      "longitude": "120.5600044",
+      "latitude": "23.70651883"
+    },
+    {
+      "cityAndDistrict": "雲林縣林內鄉",
+      "city": "雲林縣",
+      "district": "林內鄉",
+      "zip": "643",
+      "longitude": "120.6155018",
+      "latitude": "23.7557209"
+    },
+    {
+      "cityAndDistrict": "雲林縣古坑鄉",
+      "city": "雲林縣",
+      "district": "古坑鄉",
+      "zip": "646",
+      "longitude": "120.6117351",
+      "latitude": "23.62545469"
+    },
+    {
+      "cityAndDistrict": "雲林縣莿桐鄉",
+      "city": "雲林縣",
+      "district": "莿桐鄉",
+      "zip": "647",
+      "longitude": "120.5290419",
+      "latitude": "23.76973894"
+    },
+    {
+      "cityAndDistrict": "雲林縣西螺鎮",
+      "city": "雲林縣",
+      "district": "西螺鎮",
+      "zip": "648",
+      "longitude": "120.4580795",
+      "latitude": "23.77942109"
+    },
+    {
+      "cityAndDistrict": "雲林縣二崙鄉",
+      "city": "雲林縣",
+      "district": "二崙鄉",
+      "zip": "649",
+      "longitude": "120.3964598",
+      "latitude": "23.7925521"
+    },
+    {
+      "cityAndDistrict": "雲林縣北港鎮",
+      "city": "雲林縣",
+      "district": "北港鎮",
+      "zip": "651",
+      "longitude": "120.2940164",
+      "latitude": "23.59219528"
+    },
+    {
+      "cityAndDistrict": "雲林縣水林鄉",
+      "city": "雲林縣",
+      "district": "水林鄉",
+      "zip": "652",
+      "longitude": "120.2352734",
+      "latitude": "23.56162849"
+    },
+    {
+      "cityAndDistrict": "雲林縣口湖鄉",
+      "city": "雲林縣",
+      "district": "口湖鄉",
+      "zip": "653",
+      "longitude": "120.1413711",
+      "latitude": "23.55365395"
+    },
+    {
+      "cityAndDistrict": "雲林縣四湖鄉",
+      "city": "雲林縣",
+      "district": "四湖鄉",
+      "zip": "654",
+      "longitude": "120.2064699",
+      "latitude": "23.64206875"
+    },
+    {
+      "cityAndDistrict": "雲林縣元長鄉",
+      "city": "雲林縣",
+      "district": "元長鄉",
+      "zip": "655",
+      "longitude": "120.3279617",
+      "latitude": "23.64243095"
+    },
+    {
+      "cityAndDistrict": "臺南市中西區",
+      "city": "臺南市",
+      "district": "中西區",
+      "zip": "700",
+      "longitude": "120.192874",
+      "latitude": "22.99594458"
+    },
+    {
+      "cityAndDistrict": "臺南市東區",
+      "city": "臺南市",
+      "district": "東區",
+      "zip": "701",
+      "longitude": "120.2281858",
+      "latitude": "22.98178202"
+    },
+    {
+      "cityAndDistrict": "臺南市南區",
+      "city": "臺南市",
+      "district": "南區",
+      "zip": "702",
+      "longitude": "120.1903743",
+      "latitude": "22.95561863"
+    },
+    {
+      "cityAndDistrict": "臺南市北區",
+      "city": "臺南市",
+      "district": "北區",
+      "zip": "704",
+      "longitude": "120.2068735",
+      "latitude": "23.01012179"
+    },
+    {
+      "cityAndDistrict": "臺南市安平區",
+      "city": "臺南市",
+      "district": "安平區",
+      "zip": "708",
+      "longitude": "120.1649949",
+      "latitude": "22.99008437"
+    },
+    {
+      "cityAndDistrict": "臺南市安南區",
+      "city": "臺南市",
+      "district": "安南區",
+      "zip": "709",
+      "longitude": "120.1526189",
+      "latitude": "23.04869681"
+    },
+    {
+      "cityAndDistrict": "臺南市永康區",
+      "city": "臺南市",
+      "district": "永康區",
+      "zip": "710",
+      "longitude": "120.2542795",
+      "latitude": "23.02729532"
+    },
+    {
+      "cityAndDistrict": "臺南市歸仁區",
+      "city": "臺南市",
+      "district": "歸仁區",
+      "zip": "711",
+      "longitude": "120.2930627",
+      "latitude": "22.94679469"
+    },
+    {
+      "cityAndDistrict": "臺南市新化區",
+      "city": "臺南市",
+      "district": "新化區",
+      "zip": "712",
+      "longitude": "120.3357964",
+      "latitude": "23.03394545"
+    },
+    {
+      "cityAndDistrict": "臺南市左鎮區",
+      "city": "臺南市",
+      "district": "左鎮區",
+      "zip": "713",
+      "longitude": "120.4123917",
+      "latitude": "23.02604611"
+    },
+    {
+      "cityAndDistrict": "臺南市玉井區",
+      "city": "臺南市",
+      "district": "玉井區",
+      "zip": "714",
+      "longitude": "120.4609622",
+      "latitude": "23.11480926"
+    },
+    {
+      "cityAndDistrict": "臺南市楠西區",
+      "city": "臺南市",
+      "district": "楠西區",
+      "zip": "715",
+      "longitude": "120.5170304",
+      "latitude": "23.17885854"
+    },
+    {
+      "cityAndDistrict": "臺南市南化區",
+      "city": "臺南市",
+      "district": "南化區",
+      "zip": "716",
+      "longitude": "120.5441223",
+      "latitude": "23.1151111"
+    },
+    {
+      "cityAndDistrict": "臺南市仁德區",
+      "city": "臺南市",
+      "district": "仁德區",
+      "zip": "717",
+      "longitude": "120.2418788",
+      "latitude": "22.94130931"
+    },
+    {
+      "cityAndDistrict": "臺南市關廟區",
+      "city": "臺南市",
+      "district": "關廟區",
+      "zip": "718",
+      "longitude": "120.3342821",
+      "latitude": "22.95577909"
+    },
+    {
+      "cityAndDistrict": "臺南市龍崎區",
+      "city": "臺南市",
+      "district": "龍崎區",
+      "zip": "719",
+      "longitude": "120.3869373",
+      "latitude": "22.95482276"
+    },
+    {
+      "cityAndDistrict": "臺南市官田區",
+      "city": "臺南市",
+      "district": "官田區",
+      "zip": "720",
+      "longitude": "120.3479918",
+      "latitude": "23.19098548"
+    },
+    {
+      "cityAndDistrict": "臺南市麻豆區",
+      "city": "臺南市",
+      "district": "麻豆區",
+      "zip": "721",
+      "longitude": "120.241308",
+      "latitude": "23.18248033"
+    },
+    {
+      "cityAndDistrict": "臺南市佳里區",
+      "city": "臺南市",
+      "district": "佳里區",
+      "zip": "722",
+      "longitude": "120.178593",
+      "latitude": "23.1669941"
+    },
+    {
+      "cityAndDistrict": "臺南市西港區",
+      "city": "臺南市",
+      "district": "西港區",
+      "zip": "723",
+      "longitude": "120.2002309",
+      "latitude": "23.12491893"
+    },
+    {
+      "cityAndDistrict": "臺南市七股區",
+      "city": "臺南市",
+      "district": "七股區",
+      "zip": "724",
+      "longitude": "120.1005854",
+      "latitude": "23.12326578"
+    },
+    {
+      "cityAndDistrict": "臺南市將軍區",
+      "city": "臺南市",
+      "district": "將軍區",
+      "zip": "725",
+      "longitude": "120.1276958",
+      "latitude": "23.20834413"
+    },
+    {
+      "cityAndDistrict": "臺南市學甲區",
+      "city": "臺南市",
+      "district": "學甲區",
+      "zip": "726",
+      "longitude": "120.1841865",
+      "latitude": "23.25219805"
+    },
+    {
+      "cityAndDistrict": "臺南市北門區",
+      "city": "臺南市",
+      "district": "北門區",
+      "zip": "727",
+      "longitude": "120.1262357",
+      "latitude": "23.2777708"
+    },
+    {
+      "cityAndDistrict": "臺南市新營區",
+      "city": "臺南市",
+      "district": "新營區",
+      "zip": "730",
+      "longitude": "120.2954067",
+      "latitude": "23.30152488"
+    },
+    {
+      "cityAndDistrict": "臺南市後壁區",
+      "city": "臺南市",
+      "district": "後壁區",
+      "zip": "731",
+      "longitude": "120.3485081",
+      "latitude": "23.36201478"
+    },
+    {
+      "cityAndDistrict": "臺南市白河區",
+      "city": "臺南市",
+      "district": "白河區",
+      "zip": "732",
+      "longitude": "120.4578565",
+      "latitude": "23.35132068"
+    },
+    {
+      "cityAndDistrict": "臺南市東山區",
+      "city": "臺南市",
+      "district": "東山區",
+      "zip": "733",
+      "longitude": "120.4441211",
+      "latitude": "23.2783187"
+    },
+    {
+      "cityAndDistrict": "臺南市六甲區",
+      "city": "臺南市",
+      "district": "六甲區",
+      "zip": "734",
+      "longitude": "120.3800259",
+      "latitude": "23.2272672"
+    },
+    {
+      "cityAndDistrict": "臺南市下營區",
+      "city": "臺南市",
+      "district": "下營區",
+      "zip": "735",
+      "longitude": "120.26484",
+      "latitude": "23.23103978"
+    },
+    {
+      "cityAndDistrict": "臺南市柳營區",
+      "city": "臺南市",
+      "district": "柳營區",
+      "zip": "736",
+      "longitude": "120.3549205",
+      "latitude": "23.26887001"
+    },
+    {
+      "cityAndDistrict": "臺南市鹽水區",
+      "city": "臺南市",
+      "district": "鹽水區",
+      "zip": "737",
+      "longitude": "120.2482977",
+      "latitude": "23.29798622"
+    },
+    {
+      "cityAndDistrict": "臺南市善化區",
+      "city": "臺南市",
+      "district": "善化區",
+      "zip": "741",
+      "longitude": "120.2988274",
+      "latitude": "23.14031072"
+    },
+    {
+      "cityAndDistrict": "臺南市大內區",
+      "city": "臺南市",
+      "district": "大內區",
+      "zip": "742",
+      "longitude": "120.3988147",
+      "latitude": "23.14482152"
+    },
+    {
+      "cityAndDistrict": "臺南市山上區",
+      "city": "臺南市",
+      "district": "山上區",
+      "zip": "743",
+      "longitude": "120.370977",
+      "latitude": "23.09689329"
+    },
+    {
+      "cityAndDistrict": "臺南市新市區",
+      "city": "臺南市",
+      "district": "新市區",
+      "zip": "744",
+      "longitude": "120.2923941",
+      "latitude": "23.08319496"
+    },
+    {
+      "cityAndDistrict": "臺南市安定區",
+      "city": "臺南市",
+      "district": "安定區",
+      "zip": "745",
+      "longitude": "120.2296235",
+      "latitude": "23.09974927"
+    },
+    {
+      "cityAndDistrict": "高雄市新興區",
+      "city": "高雄市",
+      "district": "新興區",
+      "zip": "800",
+      "longitude": "120.3067337",
+      "latitude": "22.62992906"
+    },
+    {
+      "cityAndDistrict": "高雄市前金區",
+      "city": "高雄市",
+      "district": "前金區",
+      "zip": "801",
+      "longitude": "120.2944217",
+      "latitude": "22.6269905"
+    },
+    {
+      "cityAndDistrict": "高雄市苓雅區",
+      "city": "高雄市",
+      "district": "苓雅區",
+      "zip": "802",
+      "longitude": "120.3209103",
+      "latitude": "22.62359448"
+    },
+    {
+      "cityAndDistrict": "高雄市鹽埕區",
+      "city": "高雄市",
+      "district": "鹽埕區",
+      "zip": "803",
+      "longitude": "120.2842331",
+      "latitude": "22.62424585"
+    },
+    {
+      "cityAndDistrict": "高雄市鼓山區",
+      "city": "高雄市",
+      "district": "鼓山區",
+      "zip": "804",
+      "longitude": "120.274163",
+      "latitude": "22.65019525"
+    },
+    {
+      "cityAndDistrict": "高雄市旗津區",
+      "city": "高雄市",
+      "district": "旗津區",
+      "zip": "805",
+      "longitude": "120.2891539",
+      "latitude": "22.58565583"
+    },
+    {
+      "cityAndDistrict": "高雄市前鎮區",
+      "city": "高雄市",
+      "district": "前鎮區",
+      "zip": "806",
+      "longitude": "120.3146749",
+      "latitude": "22.59269724"
+    },
+    {
+      "cityAndDistrict": "高雄市三民區",
+      "city": "高雄市",
+      "district": "三民區",
+      "zip": "807",
+      "longitude": "120.3179187",
+      "latitude": "22.64989883"
+    },
+    {
+      "cityAndDistrict": "高雄市楠梓區",
+      "city": "高雄市",
+      "district": "楠梓區",
+      "zip": "811",
+      "longitude": "120.300758",
+      "latitude": "22.72109961"
+    },
+    {
+      "cityAndDistrict": "高雄市小港區",
+      "city": "高雄市",
+      "district": "小港區",
+      "zip": "812",
+      "longitude": "120.3592605",
+      "latitude": "22.55140207"
+    },
+    {
+      "cityAndDistrict": "高雄市左營區",
+      "city": "高雄市",
+      "district": "左營區",
+      "zip": "813",
+      "longitude": "120.2951588",
+      "latitude": "22.68395699"
+    },
+    {
+      "cityAndDistrict": "高雄市仁武區",
+      "city": "高雄市",
+      "district": "仁武區",
+      "zip": "814",
+      "longitude": "120.3605265",
+      "latitude": "22.70120782"
+    },
+    {
+      "cityAndDistrict": "高雄市大社區",
+      "city": "高雄市",
+      "district": "大社區",
+      "zip": "815",
+      "longitude": "120.3707994",
+      "latitude": "22.73983479"
+    },
+    {
+      "cityAndDistrict": "南海諸島東沙群島",
+      "city": "南海諸",
+      "district": "島東沙群島",
+      "zip": "817",
+      "longitude": "116.906984",
+      "latitude": "20.705842"
+    },
+    {
+      "cityAndDistrict": "南海諸島南沙群島",
+      "city": "南海諸",
+      "district": "島南沙群島",
+      "zip": "819",
+      "longitude": "115.812406",
+      "latitude": "10.724232"
+    },
+    {
+      "cityAndDistrict": "高雄市岡山區",
+      "city": "高雄市",
+      "district": "岡山區",
+      "zip": "820",
+      "longitude": "120.2978906",
+      "latitude": "22.80505886"
+    },
+    {
+      "cityAndDistrict": "高雄市路竹區",
+      "city": "高雄市",
+      "district": "路竹區",
+      "zip": "821",
+      "longitude": "120.2659871",
+      "latitude": "22.85724171"
+    },
+    {
+      "cityAndDistrict": "高雄市阿蓮區",
+      "city": "高雄市",
+      "district": "阿蓮區",
+      "zip": "822",
+      "longitude": "120.3210967",
+      "latitude": "22.87022883"
+    },
+    {
+      "cityAndDistrict": "高雄市田寮區",
+      "city": "高雄市",
+      "district": "田寮區",
+      "zip": "823",
+      "longitude": "120.3959842",
+      "latitude": "22.86394307"
+    },
+    {
+      "cityAndDistrict": "高雄市燕巢區",
+      "city": "高雄市",
+      "district": "燕巢區",
+      "zip": "824",
+      "longitude": "120.370799",
+      "latitude": "22.78769626"
+    },
+    {
+      "cityAndDistrict": "高雄市橋頭區",
+      "city": "高雄市",
+      "district": "橋頭區",
+      "zip": "825",
+      "longitude": "120.3006534",
+      "latitude": "22.75252398"
+    },
+    {
+      "cityAndDistrict": "高雄市梓官區",
+      "city": "高雄市",
+      "district": "梓官區",
+      "zip": "826",
+      "longitude": "120.2593989",
+      "latitude": "22.748209"
+    },
+    {
+      "cityAndDistrict": "高雄市彌陀區",
+      "city": "高雄市",
+      "district": "彌陀區",
+      "zip": "827",
+      "longitude": "120.2394571",
+      "latitude": "22.77944528"
+    },
+    {
+      "cityAndDistrict": "高雄市永安區",
+      "city": "高雄市",
+      "district": "永安區",
+      "zip": "828",
+      "longitude": "120.228051",
+      "latitude": "22.82224585"
+    },
+    {
+      "cityAndDistrict": "高雄市湖內區",
+      "city": "高雄市",
+      "district": "湖內區",
+      "zip": "829",
+      "longitude": "120.2259375",
+      "latitude": "22.89324952"
+    },
+    {
+      "cityAndDistrict": "高雄市鳳山區",
+      "city": "高雄市",
+      "district": "鳳山區",
+      "zip": "830",
+      "longitude": "120.3554359",
+      "latitude": "22.61379251"
+    },
+    {
+      "cityAndDistrict": "高雄市大寮區",
+      "city": "高雄市",
+      "district": "大寮區",
+      "zip": "831",
+      "longitude": "120.4111468",
+      "latitude": "22.59283576"
+    },
+    {
+      "cityAndDistrict": "高雄市林園區",
+      "city": "高雄市",
+      "district": "林園區",
+      "zip": "832",
+      "longitude": "120.399052",
+      "latitude": "22.50813743"
+    },
+    {
+      "cityAndDistrict": "高雄市鳥松區",
+      "city": "高雄市",
+      "district": "鳥松區",
+      "zip": "833",
+      "longitude": "120.3727783",
+      "latitude": "22.66249302"
+    },
+    {
+      "cityAndDistrict": "高雄市大樹區",
+      "city": "高雄市",
+      "district": "大樹區",
+      "zip": "840",
+      "longitude": "120.425407",
+      "latitude": "22.71100364"
+    },
+    {
+      "cityAndDistrict": "高雄市旗山區",
+      "city": "高雄市",
+      "district": "旗山區",
+      "zip": "842",
+      "longitude": "120.4754554",
+      "latitude": "22.86497033"
+    },
+    {
+      "cityAndDistrict": "高雄市美濃區",
+      "city": "高雄市",
+      "district": "美濃區",
+      "zip": "843",
+      "longitude": "120.5634635",
+      "latitude": "22.90005529"
+    },
+    {
+      "cityAndDistrict": "高雄市六龜區",
+      "city": "高雄市",
+      "district": "六龜區",
+      "zip": "844",
+      "longitude": "120.6585635",
+      "latitude": "23.01195426"
+    },
+    {
+      "cityAndDistrict": "高雄市內門區",
+      "city": "高雄市",
+      "district": "內門區",
+      "zip": "845",
+      "longitude": "120.4719272",
+      "latitude": "22.95668817"
+    },
+    {
+      "cityAndDistrict": "高雄市杉林區",
+      "city": "高雄市",
+      "district": "杉林區",
+      "zip": "846",
+      "longitude": "120.5621971",
+      "latitude": "22.99694681"
+    },
+    {
+      "cityAndDistrict": "高雄市甲仙區",
+      "city": "高雄市",
+      "district": "甲仙區",
+      "zip": "847",
+      "longitude": "120.6232895",
+      "latitude": "23.11654995"
+    },
+    {
+      "cityAndDistrict": "高雄市桃源區",
+      "city": "高雄市",
+      "district": "桃源區",
+      "zip": "848",
+      "longitude": "120.8523383",
+      "latitude": "23.2249459"
+    },
+    {
+      "cityAndDistrict": "高雄市那瑪夏區",
+      "city": "高雄市",
+      "district": "那瑪夏區",
+      "zip": "849",
+      "longitude": "120.741944",
+      "latitude": "23.275008"
+    },
+    {
+      "cityAndDistrict": "高雄市茂林區",
+      "city": "高雄市",
+      "district": "茂林區",
+      "zip": "851",
+      "longitude": "120.752384",
+      "latitude": "22.91993256"
+    },
+    {
+      "cityAndDistrict": "高雄市茄萣區",
+      "city": "高雄市",
+      "district": "茄萣區",
+      "zip": "852",
+      "longitude": "120.1980519",
+      "latitude": "22.88241399"
+    },
+    {
+      "cityAndDistrict": "澎湖縣馬公市",
+      "city": "澎湖縣",
+      "district": "馬公市",
+      "zip": "880",
+      "longitude": "119.59234",
+      "latitude": "23.55534"
+    },
+    {
+      "cityAndDistrict": "澎湖縣西嶼鄉",
+      "city": "澎湖縣",
+      "district": "西嶼鄉",
+      "zip": "881",
+      "longitude": "119.50783",
+      "latitude": "23.59975"
+    },
+    {
+      "cityAndDistrict": "澎湖縣望安鄉",
+      "city": "澎湖縣",
+      "district": "望安鄉",
+      "zip": "882",
+      "longitude": "119.50406",
+      "latitude": "23.36904"
+    },
+    {
+      "cityAndDistrict": "澎湖縣七美鄉",
+      "city": "澎湖縣",
+      "district": "七美鄉",
+      "zip": "883",
+      "longitude": "119.43393",
+      "latitude": "23.20108"
+    },
+    {
+      "cityAndDistrict": "澎湖縣白沙鄉",
+      "city": "澎湖縣",
+      "district": "白沙鄉",
+      "zip": "884",
+      "longitude": "119.59251",
+      "latitude": "23.64178"
+    },
+    {
+      "cityAndDistrict": "澎湖縣湖西鄉",
+      "city": "澎湖縣",
+      "district": "湖西鄉",
+      "zip": "885",
+      "longitude": "119.64462",
+      "latitude": "23.57364"
+    },
+    {
+      "cityAndDistrict": "金門縣金沙鎮",
+      "city": "金門縣",
+      "district": "金沙鎮",
+      "zip": "890",
+      "longitude": "118.40841",
+      "latitude": "24.45865"
+    },
+    {
+      "cityAndDistrict": "金門縣金湖鎮",
+      "city": "金門縣",
+      "district": "金湖鎮",
+      "zip": "891",
+      "longitude": "118.40373",
+      "latitude": "24.41496"
+    },
+    {
+      "cityAndDistrict": "金門縣金寧鄉",
+      "city": "金門縣",
+      "district": "金寧鄉",
+      "zip": "892",
+      "longitude": "118.31705",
+      "latitude": "24.42482"
+    },
+    {
+      "cityAndDistrict": "金門縣金城鎮",
+      "city": "金門縣",
+      "district": "金城鎮",
+      "zip": "893",
+      "longitude": "118.30128",
+      "latitude": "24.38402"
+    },
+    {
+      "cityAndDistrict": "金門縣烈嶼鄉",
+      "city": "金門縣",
+      "district": "烈嶼鄉",
+      "zip": "894",
+      "longitude": "118.22789",
+      "latitude": "24.40166"
+    },
+    {
+      "cityAndDistrict": "金門縣烏坵鄉",
+      "city": "金門縣",
+      "district": "烏坵鄉",
+      "zip": "896",
+      "longitude": "119.452738",
+      "latitude": "24.992338"
+    },
+    {
+      "cityAndDistrict": "屏東縣屏東市",
+      "city": "屏東縣",
+      "district": "屏東市",
+      "zip": "900",
+      "longitude": "120.4799948",
+      "latitude": "22.6647375"
+    },
+    {
+      "cityAndDistrict": "屏東縣三地門鄉",
+      "city": "屏東縣",
+      "district": "三地門鄉",
+      "zip": "901",
+      "longitude": "120.6865219",
+      "latitude": "22.79786847"
+    },
+    {
+      "cityAndDistrict": "屏東縣霧臺鄉",
+      "city": "屏東縣",
+      "district": "霧臺鄉",
+      "zip": "902",
+      "longitude": "120.8008099",
+      "latitude": "22.75990478"
+    },
+    {
+      "cityAndDistrict": "屏東縣瑪家鄉",
+      "city": "屏東縣",
+      "district": "瑪家鄉",
+      "zip": "903",
+      "longitude": "120.6799239",
+      "latitude": "22.67107764"
+    },
+    {
+      "cityAndDistrict": "屏東縣九如鄉",
+      "city": "屏東縣",
+      "district": "九如鄉",
+      "zip": "904",
+      "longitude": "120.4845044",
+      "latitude": "22.7316677"
+    },
+    {
+      "cityAndDistrict": "屏東縣里港鄉",
+      "city": "屏東縣",
+      "district": "里港鄉",
+      "zip": "905",
+      "longitude": "120.5061276",
+      "latitude": "22.79854831"
+    },
+    {
+      "cityAndDistrict": "屏東縣高樹鄉",
+      "city": "屏東縣",
+      "district": "高樹鄉",
+      "zip": "906",
+      "longitude": "120.6017678",
+      "latitude": "22.80992022"
+    },
+    {
+      "cityAndDistrict": "屏東縣鹽埔鄉",
+      "city": "屏東縣",
+      "district": "鹽埔鄉",
+      "zip": "907",
+      "longitude": "120.5693941",
+      "latitude": "22.74253636"
+    },
+    {
+      "cityAndDistrict": "屏東縣長治鄉",
+      "city": "屏東縣",
+      "district": "長治鄉",
+      "zip": "908",
+      "longitude": "120.555979",
+      "latitude": "22.69454952"
+    },
+    {
+      "cityAndDistrict": "屏東縣麟洛鄉",
+      "city": "屏東縣",
+      "district": "麟洛鄉",
+      "zip": "909",
+      "longitude": "120.5299693",
+      "latitude": "22.64876367"
+    },
+    {
+      "cityAndDistrict": "屏東縣竹田鄉",
+      "city": "屏東縣",
+      "district": "竹田鄉",
+      "zip": "911",
+      "longitude": "120.5266379",
+      "latitude": "22.58855636"
+    },
+    {
+      "cityAndDistrict": "屏東縣內埔鄉",
+      "city": "屏東縣",
+      "district": "內埔鄉",
+      "zip": "912",
+      "longitude": "120.5888222",
+      "latitude": "22.65116933"
+    },
+    {
+      "cityAndDistrict": "屏東縣萬丹鄉",
+      "city": "屏東縣",
+      "district": "萬丹鄉",
+      "zip": "913",
+      "longitude": "120.4766188",
+      "latitude": "22.58849547"
+    },
+    {
+      "cityAndDistrict": "屏東縣潮州鎮",
+      "city": "屏東縣",
+      "district": "潮州鎮",
+      "zip": "920",
+      "longitude": "120.5568063",
+      "latitude": "22.53642947"
+    },
+    {
+      "cityAndDistrict": "屏東縣泰武鄉",
+      "city": "屏東縣",
+      "district": "泰武鄉",
+      "zip": "921",
+      "longitude": "120.6917929",
+      "latitude": "22.60408477"
+    },
+    {
+      "cityAndDistrict": "屏東縣來義鄉",
+      "city": "屏東縣",
+      "district": "來義鄉",
+      "zip": "922",
+      "longitude": "120.6857232",
+      "latitude": "22.50157206"
+    },
+    {
+      "cityAndDistrict": "屏東縣萬巒鄉",
+      "city": "屏東縣",
+      "district": "萬巒鄉",
+      "zip": "923",
+      "longitude": "120.601817",
+      "latitude": "22.58233459"
+    },
+    {
+      "cityAndDistrict": "屏東縣崁頂鄉",
+      "city": "屏東縣",
+      "district": "崁頂鄉",
+      "zip": "924",
+      "longitude": "120.5006598",
+      "latitude": "22.51528151"
+    },
+    {
+      "cityAndDistrict": "屏東縣新埤鄉",
+      "city": "屏東縣",
+      "district": "新埤鄉",
+      "zip": "925",
+      "longitude": "120.5846257",
+      "latitude": "22.48676279"
+    },
+    {
+      "cityAndDistrict": "屏東縣南州鄉",
+      "city": "屏東縣",
+      "district": "南州鄉",
+      "zip": "926",
+      "longitude": "120.5180561",
+      "latitude": "22.47980704"
+    },
+    {
+      "cityAndDistrict": "屏東縣林邊鄉",
+      "city": "屏東縣",
+      "district": "林邊鄉",
+      "zip": "927",
+      "longitude": "120.5125095",
+      "latitude": "22.44142101"
+    },
+    {
+      "cityAndDistrict": "屏東縣東港鎮",
+      "city": "屏東縣",
+      "district": "東港鎮",
+      "zip": "928",
+      "longitude": "120.4751333",
+      "latitude": "22.46265635"
+    },
+    {
+      "cityAndDistrict": "屏東縣琉球鄉",
+      "city": "屏東縣",
+      "district": "琉球鄉",
+      "zip": "929",
+      "longitude": "120.3710466",
+      "latitude": "22.34000278"
+    },
+    {
+      "cityAndDistrict": "屏東縣佳冬鄉",
+      "city": "屏東縣",
+      "district": "佳冬鄉",
+      "zip": "931",
+      "longitude": "120.5476124",
+      "latitude": "22.42980624"
+    },
+    {
+      "cityAndDistrict": "屏東縣新園鄉",
+      "city": "屏東縣",
+      "district": "新園鄉",
+      "zip": "932",
+      "longitude": "120.4501429",
+      "latitude": "22.5171903"
+    },
+    {
+      "cityAndDistrict": "屏東縣枋寮鄉",
+      "city": "屏東縣",
+      "district": "枋寮鄉",
+      "zip": "940",
+      "longitude": "120.5975845",
+      "latitude": "22.40334199"
+    },
+    {
+      "cityAndDistrict": "屏東縣枋山鄉",
+      "city": "屏東縣",
+      "district": "枋山鄉",
+      "zip": "941",
+      "longitude": "120.6567673",
+      "latitude": "22.27086962"
+    },
+    {
+      "cityAndDistrict": "屏東縣春日鄉",
+      "city": "屏東縣",
+      "district": "春日鄉",
+      "zip": "942",
+      "longitude": "120.6975799",
+      "latitude": "22.40399754"
+    },
+    {
+      "cityAndDistrict": "屏東縣獅子鄉",
+      "city": "屏東縣",
+      "district": "獅子鄉",
+      "zip": "943",
+      "longitude": "120.7356454",
+      "latitude": "22.26084921"
+    },
+    {
+      "cityAndDistrict": "屏東縣車城鄉",
+      "city": "屏東縣",
+      "district": "車城鄉",
+      "zip": "944",
+      "longitude": "120.7432633",
+      "latitude": "22.07915617"
+    },
+    {
+      "cityAndDistrict": "屏東縣牡丹鄉",
+      "city": "屏東縣",
+      "district": "牡丹鄉",
+      "zip": "945",
+      "longitude": "120.8173609",
+      "latitude": "22.15552859"
+    },
+    {
+      "cityAndDistrict": "屏東縣恆春鎮",
+      "city": "屏東縣",
+      "district": "恆春鎮",
+      "zip": "946",
+      "longitude": "120.7632537",
+      "latitude": "21.98531645"
+    },
+    {
+      "cityAndDistrict": "屏東縣滿州鄉",
+      "city": "屏東縣",
+      "district": "滿州鄉",
+      "zip": "947",
+      "longitude": "120.8435675",
+      "latitude": "22.04930015"
+    },
+    {
+      "cityAndDistrict": "臺東縣臺東市",
+      "city": "臺東縣",
+      "district": "臺東市",
+      "zip": "950",
+      "longitude": "121.1103647",
+      "latitude": "22.75165721"
+    },
+    {
+      "cityAndDistrict": "臺東縣綠島鄉",
+      "city": "臺東縣",
+      "district": "綠島鄉",
+      "zip": "951",
+      "longitude": "121.4901951",
+      "latitude": "22.66017537"
+    },
+    {
+      "cityAndDistrict": "臺東縣蘭嶼鄉",
+      "city": "臺東縣",
+      "district": "蘭嶼鄉",
+      "zip": "952",
+      "longitude": "121.5508328",
+      "latitude": "22.04616835"
+    },
+    {
+      "cityAndDistrict": "臺東縣延平鄉",
+      "city": "臺東縣",
+      "district": "延平鄉",
+      "zip": "953",
+      "longitude": "120.9831902",
+      "latitude": "22.90343174"
+    },
+    {
+      "cityAndDistrict": "臺東縣卑南鄉",
+      "city": "臺東縣",
+      "district": "卑南鄉",
+      "zip": "954",
+      "longitude": "121.0015521",
+      "latitude": "22.76494453"
+    },
+    {
+      "cityAndDistrict": "臺東縣鹿野鄉",
+      "city": "臺東縣",
+      "district": "鹿野鄉",
+      "zip": "955",
+      "longitude": "121.1560376",
+      "latitude": "22.95125666"
+    },
+    {
+      "cityAndDistrict": "臺東縣關山鎮",
+      "city": "臺東縣",
+      "district": "關山鎮",
+      "zip": "956",
+      "longitude": "121.1766197",
+      "latitude": "23.03780684"
+    },
+    {
+      "cityAndDistrict": "臺東縣海端鄉",
+      "city": "臺東縣",
+      "district": "海端鄉",
+      "zip": "957",
+      "longitude": "121.0175672",
+      "latitude": "23.11478528"
+    },
+    {
+      "cityAndDistrict": "臺東縣池上鄉",
+      "city": "臺東縣",
+      "district": "池上鄉",
+      "zip": "958",
+      "longitude": "121.2184501",
+      "latitude": "23.09248714"
+    },
+    {
+      "cityAndDistrict": "臺東縣東河鄉",
+      "city": "臺東縣",
+      "district": "東河鄉",
+      "zip": "959",
+      "longitude": "121.2517917",
+      "latitude": "22.98006921"
+    },
+    {
+      "cityAndDistrict": "臺東縣成功鎮",
+      "city": "臺東縣",
+      "district": "成功鎮",
+      "zip": "961",
+      "longitude": "121.3537983",
+      "latitude": "23.12663716"
+    },
+    {
+      "cityAndDistrict": "臺東縣長濱鄉",
+      "city": "臺東縣",
+      "district": "長濱鄉",
+      "zip": "962",
+      "longitude": "121.4261725",
+      "latitude": "23.33476899"
+    },
+    {
+      "cityAndDistrict": "臺東縣太麻里鄉",
+      "city": "臺東縣",
+      "district": "太麻里鄉",
+      "zip": "963",
+      "longitude": "120.9797643",
+      "latitude": "22.59098082"
+    },
+    {
+      "cityAndDistrict": "臺東縣金峰鄉",
+      "city": "臺東縣",
+      "district": "金峰鄉",
+      "zip": "964",
+      "longitude": "120.8570384",
+      "latitude": "22.58161687"
+    },
+    {
+      "cityAndDistrict": "臺東縣大武鄉",
+      "city": "臺東縣",
+      "district": "大武鄉",
+      "zip": "965",
+      "longitude": "120.8991703",
+      "latitude": "22.38359522"
+    },
+    {
+      "cityAndDistrict": "臺東縣達仁鄉",
+      "city": "臺東縣",
+      "district": "達仁鄉",
+      "zip": "966",
+      "longitude": "120.8355239",
+      "latitude": "22.38430718"
+    },
+    {
+      "cityAndDistrict": "花蓮縣花蓮市",
+      "city": "花蓮縣",
+      "district": "花蓮市",
+      "zip": "970",
+      "longitude": "121.6071463",
+      "latitude": "23.99700271"
+    },
+    {
+      "cityAndDistrict": "花蓮縣新城鄉",
+      "city": "花蓮縣",
+      "district": "新城鄉",
+      "zip": "971",
+      "longitude": "121.6137969",
+      "latitude": "24.05579952"
+    },
+    {
+      "cityAndDistrict": "花蓮縣秀林鄉",
+      "city": "花蓮縣",
+      "district": "秀林鄉",
+      "zip": "972",
+      "longitude": "121.4807194",
+      "latitude": "24.12374414"
+    },
+    {
+      "cityAndDistrict": "花蓮縣吉安鄉",
+      "city": "花蓮縣",
+      "district": "吉安鄉",
+      "zip": "973",
+      "longitude": "121.5646738",
+      "latitude": "23.95546585"
+    },
+    {
+      "cityAndDistrict": "花蓮縣壽豐鄉",
+      "city": "花蓮縣",
+      "district": "壽豐鄉",
+      "zip": "974",
+      "longitude": "121.5341569",
+      "latitude": "23.84459714"
+    },
+    {
+      "cityAndDistrict": "花蓮縣鳳林鎮",
+      "city": "花蓮縣",
+      "district": "鳳林鎮",
+      "zip": "975",
+      "longitude": "121.4698848",
+      "latitude": "23.74324462"
+    },
+    {
+      "cityAndDistrict": "花蓮縣光復鄉",
+      "city": "花蓮縣",
+      "district": "光復鄉",
+      "zip": "976",
+      "longitude": "121.4351231",
+      "latitude": "23.64658742"
+    },
+    {
+      "cityAndDistrict": "花蓮縣豐濱鄉",
+      "city": "花蓮縣",
+      "district": "豐濱鄉",
+      "zip": "977",
+      "longitude": "121.4942331",
+      "latitude": "23.58519428"
+    },
+    {
+      "cityAndDistrict": "花蓮縣瑞穗鄉",
+      "city": "花蓮縣",
+      "district": "瑞穗鄉",
+      "zip": "978",
+      "longitude": "121.4073472",
+      "latitude": "23.5156124"
+    },
+    {
+      "cityAndDistrict": "花蓮縣萬榮鄉",
+      "city": "花蓮縣",
+      "district": "萬榮鄉",
+      "zip": "979",
+      "longitude": "121.3189531",
+      "latitude": "23.72772629"
+    },
+    {
+      "cityAndDistrict": "花蓮縣玉里鎮",
+      "city": "花蓮縣",
+      "district": "玉里鎮",
+      "zip": "981",
+      "longitude": "121.3604476",
+      "latitude": "23.37143588"
+    },
+    {
+      "cityAndDistrict": "花蓮縣卓溪鄉",
+      "city": "花蓮縣",
+      "district": "卓溪鄉",
+      "zip": "982",
+      "longitude": "121.1804222",
+      "latitude": "23.39062875"
+    },
+    {
+      "cityAndDistrict": "花蓮縣富里鄉",
+      "city": "花蓮縣",
+      "district": "富里鄉",
+      "zip": "983",
+      "longitude": "121.2980494",
+      "latitude": "23.19672092"
+    }
+  ]
+}
