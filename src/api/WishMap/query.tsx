@@ -15,6 +15,7 @@ export const getProductsQuery = gql`
           }
           publishedAt
           updatedAt
+          tags
         }
       }
     }
