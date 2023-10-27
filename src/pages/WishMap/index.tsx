@@ -211,15 +211,12 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
           longitude: project.longitude,
         }}
         onPress={() => handleMarkerPress(project)}
-      >
-        <Image
-          source={
-            project.id === selectedMarkerId
-              ? ImageProvider.WishMap.MapMarkSelectedIcon
-              : ImageProvider.WishMap.MapMarkIcon
-          }
-        />
-      </Marker>
+        icon={
+          project.id === selectedMarkerId
+            ? require('assets/images/wishmap/StarMark_selected.png')
+            : require('assets/images/wishmap/StarMark.png')
+        }
+      />
     ));
   };
 
