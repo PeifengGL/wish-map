@@ -24,7 +24,10 @@ const randomCoordinate = (latitude: string, longitude: string) => {
 };
 
 const coordinates = Localization.coordinates;
-const fakeData = 368;
+const randomCoordinates = coordinates.filter(() => {
+  return Math.random() >= 0.5;
+});
+const fakeData = randomCoordinates.length;
 
 export const getProducts = async () => {
   try {
@@ -36,7 +39,7 @@ export const getProducts = async () => {
       (product: any, index: number) => {
         const projectDataArray = [];
         for (let i = 0; i < LEN; i++) {
-          const coordinate = coordinates[LEN * index + i];
+          const coordinate = randomCoordinates[LEN * index + i];
           const coordinateOffset = randomCoordinate(
             coordinate.latitude,
             coordinate.longitude,
