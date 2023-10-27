@@ -10,6 +10,7 @@ import {
   ScrollView,
   TextInput,
   Dimensions,
+  StatusBar,
 } from 'react-native';
 import { RootStackParamList } from 'types/router';
 import FocusAwareStatusBar from 'util/StatusBarAdapter';
@@ -23,7 +24,7 @@ import DataShareService from 'service';
 import { Subscription } from 'rxjs';
 import PrivacyContent, { PrivacyHeader } from 'components/PrivacyContent';
 import { UserProfileType } from 'types/profile';
-import VolunteerToJotform from 'api/Jotform';
+import { VolunteerApplyToJotform } from 'api/Jotform';
 import Styles from './index.style';
 
 type PageRouterProps = {
@@ -32,7 +33,8 @@ type PageRouterProps = {
 };
 
 export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
-  const dimensionsHeight = Dimensions.get('window').height;
+  const dimensionsHeight =
+    Dimensions.get('window').height - StatusBar.currentHeight;
   const [gender, setGender] = useState<'男' | '女' | ''>('');
   const [date, setDate] = useState<Date>(new Date());
   const [birthLabel, setBirthLabel] = useState<string>('- 年 - 月 - 日');
@@ -197,6 +199,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
         );
       }
     }
+    formData.append('submission[21]', 'Accepted');
 
     const volunteerApplyData = {
       userId: userProfile?.userUID,
@@ -228,7 +231,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
     };
 
     setIsLoading(true);
-    VolunteerToJotform(formData);
+    VolunteerApplyToJotform(formData);
     await DataShareService.sendVolunteerApply(volunteerApplyData).finally(() =>
       setIsLoading(false),
     );
