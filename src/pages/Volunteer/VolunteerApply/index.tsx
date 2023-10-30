@@ -1019,6 +1019,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
             locale="zh-TW"
             androidVariant="nativeAndroid"
             fadeToColor="#0057B8"
+            textColor="#000000"
           />
         </View>
       </Modalize>
