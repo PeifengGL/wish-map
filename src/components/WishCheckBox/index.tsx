@@ -16,12 +16,12 @@ interface CheckboxProps {
   onValueChange?: (isChecked: boolean) => void;
 }
 
-const CheckboxComponent: React.FC<CheckboxProps> = ({
+const CheckboxComponent = ({
   tintColors,
   value,
   size = 22,
   onValueChange,
-}) => {
+}: CheckboxProps) => {
   const [isChecked, setChecked] = useState(value || false);
   const scaleValue = useRef(new Animated.Value(1)).current;
 

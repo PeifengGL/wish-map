@@ -8,10 +8,10 @@ interface ResetPasswordProps {
   handleResetPassword: () => void;
 }
 
-const ResetPassword: React.FC<ResetPasswordProps> = ({
+const ResetPassword = ({
   handleBackToLogin,
   handleResetPassword,
-}) => {
+}: ResetPasswordProps) => {
   const [newPassword, setNewPassword] = useState('');
   const [isNewPasswordEmpty, setIsNewPasswordEmpty] = useState(true);
   const [isNewPasswordFocused, setIsNewPasswordFocused] = useState(false);
