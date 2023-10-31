@@ -105,10 +105,6 @@ const Styles = StyleSheet.create({
   volunteerTypeSelectionContainer: { marginRight: 6 },
   volunteerTypeTitle: { fontSize: 14, color: '#2D2D2D' },
   volunteerTypeContent: { fontSize: 12, marginLeft: 30, color: '#4B4B4B' },
-  checkBox: {
-    flex: 1,
-    height: 20,
-  },
   volunteerServiceTimeContainer: {
     flexDirection: 'row',
     borderColor: '#0057B880',
