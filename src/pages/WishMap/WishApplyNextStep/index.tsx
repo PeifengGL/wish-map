@@ -17,7 +17,7 @@ import {
 import { RootStackParamList } from 'types/router';
 import FocusAwareStatusBar from 'util/StatusBarAdapter';
 import ImageProvider from 'assets';
-import CheckBox from '@react-native-community/checkbox';
+import WishCheckBox from '@components/WishCheckBox/index';
 import { Portal } from 'react-native-portalize';
 import { Modalize } from 'react-native-modalize';
 import DatePicker from 'react-native-date-picker';
@@ -517,7 +517,7 @@ export default function WishApplyNextStepPage({
               <View>
                 <View style={Styles.otherBlockContainer}>
                   <View style={Styles.otherRowContainer}>
-                    <CheckBox
+                    <WishCheckBox
                       tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                       value={howToKnowMakeWish.includes('病友')}
                       onValueChange={() => {
@@ -533,7 +533,7 @@ export default function WishApplyNextStepPage({
                     <Text style={Styles.otherRowCheckBoxText}>病友</Text>
                   </View>
                   <View style={Styles.otherRowContainer}>
-                    <CheckBox
+                    <WishCheckBox
                       tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                       value={howToKnowMakeWish.includes('醫護')}
                       onValueChange={() => {
@@ -552,7 +552,7 @@ export default function WishApplyNextStepPage({
 
                 <View style={Styles.otherBlockContainer2}>
                   <View style={Styles.otherRowContainer}>
-                    <CheckBox
+                    <WishCheckBox
                       tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                       value={howToKnowMakeWish.includes('網路')}
                       onValueChange={() => {
@@ -568,7 +568,7 @@ export default function WishApplyNextStepPage({
                     <Text style={Styles.otherRowCheckBoxText}>網路</Text>
                   </View>
                   <View style={Styles.otherRowContainer}>
-                    <CheckBox
+                    <WishCheckBox
                       tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                       value={howToKnowMakeWish.includes('其他')}
                       onValueChange={() => {
@@ -592,7 +592,7 @@ export default function WishApplyNextStepPage({
                 <Text style={Styles.fieldHeaderRequiredText}>(必填)</Text>
               </View>
               <View style={Styles.otherRowContainer}>
-                <CheckBox
+                <WishCheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={isAgreePrivacy}
                   onValueChange={() => {

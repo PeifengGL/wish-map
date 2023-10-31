@@ -16,7 +16,7 @@ import { RootStackParamList } from 'types/router';
 import FocusAwareStatusBar from 'util/StatusBarAdapter';
 import ImageProvider from 'assets';
 import { RadioButton } from 'react-native-paper';
-import CheckBox from '@react-native-community/checkbox';
+import WishCheckBox from '@components/WishCheckBox/index';
 import { Modalize } from 'react-native-modalize';
 import DatePicker from 'react-native-date-picker';
 import LoadingModal from 'components/LoadingModal';
@@ -473,7 +473,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
             <View>
               <View style={Styles.selectionContainer}>
                 <View style={Styles.volunteerTypeSelectionContainer}>
-                  <CheckBox
+                  <WishCheckBox
                     tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                     value={volunteerTypes.includes(
                       '個案志工：需通過志工訓練，可配合進行院訪、家訪工作',
@@ -494,7 +494,6 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                             '個案志工：需通過志工訓練，可配合進行院訪、家訪工作',
                           ]);
                     }}
-                    style={Styles.checkBox}
                   />
                 </View>
 
@@ -508,7 +507,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
             <View>
               <View style={Styles.selectionContainer}>
                 <View style={Styles.volunteerTypeSelectionContainer}>
-                  <CheckBox
+                  <WishCheckBox
                     tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                     value={volunteerTypes.includes(
                       '活動志工：協助各項活動之進行',
@@ -525,7 +524,6 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                             '活動志工：協助各項活動之進行',
                           ]);
                     }}
-                    style={Styles.checkBox}
                   />
                 </View>
                 <Text style={Styles.volunteerTypeTitle}>活動志工</Text>
@@ -538,7 +536,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
             <View>
               <View style={Styles.selectionContainer}>
                 <View style={Styles.volunteerTypeSelectionContainer}>
-                  <CheckBox
+                  <WishCheckBox
                     tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                     value={volunteerTypes.includes(
                       '會務志工：協助辦公室各項事務性工作之進行',
@@ -559,7 +557,6 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                             '會務志工：協助辦公室各項事務性工作之進行',
                           ]);
                     }}
-                    style={Styles.checkBox}
                   />
                 </View>
 
@@ -600,7 +597,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               </View>
 
               <View style={Styles.volunteerServiceTimeBlockContainer}>
-                <CheckBox
+                <WishCheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['1A'] === 1}
                   onValueChange={() => {
@@ -614,12 +611,11 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '1A': 1,
                         });
                   }}
-                  style={Styles.checkBox}
                 />
               </View>
 
               <View style={Styles.volunteerServiceTimeBlockContainer}>
-                <CheckBox
+                <WishCheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['1P'] === 1}
                   onValueChange={() => {
@@ -633,7 +629,6 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '1P': 1,
                         });
                   }}
-                  style={Styles.checkBox}
                 />
               </View>
             </View>
@@ -644,7 +639,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               </View>
 
               <View style={Styles.volunteerServiceTimeBlockContainer}>
-                <CheckBox
+                <WishCheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['2A'] === 1}
                   onValueChange={() => {
@@ -658,11 +653,10 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '2A': 1,
                         });
                   }}
-                  style={Styles.checkBox}
                 />
               </View>
               <View style={Styles.volunteerServiceTimeBlockContainer}>
-                <CheckBox
+                <WishCheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['2P'] === 1}
                   onValueChange={() => {
@@ -676,7 +670,6 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '2P': 1,
                         });
                   }}
-                  style={Styles.checkBox}
                 />
               </View>
             </View>
@@ -687,7 +680,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               </View>
 
               <View style={Styles.volunteerServiceTimeBlockContainer}>
-                <CheckBox
+                <WishCheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['3A'] === 1}
                   onValueChange={() => {
@@ -701,11 +694,10 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '3A': 1,
                         });
                   }}
-                  style={Styles.checkBox}
                 />
               </View>
               <View style={Styles.volunteerServiceTimeBlockContainer}>
-                <CheckBox
+                <WishCheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['3P'] === 1}
                   onValueChange={() => {
@@ -719,7 +711,6 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '3P': 1,
                         });
                   }}
-                  style={Styles.checkBox}
                 />
               </View>
             </View>
@@ -730,7 +721,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               </View>
 
               <View style={Styles.volunteerServiceTimeBlockContainer}>
-                <CheckBox
+                <WishCheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['4A'] === 1}
                   onValueChange={() => {
@@ -744,11 +735,10 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '4A': 1,
                         });
                   }}
-                  style={Styles.checkBox}
                 />
               </View>
               <View style={Styles.volunteerServiceTimeBlockContainer}>
-                <CheckBox
+                <WishCheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['4P'] === 1}
                   onValueChange={() => {
@@ -762,7 +752,6 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '4P': 1,
                         });
                   }}
-                  style={Styles.checkBox}
                 />
               </View>
             </View>
@@ -773,7 +762,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               </View>
 
               <View style={Styles.volunteerServiceTimeBlockContainer}>
-                <CheckBox
+                <WishCheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['5A'] === 1}
                   onValueChange={() => {
@@ -787,11 +776,10 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '5A': 1,
                         });
                   }}
-                  style={Styles.checkBox}
                 />
               </View>
               <View style={Styles.volunteerServiceTimeBlockContainer}>
-                <CheckBox
+                <WishCheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['5P'] === 1}
                   onValueChange={() => {
@@ -805,7 +793,6 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '5P': 1,
                         });
                   }}
-                  style={Styles.checkBox}
                 />
               </View>
             </View>
@@ -816,7 +803,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               </View>
 
               <View style={Styles.volunteerServiceTimeBlockContainer}>
-                <CheckBox
+                <WishCheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['6A'] === 1}
                   onValueChange={() => {
@@ -830,11 +817,10 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '6A': 1,
                         });
                   }}
-                  style={Styles.checkBox}
                 />
               </View>
               <View style={Styles.volunteerServiceTimeBlockContainer}>
-                <CheckBox
+                <WishCheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['6P'] === 1}
                   onValueChange={() => {
@@ -848,7 +834,6 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '6P': 1,
                         });
                   }}
-                  style={Styles.checkBox}
                 />
               </View>
             </View>
@@ -859,7 +844,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
               </View>
 
               <View style={Styles.volunteerServiceTimeBlockContainer}>
-                <CheckBox
+                <WishCheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['7A'] === 1}
                   onValueChange={() => {
@@ -873,12 +858,11 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '7A': 1,
                         });
                   }}
-                  style={Styles.checkBox}
                 />
               </View>
 
               <View style={Styles.volunteerServiceTimeBlockContainer}>
-                <CheckBox
+                <WishCheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={volunteerServiceTime['7P'] === 1}
                   onValueChange={() => {
@@ -892,7 +876,6 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
                           '7P': 1,
                         });
                   }}
-                  style={Styles.checkBox}
                 />
               </View>
             </View>
@@ -909,13 +892,12 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
 
             <View style={Styles.selectionContainer}>
               <View>
-                <CheckBox
+                <WishCheckBox
                   tintColors={{ true: '#00BAB3', false: '#00BAB3' }}
                   value={isAgreePrivacy}
                   onValueChange={() => {
                     setIsAgreePrivacy(!isAgreePrivacy);
                   }}
-                  style={Styles.checkBox}
                 />
               </View>
 
