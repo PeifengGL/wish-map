@@ -34,7 +34,9 @@ type PageRouterProps = {
 
 export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
   const dimensionsHeight =
-    Dimensions.get('window').height - StatusBar.currentHeight;
+    StatusBar.currentHeight !== undefined
+      ? Dimensions.get('window').height - StatusBar.currentHeight
+      : Dimensions.get('window').height;
   const [gender, setGender] = useState<'男' | '女' | ''>('');
   const [date, setDate] = useState<Date>(new Date());
   const [birthLabel, setBirthLabel] = useState<string>('- 年 - 月 - 日');

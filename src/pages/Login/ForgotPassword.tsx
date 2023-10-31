@@ -10,10 +10,10 @@ interface ForgotPassword {
   handleSendEmail: () => void;
 }
 
-const ForgotPassword: React.FC<ForgotPassword> = ({
+const ForgotPassword = ({
   handleBackToLogin,
   handleSendEmail,
-}) => {
+}: ForgotPassword) => {
   const [email, setEmail] = useState('');
   const [isEmailEmpty, setIsEmailEmpty] = useState(true);
   const [isEmailFocused, setIsEmailFocused] = useState(false);
