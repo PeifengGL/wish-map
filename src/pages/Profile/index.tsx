@@ -67,8 +67,6 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
   const maxOffset =
     (Dimensions.get('window').height + statusBarHeight!) * 0.35 * 0.3;
 
-  const scrollOffset = useRef(0);
-
   const [donateData, setDonateData] = useState<any[]>([]);
   const scrollRef = useRef<ScrollView>(null);
 
@@ -120,7 +118,8 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
           if (token && typeof token === 'string') {
             setIsFetching(true);
             getCustomerOrders(token, '').then(orders => {
-              setDonateData(orders.nodes);
+              const originalArray = orders.nodes;
+              setDonateData(originalArray);
               if (orders.pageInfo.hasNextPage) {
                 setIsDataEnd(false);
                 setEndCursor(orders.pageInfo.endCursor);
@@ -183,15 +182,25 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
     return phoneNumber;
   };
 
+  const [currentScrollY, setCurrentScrollY] = useState(0);
+  const handleScrollEnd = (event: any) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+    const currentOffset = event.nativeEvent.contentOffset.y;
+    if (currentOffset - currentScrollY > 10) {
+      const tmpOffset = currentOffset > maxOffset ? maxOffset : currentOffset;
+      setImageHeight(maxImageHeight - tmpOffset * 0.8);
+    } else if (currentOffset - currentScrollY < -5 && currentOffset < 5) {
+      setImageHeight(maxImageHeight);
+    }
+    setCurrentScrollY(currentOffset);
+  };
+
   const handleScroll = (event: any) => {
     const currentOffset = event.nativeEvent.contentOffset.y;
+
     if (currentOffset < maxOffset) {
-      setImageHeight(maxImageHeight - currentOffset * 0.8);
       setScrollingPosition(currentOffset);
     }
-
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
-    scrollOffset.current = currentOffset;
 
     if (isFetching || isDataEnd) {
       return;
@@ -354,6 +363,8 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
       {userProfile?.userType === 'member' ? (
         <ScrollView
           onScroll={handleScroll}
+          onMomentumScrollEnd={handleScrollEnd}
+          scrollEventThrottle={16}
           style={[
             Styles.profileInfoBlock,
             { marginTop: projectInfoHeight - 20 },
