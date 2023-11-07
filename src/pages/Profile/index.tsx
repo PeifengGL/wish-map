@@ -188,10 +188,11 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
     setCurrentScrollY(currentOffset);
   };
 
+  // 增加上滑下滑以及偏移量判斷，減少 Layout configure call 的次數
   const handleScroll = (event: any) => {
+
     const currentOffset = event.nativeEvent.contentOffset.y;
 
-    // 做兩種模式，但是從這邊做開關，一過就動state，然後開animation 動到位置
     if (currentOffset - currentScrollY > 10 && currentOffset < maxOffset) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
       console.log('down');
@@ -204,22 +205,23 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
       setImageHeight(maxImageHeight);
       setCurrentScrollY(currentOffset);
     }
-
+    
     if (currentOffset < maxOffset) {
       setScrollingPosition(currentOffset);
     }
-
+    
     if (isFetching || isDataEnd) {
       return;
     }
     const { layoutMeasurement, contentSize, contentOffset } = event.nativeEvent;
     const isCloseToBottom =
-      layoutMeasurement.height + contentOffset.y >= contentSize.height - 10;
+    layoutMeasurement.height + contentOffset.y >= contentSize.height - 10;
     if (isCloseToBottom) {
       setIsFetching(true);
     }
   };
-
+  // 做兩種模式，但是從這邊做開關，一過就動state，然後開animation 動到位置
+  
   const startClick = () => {
     rootNavigation.navigate('WishMap', {});
   };
