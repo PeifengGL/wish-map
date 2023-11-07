@@ -184,19 +184,26 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
 
   const [currentScrollY, setCurrentScrollY] = useState(0);
   const handleScrollEnd = (event: any) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     const currentOffset = event.nativeEvent.contentOffset.y;
-    if (currentOffset - currentScrollY > 10) {
-      const tmpOffset = currentOffset > maxOffset ? maxOffset : currentOffset;
-      setImageHeight(maxImageHeight - tmpOffset * 0.8);
-    } else if (currentOffset - currentScrollY < -5 && currentOffset < 5) {
-      setImageHeight(maxImageHeight);
-    }
     setCurrentScrollY(currentOffset);
   };
 
   const handleScroll = (event: any) => {
     const currentOffset = event.nativeEvent.contentOffset.y;
+
+    // 做兩種模式，但是從這邊做開關，一過就動state，然後開animation 動到位置
+    if (currentOffset - currentScrollY > 10 && currentOffset < maxOffset) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+      console.log('down');
+      const tmpOffset = currentOffset > maxOffset ? maxOffset : currentOffset;
+      setImageHeight(maxImageHeight - tmpOffset * 0.8);
+      setCurrentScrollY(currentOffset);
+    } else if (currentOffset - currentScrollY < -5 && currentOffset < 5) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+      console.log('up');
+      setImageHeight(maxImageHeight);
+      setCurrentScrollY(currentOffset);
+    }
 
     if (currentOffset < maxOffset) {
       setScrollingPosition(currentOffset);
@@ -362,15 +369,16 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
 
       {userProfile?.userType === 'member' ? (
         <ScrollView
+          ref={scrollRef}
           onScroll={handleScroll}
           onMomentumScrollEnd={handleScrollEnd}
           scrollEventThrottle={16}
           style={[
             Styles.profileInfoBlock,
-            { marginTop: projectInfoHeight - 20 },
+            { marginTop: projectInfoHeight - 20,
+            height: 100 },
           ]}
           decelerationRate={0.2}
-          ref={scrollRef}
         >
           <View style={Styles.infoBlock}>
             <View style={Styles.infoArea}>
@@ -430,6 +438,7 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
         </ScrollView>
       ) : (
         <ScrollView
+          ref={scrollRef}
           onScroll={handleScroll}
           style={[
             Styles.noDonateRecordBlock,
