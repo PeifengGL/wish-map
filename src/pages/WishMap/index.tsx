@@ -113,7 +113,7 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
     }
 
     if (!permission) {
-      return false; // Handle the case where the platform is neither Android nor iOS
+      return false;
     }
 
     const granted = await request(permission, {
@@ -143,47 +143,6 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
 
     return granted === RESULTS.GRANTED;
   };
-  // const requestUserLocationPermission = async () => {
-  //   try {
-  //     const granted = await PermissionsAndroid.request(
-  //       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-  //       {
-  //         title: '喜願Wish Map App',
-  //         message:
-  //           '喜願Wish Map App 需要取得您的定位權限' +
-  //           '您可以在地圖上顯示您的位置',
-  //         buttonNeutral: '稍後再試',
-  //         buttonNegative: '取消',
-  //         buttonPositive: '允許',
-  //       },
-  //     );
-  //     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-  // setIsModalVisible(false);
-  // setSelectedMarkerId(-1);
-  // Geolocation.getCurrentPosition(
-  //   position => {
-  //     const { latitude, longitude } = position.coords;
-  //     mapRef.current?.animateToRegion({
-  //       latitude,
-  //       longitude,
-  //       latitudeDelta: 0.03,
-  //       longitudeDelta: 0.03,
-  //     });
-  //   },
-  //   error => {
-  //     console.log(error);
-  //   },
-  //   {
-  //     enableHighAccuracy: true,
-  //   },
-  // );
-  //     } else {
-  //       console.log('Location permission denied');
-  //     }
-  //   } catch (err) {
-  //     console.warn(err);
-  //   }
-  // };
 
   const handleMarkerPress = (project: any) => {
     setSelectedMarkerId(project.id);

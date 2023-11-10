@@ -1,13 +1,11 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FilterMethodType } from 'types/wishMap';
 import { ProjectsDataType } from 'shared/project.data';
-// import { IdentityType } from 'types/router';
 import { UserProfileType } from 'types/profile';
 
 class DataService {
   private text$ = new BehaviorSubject<string>('');
   private loginStatus$ = new BehaviorSubject<boolean>(false);
-  // private identityType$ = new BehaviorSubject<IdentityType>('member');
   private countNumber$ = new BehaviorSubject<number>(0);
   private filterMethod = new BehaviorSubject<FilterMethodType>({
     filterKeywordMethod: '',
