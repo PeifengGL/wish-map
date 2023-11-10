@@ -4,7 +4,6 @@ import {
   Animated,
   Dimensions,
   Image,
-  LayoutAnimation,
   ScrollView,
   StatusBar,
   Text,
@@ -50,24 +49,13 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
     userType: 'guest',
     userPassword: '',
   });
-  const [scrollingPosition, setScrollingPosition] = useState(0);
   const [projectInfoHeight, setProjectInfoHeight] = useState(0);
-  const [imageHeight, setImageHeight] = useState(
-    (Dimensions.get('window').height + statusBarHeight!) * 0.35,
-  );
 
   const rootNavigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const settingNavigation =
     useNavigation<NativeStackNavigationProp<SettingStackParamList>>();
-  const dimensionsWidth = 360 * (Dimensions.get('window').width / 360);
-  const maxImageHeight =
-    (Dimensions.get('window').height + statusBarHeight!) * 0.35;
-  const maxOffset =
-    (Dimensions.get('window').height + statusBarHeight!) * 0.35 * 0.3;
-
-  const scrollOffset = useRef(0);
 
   const [donateData, setDonateData] = useState<any[]>([]);
   const scrollRef = useRef<ScrollView>(null);
@@ -183,27 +171,6 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
     return phoneNumber;
   };
 
-  const handleScroll = (event: any) => {
-    const currentOffset = event.nativeEvent.contentOffset.y;
-    if (currentOffset < maxOffset) {
-      setImageHeight(maxImageHeight - currentOffset * 0.8);
-      setScrollingPosition(currentOffset);
-    }
-
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
-    scrollOffset.current = currentOffset;
-
-    if (isFetching || isDataEnd) {
-      return;
-    }
-    const { layoutMeasurement, contentSize, contentOffset } = event.nativeEvent;
-    const isCloseToBottom =
-      layoutMeasurement.height + contentOffset.y >= contentSize.height - 10;
-    if (isCloseToBottom) {
-      setIsFetching(true);
-    }
-  };
-
   const startClick = () => {
     rootNavigation.navigate('WishMap', {});
   };
@@ -271,6 +238,34 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
     rootNavigation.navigate('WishMap', {});
   };
 
+  const [scrollY] = useState(new Animated.Value(0));
+  const { width } = Dimensions.get('window');
+  const imageWidth = width;
+
+  const widthAspectRatio = width / 360;
+  const originalImageHeight = 240 * widthAspectRatio;
+  const zoonHeight = originalImageHeight * 0.8;
+
+  const imageHeight = scrollY.interpolate({
+    inputRange: [0, 100],
+    outputRange: [originalImageHeight, zoonHeight],
+    extrapolate: 'clamp',
+  });
+
+  const imageMarginTop = scrollY.interpolate({
+    inputRange: [0, 100],
+    outputRange: [originalImageHeight - 20, zoonHeight - 20],
+    extrapolate: 'clamp',
+  });
+
+  const [isAtTop, setIsAtTop] = useState(true);
+
+  const handleScroll = (event: any) => {
+    const offsetY = event.nativeEvent.contentOffset.y;
+    scrollY.setValue(offsetY - 10);
+    setIsAtTop(offsetY < 2);
+  };
+
   return (
     <View style={Styles.container}>
       <FocusAwareStatusBar
@@ -287,24 +282,22 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
       >
         <Image source={ImageProvider.Profile.OpenSettingIcon} />
       </TouchableOpacity>
-      <Image
-        style={[
-          Styles.donateDetailImage,
-          { width: dimensionsWidth, height: imageHeight, resizeMode: 'cover' },
-        ]}
+      <Animated.Image
         source={ImageProvider.Profile.ProfileBG}
+        style={{
+          width: imageWidth,
+          height: imageHeight,
+          resizeMode: 'cover',
+        }}
       />
-      <View
+      <Animated.View
         onLayout={event => {
           const { height } = event.nativeEvent.layout;
           setProjectInfoHeight(height);
         }}
         style={[
-          [
-            Styles.donateDetailInfoBlock,
-            { width: dimensionsWidth, top: imageHeight - 20 },
-          ],
-          scrollingPosition > 0
+          [Styles.donateDetailInfoBlock, { width: width, top: imageMarginTop }],
+          !isAtTop
             ? Styles.donateDetailInfoBlockUnScrolling
             : Styles.donateDetailInfoBlockIsScrolling,
         ]}
@@ -349,17 +342,23 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
             </TouchableOpacity>
           )}
         </View>
-      </View>
+      </Animated.View>
 
       {userProfile?.userType === 'member' ? (
         <ScrollView
-          onScroll={handleScroll}
           style={[
             Styles.profileInfoBlock,
             { marginTop: projectInfoHeight - 20 },
           ]}
-          decelerationRate={0.2}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+            { useNativeDriver: false, listener: handleScroll },
+          )}
           ref={scrollRef}
+          showsVerticalScrollIndicator={false}
+          scrollEventThrottle={100}
+          decelerationRate={64}
+          bounces={false}
         >
           <View style={Styles.infoBlock}>
             <View style={Styles.infoArea}>
@@ -419,12 +418,19 @@ export default function ProfilePage({ navigation }: PageRouterProps) {
         </ScrollView>
       ) : (
         <ScrollView
-          onScroll={handleScroll}
           style={[
             Styles.noDonateRecordBlock,
             { marginTop: projectInfoHeight - 20 },
           ]}
-          decelerationRate={0.2}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+            { useNativeDriver: false, listener: handleScroll },
+          )}
+          ref={scrollRef}
+          showsVerticalScrollIndicator={false}
+          scrollEventThrottle={100}
+          decelerationRate={64}
+          bounces={false}
         >
           <View style={[Styles.separator, { marginTop: 0 }]} />
           <Text style={Styles.donateRecordTitle}>捐款紀錄</Text>
