@@ -42,7 +42,7 @@ export default function VolunteerPage({ route, navigation }: PageRouterProps) {
             }
             if (info.email) {
               checkIsVolunteer(info.email).then(result => {
-                setShowApplyButton(result);
+                setShowApplyButton(!result);
               });
             }
           });

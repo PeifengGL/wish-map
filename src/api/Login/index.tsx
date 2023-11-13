@@ -210,6 +210,6 @@ export const recoverCustomer = async (email: string) => {
 export const checkIsVolunteer = async (email: string) => {
   console.log(`check ${email} Volunteer apply`);
   // call volunteer check api
-  const posibility = false;
-  return posibility;
+  const isVolunteer = true;
+  return isVolunteer;
 };
