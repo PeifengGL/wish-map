@@ -18,6 +18,8 @@ import CapsuleButton from 'components/CapsuleButton';
 import { Modalize } from 'react-native-modalize';
 import { Portal } from 'react-native-portalize';
 import ImageProvider from 'assets';
+import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
+import { checkIsVolunteer, getCustomerInfo } from 'api/Login';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'Volunteer'>;
@@ -27,7 +29,27 @@ type PageRouterProps = {
 export default function VolunteerPage({ route, navigation }: PageRouterProps) {
   const [activeVolunteerClassClass, setActiveVolunteerClass] = useState('全部');
   const [volunteerInfoList, setVolunteerInfoList] = useState(VolunteerInfoData);
+  const [showApplyButton, setShowApplyButton] = useState<Boolean>(false);
   const modalRef = React.useRef<Modalize>(null);
+
+  useEffect(() => {
+    LocalStorage.getData(LocalStorageKeys.CustomerAccessTokenKey).then(
+      token => {
+        if (token && typeof token === 'string') {
+          getCustomerInfo(token).then(info => {
+            if (info === null) {
+              return;
+            }
+            if (info.email) {
+              checkIsVolunteer(info.email).then(result => {
+                setShowApplyButton(!result);
+              });
+            }
+          });
+        }
+      },
+    );
+  }, []);
 
   useEffect(() => {
     if (route.params?.originEntry === 'VolunteerApply') {
@@ -105,15 +127,17 @@ export default function VolunteerPage({ route, navigation }: PageRouterProps) {
           );
         })}
       </ScrollView>
-      <TouchableOpacity
-        onPress={handleVolunteerCardClick}
-        style={Styles.volunteerApplyButtonContainer}
-      >
-        <View style={Styles.volunteerApplyButton}>
-          <Image source={ImageProvider.Volunteer.VolunteerApplyIcon} />
-          <Text style={Styles.volunteerApplyButtonText}>志工申請</Text>
-        </View>
-      </TouchableOpacity>
+      {showApplyButton && (
+        <TouchableOpacity
+          onPress={handleVolunteerCardClick}
+          style={Styles.volunteerApplyButtonContainer}
+        >
+          <View style={Styles.volunteerApplyButton}>
+            <Image source={ImageProvider.Volunteer.VolunteerApplyIcon} />
+            <Text style={Styles.volunteerApplyButtonText}>志工申請</Text>
+          </View>
+        </TouchableOpacity>
+      )}
       <Portal>
         <Modalize ref={modalRef} adjustToContentHeight>
           <View style={Styles.volunteerApplyDoneModalContainer}>

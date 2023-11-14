@@ -40,6 +40,8 @@ import ProjectCard from 'components/ProjectCard';
 import ImageProvider from 'assets';
 import Styles from './index.style';
 import { getProducts } from 'api/WishMap';
+import LocalStorage, { LocalStorageKeys } from 'util/LocalStorage';
+import { getCustomerInfo } from 'api/Login';
 
 type PageRouterProps = {
   route: RouteProp<RootStackParamList, 'WishMap'>;
@@ -90,6 +92,8 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
 
   const [projectsData, setProjectsData] =
     useState<ProjectsDataType[]>(ProjectsData);
+
+  const [showApplyButton, setShowApplyButton] = useState<Boolean>(false);
 
   const handleWishApplyClick = () => {
     navigation.navigate('WishApply', {});
@@ -217,6 +221,20 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
         setProjectsData(data);
       }
     });
+    LocalStorage.getData(LocalStorageKeys.CustomerAccessTokenKey).then(
+      token => {
+        if (token && typeof token === 'string') {
+          getCustomerInfo(token).then(info => {
+            if (info === null) {
+              return;
+            }
+            if (info.email) {
+              setShowApplyButton(true);
+            }
+          });
+        }
+      },
+    );
     const filterMethodSub: Subscription =
       DataShareService.getFilterMethod$().subscribe(
         (filterMethodData: FilterMethodType) => {
@@ -361,18 +379,20 @@ export default function WishMapPage({ route, navigation }: PageRouterProps) {
                   <Text style={Styles.donateButtonText}>贊助喜願</Text>
                 </TouchableOpacity>
               </View>
-              <View style={Styles.applyButtonContainer}>
-                <TouchableOpacity
-                  style={Styles.applyButton}
-                  onPress={handleWishApplyClick}
-                >
-                  <Image
-                    source={ImageProvider.WishMap.DreamApplyButton}
-                    style={Styles.applyButtonImage}
-                  />
-                  <Text style={Styles.applyButtonText}>圓夢申請</Text>
-                </TouchableOpacity>
-              </View>
+              {showApplyButton && (
+                <View style={Styles.applyButtonContainer}>
+                  <TouchableOpacity
+                    style={Styles.applyButton}
+                    onPress={handleWishApplyClick}
+                  >
+                    <Image
+                      source={ImageProvider.WishMap.DreamApplyButton}
+                      style={Styles.applyButtonImage}
+                    />
+                    <Text style={Styles.applyButtonText}>圓夢申請</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
             </View>
             <View style={Styles.userCurrentLocation}>
               <Pressable
