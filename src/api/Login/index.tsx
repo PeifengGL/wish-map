@@ -208,8 +208,8 @@ export const recoverCustomer = async (email: string) => {
 };
 
 export const checkIsVolunteer = async (email: string) => {
-  console.log(`check ${email} Volunteer apply`);
-  // call volunteer check api
-  const isVolunteer = true;
-  return isVolunteer;
+  const url = `https://api.makeawish.org.tw/?em=${email}`;
+  const response = await fetch(url).then(res => res.json());
+  console.log(`check ${email} Volunteer apply`, response);
+  return response.code === 0 ? false : true;
 };

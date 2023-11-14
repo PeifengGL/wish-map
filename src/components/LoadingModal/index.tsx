@@ -2,9 +2,18 @@ import React from 'react';
 import { Pressable, ActivityIndicator } from 'react-native';
 import Styles from './index.style';
 
-const LoadingModal = () => {
+interface LoadingModalProps {
+  color?: string;
+}
+
+const LoadingModal = (props: LoadingModalProps) => {
+  const { color } = props;
+
   return (
-    <Pressable disabled style={Styles.loadingModal}>
+    <Pressable
+      disabled
+      style={[Styles.loadingModal, color ? { backgroundColor: color } : null]}
+    >
       <ActivityIndicator size="large" />
     </Pressable>
   );

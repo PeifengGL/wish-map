@@ -201,6 +201,7 @@ export default function VolunteerApplyPage({ navigation }: PageRouterProps) {
       }
     }
     formData.append('submission[21]', 'Accepted');
+    formData.append('submission[24]', 'App');
 
     const volunteerApplyData = {
       userId: userProfile?.userUID,
