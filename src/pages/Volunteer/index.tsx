@@ -39,7 +39,6 @@ export default function VolunteerPage({ route, navigation }: PageRouterProps) {
       const token = await LocalStorage.getData(
         LocalStorageKeys.CustomerAccessTokenKey,
       );
-
       if (token && typeof token === 'string') {
         const info = await getCustomerInfo(token);
 
@@ -51,6 +50,7 @@ export default function VolunteerPage({ route, navigation }: PageRouterProps) {
         setIsLoading(false);
         setShowApplyButton(!result);
       }
+      setIsLoading(false);
     };
 
     fetchData();
